@@ -10,18 +10,23 @@
 // -----------------------------------------------------------
 void Game::Init()
 {
+	avatar.Init("assets/PlayerSheet/_Idle.png");
 	background.Init("assets/PitfallTilesheet.png", "assets/tilemap.tmx");
 }
 
 void Game::Render()
 {
 	background.Render(screen);
+	avatar.Render(screen);
 }
 
 void Game::Update(float deltaTime)
 {
-	background.Move(int2(horizontalMove, verticalMove));
+	background.Move(int2(-horizontalMove, -verticalMove));
 	background.Update(deltaTime);
+	/*avatar.Move(int2(horizontalMove, verticalMove));
+	avatar.Update(deltaTime);*/
+
 }
 
 // -----------------------------------------------------------

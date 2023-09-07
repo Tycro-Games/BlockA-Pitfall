@@ -1,5 +1,4 @@
 #pragma once
-constexpr size_t TILEMAP_LEVEL1 = 600;
 
 struct TileInfo
 {
@@ -24,7 +23,7 @@ public:
 private:
 	float2 worldPos, dir;
 	uint widthX, heightY;
-	TileInfo tileMap[TILEMAP_LEVEL1];//number of tiles might need to be dynamic
+	TileInfo* tileMap;//number of tiles might need to be dynamic
 
 	Surface* tilePalette;
 	const int TILE_SIZE = 32;

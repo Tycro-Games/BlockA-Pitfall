@@ -3,6 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2023
 
 #pragma once
+#include "Scripts/Player/Avatar.h"
 #include "Scripts/Tilemap/Tilemap.h"
 
 namespace Tmpl8
@@ -28,7 +29,8 @@ namespace Tmpl8
 		// data members
 		int2 mousePos;
 		Tilemap background;
-
+		Avatar avatar;
+		//input
 		int horizontalMove = 0;
 		int verticalMove = 0;
 	};

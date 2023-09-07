@@ -39,7 +39,7 @@ void Tilemap::ExtractWidthHeight(const char* tilemapRaw)
 	ConvertCharToInt(pX, widthX);
 
 	ConvertCharToInt(pY, heightY);
-
+	tileMap = new TileInfo[widthX * heightY];
 	delete[]tilemap;
 }
 
@@ -74,12 +74,12 @@ void Tilemap::loadCSVFile(const char* csvPath)
 	}
 	//cout << "\n";
 	//change to values from file
-	for (uint i = 0; i < heightY; i++)
+	/*for (uint i = 0; i < heightY; i++)
 	{
 		for (uint j = 0; j < widthX; j++)
 			cout << tileMap[j + i * widthX].index << " ";
 		cout << '\n';
-	}
+	}*/
 	delete[] tilemapRaw;
 }
 
@@ -175,7 +175,7 @@ void Tilemap::Render(Surface* screen)
 void Tilemap::Update(float deltaTime)
 {
 	//movement
-	worldPos += dir;
+	worldPos += dir * deltaTime;
 	dir = 0;
 }
 

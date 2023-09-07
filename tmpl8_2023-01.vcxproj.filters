@@ -22,6 +22,7 @@
     </ClCompile>
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
+    <ClCompile Include="Scripts\Player\Avatar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -51,6 +52,7 @@
     </ClInclude>
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
+    <ClInclude Include="Scripts\Player\Avatar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="template\LICENSE">
