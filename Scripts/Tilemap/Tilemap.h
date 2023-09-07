@@ -27,7 +27,7 @@ private:
 	TileInfo tileMap[TILEMAP_LEVEL1];//number of tiles might need to be dynamic
 
 	Surface* tilePalette;
-	const uint TILE_SIZE = 32;
+	const int TILE_SIZE = 32;
 
 };
 

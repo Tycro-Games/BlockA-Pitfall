@@ -3,7 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2023
 
 #pragma once
-#include "Tilemap.h"
+#include "Scripts/Tilemap/Tilemap.h"
 
 namespace Tmpl8
 {
@@ -15,6 +15,7 @@ namespace Tmpl8
 		// game flow methods
 		void Init();
 		void Render();
+		void Update(float deltaTime);
 		void Tick(float deltaTime);
 		void Shutdown() { /* implement if you want to do something on exit */ }
 		// input handling
@@ -22,11 +23,14 @@ namespace Tmpl8
 		void MouseDown(int) { /* implement if you want to detect mouse button presses */ }
 		void MouseMove(int x, int y) { mousePos.x = x, mousePos.y = y; }
 		void MouseWheel(float) { /* implement if you want to handle the mouse wheel */ }
-		void KeyUp(int) { /* implement if you want to handle keys */ }
-		void KeyDown(int) { /* implement if you want to handle keys */ }
+		void KeyUp(int);
+		void KeyDown(int);
 		// data members
 		int2 mousePos;
 		Tilemap background;
+
+		int horizontalMove = 0;
+		int verticalMove = 0;
 	};
 
 } // namespace Tmpl8

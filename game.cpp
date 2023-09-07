@@ -11,7 +11,6 @@
 void Game::Init()
 {
 	background.Init("assets/PitfallTilesheet.png", "assets/tilemap.tmx");
-
 }
 
 void Game::Render()
@@ -19,12 +18,62 @@ void Game::Render()
 	background.Render(screen);
 }
 
+void Game::Update(float deltaTime)
+{
+	background.Move(int2(horizontalMove, verticalMove));
+	background.Update(deltaTime);
+}
+
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
-void Game::Tick(float /* deltaTime */)
+void Game::Tick(float deltaTime)
 {
 	screen->Clear(0);
 	Render();
-	Sleep(50);
+	Update(deltaTime);
+}
+
+void Game::KeyUp(int key)
+{
+	switch (key)
+	{
+	case GLFW_KEY_LEFT:
+		horizontalMove += 1;
+		break;
+	case GLFW_KEY_RIGHT:
+		horizontalMove += -1;
+		break;
+	case GLFW_KEY_UP:
+		verticalMove += 1;
+		break;
+	case GLFW_KEY_DOWN:
+		verticalMove += -1;
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Game::KeyDown(int key)
+{
+	switch (key)
+	{
+	case GLFW_KEY_LEFT:
+		horizontalMove += -1;
+		break;
+	case GLFW_KEY_RIGHT:
+		horizontalMove += 1;
+		break;
+	case GLFW_KEY_UP:
+		verticalMove += -1;
+		break;
+	case GLFW_KEY_DOWN:
+		verticalMove += 1;
+		break;
+
+	default:
+		break;
+	}
 }

@@ -154,6 +154,9 @@
     <None Include="README.md" />
     <None Include="template\LICENSE" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\PitfallTilesheet.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -119,8 +119,8 @@ void Tilemap::RenderTile(Surface* screen,
 		sourceX += offsetMin.x;
 		sourceY += offsetMin.y;
 
-		const int width = TILE_SIZE - offsetMin.x - offsetMax.x;
-		const int height = TILE_SIZE - offsetMin.y - offsetMax.y;
+		const uint width = TILE_SIZE - offsetMin.x - offsetMax.x;
+		const uint height = TILE_SIZE - offsetMin.y - offsetMax.y;
 
 
 		uint* scr = screen->pixels
@@ -149,9 +149,9 @@ void Tilemap::Init(const char* sourceFile, const char* csvPath)
 
 void Tilemap::Render(Surface* screen)
 {
-	for (uint i = 0; i < heightY; i++)
+	for (int i = 0; i < heightY; i++)
 	{
-		for (uint j = 0; j < widthX; j++)
+		for (int j = 0; j < widthX; j++)
 		{
 			uint index = tileMap[j + i * widthX].index;
 			if (index)//index !=0
@@ -162,7 +162,11 @@ void Tilemap::Render(Surface* screen)
 				//get widthX and heightY position of the source
 				const uint source_y = index / (tilePalette->width / TILE_SIZE);
 				const uint source_x = index % (tilePalette->width / TILE_SIZE);
-				RenderTile(screen, worldPos.x + j * TILE_SIZE, worldPos.y + i * TILE_SIZE, source_x * TILE_SIZE, source_y * TILE_SIZE);
+				RenderTile(screen,
+					j * TILE_SIZE + static_cast<int>(worldPos.x),
+					i * TILE_SIZE + static_cast<int>(worldPos.y),
+					source_x * TILE_SIZE,
+					source_y * TILE_SIZE);
 			}
 		}
 	}
