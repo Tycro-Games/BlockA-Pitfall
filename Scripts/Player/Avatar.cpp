@@ -22,12 +22,17 @@ void Avatar::Init(const char* spritePath)
 
 void Avatar::Render(Surface* screen)
 {
-	int x = static_cast<int>(pos.x) - sprite->GetWidth() / 2; //center of the screen
+	int x = static_cast<int>(pos.x) - sprite->GetWidth() *.5f; //center of the screen
 	const int y = static_cast<int>(pos.y) - sprite->GetHeight(); //bottom of the sprite;
 	if (dir.x)
 		flipX = dir.x < 0;
-
 	sprite->Draw(screen, x, y, flipX);
+
+#ifdef _DEBUG
+	screen->Box(pos.x - 10, pos.y - 10, pos.x + 10, pos.y + 10, 255);
+
+#endif
+
 }
 
 void Avatar::Move(int2 input)

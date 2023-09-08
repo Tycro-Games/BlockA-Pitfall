@@ -11,7 +11,7 @@
 void Game::Init()
 {
 	avatar.Init("assets/PlayerSheet/_Idle.png");
-	background.Init(0,"assets/PitfallTilesheet.png", "assets/tilemap.tmx");
+	background.Init(float2{ SCRWIDTH / 2,SCRHEIGHT / 2 }, "assets/PitfallTilesheet.png", "assets/tilemap.tmx");
 }
 
 void Game::Render()
@@ -34,6 +34,8 @@ void Game::Update(float deltaTime)
 // -----------------------------------------------------------
 void Game::Tick(float deltaTime)
 {
+	//to seconds
+	deltaTime /= 1000;
 	screen->Clear(0);
 	Render();
 	Update(deltaTime);

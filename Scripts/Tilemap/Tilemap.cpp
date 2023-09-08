@@ -144,14 +144,14 @@ void Tilemap::RenderTile(Surface* screen,
 void Tilemap::Init(float2 _worldPos, const char* sourceFile, const char* csvPath)
 {
 	worldPos = _worldPos;
+	originalPos = _worldPos;
 	tilePalette = new Surface(sourceFile);
 	loadCSVFile(csvPath);
+	//center the screen
 
-	minBounds.x = worldPos.x - SCRWIDTH;
-	minBounds.y = worldPos.y - SCRHEIGHT;
+	halfTilemapX = TILE_SIZE * widthX / 2;
+	halfTilemapY = TILE_SIZE * heightY / 2;
 
-	maxBounds.x = worldPos.x ;
-	maxBounds.y = worldPos.y ;
 
 }
 
@@ -171,8 +171,8 @@ void Tilemap::Render(Surface* screen)
 				const uint source_y = index / (tilePalette->width / TILE_SIZE);
 				const uint source_x = index % (tilePalette->width / TILE_SIZE);
 				RenderTile(screen,
-					j * TILE_SIZE + static_cast<int>(worldPos.x),
-					i * TILE_SIZE + static_cast<int>(worldPos.y),
+					j * TILE_SIZE + static_cast<int>(worldPos.x) - halfTilemapX,
+					i * TILE_SIZE + static_cast<int>(worldPos.y) - halfTilemapY,
 					source_x * TILE_SIZE,
 					source_y * TILE_SIZE);
 			}
@@ -183,9 +183,12 @@ void Tilemap::Render(Surface* screen)
 void Tilemap::Update(float deltaTime)
 {
 	//movement
-	float2 newPosition = worldPos + dir * deltaTime;
-	newPosition.x = clamp(newPosition.x, minBounds.x, maxBounds.x);
-	newPosition.y = clamp(newPosition.y, minBounds.y, maxBounds.y);
+	float2 newPosition = worldPos + dir * deltaTime* speed;
+	newPosition.x = clamp(newPosition.x, originalPos.x - halfTilemapX+SCRWIDTH/2,
+		originalPos.x + halfTilemapX- SCRWIDTH / 2);
+
+	newPosition.y = clamp(newPosition.y, originalPos.y - halfTilemapY+SCRHEIGHT/2,
+		originalPos.y + halfTilemapY- SCRHEIGHT / 2);
 	cout << newPosition;
 	worldPos = newPosition;
 

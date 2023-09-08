@@ -22,13 +22,15 @@ public:
 
 private:
 	float2 worldPos, dir;
+	float2 originalPos;
 	float2 minBounds, maxBounds;
 	uint widthX, heightY;
-	
+
 	TileInfo* tileMap;//number of tiles might need to be dynamic
 
 	Surface* tilePalette;
 	const int TILE_SIZE = 32;
-
+	const float speed = 1000;
+	int halfTilemapX, halfTilemapY;
 };
 
