@@ -141,10 +141,18 @@ void Tilemap::RenderTile(Surface* screen,
 	}
 }
 
-void Tilemap::Init(const char* sourceFile, const char* csvPath)
+void Tilemap::Init(float2 _worldPos, const char* sourceFile, const char* csvPath)
 {
+	worldPos = _worldPos;
 	tilePalette = new Surface(sourceFile);
 	loadCSVFile(csvPath);
+
+	minBounds.x = worldPos.x - SCRWIDTH;
+	minBounds.y = worldPos.y - SCRHEIGHT;
+
+	maxBounds.x = worldPos.x ;
+	maxBounds.y = worldPos.y ;
+
 }
 
 void Tilemap::Render(Surface* screen)
@@ -175,8 +183,13 @@ void Tilemap::Render(Surface* screen)
 void Tilemap::Update(float deltaTime)
 {
 	//movement
-	worldPos += dir * deltaTime;
-	dir = 0;
+	float2 newPosition = worldPos + dir * deltaTime;
+	newPosition.x = clamp(newPosition.x, minBounds.x, maxBounds.x);
+	newPosition.y = clamp(newPosition.y, minBounds.y, maxBounds.y);
+	cout << newPosition;
+	worldPos = newPosition;
+
+	dir = 0;//used input
 }
 
 void Tilemap::Move(int2 input)

@@ -7,14 +7,14 @@
 using namespace Tmpl8;
 
 // constructor
-Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
-	width( surface->width / frameCount ),
-	height( surface->height ),
-	numFrames( frameCount ),
-	currentFrame( 0 ),
-	flags( 0 ),
-	start( new unsigned int* [frameCount] ),
-	surface( surface )
+Sprite::Sprite(Surface* surface, unsigned int frameCount) :
+	width(surface->width / frameCount),
+	height(surface->height),
+	numFrames(frameCount),
+	currentFrame(0),
+	flags(0),
+	start(new unsigned int* [frameCount]),
+	surface(surface)
 {
 	InitializeStartData();
 }
@@ -28,10 +28,14 @@ Sprite::~Sprite()
 }
 
 // draw sprite to target surface
-void Sprite::Draw( Surface* target, int x, int y )
+void Sprite::Draw(Surface* target, int x, int y, bool flipX)
 {
-	if (x < -width || x > ( target->width + width )) return;
-	if (y < -height || y > ( target->height + height )) return;
+	if (x < -width || x >(target->width + width)) return;
+	if (y < -height || y >(target->height + height)) return;
+	if (flipX)
+		x += width;
+	const int sign = flipX ? -1 : 1;
+	
 	int x1 = x, x2 = x + width;
 	int y1 = y, y2 = y + height;
 	uint* src = GetBuffer() + currentFrame * width;
@@ -54,7 +58,7 @@ void Sprite::Draw( Surface* target, int x, int y )
 			for (int i = xs; i < w; i++)
 			{
 				const uint c1 = *(src + i);
-				if (c1 & 0xffffff) *(dest + addr + i) = c1;
+				if (c1 & 0xffffff) *(dest + addr + i * sign) = c1;
 			}
 			addr += target->width;
 			src += width * numFrames;
@@ -63,7 +67,7 @@ void Sprite::Draw( Surface* target, int x, int y )
 }
 
 // draw scaled sprite
-void Sprite::DrawScaled( int x1, int y1, int w, int h, Surface* target )
+void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 {
 	if (width == 0 || height == 0) return;
 	for (int x = 0; x < w; x++) for (int y = 0; y < h; y++)
