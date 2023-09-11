@@ -1,4 +1,6 @@
 #pragma once
+#include "Scripts/Utilities/MathLibrary.h"
+
 class Avatar
 {
 public:
@@ -15,6 +17,9 @@ private:
 	//input
 	int2 dir;
 	bool flipX = false;
-	const float speed = .5f;
+	const float speed = 100.5f;
+	//collider
+	AABB aabb;
+	const float2 minCollider{ 15,15 }, maxCollider{ 15,15 };
 };
 

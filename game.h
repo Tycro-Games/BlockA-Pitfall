@@ -3,11 +3,17 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2023
 
 #pragma once
+
 #include "Scripts/Player/Avatar.h"
 #include "Scripts/Tilemap/Tilemap.h"
-
 namespace Tmpl8
 {
+	enum TilemapType
+	{
+		BG,
+		FLOOR,
+		COUNT
+	};
 
 	class Game : public TheApp
 	{
@@ -17,6 +23,7 @@ namespace Tmpl8
 		void Init();
 		void Render();
 		void Update(float deltaTime);
+		void UpdateInput();
 		void Tick(float deltaTime);
 		void Shutdown() { /* implement if you want to do something on exit */ }
 		// input handling
@@ -28,11 +35,16 @@ namespace Tmpl8
 		void KeyDown(int);
 		// data members
 		int2 mousePos;
-		Tilemap background;
+		//entities
+		
+
+		Tilemap tilemaps[COUNT];
+		bool TilemapMoves();
 		Avatar avatar;
 		//input
 		int horizontalMove = 0;
 		int verticalMove = 0;
+		
 	};
 
 } // namespace Tmpl8

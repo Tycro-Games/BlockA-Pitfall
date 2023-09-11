@@ -124,7 +124,9 @@
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
+    <ClCompile Include="Scripts\Utilities\WorldLocalScreenTransf.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\sprite.cpp" />
@@ -142,7 +144,9 @@
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
+    <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
+    <ClInclude Include="Scripts\Utilities\WorldLocalScreenTransf.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

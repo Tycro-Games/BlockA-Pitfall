@@ -4,8 +4,13 @@
 #include <iostream>
 
 #include "Scripts/Utilities/MathLibrary.h"
+#include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
-Tilemap::Tilemap() : worldPos(0), widthX(0), heightY(0), tileMap{}, tilePalette(nullptr)
+Tilemap::Tilemap() : worldPos(0), dir(), originalPos(), offset(), minBounds(), maxBounds(), widthX(0), heightY(0),
+tileMap{},
+tilePalette(nullptr),
+halfTilemapX(0),
+halfTilemapY(0)
 {
 }
 
@@ -20,7 +25,7 @@ void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 	for (size_t i = 0; i < strlen(pch); i++)
 	{
 		numberForm = numberForm * moveToRight + pch[i] - '0';//conversion from char to int
-		moveToRight *= 10;
+		moveToRight = 10;
 	}
 
 }
@@ -99,19 +104,19 @@ void Tilemap::RenderTile(Surface* screen,
 		&& screenX <= maxBoundaryX && screenY <= maxBoundaryY)
 	{
 		//partial rendering of tiles
-		const int minOffsetX = MathLibrary::Max(minBoundaryX, screenX);
-		const int minOffsetY = MathLibrary::Max(minBoundaryY, screenY);
+		const int minOffsetX =max(minBoundaryX, screenX);
+		const int minOffsetY = max(minBoundaryY, screenY);
 
-		const int maxOffsetX = MathLibrary::Min(maxBoundaryX, maxScreenX);
-		const int maxOffsetY = MathLibrary::Min(maxBoundaryY, maxScreenY);
+		const int maxOffsetX = min(maxBoundaryX, maxScreenX);
+		const int maxOffsetY = min(maxBoundaryY, maxScreenY);
 
 		//offsets for screen and source
 
-		const uint2 offsetMin = { MathLibrary::Abs((minOffsetX - (screenX))),
-			MathLibrary::Abs((minOffsetY - screenY)) };
+		const uint2 offsetMin = { abs((minOffsetX - (screenX))),
+			abs((minOffsetY - screenY)) };
 
-		const uint2 offsetMax = { MathLibrary::Abs((maxOffsetX - maxScreenX)),
-			MathLibrary::Abs((maxOffsetY - maxScreenY)) };
+		const uint2 offsetMax = { abs((maxOffsetX - maxScreenX)),
+			abs((maxOffsetY - maxScreenY)) };
 
 		screenX += offsetMin.x;
 		screenY += offsetMin.y;
@@ -141,22 +146,26 @@ void Tilemap::RenderTile(Surface* screen,
 	}
 }
 
-void Tilemap::Init(float2 _worldPos, const char* sourceFile, const char* csvPath)
+void Tilemap::Init(float2 screenPos, const char* sourceFile, const char* csvPath)
 {
-	worldPos = _worldPos;
-	originalPos = _worldPos;
+	worldPos = WorldLocalScreenTransf::ConvertScreenToWorldSpace(screenPos);
+
 	tilePalette = new Surface(sourceFile);
 	loadCSVFile(csvPath);
-	//center the screen
+	//to start at the bottom left part
+	offset = {
+		0 ,
+	 static_cast<float>(TILE_SIZE * heightY) };
 
-	halfTilemapX = TILE_SIZE * widthX / 2;
-	halfTilemapY = TILE_SIZE * heightY / 2;
-
+	originalPos = worldPos + offset;
 
 }
 
 void Tilemap::Render(Surface* screen)
 {
+
+
+	const float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(worldPos) - offset;
 	for (int i = 0; i < heightY; i++)
 	{
 		for (int j = 0; j < widthX; j++)
@@ -171,8 +180,8 @@ void Tilemap::Render(Surface* screen)
 				const uint source_y = index / (tilePalette->width / TILE_SIZE);
 				const uint source_x = index % (tilePalette->width / TILE_SIZE);
 				RenderTile(screen,
-					j * TILE_SIZE + static_cast<int>(worldPos.x) - halfTilemapX,
-					i * TILE_SIZE + static_cast<int>(worldPos.y) - halfTilemapY,
+					j * TILE_SIZE + static_cast<int>(screenPos.x),
+					i * TILE_SIZE + static_cast<int>(screenPos.y),
 					source_x * TILE_SIZE,
 					source_y * TILE_SIZE);
 			}
@@ -180,16 +189,28 @@ void Tilemap::Render(Surface* screen)
 	}
 }
 
+void Tilemap::ClampMap(float2& newPosition)
+{
+	const float boundX = TILE_SIZE * widthX - SCRWIDTH;
+	const float boundY = TILE_SIZE * heightY - SCRHEIGHT;
+	newPosition.x = clamp(newPosition.x, originalPos.x - boundX,
+		originalPos.x);
+
+	newPosition.y = clamp(newPosition.y, originalPos.y - boundY,
+		originalPos.y);
+}
+
 void Tilemap::Update(float deltaTime)
 {
 	//movement
-	float2 newPosition = worldPos + dir * deltaTime* speed;
-	newPosition.x = clamp(newPosition.x, originalPos.x - halfTilemapX+SCRWIDTH/2,
-		originalPos.x + halfTilemapX- SCRWIDTH / 2);
+	float2 newPosition = worldPos + dir * deltaTime * speed;
 
-	newPosition.y = clamp(newPosition.y, originalPos.y - halfTilemapY+SCRHEIGHT/2,
-		originalPos.y + halfTilemapY- SCRHEIGHT / 2);
-	cout << newPosition;
+	ClampMap(newPosition);
+
+	movedLastFrame = static_cast<int>(newPosition.x) == static_cast<int>(worldPos.x) &&
+		static_cast<int>(newPosition.y) == static_cast<int>(worldPos.y);
+
+	
 	worldPos = newPosition;
 
 	dir = 0;//used input
@@ -198,4 +219,10 @@ void Tilemap::Update(float deltaTime)
 void Tilemap::Move(int2 input)
 {
 	this->dir = input;
+}
+
+bool Tilemap::Moved() const
+{
+	return movedLastFrame;
+
 }
