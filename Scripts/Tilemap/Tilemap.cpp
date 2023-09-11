@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include "Scripts/Utilities/MathLibrary.h"
 #include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
 Tilemap::Tilemap() : worldPos(0), dir(), originalPos(), offset(), minBounds(), maxBounds(), widthX(0), heightY(0),
@@ -17,6 +16,7 @@ halfTilemapY(0)
 Tilemap::~Tilemap()
 {
 	delete tilePalette;
+	delete[] tileMap;
 }
 
 void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
@@ -45,7 +45,7 @@ void Tilemap::ExtractWidthHeight(const char* tilemapRaw)
 
 	ConvertCharToInt(pY, heightY);
 	tileMap = new TileInfo[widthX * heightY];
-	delete[]tilemap;
+	delete[] tilemap;
 }
 
 void Tilemap::loadCSVFile(const char* csvPath)
@@ -104,7 +104,7 @@ void Tilemap::RenderTile(Surface* screen,
 		&& screenX <= maxBoundaryX && screenY <= maxBoundaryY)
 	{
 		//partial rendering of tiles
-		const int minOffsetX =max(minBoundaryX, screenX);
+		const int minOffsetX = max(minBoundaryX, screenX);
 		const int minOffsetY = max(minBoundaryY, screenY);
 
 		const int maxOffsetX = min(maxBoundaryX, maxScreenX);
@@ -210,7 +210,7 @@ void Tilemap::Update(float deltaTime)
 	movedLastFrame = static_cast<int>(newPosition.x) == static_cast<int>(worldPos.x) &&
 		static_cast<int>(newPosition.y) == static_cast<int>(worldPos.y);
 
-	
+
 	worldPos = newPosition;
 
 	dir = 0;//used input

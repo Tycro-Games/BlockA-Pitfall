@@ -19,6 +19,7 @@ namespace Tmpl8
 	{
 	public:
 
+		~Game() = default;
 		// game flow methods
 		void Init();
 		void Render();
@@ -36,7 +37,7 @@ namespace Tmpl8
 		// data members
 		int2 mousePos;
 		//entities
-		
+
 
 		Tilemap tilemaps[COUNT];
 		bool TilemapMoves();
@@ -44,7 +45,7 @@ namespace Tmpl8
 		//input
 		int horizontalMove = 0;
 		int verticalMove = 0;
-		
+
 	};
 
 } // namespace Tmpl8
