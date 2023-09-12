@@ -16,7 +16,7 @@ namespace Tmpl8
 		~Sprite();
 		// methods
 		//modified to draw flip on x
-		void Draw(Surface* target, int x, int y, bool flipX = false);
+		void Draw(Surface* target, int x, int y);
 		void DrawScaled(int x, int y, int width, int height, Surface* target);
 		void SetFlags(unsigned int f) { flags = f; }
 		void SetFrame(unsigned int i) { currentFrame = i; }

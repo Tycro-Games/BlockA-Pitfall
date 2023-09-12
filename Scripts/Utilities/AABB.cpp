@@ -8,8 +8,7 @@ AABB::AABB(float2 min, float2 max) :
 }
 
 AABB::AABB()
-{
-}
+= default;
 
 bool AABB::Collides(AABB a, AABB b)
 {

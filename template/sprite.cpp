@@ -28,14 +28,12 @@ Sprite::~Sprite()
 }
 
 // draw sprite to target surface
-void Sprite::Draw(Surface* target, int x, int y, bool flipX)
+void Sprite::Draw(Surface* target, int x, int y)
 {
 	if (x < -width || x >(target->width + width)) return;
 	if (y < -height || y >(target->height + height)) return;
-	if (flipX)
-		x += width;
-	const int sign = flipX ? -1 : 1;
-	
+
+
 	int x1 = x, x2 = x + width;
 	int y1 = y, y2 = y + height;
 	uint* src = GetBuffer() + currentFrame * width;
@@ -58,14 +56,49 @@ void Sprite::Draw(Surface* target, int x, int y, bool flipX)
 			for (int i = xs; i < w; i++)
 			{
 				const uint c1 = *(src + i);
-				if (c1 & 0xffffff) *(dest + addr + i * sign) = c1;
+				if (c1 & 0xffffff) *(dest + addr + i) = c1; //checks for a non-empty pixel
 			}
 			addr += target->width;
 			src += width * numFrames;
 		}
 	}
 }
-
+//// draw sprite to target surface
+//void Sprite::DrawFlipX(Surface* target, int x, int y)
+//{
+//	if (x < -width || x >(target->width + width)) return;
+//	if (y < -height || y >(target->height + height)) return;
+//
+//
+//	int x1 = x, x2 = x - width;
+//	int y1 = y, y2 = y + height;
+//	uint* src = GetBuffer() + currentFrame * width;
+//	if (x2 < 0) src += -x2, x2 = 0;
+//	if (x1 > target->width) x1 = target->width;
+//	if (y1 < 0) src += -y1 * width * numFrames, y1 = 0;
+//	if (y2 > target->height) y2 = target->height;
+//	uint* dest = target->pixels;
+//	int xs;
+//	if (x2 < x1 && y2 > y1)
+//	{
+//		unsigned int addr = y1 * target->width + x1;
+//		const int w = x1 - x2;
+//		const int h = y2 - y1;
+//		for (int j = 0; j < h; j++)
+//		{
+//			const int line = j + (y1 - y);
+//			const int lsx = start[currentFrame][line];
+//			xs = (lsx < x2) ? lsx - x2 : 0;
+//			for (int i = xs; i < w; i++)
+//			{
+//				const uint c1 = *(src + i);
+//				if (c1 & 0xffffff) *(dest + addr - i-width) = c1; //checks for a non-empty pixel
+//			}
+//			addr += target->width;
+//			src += width * numFrames;
+//		}
+//	}
+//}
 // draw scaled sprite
 void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 {

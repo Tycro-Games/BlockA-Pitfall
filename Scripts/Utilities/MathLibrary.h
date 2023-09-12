@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "AABB.h"
+
+struct AABB;
 
 class MathLibrary
 {
