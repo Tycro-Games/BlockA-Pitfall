@@ -10,7 +10,7 @@ public:
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
 	void Init(const char* spritePath, Tilemap& tilemap);
 	void Render(Surface* screen);
-	void Move(int2 input);
+	void GetInput(int2 input);
 	void Update(float deltaTime);
 	void Movement(float2 newTilemapPos, float2 newPos);
 	void Jump();
@@ -29,6 +29,6 @@ private:
 	//collider
 	AABB boxCollider;
 	AABB circleCollider;
-	const float2 minCollider{ 15,15 }, maxCollider{ 15,15 };
+	const float2 minCollider{ -15,-15 }, maxCollider{ 15,15 };
 };
 

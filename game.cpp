@@ -48,10 +48,8 @@ void Game::Update(float deltaTime)
 
 void Game::UpdateInput()
 {
-	for (int i = 0; i < COUNT; i++) {
-		tilemaps[i].Move(int2(-horizontalMove, -verticalMove));
-	}
-	avatar.Move(int2(horizontalMove, verticalMove));
+
+	avatar.GetInput(int2(horizontalMove, verticalMove));
 
 }
 
@@ -143,12 +141,4 @@ void Game::KeyDown(int key)
 	}
 }
 
-bool Game::TilemapMoves()
-{
-	for (int i = 0; i < COUNT; i++)
-	{
-		if (tilemaps->Moved())
-			return true;
-	}
-	return false;
-}
+

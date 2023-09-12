@@ -69,7 +69,7 @@ void Avatar::Render(Surface* screen)
 
 }
 
-void Avatar::Move(int2 input)
+void Avatar::GetInput(int2 input)
 {
 	dir = input;
 }
@@ -86,50 +86,36 @@ void Avatar::Update(float deltaTime)
 	if (velocity.y < 0.01f)
 		velocity.y += deltaTime * GRAVITY;
 
+	const float2 tilemapPos = tilemap->transform.GetPosition();//in world pos
 
-	if (!tilemap->IsCollidingBox(pos + newPosX, boxCollider))
+	if (!tilemap->IsCollidingBox(pos + float2{newPosX, 0}, boxCollider))
 		Movement(
-			float2{ tilemap->transform.GetPosition().x - newPosX,0 },
-			float2{ newPosX + pos.x,0 });
+			float2{ tilemapPos.x - newPosX,tilemapPos.y },
+			float2{ newPosX + pos.x,pos.y });
 
-	if (!tilemap->IsCollidingBox(pos + newPosY, boxCollider))
+	if (!tilemap->IsCollidingBox(pos + float2{0, newPosY }, boxCollider))
 		Movement(
-			float2{ 0,tilemap->transform.GetPosition().y - newPosY },
-			float2{ 0,pos.y + newPosY });
+			float2{ tilemapPos.x,tilemapPos.y - newPosY * 3 },
+			float2{ pos.x,pos.y + newPosY });
 
 
 	dir = 0;
 }
-void Avatar::Movement(const float2 newTilemapPos, const float2 newPos)
+void Avatar::Movement(float2 newTilemapPos, const float2 newPos)
 {
-	if (newTilemapPos.y == 0)
-	{
-		if (tilemap->FitsOnScreenX(newTilemapPos))
-		{
-			tilemap->transform.SetPos(newTilemapPos);
-		}
-		else {
-			if (MathLibrary::OnScreen(newPos, boxCollider))
-			{
-				pos = newPos;
-			}
-		}
-	}
-	else
-	{
-		if (tilemap->FitsOnScreenY(newTilemapPos))
-		{
-			tilemap->transform.SetPos(newTilemapPos);
-		}
-		else
-		{
-			if (MathLibrary::OnScreen(newPos, boxCollider))
-			{
-				pos = newPos;
-			}
-		}
 
+	if (MathLibrary::OnScreen(WorldLocalScreenTransf::ConvertWorldSpaceToScreen(newTilemapPos)))
+	{
+		tilemap->transform.SetPos(newTilemapPos);
 	}
+	else if (MathLibrary::OnScreen(newPos, boxCollider))
+	{
+		tilemap->transform.SetPos(newTilemapPos);
+		pos = newPos;
+	}
+
+
+
 }
 void Avatar::Jump()
 {

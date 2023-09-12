@@ -5,7 +5,7 @@
 
 bool MathLibrary::OnScreen(float2 pos)
 {
-	return pos.y >= 0 && pos.x > 0 &&
+	return pos.y >= 0 && pos.x >= 0 &&
 		pos.y < SCRHEIGHT && pos.x < SCRWIDTH;
 }
 

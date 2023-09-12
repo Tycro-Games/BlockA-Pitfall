@@ -13,7 +13,7 @@ class Tilemap
 public:
 	Tilemap();
 	~Tilemap();
-	bool IsColliding(float x, float y);
+	bool IsColliding(float x, float y) const;
 	bool IsCollidingBox(float2 pos, AABB a);
 	void ConvertCharToInt(const char* pch, uint& numberForm);
 	void ExtractWidthHeight(const char* tilemapRaw);
@@ -23,21 +23,17 @@ public:
 	void Init(float2 screenPos, const char* sourceFile, const char* csvPath);
 	void DebugBox(Surface* screen) const;
 	void Render(Surface* screen);
-	bool FitsOnScreenX(float2 newPosition) const;
-	bool FitsOnScreenY(float2 newPosition) const;
+	bool FitsOnScreen(float2& newPosition) const;
 	void Update(float deltaTime);
-	void Move(int2 input);
-	bool Moved() const;
 	Transform transform;
 
 private:
 
-	float2 worldPos, dir;
+	float2 pos;
+
 	float2 originalPos;
 	float2 offset;
-	float2 minBounds, maxBounds;
 	uint widthX, heightY;
-	bool movedLastFrame = false;
 	TileInfo* tileMap;//number of tiles might need to be dynamic
 
 	Surface* tilePalette;
