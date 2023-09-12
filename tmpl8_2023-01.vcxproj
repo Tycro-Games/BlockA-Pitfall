@@ -126,6 +126,7 @@
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
+    <ClCompile Include="Scripts\Utilities\Transform.cpp" />
     <ClCompile Include="Scripts\Utilities\WorldLocalScreenTransf.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
+    <ClInclude Include="Scripts\Utilities\Transform.h" />
     <ClInclude Include="Scripts\Utilities\WorldLocalScreenTransf.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />

@@ -1,4 +1,7 @@
 #pragma once
+#include "Scripts/Utilities/AABB.h"
+#include "Scripts/Utilities/Transform.h"
+
 
 struct TileInfo
 {
@@ -10,19 +13,25 @@ class Tilemap
 public:
 	Tilemap();
 	~Tilemap();
+	bool IsColliding(float x, float y);
+	bool IsCollidingBox(float2 pos, AABB a);
 	void ConvertCharToInt(const char* pch, uint& numberForm);
 	void ExtractWidthHeight(const char* tilemapRaw);
 	void loadCSVFile(const char* csvPath);
 	//modified from my previous implementation https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
 	void RenderTile(Surface* screen, int screenX, int screenY, uint sourceX, uint sourceY);
-
 	void Init(float2 screenPos, const char* sourceFile, const char* csvPath);
+	void DebugBox(Surface* screen) const;
 	void Render(Surface* screen);
-	void ClampMap(float2& newPosition);
+	bool FitsOnScreenX(float2 newPosition) const;
+	bool FitsOnScreenY(float2 newPosition) const;
 	void Update(float deltaTime);
 	void Move(int2 input);
 	bool Moved() const;
+	Transform transform;
+
 private:
+
 	float2 worldPos, dir;
 	float2 originalPos;
 	float2 offset;
@@ -35,5 +44,7 @@ private:
 	const int TILE_SIZE = 32;
 	const float speed = 1000;
 	int halfTilemapX, halfTilemapY;
+
+	//Transform
 };
 

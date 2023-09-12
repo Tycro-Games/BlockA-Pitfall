@@ -7,7 +7,7 @@ struct AABB
 	AABB();
 	float2 min, max;
 
-	static bool Collides(AABB a, AABB b);
-
+	static bool BoxCollides(AABB a, AABB b);
+	AABB At(float2 pos) const;
 
 };

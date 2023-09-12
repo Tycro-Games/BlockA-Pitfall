@@ -19,6 +19,35 @@ Tilemap::~Tilemap()
 	delete[] tileMap;
 }
 
+bool Tilemap::IsColliding(const float x, const float y)
+{
+	const int tx = static_cast<int>(x) / TILE_SIZE;
+	const int ty = static_cast<int>(y) / TILE_SIZE;
+	const size_t index = tx + ty * widthX;
+	if (tileMap[index].index != 0)
+		return true;
+	return false;
+}
+
+//remade from https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
+bool Tilemap::IsCollidingBox(float2 pos, AABB _a)
+{
+	const AABB a = _a.At(pos);
+	//take the four corners of the box and check them
+	float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(worldPos) - offset;
+	const float minX = a.min.x - screenPos.x;
+	const float minY = a.min.y - screenPos.y;
+
+	const float maxX = a.max.x - screenPos.x;
+	const float maxY = a.max.y - screenPos.y;
+	//check all the corners
+	return IsColliding(minX, minY)
+		&& IsColliding(minX, maxY)
+		&& IsColliding(maxX, minY) &&
+		IsColliding(maxX, maxY);
+
+}
+
 void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 {
 	uint moveToRight = 1;
@@ -146,10 +175,12 @@ void Tilemap::RenderTile(Surface* screen,
 	}
 }
 
+
+
 void Tilemap::Init(float2 screenPos, const char* sourceFile, const char* csvPath)
 {
 	worldPos = WorldLocalScreenTransf::ConvertScreenToWorldSpace(screenPos);
-
+	transform.SetPointerPos(worldPos);
 	tilePalette = new Surface(sourceFile);
 	loadCSVFile(csvPath);
 	//to start at the bottom left part
@@ -160,12 +191,29 @@ void Tilemap::Init(float2 screenPos, const char* sourceFile, const char* csvPath
 	originalPos = worldPos + offset;
 
 }
+void Tilemap::DebugBox(Surface* screen) const
+{
+	const float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(worldPos) - offset;
 
+	for (uint i = 0; i < heightY; i++)
+	{
+		for (uint j = 0; j < widthX; j++)
+		{
+#ifdef _DEBUG
+			uint index = tileMap[j + i * widthX].index;
+			if (index)
+				screen->Box(j * TILE_SIZE + static_cast<int>(screenPos.x),
+					i * TILE_SIZE + static_cast<int>(screenPos.y),
+					(j + 1) * TILE_SIZE + static_cast<int>(screenPos.x),
+					(i + 1) * TILE_SIZE + static_cast<int>(screenPos.y), 255);
+#endif
+		}
+	}
+}
 void Tilemap::Render(Surface* screen)
 {
-
-
 	const float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(worldPos) - offset;
+
 	for (int i = 0; i < heightY; i++)
 	{
 		for (int j = 0; j < widthX; j++)
@@ -184,36 +232,54 @@ void Tilemap::Render(Surface* screen)
 					i * TILE_SIZE + static_cast<int>(screenPos.y),
 					source_x * TILE_SIZE,
 					source_y * TILE_SIZE);
+
+
+
 			}
+
+
 		}
 	}
 }
 
-void Tilemap::ClampMap(float2& newPosition)
+bool Tilemap::FitsOnScreenX(float2 newPosition) const
 {
 	const float boundX = TILE_SIZE * widthX - SCRWIDTH;
-	const float boundY = TILE_SIZE * heightY - SCRHEIGHT;
-	newPosition.x = clamp(newPosition.x, originalPos.x - boundX,
-		originalPos.x);
+	return originalPos.x - boundX >= newPosition.x
+		&& originalPos.x <= newPosition.x;
 
-	newPosition.y = clamp(newPosition.y, originalPos.y - boundY,
-		originalPos.y);
+
+}
+bool Tilemap::FitsOnScreenY(float2 newPosition) const
+{
+	const float boundY = TILE_SIZE * heightY - SCRHEIGHT;
+
+	return originalPos.y - boundY >= newPosition.y
+		&& originalPos.y <= newPosition.y;
+
+
 }
 
 void Tilemap::Update(float deltaTime)
 {
 	//movement
-	float2 newPosition = worldPos + dir * deltaTime * speed;
+	if (transform.GetParent() != nullptr)//parented to the main tilemap
+	{
+		transform.ToWorldPos();
+	}
+	//else {
+	//	float2 newPosition = worldPos + dir * deltaTime * speed;
 
-	ClampMap(newPosition);
+	//	FitsOnScreen(newPosition);
 
-	movedLastFrame = static_cast<int>(newPosition.x) == static_cast<int>(worldPos.x) &&
-		static_cast<int>(newPosition.y) == static_cast<int>(worldPos.y);
+	//	movedLastFrame = static_cast<int>(newPosition.x) == static_cast<int>(worldPos.x) &&
+	//		static_cast<int>(newPosition.y) == static_cast<int>(worldPos.y);
 
 
-	worldPos = newPosition;
+	//	worldPos = newPosition;
 
-	dir = 0;//used input
+	//	dir = 0;//used input
+	//}
 }
 
 void Tilemap::Move(int2 input)

@@ -4,9 +4,10 @@
 #include <iostream>
 
 #include "Scripts/Utilities/MathLibrary.h"
+#include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
 
-Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), pos(), dir()
+Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), tilemap(nullptr), velocity(), pos(), dir()
 {
 }
 
@@ -16,29 +17,37 @@ Avatar::~Avatar()
 	delete spriteFlipped;
 }
 
-void Avatar::Init(const char* spritePath)
+void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 {
 	//answer from https://stackoverflow.com/questions/10279718/append-char-to-string-in-c
 	const size_t length = strlen(spritePath);
-	char* spriteFlippedPath = new char[length + 2];//one more character and null character
+	spriteFlippedPath = new char[length + 2];
 	strcpy(spriteFlippedPath, spritePath);
 	const char* c = strchr(spritePath, '.');
 
 	spriteFlippedPath[length - strlen(c)] = 'f';
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
+}
+
+void Avatar::Init(const char* spritePath, Tilemap& _tilemap)
+{
+	tilemap = &_tilemap;
+	char* spriteFlippedPath;
+	GetFlippedPath(spritePath, spriteFlippedPath);
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
 	pos.y = SCRHEIGHT / 2;
 	pos.x = SCRWIDTH / 2;
-	aabb = AABB(minCollider, maxCollider);
+	boxCollider = AABB(minCollider, maxCollider);
+
 	delete[] spriteFlippedPath;
 }
 
 
 void Avatar::Render(Surface* screen)
 {
-	int x = static_cast<int>(pos.x) - sprite->GetWidth() * .5f; //center of the screen
+	const int x = static_cast<int>(pos.x) - sprite->GetWidth() * .5f; //center of the screen
 	const int y = static_cast<int>(pos.y) - sprite->GetHeight() * .5f; //bottom of the sprite;
 	if (dir.x) {
 		flipX = dir.x < 0;
@@ -66,20 +75,65 @@ void Avatar::Move(int2 input)
 }
 void Avatar::Update(float deltaTime)
 {
-	//movement
-	//only horizontal
+	//from https://github.com/Tycro-Games/AUSS/blob/master/src/MoveablePlayer.cpp
 	const float horizontal = dir.x;
-	const float vertical = 9.8f;//gravity
-	float2 newPosX = float2{ horizontal, 0 } *deltaTime * speed;
-	float2 newPosY = float2{ 0, vertical } *deltaTime * speed;
-	if (horizontal) {
-		if (MathLibrary::OnScreen(pos + newPosX, aabb))
-			pos += newPosX;
-		cout << newPosX;
-	}
-	if (MathLibrary::OnScreen(pos + newPosY, aabb))
-		pos += newPosY;
+	const float vertical = GRAVITY + velocity.y;//gravity
+
+
+	const float newPosX = horizontal * deltaTime * speed;
+	const float newPosY = vertical * deltaTime * speed;
+
+	if (velocity.y < 0.01f)
+		velocity.y += deltaTime * GRAVITY;
+
+
+	if (!tilemap->IsCollidingBox(pos + newPosX, boxCollider))
+		Movement(
+			float2{ tilemap->transform.GetPosition().x - newPosX,0 },
+			float2{ newPosX + pos.x,0 });
+
+	if (!tilemap->IsCollidingBox(pos + newPosY, boxCollider))
+		Movement(
+			float2{ 0,tilemap->transform.GetPosition().y - newPosY },
+			float2{ 0,pos.y + newPosY });
+
 
 	dir = 0;
+}
+void Avatar::Movement(const float2 newTilemapPos, const float2 newPos)
+{
+	if (newTilemapPos.y == 0)
+	{
+		if (tilemap->FitsOnScreenX(newTilemapPos))
+		{
+			tilemap->transform.SetPos(newTilemapPos);
+		}
+		else {
+			if (MathLibrary::OnScreen(newPos, boxCollider))
+			{
+				pos = newPos;
+			}
+		}
+	}
+	else
+	{
+		if (tilemap->FitsOnScreenY(newTilemapPos))
+		{
+			tilemap->transform.SetPos(newTilemapPos);
+		}
+		else
+		{
+			if (MathLibrary::OnScreen(newPos, boxCollider))
+			{
+				pos = newPos;
+			}
+		}
+
+	}
+}
+void Avatar::Jump()
+{
+	//check for floor
+	velocity.y = -12.0f;
 }
 

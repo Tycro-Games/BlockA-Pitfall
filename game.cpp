@@ -17,10 +17,12 @@ void Game::Init()
 	const float2 center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
 	WorldLocalScreenTransf::Init(center);
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png");
 
 	tilemaps[BG].Init({ 0,0 }, "assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init({ 0,0 }, "assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	tilemaps[BG].transform.SetParent(tilemaps[FLOOR].transform);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR]);
+
 }
 
 void Game::Render()
@@ -28,6 +30,7 @@ void Game::Render()
 	for (int i = 0; i < COUNT; i++) {
 		tilemaps[i].Render(screen);
 	}
+	tilemaps[FLOOR].DebugBox(screen);
 	//update input
 
 	avatar.Render(screen);
@@ -36,34 +39,59 @@ void Game::Render()
 
 void Game::Update(float deltaTime)
 {
-	for (int i = 0; i < COUNT; i++) {
-		tilemaps[i].Update(deltaTime);
+	if (isJumping)
+	{
+		avatar.Jump();
 	}
-	//tilemap is constrained so player moves
-
-	avatar.Update(deltaTime);
 
 }
 
-void Tmpl8::Game::UpdateInput()
+void Game::UpdateInput()
 {
 	for (int i = 0; i < COUNT; i++) {
-		tilemaps[i].Move(int2(-horizontalMove, 0));
+		tilemaps[i].Move(int2(-horizontalMove, -verticalMove));
 	}
 	avatar.Move(int2(horizontalMove, verticalMove));
 
 }
 
+void Game::FixedUpdate(float delta_time)
+{
+	avatar.Update(delta_time);
+
+	for (int i = 0; i < COUNT; i++) {
+		tilemaps[i].Update(delta_time);
+	}
+	//to do tilemap is constrained so player moves
+
+}
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
 void Game::Tick(float deltaTime)
 {
 	//to seconds
-	deltaTime /= 1000;
+	static Timer fixedTimer;
+	//static Timer asecond;
+
+	deltaTime *= 0.001f;
+
+
 	screen->Clear(0);
+
 	UpdateInput();
+	if (fixedTimer.elapsed() > 0.02f) {
+		//cout << deltaTime << '\n';
+		fixedTimer.reset();
+		FixedUpdate(deltaTime);
+	}
 	Render();
+	/*if (asecond.elapsed() > 1.0f) {
+		cout << "one second passed\n";
+		asecond.reset();
+	}*/
+
+
 	Update(deltaTime);
 }
 
@@ -83,7 +111,9 @@ void Game::KeyUp(int key)
 	case GLFW_KEY_DOWN:
 		verticalMove += -1;
 		break;
-
+	case GLFW_KEY_SPACE:
+		isJumping = false;
+		break;
 	default:
 		break;
 	}
@@ -105,7 +135,9 @@ void Game::KeyDown(int key)
 	case GLFW_KEY_DOWN:
 		verticalMove += 1;
 		break;
-
+	case GLFW_KEY_SPACE:
+		isJumping = true;
+		break;
 	default:
 		break;
 	}
@@ -117,7 +149,6 @@ bool Game::TilemapMoves()
 	{
 		if (tilemaps->Moved())
 			return true;
-
 	}
 	return false;
 }

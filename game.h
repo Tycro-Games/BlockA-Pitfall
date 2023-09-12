@@ -25,6 +25,7 @@ namespace Tmpl8
 		void Render();
 		void Update(float deltaTime);
 		void UpdateInput();
+		void FixedUpdate(float delta_time);
 		void Tick(float deltaTime);
 		void Shutdown() { /* implement if you want to do something on exit */ }
 		// input handling
@@ -45,7 +46,7 @@ namespace Tmpl8
 		//input
 		int horizontalMove = 0;
 		int verticalMove = 0;
-
+		bool isJumping = false;
 	};
 
 } // namespace Tmpl8

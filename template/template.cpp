@@ -346,24 +346,31 @@ void main()
 	float deltaTime = 0;
 	static int frameNr = 0;
 	static Timer timer;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		deltaTime = min(500.0f, 1000.0f * timer.elapsed());
-		timer.reset();
-		app->Tick(deltaTime);
-		// send the rendering result to the screen using OpenGL
-		if (frameNr++ > 1)
-		{
-			if (app->screen) renderTarget->CopyFrom(app->screen);
-			shader->Bind();
-			shader->SetInputTexture(0, "c", renderTarget);
-			DrawQuad();
-			shader->Unbind();
-			glfwSwapBuffers(window);
-			glfwPollEvents();
+		//cap to 60 frames
+		if (timer.elapsed() > 1.0f / 60.0f) {
+			timer.reset();
+			app->Tick(deltaTime);
+
+
+			// send the rendering result to the screen using OpenGL
+			if (frameNr++ > 1)
+			{
+				if (app->screen) renderTarget->CopyFrom(app->screen);
+				shader->Bind();
+				shader->SetInputTexture(0, "c", renderTarget);
+				DrawQuad();
+				shader->Unbind();
+				glfwSwapBuffers(window);
+				glfwPollEvents();
+			}
+			if (!running) break;
 		}
-		if (!running) break;
 	}
+
 	// close down
 	app->Shutdown();
 
