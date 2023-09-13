@@ -7,7 +7,7 @@
 #include "Scripts/Utilities/MathLibrary.h"
 
 
-Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), tilemap(nullptr), velocity(), pos(), dir()
+Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), tilemap(nullptr), cam(nullptr), velocity(), pos(), dir()
 {
 }
 
@@ -38,8 +38,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
-	pos.y = SCRHEIGHT / 2;
-	pos.x = SCRWIDTH / 2;
+	pos.x = cam->GetPosition().x + SCRHEIGHT / 2;
+	pos.y = cam->GetPosition().y + SCRWIDTH / 2;
 	boxCollider = AABB(minCollider, maxCollider);
 
 	delete[] spriteFlippedPath;
@@ -48,8 +48,9 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 
 void Avatar::Render(Surface* screen)
 {
-	const int x = static_cast<int>(pos.x) - sprite->GetWidth() / 2; //center of the screen
-	const int y = static_cast<int>(pos.y) - sprite->GetHeight() / 2; //bottom of the sprite;
+	const float2 camPos = cam->GetPosition();
+	const int x =  static_cast<int>(pos.x) - sprite->GetWidth() / 2- camPos.x; //center of the screen
+	const int y =  static_cast<int>(pos.y) - sprite->GetHeight() / 2- camPos.y; //bottom of the sprite;
 	if (dir.x) {
 		flipX = dir.x < 0;
 	}
