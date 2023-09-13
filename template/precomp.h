@@ -291,6 +291,7 @@ public:
 class TheApp
 {
 public:
+	virtual ~TheApp() = default;
 	virtual void Init() = 0;
 	virtual void Tick( float deltaTime ) = 0;
 	virtual void Shutdown() = 0;

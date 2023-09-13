@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Scripts/Player/Avatar.h"
+#include "Scripts/Player/Camera.h"
 #include "Scripts/Tilemap/Tilemap.h"
 namespace Tmpl8
 {
@@ -25,7 +26,7 @@ namespace Tmpl8
 		void Render();
 		void Update(float deltaTime);
 		void UpdateInput();
-		void FixedUpdate(float delta_time);
+		void FixedUpdate(float deltaTime);
 		void Tick(float deltaTime);
 		void Shutdown() { /* implement if you want to do something on exit */ }
 		// input handling
@@ -38,8 +39,8 @@ namespace Tmpl8
 		// data members
 		int2 mousePos;
 		//entities
-
-
+		Sprite* enviroment;
+		Camera cam;
 		Tilemap tilemaps[COUNT];
 		bool TilemapMoves();
 		Avatar avatar;

@@ -5,7 +5,7 @@
 
 #include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
-Tilemap::Tilemap() : pos(0), originalPos(), offset(), widthX(0), heightY(0),
+Tilemap::Tilemap() : widthX(0), heightY(0),
 tileMap{},
 tilePalette(nullptr),
 halfTilemapX(0),
@@ -24,7 +24,7 @@ bool Tilemap::IsColliding(const float x, const float y) const
 	const int tx = static_cast<int>(x / TILE_SIZE);
 	const int ty = static_cast<int>(y / TILE_SIZE);
 	const size_t index = tx + ty * widthX;
-	if (tileMap[index].index != 0)
+	if (tileMap[index] != 0)
 		return true;
 	return false;
 }
@@ -33,13 +33,13 @@ bool Tilemap::IsColliding(const float x, const float y) const
 bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
 {
 	//take the four corners of the box and check them
-	const float2 screenPos = offset - pos;
-	const AABB a = _a.At(_pos);
-	const float minX = a.min.x + screenPos.x;
-	const float minY = a.min.y + screenPos.y;
 
-	const float maxX = a.max.x + screenPos.x;
-	const float maxY = a.max.y + screenPos.y;
+	const AABB a = _a.At(_pos);
+	const float minX = a.min.x;
+	const float minY = a.min.y;
+
+	const float maxX = a.max.x;
+	const float maxY = a.max.y;
 	//check all the corners
 	return IsColliding(minX, minY)
 		&& IsColliding(minX, maxY)
@@ -73,7 +73,7 @@ void Tilemap::ExtractWidthHeight(const char* tilemapRaw)
 	ConvertCharToInt(pX, widthX);
 
 	ConvertCharToInt(pY, heightY);
-	tileMap = new TileInfo[widthX * heightY];
+	tileMap = new uint[widthX * heightY];
 	delete[] tilemap;
 }
 
@@ -103,7 +103,7 @@ void Tilemap::loadCSVFile(const char* csvPath)
 		ConvertCharToInt(pch, numberForm);
 		//makes it work with numbers with more than one digit
 
-		tileMap[index++].index = numberForm;
+		tileMap[index++] = numberForm;
 		pch = strtok(NULL, ",\n");
 	}
 	//cout << "\n";
@@ -111,24 +111,25 @@ void Tilemap::loadCSVFile(const char* csvPath)
 	/*for (uint i = 0; i < heightY; i++)
 	{
 		for (uint j = 0; j < widthX; j++)
-			cout << tileMap[j + i * widthX].index << " ";
+			cout << tileMap[j + i * widthX] << " ";
 		cout << '\n';
 	}*/
 	delete[] tilemapRaw;
+
 }
 
-void Tilemap::RenderTile(Surface* screen,
+void Tilemap::RenderTile(Surface* surface,
 	int screenX, int screenY, uint sourceX, uint sourceY)
 {
 	//the x and y for the left down corner of the tile
 	const int maxScreenX = screenX + TILE_SIZE;
 	const int maxScreenY = screenY + TILE_SIZE;
-	//screen bounds
+	//surface bounds
 	const int minBoundaryX = 0;
 	const int minBoundaryY = 0;
-	const int maxBoundaryX = screen->width;
-	const int maxBoundaryY = screen->height;
-	//determine if tile is on screen
+	const int maxBoundaryX = surface->width;
+	const int maxBoundaryY = surface->height;
+	//determine if tile is on surface
 	if (maxScreenX >= minBoundaryX && maxScreenY >= minBoundaryY
 		&& screenX <= maxBoundaryX && screenY <= maxBoundaryY)
 	{
@@ -139,7 +140,7 @@ void Tilemap::RenderTile(Surface* screen,
 		const int maxOffsetX = min(maxBoundaryX, maxScreenX);
 		const int maxOffsetY = min(maxBoundaryY, maxScreenY);
 
-		//offsets for screen and source
+		//offsets for surface and source
 
 		const uint2 offsetMin = { abs((minOffsetX - (screenX))),
 			abs((minOffsetY - screenY)) };
@@ -157,8 +158,8 @@ void Tilemap::RenderTile(Surface* screen,
 		const uint height = TILE_SIZE - offsetMin.y - offsetMax.y;
 
 
-		uint* scr = screen->pixels
-			+ screenX + screenY * screen->width;
+		uint* scr = surface->pixels
+			+ screenX + screenY * surface->width;
 
 		const uint* sou = tilePalette->pixels
 			+ sourceX + sourceY * tilePalette->width;
@@ -169,7 +170,7 @@ void Tilemap::RenderTile(Surface* screen,
 			{
 				scr[j] = sou[j];
 			}
-			scr += screen->width;
+			scr += surface->width;
 			sou += tilePalette->width;
 		}
 	}
@@ -179,47 +180,36 @@ void Tilemap::RenderTile(Surface* screen,
 
 void Tilemap::Init(float2 screenPos, const char* sourceFile, const char* csvPath)
 {
-	pos = WorldLocalScreenTransf::ConvertScreenToWorldSpace(screenPos);
-	transform.SetPointerPos(pos);
+
 	tilePalette = new Surface(sourceFile);
 	loadCSVFile(csvPath);
-	//to start at the bottom left part
-	offset = {
-		0 ,
-		0 };
-	//static_cast<float>(TILE_SIZE * heightY) };
 
-	originalPos = pos + offset;
 
 }
 void Tilemap::DebugBox(Surface* screen) const
 {
-	const float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(pos) - offset;
-
 	for (uint i = 0; i < heightY; i++)
 	{
 		for (uint j = 0; j < widthX; j++)
 		{
 #ifdef _DEBUG
-			uint index = tileMap[j + i * widthX].index;
+			uint index = tileMap[j + i * widthX];
 			if (index)
-				screen->Box(j * TILE_SIZE + static_cast<int>(screenPos.x),
-					i * TILE_SIZE + static_cast<int>(screenPos.y),
-					(j + 1) * TILE_SIZE + static_cast<int>(screenPos.x),
-					(i + 1) * TILE_SIZE + static_cast<int>(screenPos.y), 255);
+				screen->Box(j * TILE_SIZE,
+					i * TILE_SIZE,
+					(j + 1) * TILE_SIZE,
+					(i + 1) * TILE_SIZE, 255);
 #endif
 		}
 	}
 }
 void Tilemap::Render(Surface* screen)
 {
-	const float2 screenPos = WorldLocalScreenTransf::ConvertWorldSpaceToScreen(pos) - offset;
-
 	for (int i = 0; i < heightY; i++)
 	{
 		for (int j = 0; j < widthX; j++)
 		{
-			uint index = tileMap[j + i * widthX].index;
+			uint index = tileMap[j + i * widthX];
 			if (index)//index !=0
 			{
 				//so the index can start from 0
@@ -229,57 +219,24 @@ void Tilemap::Render(Surface* screen)
 				const uint source_y = index / (tilePalette->width / TILE_SIZE);
 				const uint source_x = index % (tilePalette->width / TILE_SIZE);
 				RenderTile(screen,
-					j * TILE_SIZE + static_cast<int>(screenPos.x),
-					i * TILE_SIZE + static_cast<int>(screenPos.y),
+					j * TILE_SIZE,
+					i * TILE_SIZE,
 					source_x * TILE_SIZE,
 					source_y * TILE_SIZE);
 
 
 
 			}
-
-
 		}
 	}
 }
 
-bool Tilemap::FitsOnScreen(float2& newPosition) const
-{
-	const float boundX = TILE_SIZE * widthX - SCRWIDTH;
-	const float boundY = TILE_SIZE * heightY - SCRHEIGHT;
-	newPosition.x = clamp(newPosition.x, originalPos.x - boundX,
-		originalPos.x);
-
-	newPosition.y = clamp(newPosition.y, originalPos.y - boundY,
-		originalPos.y);
-
-	return false;
-
-
-}
 
 
 void Tilemap::Update(float deltaTime)
 {
-	//movement
-	if (transform.GetParent() != nullptr)//parented to the main tilemap
-	{
-		transform.ToWorldPos();
-	}
-	cout << pos;
-	//else {
-	//	float2 newPosition = pos + dir * deltaTime * speed;
 
-	//	FitsOnScreen(newPosition);
-
-	//	movedLastFrame = static_cast<int>(newPosition.x) == static_cast<int>(pos.x) &&
-	//		static_cast<int>(newPosition.y) == static_cast<int>(pos.y);
-
-
-	//	pos = newPosition;
-
-	//	dir = 0;//used input
-	//}
+	//nothing to do
 }
 
 

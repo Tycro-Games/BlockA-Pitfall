@@ -14,23 +14,29 @@
 // -----------------------------------------------------------
 void Game::Init()
 {
-	const float2 center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
-	WorldLocalScreenTransf::Init(center);
-
+	WorldLocalScreenTransf::Init(0);
 
 	tilemaps[BG].Init({ 0,0 }, "assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init({ 0,0 }, "assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	tilemaps[BG].transform.SetParent(tilemaps[FLOOR].transform);
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR]);
+	//tilemaps[BG].transform.SetParent(tilemaps[FLOOR].transform);
+	enviroment = new Sprite(new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight()), 1);
+	for (int i = 0; i < COUNT; i++) {
+		tilemaps[i].Render(enviroment->GetSurface());
+	}
+	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
+
+
+	cam.Init(float2{ 0, 700 }, enviroment);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], cam);
+
 
 }
 
 void Game::Render()
 {
-	for (int i = 0; i < COUNT; i++) {
-		tilemaps[i].Render(screen);
-	}
-	tilemaps[FLOOR].DebugBox(screen);
+
+	cam.Render(screen);
+
 	//update input
 
 	avatar.Render(screen);
@@ -39,28 +45,23 @@ void Game::Render()
 
 void Game::Update(float deltaTime)
 {
-	if (isJumping)
-	{
-		avatar.Jump();
-	}
-
 }
 
 void Game::UpdateInput()
 {
-
+	if (isJumping)
+	{
+		avatar.Jump();
+	}
 	avatar.GetInput(int2(horizontalMove, verticalMove));
 
 }
 
-void Game::FixedUpdate(float delta_time)
+void Game::FixedUpdate(float deltaTime)
 {
-	avatar.Update(delta_time);
 
-	for (int i = 0; i < COUNT; i++) {
-		tilemaps[i].Update(delta_time);
-	}
 	//to do tilemap is constrained so player moves
+	avatar.Update(deltaTime);
 
 }
 // -----------------------------------------------------------
@@ -84,10 +85,7 @@ void Game::Tick(float deltaTime)
 		FixedUpdate(deltaTime);
 	}
 	Render();
-	/*if (asecond.elapsed() > 1.0f) {
-		cout << "one second passed\n";
-		asecond.reset();
-	}*/
+
 
 
 	Update(deltaTime);

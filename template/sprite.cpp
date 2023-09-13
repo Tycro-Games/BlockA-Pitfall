@@ -99,6 +99,7 @@ void Sprite::Draw(Surface* target, int x, int y)
 //		}
 //	}
 //}
+
 // draw scaled sprite
 void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 {

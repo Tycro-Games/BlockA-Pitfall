@@ -12,8 +12,8 @@ bool MathLibrary::OnScreen(float2 pos)
 bool MathLibrary::OnScreen(float2 pos, AABB col)
 {
 	float2 min;
-	min.x = pos.x - col.min.x;
-	min.y = pos.y - col.min.y;
+	min.x = pos.x + col.min.x;
+	min.y = pos.y + col.min.y;
 
 	float2 max;
 	max.x = pos.x + col.max.x;

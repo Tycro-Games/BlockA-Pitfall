@@ -3,8 +3,8 @@
 
 #include <iostream>
 
+#include "Camera.h"
 #include "Scripts/Utilities/MathLibrary.h"
-#include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
 
 Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), tilemap(nullptr), velocity(), pos(), dir()
@@ -29,9 +29,10 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _tilemap)
+void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 {
 	tilemap = &_tilemap;
+	cam = &_cam;
 	char* spriteFlippedPath;
 	GetFlippedPath(spritePath, spriteFlippedPath);
 
@@ -47,8 +48,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap)
 
 void Avatar::Render(Surface* screen)
 {
-	const int x = static_cast<int>(pos.x) - sprite->GetWidth() * .5f; //center of the screen
-	const int y = static_cast<int>(pos.y) - sprite->GetHeight() * .5f; //bottom of the sprite;
+	const int x = static_cast<int>(pos.x) - sprite->GetWidth() / 2; //center of the screen
+	const int y = static_cast<int>(pos.y) - sprite->GetHeight() / 2; //bottom of the sprite;
 	if (dir.x) {
 		flipX = dir.x < 0;
 	}
@@ -75,51 +76,49 @@ void Avatar::GetInput(int2 input)
 }
 void Avatar::Update(float deltaTime)
 {
-	//from https://github.com/Tycro-Games/AUSS/blob/master/src/MoveablePlayer.cpp
 	const float horizontal = dir.x;
 	const float vertical = GRAVITY + velocity.y;//gravity
 
 
 	const float newPosX = horizontal * deltaTime * speed;
 	const float newPosY = vertical * deltaTime * speed;
-
 	if (velocity.y < 0.01f)
 		velocity.y += deltaTime * GRAVITY;
 
-	const float2 tilemapPos = tilemap->transform.GetPosition();//in world pos
+	float2 newPos = pos + float2{ newPosX, 0 };
+	if (!tilemap->IsCollidingBox(cam->GetPosition() + newPos, boxCollider))
+		if (!cam->UpdatePosition(deltaTime, newPos)) //did not move
+		{
+			if (MathLibrary::OnScreen(newPos, boxCollider))
+			{
+				pos = newPos;
+			}
+		}
 
-	if (!tilemap->IsCollidingBox(pos + float2{newPosX, 0}, boxCollider))
-		Movement(
-			float2{ tilemapPos.x - newPosX,tilemapPos.y },
-			float2{ newPosX + pos.x,pos.y });
+	newPos = pos + float2{ 0, newPosY };
+	if (!tilemap->IsCollidingBox(cam->GetPosition() + newPos, boxCollider))
 
-	if (!tilemap->IsCollidingBox(pos + float2{0, newPosY }, boxCollider))
-		Movement(
-			float2{ tilemapPos.x,tilemapPos.y - newPosY * 3 },
-			float2{ pos.x,pos.y + newPosY });
+		if (!cam->UpdatePosition(deltaTime, newPos)) //did not move
+		{
+			if (MathLibrary::OnScreen(newPos, boxCollider))
+			{
+				pos = newPos;
+			}
+		}
 
 
 	dir = 0;
 }
-void Avatar::Movement(float2 newTilemapPos, const float2 newPos)
-{
-
-	if (MathLibrary::OnScreen(WorldLocalScreenTransf::ConvertWorldSpaceToScreen(newTilemapPos)))
-	{
-		tilemap->transform.SetPos(newTilemapPos);
-	}
-	else if (MathLibrary::OnScreen(newPos, boxCollider))
-	{
-		tilemap->transform.SetPos(newTilemapPos);
-		pos = newPos;
-	}
 
 
-
-}
 void Avatar::Jump()
 {
 	//check for floor
 	velocity.y = -12.0f;
+}
+//ask about this, how to make it const?
+float2 Avatar::GetPos()
+{
+	return pos;
 }
 

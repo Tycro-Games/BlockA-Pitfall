@@ -8,6 +8,7 @@ struct AABB
 	float2 min, max;
 
 	static bool BoxCollides(AABB a, AABB b);
+	static bool InsideB(const AABB& a, const AABB& b);
 	AABB At(float2 pos) const;
 
 };
