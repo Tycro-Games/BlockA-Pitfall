@@ -38,8 +38,9 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
-	pos.x = cam->GetPosition().x + SCRHEIGHT / 2;
-	pos.y = cam->GetPosition().y + SCRWIDTH / 2;
+
+	pos.x = cam->GetPosition().x + SCRWIDTH / 2;
+	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
 	boxCollider = AABB(minCollider, maxCollider);
 
 	delete[] spriteFlippedPath;
@@ -49,8 +50,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 void Avatar::Render(Surface* screen)
 {
 	const float2 camPos = cam->GetPosition();
-	const int x =  static_cast<int>(pos.x) - sprite->GetWidth() / 2- camPos.x; //center of the screen
-	const int y =  static_cast<int>(pos.y) - sprite->GetHeight() / 2- camPos.y; //bottom of the sprite;
+	int x = (static_cast<int>(pos.x) - boxCollider.max.x) - camPos.x; //center of the screen
+	int y = (static_cast<int>(pos.y) - boxCollider.max.y) - camPos.y; //bottom of the sprite;
 	if (dir.x) {
 		flipX = dir.x < 0;
 	}
@@ -63,10 +64,13 @@ void Avatar::Render(Surface* screen)
 	}
 
 #ifdef _DEBUG
-	const int2 size = 15;
-	uint c = 255 << 16;
-	screen->Box(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, c);
+	{
+		uint c = 255 << 16;
+		int x = (static_cast<int>(pos.x)) - camPos.x; //center of the screen
+		int y = (static_cast<int>(pos.y)) - camPos.y; //bottom of the sprite;
 
+		screen->Box(x + boxCollider.min.x, y + boxCollider.min.y, x + boxCollider.max.x, y + boxCollider.max.y, c);
+	}
 #endif
 
 }
@@ -77,35 +81,57 @@ void Avatar::GetInput(int2 input)
 }
 void Avatar::Update(float deltaTime)
 {
+	float2 floorPos;
+	//switch with circle
+	onFloor = tilemap->IsCollidingBox(pos + float2{0, 5}, boxCollider, floorPos);
+
+	if (onFloor) {
+		floorPos.y = floorPos.y - boxCollider.max.y / 2;
+		pos.y = floorPos.y;
+	}
+
+
 	const float horizontal = dir.x;
-	const float vertical = GRAVITY + velocity.y;//gravity
+	if (!onFloor && velocity.y <= GRAVITY)
+		velocity.y += deltaTime * FALL_SPEED;
+
+	float vertical = velocity.y;
 
 
-	const float newPosX = horizontal * deltaTime * speed;
-	const float newPosY = vertical * deltaTime * speed;
-	if (velocity.y < 0.01f)
-		velocity.y += deltaTime * GRAVITY;
+
+	const float newPosX = horizontal * deltaTime * HORIZONTAL_SPEED;
+	const float newPosY = vertical * deltaTime * VERTICAL_SPEED;
+
+
+	cout << velocity;
 
 	float2 newPos = pos + float2{ newPosX, 0 };
-	if (!tilemap->IsCollidingBox(cam->GetPosition() + newPos, boxCollider))
-		if (!cam->UpdatePosition(deltaTime, newPos)) //did not move
+	cam->UpdatePosition(deltaTime, newPos);
+	if (!tilemap->IsCollidingBox(newPos, boxCollider))
+		if (MathLibrary::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
-			if (MathLibrary::OnScreen(newPos, boxCollider))
-			{
-				pos = newPos;
-			}
+			pos = newPos;
 		}
 
 	newPos = pos + float2{ 0, newPosY };
-	if (!tilemap->IsCollidingBox(cam->GetPosition() + newPos, boxCollider))
+	cam->UpdatePosition(deltaTime, newPos);
 
-		if (!cam->UpdatePosition(deltaTime, newPos)) //did not move
+	if (!tilemap->IsCollidingBox(newPos, boxCollider))
+	{
+
+		if (MathLibrary::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
-			if (MathLibrary::OnScreen(newPos, boxCollider))
-			{
-				pos = newPos;
-			}
+			pos = newPos;
 		}
+
+	}
+	else
+	{
+		velocity.y = 0;
+
+	}
+
+
 
 
 	dir = 0;
@@ -115,7 +141,11 @@ void Avatar::Update(float deltaTime)
 void Avatar::Jump()
 {
 	//check for floor
-	velocity.y = -12.0f;
+	if (onFloor) {
+		velocity.y = -GRAVITY * 2.0f;
+		jumping = true;
+	}
+
 }
 //ask about this, how to make it const?
 float2 Avatar::GetPos()

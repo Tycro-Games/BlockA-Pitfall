@@ -23,9 +23,27 @@ bool Tilemap::IsColliding(const float x, const float y) const
 {
 	const int tx = static_cast<int>(x / TILE_SIZE);
 	const int ty = static_cast<int>(y / TILE_SIZE);
+	float2 centerTile = { static_cast<float>(tx * TILE_SIZE), static_cast<float>(ty * TILE_SIZE) };
+
+	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
 	const size_t index = tx + ty * widthX;
 	if (tileMap[index] != 0)
 		return true;
+	return false;
+}
+bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
+{
+	const int tx = static_cast<int>(x / TILE_SIZE);
+	const int ty = static_cast<int>(y / TILE_SIZE);
+	float2 centerTile = { static_cast<float>(tx * TILE_SIZE), static_cast<float>(ty * TILE_SIZE) };
+
+	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
+	const size_t index = tx + ty * widthX;
+	if (tileMap[index] != 0) {
+		floorPos = centerTile - TILE_SIZE / 2;
+
+		return true;
+	}
 	return false;
 }
 
@@ -42,9 +60,26 @@ bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
 	const float maxY = a.max.y;
 	//check all the corners
 	return IsColliding(minX, minY)
-		&& IsColliding(minX, maxY)
-		&& IsColliding(maxX, minY)
-		&& IsColliding(maxX, maxY);
+		|| IsColliding(minX, maxY)
+		|| IsColliding(maxX, minY)
+		|| IsColliding(maxX, maxY);
+
+}
+bool Tilemap::IsCollidingBox(float2 _pos, AABB _a, float2& floorPos)
+{
+	//take the four corners of the box and check them
+
+	const AABB a = _a.At(_pos);
+	const float minX = a.min.x;
+	const float minY = a.min.y;
+
+	const float maxX = a.max.x;
+	const float maxY = a.max.y;
+	//check all the corners
+	return IsColliding(minX, minY, floorPos)
+		|| IsColliding(minX, maxY, floorPos)
+		|| IsColliding(maxX, minY, floorPos)
+		|| IsColliding(maxX, maxY, floorPos);
 
 }
 

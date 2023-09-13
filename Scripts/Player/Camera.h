@@ -8,7 +8,7 @@ public:
 	Camera();
 	void Init(float2 screenPos, Sprite* tilemapSurface);
 	void Render(Surface* screen);
-	bool UpdatePosition(float deltaTime, const float2 player_pos);
+	void UpdatePosition(float deltaTime, const float2 player_pos);
 	float2 GetPosition()const;
 private:
 	float2 pos;

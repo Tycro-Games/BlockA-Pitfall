@@ -5,7 +5,7 @@ struct AABB
 
 	AABB(float2 min, float2 max);
 	AABB();
-	float2 min, max;
+	float2 min{}, max{};
 
 	static bool BoxCollides(AABB a, AABB b);
 	static bool InsideB(const AABB& a, const AABB& b);

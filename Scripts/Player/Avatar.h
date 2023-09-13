@@ -29,10 +29,14 @@ private:
 	const float2 EGDGE_OFFSET = 15.0f;
 
 	bool flipX = false;
-	const float speed = 250.5f;
+	const float HORIZONTAL_SPEED = 250.5f;
+	const float VERTICAL_SPEED = 50;
+	bool onFloor = false;
 	//collider
 	AABB boxCollider;
 	AABB circleCollider;
-	const float2 minCollider{ -15,-15 }, maxCollider{ 15,15 };
+	const float2 minCollider{ -24,-24 }, maxCollider{ 24,24 };
+	const float FALL_SPEED = 50.0f;
+	bool jumping = false;
 };
 

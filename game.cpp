@@ -26,7 +26,7 @@ void Game::Init()
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
 
 
-	cam.Init(float2{ 0, 700 }, enviroment);
+	cam.Init(float2{ 0, 900 }, enviroment);
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], cam);
 
 
@@ -79,7 +79,7 @@ void Game::Tick(float deltaTime)
 	screen->Clear(0);
 
 	UpdateInput();
-	if (fixedTimer.elapsed() > 0.02f) {
+	if (fixedTimer.elapsed() >= 0.02f) {
 		//cout << deltaTime << '\n';
 		fixedTimer.reset();
 		FixedUpdate(deltaTime);
