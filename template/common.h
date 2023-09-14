@@ -6,8 +6,8 @@
 // global settings and defines.
 
 // default screen resolution
-#define SCRWIDTH	1280
-#define SCRHEIGHT	720
+constexpr int SCRWIDTH = 1280;
+constexpr int SCRHEIGHT = 720;
 // #define FULLSCREEN
 
 // constants

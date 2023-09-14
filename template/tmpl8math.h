@@ -32,6 +32,7 @@ namespace Tmpl8 {
 		union { struct { int x, y; }; int cell[2]; };
 		int& operator [] (const int n) { return cell[n]; }
 	};
+
 	struct ALIGN(8) uint2
 	{
 		uint2() = default;

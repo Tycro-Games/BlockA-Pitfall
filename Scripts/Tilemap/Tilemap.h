@@ -1,6 +1,5 @@
 #pragma once
 #include "Scripts/Utilities/AABB.h"
-#include "Scripts/Utilities/Transform.h"
 
 
 
@@ -20,16 +19,15 @@ public:
 	void loadCSVFile(const char* csvPath);
 	//modified from my previous implementation https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
 	void RenderTile(Surface* surface, int screenX, int screenY, uint sourceX, uint sourceY);
-	void Init(float2 screenPos, const char* sourceFile, const char* csvPath);
+	void Init(const char* sourceFile, const char* csvPath);
 	void DebugBox(Surface* screen) const;
 	void Render(Surface* screen);
-	bool FitsOnScreen(float2& newPosition) const;
 	void Update(float deltaTime);
-	uint GetWidth() const
+	int GetWidth() const
 	{
 		return widthX * TILE_SIZE;
 	}
-	uint GetHeight() const
+	int GetHeight() const
 	{
 		return  heightY * TILE_SIZE;
 	}

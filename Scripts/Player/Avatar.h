@@ -1,7 +1,7 @@
 #pragma once
 #include "Scripts/Tilemap/Tilemap.h"
+
 class Camera;
-class Tilemap;
 
 class Avatar
 {
@@ -14,29 +14,39 @@ public:
 	void GetInput(int2 input);
 	void Update(float deltaTime);
 	void Jump();
-	float2 GetPos();
+	float2 GetPos() const;
+	const float2* GetPos();
+
 private:
+	//base for general sprite class and render
 	Sprite* sprite;
 	Sprite* spriteFlipped;
+	//components
 	Tilemap* tilemap;
 	Camera* cam;
-	float2 velocity;
-	const uint NUMBER_FRAMES = 10;
-	float2 pos;
-	const float GRAVITY = 9.8f;
-	//input
-	int2 dir;
-	const float2 EGDGE_OFFSET = 15.0f;
 
-	bool flipX = false;
+
+	//physics
+	float2 velocity, pos;
+	const float2 CAMERA_OFFSET = { 100 ,0 };
+	const float GRAVITY = 9.8f;
 	const float HORIZONTAL_SPEED = 250.5f;
 	const float VERTICAL_SPEED = 50;
+	const uint NUMBER_FRAMES = 10;
+	const float FALL_SPEED = 50.0f;
+
 	bool onFloor = false;
+	short int flipX = false;
+
+	//input
+	int2 dir;
+	bool jumping = false;
+
 	//collider
 	AABB boxCollider;
 	AABB circleCollider;
 	const float2 minCollider{ -24,-24 }, maxCollider{ 24,24 };
-	const float FALL_SPEED = 50.0f;
-	bool jumping = false;
+	//animation
+
 };
 

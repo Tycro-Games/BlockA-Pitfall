@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include "Scripts/Utilities/WorldLocalScreenTransf.h"
 
 Tilemap::Tilemap() : widthX(0), heightY(0),
 tileMap{},
@@ -35,11 +34,15 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 {
 	const int tx = static_cast<int>(x / TILE_SIZE);
 	const int ty = static_cast<int>(y / TILE_SIZE);
-	float2 centerTile = { static_cast<float>(tx * TILE_SIZE), static_cast<float>(ty * TILE_SIZE) };
+
 
 	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
 	const size_t index = tx + ty * widthX;
 	if (tileMap[index] != 0) {
+
+		const float2 centerTile = { static_cast<float>(tx * TILE_SIZE),
+		static_cast<float>(ty * TILE_SIZE) };
+
 		floorPos = centerTile - TILE_SIZE / 2;
 
 		return true;
@@ -53,16 +56,12 @@ bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
 	//take the four corners of the box and check them
 
 	const AABB a = _a.At(_pos);
-	const float minX = a.min.x;
-	const float minY = a.min.y;
 
-	const float maxX = a.max.x;
-	const float maxY = a.max.y;
 	//check all the corners
-	return IsColliding(minX, minY)
-		|| IsColliding(minX, maxY)
-		|| IsColliding(maxX, minY)
-		|| IsColliding(maxX, maxY);
+	return IsColliding(a.min.x, a.min.y)
+		|| IsColliding(a.min.x, a.max.y)
+		|| IsColliding(a.max.x, a.min.y)
+		|| IsColliding(a.max.x, a.max.y);
 
 }
 bool Tilemap::IsCollidingBox(float2 _pos, AABB _a, float2& floorPos)
@@ -213,7 +212,7 @@ void Tilemap::RenderTile(Surface* surface,
 
 
 
-void Tilemap::Init(float2 screenPos, const char* sourceFile, const char* csvPath)
+void Tilemap::Init(const char* sourceFile, const char* csvPath)
 {
 
 	tilePalette = new Surface(sourceFile);
@@ -240,9 +239,9 @@ void Tilemap::DebugBox(Surface* screen) const
 }
 void Tilemap::Render(Surface* screen)
 {
-	for (int i = 0; i < heightY; i++)
+	for (uint i = 0; i < heightY; i++)
 	{
-		for (int j = 0; j < widthX; j++)
+		for (uint j = 0; j < widthX; j++)
 		{
 			uint index = tileMap[j + i * widthX];
 			if (index)//index !=0

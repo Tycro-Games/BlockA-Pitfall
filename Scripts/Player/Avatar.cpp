@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "Camera.h"
-#include "Scripts/Utilities/MathLibrary.h"
 
 
 Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), tilemap(nullptr), cam(nullptr), velocity(), pos(), dir()
@@ -38,7 +37,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
-
+	//setting to world position
 	pos.x = cam->GetPosition().x + SCRWIDTH / 2;
 	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
 	boxCollider = AABB(minCollider, maxCollider);
@@ -49,13 +48,15 @@ void Avatar::Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam)
 
 void Avatar::Render(Surface* screen)
 {
+	//convert to screen position
 	const float2 camPos = cam->GetPosition();
-	int x = (static_cast<int>(pos.x) - boxCollider.max.x) - camPos.x; //center of the screen
-	int y = (static_cast<int>(pos.y) - boxCollider.max.y) - camPos.y; //bottom of the sprite;
+	const int x = static_cast<int>(pos.x - boxCollider.max.x - camPos.x); //center of the screen
+	const int y = static_cast<int>(pos.y - boxCollider.max.y - camPos.y); //bottom of the sprite;
+
 	if (dir.x) {
 		flipX = dir.x < 0;
 	}
-	if (flipX)
+	if (flipX > 0)
 		spriteFlipped->Draw(screen, x, y);
 	else
 	{
@@ -65,11 +66,16 @@ void Avatar::Render(Surface* screen)
 
 #ifdef _DEBUG
 	{
-		uint c = 255 << 16;
-		int x = (static_cast<int>(pos.x)) - camPos.x; //center of the screen
-		int y = (static_cast<int>(pos.y)) - camPos.y; //bottom of the sprite;
-
-		screen->Box(x + boxCollider.min.x, y + boxCollider.min.y, x + boxCollider.max.x, y + boxCollider.max.y, c);
+		const uint c = 255 << 16;
+		const float debugX = pos.x - camPos.x; //center of the screen
+		const float debugY = pos.y - camPos.y; //bottom of the sprite;
+		static AABB a = boxCollider.At({ debugX, debugY });
+		screen->Box(
+			static_cast<int>(a.min.x),
+			static_cast<int>(a.min.y),
+			static_cast<int>(a.max.x),
+			static_cast<int>(a.max.y),
+			c);
 	}
 #endif
 
@@ -91,11 +97,11 @@ void Avatar::Update(float deltaTime)
 	}
 
 
-	const float horizontal = dir.x;
+	const float horizontal = static_cast<float>(dir.x);
 	if (!onFloor && velocity.y <= GRAVITY)
 		velocity.y += deltaTime * FALL_SPEED;
 
-	float vertical = velocity.y;
+	const float vertical = velocity.y;
 
 
 
@@ -103,23 +109,21 @@ void Avatar::Update(float deltaTime)
 	const float newPosY = vertical * deltaTime * VERTICAL_SPEED;
 
 
-	cout << velocity;
+	//cout << velocity;
 
 	float2 newPos = pos + float2{ newPosX, 0 };
-	cam->UpdatePosition(deltaTime, newPos);
 	if (!tilemap->IsCollidingBox(newPos, boxCollider))
-		if (MathLibrary::OnScreen(newPos - cam->GetPosition(), boxCollider))
+		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
 			pos = newPos;
 		}
 
 	newPos = pos + float2{ 0, newPosY };
-	cam->UpdatePosition(deltaTime, newPos);
 
 	if (!tilemap->IsCollidingBox(newPos, boxCollider))
 	{
 
-		if (MathLibrary::OnScreen(newPos - cam->GetPosition(), boxCollider))
+		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
 			pos = newPos;
 		}
@@ -130,11 +134,8 @@ void Avatar::Update(float deltaTime)
 		velocity.y = 0;
 
 	}
+	cam->UpdatePosition(deltaTime, newPos - CAMERA_OFFSET * flipX);
 
-
-
-
-	dir = 0;
 }
 
 
@@ -147,9 +148,14 @@ void Avatar::Jump()
 	}
 
 }
-//ask about this, how to make it const?
-float2 Avatar::GetPos()
+
+float2 Avatar::GetPos() const
 {
 	return pos;
+}
+
+const float2* Avatar::GetPos()
+{
+	return &pos;
 }
 

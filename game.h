@@ -20,7 +20,7 @@ namespace Tmpl8
 	{
 	public:
 
-		~Game() = default;
+		~Game();
 		// game flow methods
 		void Init();
 		void Render();

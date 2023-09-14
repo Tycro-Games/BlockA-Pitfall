@@ -7,19 +7,27 @@
 
 #include <iostream>
 
-#include "Scripts/Utilities/WorldLocalScreenTransf.h"
+
+Game::~Game()
+{
+	delete enviroment;
+}
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-	WorldLocalScreenTransf::Init(0);
 
-	tilemaps[BG].Init({ 0,0 }, "assets/Basic Tilemap.png", "assets/Tilemap.tmx");
-	tilemaps[FLOOR].Init({ 0,0 }, "assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	//tilemaps[BG].transform.SetParent(tilemaps[FLOOR].transform);
-	enviroment = new Sprite(new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight()), 1);
+	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
+	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	//use {} for constructors calls - Erik
+	enviroment = new Sprite{
+		new Surface{
+			tilemaps[FLOOR].GetWidth(),
+		tilemaps[FLOOR].GetHeight()
+		},1 };
+
 	for (int i = 0; i < COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
@@ -28,7 +36,6 @@ void Game::Init()
 
 	cam.Init(float2{ 0, 900 }, enviroment);
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], cam);
-
 
 }
 
@@ -45,7 +52,9 @@ void Game::Render()
 
 void Game::Update(float deltaTime)
 {
+	//do something every frame
 }
+
 
 void Game::UpdateInput()
 {
@@ -77,7 +86,6 @@ void Game::Tick(float deltaTime)
 
 
 	screen->Clear(0);
-
 	UpdateInput();
 	if (fixedTimer.elapsed() >= 0.02f) {
 		//cout << deltaTime << '\n';
