@@ -64,6 +64,7 @@ bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
 		|| IsColliding(a.max.x, a.max.y);
 
 }
+//TODO you do not need the AABB here
 bool Tilemap::IsCollidingBox(float2 _pos, AABB _a, float2& floorPos)
 {
 	//take the four corners of the box and check them
