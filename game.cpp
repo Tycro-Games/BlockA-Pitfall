@@ -69,7 +69,6 @@ void Game::UpdateInput()
 void Game::FixedUpdate(float deltaTime)
 {
 
-	//to do tilemap is constrained so player moves
 	avatar.Update(deltaTime);
 
 }
@@ -80,7 +79,7 @@ void Game::Tick(float deltaTime)
 {
 	//to seconds
 	static Timer fixedTimer;
-	//static Timer asecond;
+	//static Timer a second;
 
 	deltaTime *= 0.001f;
 

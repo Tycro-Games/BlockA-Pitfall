@@ -67,9 +67,11 @@ void Avatar::Render(Surface* screen)
 #ifdef _DEBUG
 	{
 		const uint c = 255 << 16;
-		const float debugX = pos.x - camPos.x; //center of the screen
-		const float debugY = pos.y - camPos.y; //bottom of the sprite;
-		static AABB a = boxCollider.At({ debugX, debugY });
+		//on screen positions
+		const float debugX = pos.x - camPos.x;
+		const float debugY = pos.y - camPos.y;
+
+		AABB a = boxCollider.At({ debugX, debugY });
 		screen->Box(
 			static_cast<int>(a.min.x),
 			static_cast<int>(a.min.y),
@@ -88,30 +90,32 @@ void Avatar::GetInput(int2 input)
 void Avatar::Update(float deltaTime)
 {
 	float2 floorPos;
-	//switch with circle
+	//TODO switch with circle
 	onFloor = tilemap->IsCollidingBox(pos + float2{0, 5}, boxCollider, floorPos);
 
 	if (onFloor) {
 		floorPos.y = floorPos.y - boxCollider.max.y / 2;
 		pos.y = floorPos.y;
 	}
-
-
-	const float horizontal = static_cast<float>(dir.x);
-	if (!onFloor && velocity.y <= GRAVITY)
-		velocity.y += deltaTime * FALL_SPEED;
-
+	//add gravity
+	else
+	{
+		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
+	}
+	//get input and velocity
+	const float horizontal = velocity.x + static_cast<float>(dir.x);
 	const float vertical = velocity.y;
 
 
 
-	const float newPosX = horizontal * deltaTime * HORIZONTAL_SPEED;
-	const float newPosY = vertical * deltaTime * VERTICAL_SPEED;
+	const float newPosX = horizontal * deltaTime * SPEED;
+	const float newPosY = vertical * deltaTime * SPEED;
 
 
-	//cout << velocity;
+	cout << velocity;
 
 	float2 newPos = pos + float2{ newPosX, 0 };
+
 	if (!tilemap->IsCollidingBox(newPos, boxCollider))
 		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
@@ -131,9 +135,12 @@ void Avatar::Update(float deltaTime)
 	}
 	else
 	{
+		//TODO make velocity really stop when on the ground
 		velocity.y = 0;
-
 	}
+
+
+
 	cam->UpdatePosition(deltaTime, newPos - CAMERA_OFFSET * flipX);
 
 }
@@ -143,7 +150,7 @@ void Avatar::Jump()
 {
 	//check for floor
 	if (onFloor) {
-		velocity.y = -GRAVITY * 2.0f;
+		velocity.y = -JUMP_FORCE;
 		jumping = true;
 	}
 

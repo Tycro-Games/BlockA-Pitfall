@@ -35,9 +35,9 @@ void Camera::UpdatePosition(float deltaTime, float2 player_pos)
 
 	//// Clamp position shorthand conditionals from Lynn
 
-	pos.x = newPos.x <= 0 ? 0 : newPos.x >= maxPosX ? maxPosX : newPos.x;
-	pos.y = newPos.y <= 0 ? 0 : newPos.y >= maxPosY ? maxPosY : newPos.y;
 
+	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;
+	pos.y = newPos.y < 0 ? 0 : newPos.y > maxPosY ? maxPosY : newPos.y;
 
 }
 

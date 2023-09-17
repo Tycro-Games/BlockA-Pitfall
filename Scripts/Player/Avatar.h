@@ -30,10 +30,9 @@ private:
 	float2 velocity, pos;
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
-	const float HORIZONTAL_SPEED = 250.5f;
-	const float VERTICAL_SPEED = 50;
+	const float JUMP_FORCE = 5.0f;
+	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
-	const float FALL_SPEED = 50.0f;
 
 	bool onFloor = false;
 	short int flipX = false;
@@ -45,7 +44,7 @@ private:
 	//collider
 	AABB boxCollider;
 	AABB circleCollider;
-	const float2 minCollider{ -24,-24 }, maxCollider{ 24,24 };
+	const float2 minCollider{ -16,-16 }, maxCollider{ 16,16 };
 	//animation
 
 };
