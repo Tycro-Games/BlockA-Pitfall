@@ -2,6 +2,7 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="10">
  <tileset firstgid="1" source="Basic Tilemap.tsx"/>
  <tileset firstgid="16" source="160x160 background tilemap.tsx"/>
+ <tileset firstgid="41" source="Pitfall_tilesheet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="50">
   <data encoding="csv">
 7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,2,
@@ -56,15 +57,4 @@
 13,14,14,14,0,0,0,0,0,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,15
 </data>
  </layer>
- <group id="4" name="Ropes">
-  <objectgroup id="7" name="Rope">
-   <object id="9" x="224" y="160" width="32" height="32"/>
-  </objectgroup>
- </group>
- <group id="5" name="Ziplines">
-  <objectgroup id="6" name="Zipline">
-   <object id="8" x="800" y="160" width="32" height="32"/>
-  </objectgroup>
- </group>
- <group id="9" name="Enemies"/>
 </map>

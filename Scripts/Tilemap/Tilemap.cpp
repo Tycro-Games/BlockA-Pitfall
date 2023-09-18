@@ -3,12 +3,12 @@
 
 #include <iostream>
 
+#include "Scripts/Utilities/AABB.h"
+
 
 Tilemap::Tilemap() : widthX(0), heightY(0),
-tileMap{},
-tilePalette(nullptr),
-halfTilemapX(0),
-halfTilemapY(0)
+                     tileMap{},
+                     tilePalette(nullptr)
 {
 }
 
@@ -250,23 +250,27 @@ void Tilemap::Init(const char* sourceFile, const char* csvPath)
 
 
 }
+#ifdef _DEBUG
+
 void Tilemap::DebugBox(Surface* screen) const
 {
+
 	for (uint i = 0; i < heightY; i++)
 	{
 		for (uint j = 0; j < widthX; j++)
 		{
-#ifdef _DEBUG
 			uint index = tileMap[j + i * widthX];
 			if (index)
 				screen->Box(j * TILE_SIZE,
 					i * TILE_SIZE,
 					(j + 1) * TILE_SIZE,
 					(i + 1) * TILE_SIZE, 255);
-#endif
 		}
 	}
+
 }
+#endif
+
 void Tilemap::Render(Surface* screen)
 {
 	for (uint i = 0; i < heightY; i++)

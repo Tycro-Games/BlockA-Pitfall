@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include "Scripts/Utilities/AABB.h"
 
+
+struct Box;
 
 class Camera
 {
@@ -14,10 +15,8 @@ public:
 	static bool OnScreen(float2 screenPos);
 	static bool OnScreen(float2 screenPos, const Box& a);
 private:
-	float2 pos{};
-	AABB camBounds;
-	Sprite* tilemap{};
+	float2 pos;
+	Sprite* tilemap;
 	const float CAM_SPEED = 25.0f;
-	
-	float maxPosX{}, maxPosY{};
+	float maxPosX, maxPosY;
 };

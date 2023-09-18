@@ -158,7 +158,7 @@ void main()
 	app->screen = screen;
 	app->Init();
 	// done, enter main loop changed to crt
-#if 0
+#if (!_DEBUG)
 	// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
 	char fs[] =
 		"#version 330											\n"

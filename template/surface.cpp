@@ -78,16 +78,16 @@ void Surface::Box(int x1, int y1, int x2, int y2, uint c)
 	Line((float)x1, (float)y2, (float)x2, (float)y2, c);
 	Line((float)x1, (float)y1, (float)x1, (float)y2, c);
 }
-//
-void Surface::Circle(int x1, int y1, float radius, uint c)
-{
-	const float2 start = { static_cast<float>(x1) ,static_cast<float>(y1)  };
-	for (int i = 0; i < 360; i++)
-	{
-		Plot(start.x + cos(i)*radius, start.y + sin(i)*(radius), c);
-	}
 
-}
+//void Surface::Circle(int x1, int y1, float radius, uint c)
+//{
+//	const float2 start = { static_cast<float>(x1) ,static_cast<float>(y1)  };
+//	for (int i = 0; i < 360; i++)
+//	{
+//		Plot(start.x + cos(i)*radius, start.y + sin(i)*(radius), c);
+//	}
+//
+//}
 
 void Surface::Bar(int x1, int y1, int x2, int y2, uint c)
 {

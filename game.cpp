@@ -21,6 +21,7 @@ void Game::Init()
 
 	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
 	//use {} for constructors calls - Erik
 	enviroment = new Sprite{
 		new Surface{
@@ -31,21 +32,22 @@ void Game::Init()
 	for (int i = 0; i < COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
+#ifdef _DEBUG
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
+#endif
 
 
 	cam.Init(float2{ 0, 700 }, enviroment);
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
 
 }
 
 void Game::Render()
 {
-
 	cam.Render(screen);
+
 	avatar.Render(screen);
 
-	//update input
 
 
 }
@@ -58,11 +60,12 @@ void Game::Update(float deltaTime)
 
 void Game::UpdateInput()
 {
+	avatar.GetInput(int2(horizontalMove, verticalMove));
+
 	if (isJumping)
 	{
 		avatar.Jump();
 	}
-	avatar.GetInput(int2(horizontalMove, verticalMove));
 
 }
 
@@ -86,10 +89,10 @@ void Game::Tick(float deltaTime)
 
 	screen->Clear(0);
 	UpdateInput();
-	if (fixedTimer.elapsed() >= 0.02f) {
+	if (fixedTimer.elapsed() >= fixedDeltaTime) {
 		//cout << deltaTime << '\n';
 		fixedTimer.reset();
-		FixedUpdate(deltaTime);
+		FixedUpdate(fixedDeltaTime);
 	}
 	Render();
 

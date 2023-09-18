@@ -1,7 +1,8 @@
 #pragma once
-#include "Scripts/Utilities/AABB.h"
 
 
+struct Box;
+struct Circle;
 
 //origin of the world {0 0}
 class Tilemap
@@ -25,6 +26,11 @@ public:
 	void DebugBox(Surface* screen) const;
 	void Render(Surface* screen);
 	void Update(float deltaTime);
+	uint GetTileColumn(float2 pos) const
+	{
+		const int ty = static_cast<int>(pos.x / TILE_SIZE);
+		return ty;
+	}
 	int GetWidth() const
 	{
 		return widthX * TILE_SIZE;
@@ -42,7 +48,6 @@ private:
 	Surface* tilePalette;
 	const int TILE_SIZE = 32;
 	const float speed = 1000;
-	int halfTilemapX, halfTilemapY;
 
 	//Transform
 };

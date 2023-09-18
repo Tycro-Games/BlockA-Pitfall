@@ -1,10 +1,14 @@
 ﻿#include "precomp.h"
 #include "Camera.h"
 
+#include <iostream>
+
+#include "Scripts/Utilities/AABB.h"
 
 
-Camera::Camera()
-= default;
+Camera::Camera(): pos(), tilemap(nullptr), maxPosX(0), maxPosY(0)
+{
+}
 
 void Camera::Init(float2 screenPos, Sprite* tilemapSurface)
 {
@@ -21,13 +25,15 @@ void Camera::Render(Surface* screen) const
 	tilemap->Draw(screen,
 		static_cast<int>(screenPos.x),
 		static_cast<int>(screenPos.y));
-	
+
 	/*TODO add camera zooming
 	 *Sprite* preRender = new Sprite(new Surface(SCRWIDTH, SCRHEIGHT), 1);
 	tilemap->DrawScaled(0, 0, SCRWIDTH/4, SCRHEIGHT/4, preRender->GetSurface());
 	preRender->Draw(screen,
 		static_cast<int>(screenPos.x),
 		static_cast<int>(screenPos.y));*/
+	screen->Box(static_cast<int>(1), static_cast<int>(1), SCRWIDTH - 1, SCRHEIGHT - 1, 255 << 16);
+
 #ifdef _DEBUG
 	screen->Box(static_cast<int>(screenPos.x), static_cast<int>(screenPos.y), SCRWIDTH - 1, SCRHEIGHT - 1, 255 << 16);
 #endif
