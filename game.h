@@ -42,7 +42,6 @@ namespace Tmpl8
 		Sprite* enviroment;
 		Camera cam;
 		Tilemap tilemaps[COUNT];
-		bool TilemapMoves();
 		Avatar avatar;
 		//input
 		int horizontalMove = 0;

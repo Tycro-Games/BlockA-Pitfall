@@ -12,8 +12,10 @@ public:
 	~Tilemap();
 	bool IsColliding(float x, float y) const;
 	bool IsColliding(float x, float y, float2& floorPos) const;
-	bool IsCollidingBox(float2 pos, AABB a);
-	bool IsCollidingBox(float2 _pos, AABB _a, float2& floorPos);
+	bool OnFloor(const Circle& c, float2& floorPos) const;
+	bool IsCollidingBox(float2 pos, const Box& a) const;
+	bool IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos);
+	bool IsCollidingCircle(float2 _pos, const Circle& _a, float2& floorPos) const;
 	void ConvertCharToInt(const char* pch, uint& numberForm);
 	void ExtractWidthHeight(const char* tilemapRaw);
 	void loadCSVFile(const char* csvPath);

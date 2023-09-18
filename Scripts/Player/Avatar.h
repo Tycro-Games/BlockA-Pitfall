@@ -12,6 +12,7 @@ public:
 	void Init(const char* spritePath, Tilemap& _tilemap, Camera& _cam);
 	void Render(Surface* screen);
 	void GetInput(int2 input);
+	void SnapToFloor(float deltaTime, float2& floorPos);
 	void Update(float deltaTime);
 	void Jump();
 	float2 GetPos() const;
@@ -30,7 +31,7 @@ private:
 	float2 velocity, pos;
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
-	const float JUMP_FORCE = 5.0f;
+	const float JUMP_FORCE = 4.0f;
 	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
 
@@ -42,9 +43,15 @@ private:
 	bool jumping = false;
 
 	//collider
-	AABB boxCollider;
-	AABB circleCollider;
-	const float2 minCollider{ -16,-16 }, maxCollider{ 16,16 };
+	const float BOX_SIZE = 8.0f;
+	const float2 BOX_POS = { 8.0f,5.0f };
+	Box boxCollider;
+
+	const float FLOOR_SIZE = 8.0f;
+	const float2 FLOOR_POS = { 7.5f,20.0f };
+	Box floorCollider ;
+	const float2 PLAYER_OFFSET = { 12.0f,3.0f };
+
 	//animation
 
 };

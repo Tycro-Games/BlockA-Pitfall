@@ -34,7 +34,7 @@ void Game::Init()
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
 
 
-	cam.Init(float2{ 0, 900 }, enviroment);
+	cam.Init(float2{ 0, 700 }, enviroment);
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], cam);
 
 }
@@ -43,10 +43,10 @@ void Game::Render()
 {
 
 	cam.Render(screen);
+	avatar.Render(screen);
 
 	//update input
 
-	avatar.Render(screen);
 
 }
 

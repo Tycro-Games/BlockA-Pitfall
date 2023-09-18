@@ -49,13 +49,30 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 	}
 	return false;
 }
+bool Tilemap::OnFloor(const Circle& c, float2& floorPos) const
+{
+	const int tx = static_cast<int>(c.c.x / TILE_SIZE);
+	const int ty = static_cast<int>(c.c.y / TILE_SIZE);
 
+
+	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
+	const size_t index = tx + ty * widthX;
+	if (tileMap[index] != 0) {
+
+		const float2 centerTile = { static_cast<float>(tx * TILE_SIZE),
+		static_cast<float>(ty * TILE_SIZE) };
+
+		floorPos = centerTile - TILE_SIZE / 2.0f;
+		return AABB::CircleCollides(c, { centerTile,TILE_SIZE / 2.0f });
+	}
+	return false;
+}
 //remade from https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
-bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
+bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
 {
 	//take the four corners of the box and check them
 
-	const AABB a = _a.At(_pos);
+	const Box a = AABB::At(_pos, _a);
 
 	//check all the corners
 	return IsColliding(a.min.x, a.min.y)
@@ -65,11 +82,11 @@ bool Tilemap::IsCollidingBox(float2 _pos, AABB _a)
 
 }
 //TODO you do not need the AABB here
-bool Tilemap::IsCollidingBox(float2 _pos, AABB _a, float2& floorPos)
+bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos)
 {
 	//take the four corners of the box and check them
 
-	const AABB a = _a.At(_pos);
+	const Box a = AABB::At(_pos, _a);
 	const float minX = a.min.x;
 	const float minY = a.min.y;
 
@@ -80,6 +97,18 @@ bool Tilemap::IsCollidingBox(float2 _pos, AABB _a, float2& floorPos)
 		|| IsColliding(minX, maxY, floorPos)
 		|| IsColliding(maxX, minY, floorPos)
 		|| IsColliding(maxX, maxY, floorPos);
+
+}
+bool Tilemap::IsCollidingCircle(float2 _pos, const Circle& _a, float2& floorPos) const
+{
+	//take the four corners of the box and check them
+
+	const Circle a = AABB::At(_pos, _a);
+
+
+	//check circle
+	return OnFloor(a, floorPos);
+
 
 }
 

@@ -1,14 +1,35 @@
 ﻿#pragma once
+
 // added source https://studiofreya.com/3d-math-and-physics/simple-aabb-vs-aabb-collision-detection/
+struct Box
+{
+	float2 min{}, max{};
+	Box() = default;
+
+	Box(const float2 min, const Tmpl8::float2 max) :
+		min(min), max(max)
+	{
+
+	}
+};
+struct Circle
+{
+	float2 c{};
+	float r{};
+	Circle() = default;
+	Circle(const float2 center, const float radius)
+		:c(center), r(radius)
+	{
+
+	}
+};
 struct AABB
 {
 
-	AABB(float2 min, float2 max);
-	AABB();
-	float2 min{}, max{};
 
-	static bool BoxCollides(AABB a, AABB b);
-	static bool InsideB(const AABB& a, const AABB& b);
-	AABB At(float2 pos) const;
-
+	static bool BoxCollides(const Box& a, const Box& b);
+	static bool CircleCollides(const Circle& a, const Circle& b);
+	static bool InsideB(const Box& a, const Box& b);
+	static Box At(float2 pos, const Box& b);
+	static Circle At(float2 pos, const Circle& b);
 };

@@ -65,6 +65,8 @@ public:
 	void LoadFromFile( const char* file );
 	void CopyTo( Surface* dst, int x, int y );
 	void Box( int x1, int y1, int x2, int y2, uint color );
+	//added a circle draw
+	void Circle(int x1, int y1, float radius, uint c);
 	void Bar( int x1, int y1, int x2, int y2, uint color );
 	// attributes
 	uint* pixels = 0;

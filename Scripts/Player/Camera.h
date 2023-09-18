@@ -12,12 +12,12 @@ public:
 	float2 GetPosition()const;
 	const float2& pGetPosition()const;
 	static bool OnScreen(float2 screenPos);
-	static bool OnScreen(float2 screenPos, const AABB& a);
+	static bool OnScreen(float2 screenPos, const Box& a);
 private:
 	float2 pos{};
 	AABB camBounds;
 	Sprite* tilemap{};
-	const float CAM_SPEED = 50.0f;
-
+	const float CAM_SPEED = 25.0f;
+	
 	float maxPosX{}, maxPosY{};
 };
