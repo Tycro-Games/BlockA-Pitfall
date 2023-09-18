@@ -56,8 +56,8 @@ void Avatar::Render(Surface* screen)
 {
 	//convert to screen position
 	const float2 camPos = cam->GetPosition();
-	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x); //center of the screen
-	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y); //bottom of the sprite;
+	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x); 
+	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y); 
 
 	if (dir.x) {
 		flipX = dir.x < 0;
