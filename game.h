@@ -21,9 +21,9 @@ namespace Tmpl8
 	{
 	public:
 
-		~Game();
+		~Game() ;
 		// game flow methods
-		void Init();
+		void Init() ;
 		void Render();
 		void Update(float deltaTime);
 		void UpdateInput();
@@ -48,7 +48,7 @@ namespace Tmpl8
 		int horizontalMove = 0;
 		int verticalMove = 0;
 		bool isJumping = false;
-		const float fixedDeltaTime=0.02f;
+		const float fixedDeltaTime = 0.02f;
 	};
 
 } // namespace Tmpl8

@@ -4,6 +4,8 @@
 
 #include "precomp.h"
 
+#include <iostream>
+
 using namespace Tmpl8;
 
 // constructor
@@ -33,7 +35,6 @@ void Sprite::Draw(Surface* target, int x, int y)
 	if (x < -width || x >(target->width + width)) return;
 	if (y < -height || y >(target->height + height)) return;
 
-
 	int x1 = x, x2 = x + width;
 	int y1 = y, y2 = y + height;
 	uint* src = GetBuffer() + currentFrame * width;
@@ -50,11 +51,22 @@ void Sprite::Draw(Surface* target, int x, int y)
 		const int h = y2 - y1;
 		for (int j = 0; j < h; j++)
 		{
+
 			const int line = j + (y1 - y);
+
+			//source for debug https://stackoverflow.com/questions/1611410/how-to-check-if-a-app-is-in-debug-or-release
+			//adds the width to lsx only on release, tile map is not visible in that case
+#if (!_DEBUG)
+			const int lsx = start[currentFrame][line] + x - width;
+#endif
+#if (_DEBUG)
 			const int lsx = start[currentFrame][line] + x;
+#endif
 			xs = (lsx > x1) ? lsx - x1 : 0;
+
 			for (int i = xs; i < w; i++)
 			{
+
 				const uint c1 = *(src + i);
 				if (c1 & 0xffffff) *(dest + addr + i) = c1; //checks for a non-empty pixel
 			}
@@ -130,4 +142,5 @@ void Sprite::InitializeStartData()
 			}
 		}
 	}
+	cout << "omot";
 }

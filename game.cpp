@@ -11,6 +11,7 @@
 Game::~Game()
 {
 	delete enviroment;
+
 }
 
 // -----------------------------------------------------------
@@ -22,12 +23,8 @@ void Game::Init()
 	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
 	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
-	//use {} for constructors calls - Erik
-	enviroment = new Sprite{
-		new Surface{
-			tilemaps[FLOOR].GetWidth(),
-		tilemaps[FLOOR].GetHeight()
-		},1 };
+
+	enviroment = new Sprite(new Surface(tilemaps[FLOOR].GetWidth(),tilemaps[FLOOR].GetHeight()),1 );
 
 	for (int i = 0; i < COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
@@ -37,15 +34,17 @@ void Game::Init()
 #endif
 
 
-	cam.Init(float2{ 0, 700 }, enviroment);
+	cam.Init(float2{ 0.0f, 700.0f }, enviroment);
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
 
 }
 
 void Game::Render()
 {
-	cam.Render(screen);
+	screen->Clear(0);
 
+
+	cam.Render(screen);
 	avatar.Render(screen);
 
 
@@ -87,7 +86,6 @@ void Game::Tick(float deltaTime)
 	deltaTime *= 0.001f;
 
 
-	screen->Clear(0);
 	UpdateInput();
 	if (fixedTimer.elapsed() >= fixedDeltaTime) {
 		//cout << deltaTime << '\n';

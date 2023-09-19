@@ -223,6 +223,9 @@ void main()
 	Shader* shader = new Shader(
 		"#version 330\nin vec4 p;\nin vec2 t;out vec2 u;void main(){u=t;gl_Position=p;}",
 		"#version 330\nuniform sampler2D c;in vec2 u;out vec4 f;void main(){f=/*sqrt*/(texture(c,u));}", true);
+	//Shader* shader = new Shader(
+	//	"Shaders/crt.vs",
+	//	"Shaders/crt.ps", false);
 #else
 	// fxaa shader
 	Shader* shader = new Shader(

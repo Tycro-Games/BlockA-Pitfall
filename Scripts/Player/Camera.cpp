@@ -10,9 +10,16 @@ Camera::Camera(): pos(), tilemap(nullptr), maxPosX(0), maxPosY(0)
 {
 }
 
+Camera::~Camera()
+{
+
+}
+
 void Camera::Init(float2 screenPos, Sprite* tilemapSurface)
 {
+
 	pos = screenPos;
+
 	tilemap = tilemapSurface;
 
 	maxPosX = static_cast<float>(tilemap->GetWidth() - SCRWIDTH - 1);
@@ -22,6 +29,7 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface)
 void Camera::Render(Surface* screen) const
 {
 	const float2 screenPos = -pos;
+
 	tilemap->Draw(screen,
 		static_cast<int>(screenPos.x),
 		static_cast<int>(screenPos.y));

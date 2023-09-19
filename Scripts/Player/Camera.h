@@ -7,6 +7,7 @@ class Camera
 {
 public:
 	Camera();
+	~Camera();
 	void Init(float2 screenPos, Sprite* tilemapSurface);
 	void Render(Surface* screen) const;
 	void UpdatePosition(float deltaTime,  float2 player_pos);
@@ -14,8 +15,8 @@ public:
 	static bool OnScreen(float2 screenPos);
 	static bool OnScreen(float2 screenPos, const Box& a);
 private:
-	float2 pos;
-	Sprite* tilemap;
+	float2 pos=0;
+	Sprite* tilemap=nullptr;
 	const float CAM_SPEED = 25.0f;
-	float maxPosX, maxPosY;
+	float maxPosX=0, maxPosY=0;
 };
