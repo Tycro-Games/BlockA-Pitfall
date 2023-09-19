@@ -64,6 +64,7 @@ void Game::UpdateInput()
 	if (isJumping)
 	{
 		avatar.Jump();
+		isJumping = false;
 	}
 
 }

@@ -142,5 +142,4 @@ void Sprite::InitializeStartData()
 			}
 		}
 	}
-	cout << "omot";
 }

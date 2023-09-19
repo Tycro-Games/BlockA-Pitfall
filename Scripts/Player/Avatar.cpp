@@ -8,7 +8,7 @@
 
 Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
 velocity(),
-pos(), lastTileColumn(0), dir()
+pos(), dir()
 {
 }
 
@@ -109,13 +109,12 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
 		return;
 	}
-	onFloor = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider, floorPos);
+	canJump = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider, floorPos);
 
-	if (onFloor) {
+	if (canJump) {
 		floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
 		pos.y = floorPos.y;
 		velocity.y = 0;
-		lastTileColumn = 100000;
 
 	}
 	//add gravity
@@ -127,6 +126,24 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 
 }
 
+void Avatar::SetState(float2 floorPos)
+{
+
+	if (climbTimer.elapsed() >= climbDelay && state == FREEMOVE &&
+		ladders->IsCollidingBox(pos, boxCollider, floorPos)) {
+		climbTimer.reset();
+		state = CLIMBPING;
+		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
+		velocity.y = 0;
+	}
+	else if (!ladders->IsCollidingBox(pos, boxCollider) && !ladders->IsCollidingBox(pos, floorCollider))
+	{
+		state = FREEMOVE;
+
+
+	}
+}
+
 void Avatar::Update(float deltaTime)
 {
 
@@ -135,7 +152,7 @@ void Avatar::Update(float deltaTime)
 	float vertical;
 	float horizontal;
 
-	float2 floorPos;
+	float2 floorPos = 0;
 	float2 newPos;
 	float newPosY;
 	float newPosX;
@@ -151,7 +168,7 @@ void Avatar::Update(float deltaTime)
 
 		newPos = pos + float2{ newPosX, 0 };
 
-		if (!floors->IsCollidingBox(newPos, boxCollider)) {
+		if (!floors->IsCollidingBox(newPos, floorCollider)) {
 			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 			{
 				pos = newPos;
@@ -162,7 +179,7 @@ void Avatar::Update(float deltaTime)
 
 		newPos = pos + float2{ 0, newPosY };
 
-		if (!floors->IsCollidingBox(newPos, boxCollider))
+		if (!floors->IsCollidingBox(newPos, floorCollider))
 		{
 			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 			{
@@ -182,47 +199,30 @@ void Avatar::Update(float deltaTime)
 	case CLIMBPING:
 		vertical = velocity.y + static_cast<float>(dir.y) * SPEED;
 		velocity.y = 0;
-		//horizontal = (velocity.x + static_cast<float>(dir.x)) * SPEED;
 
 		newPosY = vertical * deltaTime;
 
-		/*newPos = pos + float2{ newPosX, 0 };
-
-		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-		{
-			pos = newPos;
-		}*/
 
 		newPos = pos + float2{ 0, newPosY };
-
-		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-		{
-			pos = newPos;
+		if (ladders->IsCollidingBox(newPos, boxCollider)) {
+			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+			{
+				pos = newPos;
+			}
 		}
-
+		else if (!floors->IsCollidingBox(newPos, boxCollider)) {
+			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+			{
+				pos = newPos;
+			}
+		}
 
 
 		break;
 	default:
 		break;
 	}
-	const uint currentTileColumn = ladders->GetTileColumn(pos);
-
-	if (state == FREEMOVE &&
-		(ladders->IsCollidingBox(pos, boxCollider, floorPos)) &&
-		currentTileColumn != lastTileColumn) {
-
-		state = CLIMBPING;
-		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
-		velocity.y = 0;
-		lastTileColumn = currentTileColumn;
-	}
-	else if (!ladders->IsCollidingBox(pos, boxCollider) && !ladders->IsCollidingBox(pos, floorCollider))
-	{
-		state = FREEMOVE;
-
-
-	}
+	SetState(floorPos);
 
 	cam->UpdatePosition(deltaTime, newPos - CAMERA_OFFSET * flipX);
 	//cout << lastTileColumn << '\n';
@@ -234,15 +234,18 @@ void Avatar::Jump()
 {
 	//check for floor
 	if (state == CLIMBPING) {
-		velocity.y = -CLIMBING_JUMP_FORCE;
-
-		state = FREEMOVE;
+		canJump = !floors->IsCollidingBox(pos, floorCollider) &&
+			!floors->IsCollidingBox(pos, boxCollider);
+		if (canJump) {
+			velocity.y = -CLIMBING_JUMP_FORCE;
+			state = FREEMOVE;
+			climbTimer.reset();
+		}
 	}
 	else {
-		onFloor = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider) ||
-			(ladders->IsCollidingBox(pos + FLOOR_POS, floorCollider));
+		canJump = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider);
 
-		if (onFloor) {
+		if (canJump) {
 			velocity.y = -JUMP_FORCE;
 
 		}

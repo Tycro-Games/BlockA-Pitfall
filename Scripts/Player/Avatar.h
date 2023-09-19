@@ -20,6 +20,7 @@ public:
 
 private:
 	void SnapToFloor(float deltaTime, float2& floorPos);
+	void SetState(float2 floorPos);
 
 	enum playerState
 	{
@@ -41,16 +42,15 @@ private:
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
 	const float JUMP_FORCE = 4.0f;
-	const float CLIMBING_JUMP_FORCE = .2f;
+	const float CLIMBING_JUMP_FORCE = 2.0f;
 	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
-	uint lastTileColumn;
-	bool onFloor = false;
+	bool canJump = false;
 	short int flipX = false;
-
+	Timer climbTimer;
+	const float climbDelay = 0.5f;
 	//input
 	int2 dir;
-	bool jumping = false;
 
 	//collider
 	const float BOX_SIZE = 8.0f;
