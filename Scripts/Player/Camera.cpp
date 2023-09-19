@@ -56,11 +56,6 @@ float2 Camera::GetPosition() const
 {
 	return pos;
 }
-//make sure this works
-const float2& Camera::pGetPosition() const
-{
-	return pos;
-}
 
 bool Camera::OnScreen(float2 screenPos)
 {

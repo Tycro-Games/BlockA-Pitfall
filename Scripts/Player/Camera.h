@@ -9,9 +9,8 @@ public:
 	Camera();
 	void Init(float2 screenPos, Sprite* tilemapSurface);
 	void Render(Surface* screen) const;
-	void UpdatePosition(float deltaTime, const float2 player_pos);
+	void UpdatePosition(float deltaTime,  float2 player_pos);
 	float2 GetPosition()const;
-	const float2& pGetPosition()const;
 	static bool OnScreen(float2 screenPos);
 	static bool OnScreen(float2 screenPos, const Box& a);
 private:

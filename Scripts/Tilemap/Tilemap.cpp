@@ -7,8 +7,8 @@
 
 
 Tilemap::Tilemap() : widthX(0), heightY(0),
-                     tileMap{},
-                     tilePalette(nullptr)
+tileMap{},
+tilePalette(nullptr)
 {
 }
 
@@ -22,7 +22,6 @@ bool Tilemap::IsColliding(const float x, const float y) const
 {
 	const int tx = static_cast<int>(x / TILE_SIZE);
 	const int ty = static_cast<int>(y / TILE_SIZE);
-	float2 centerTile = { static_cast<float>(tx * TILE_SIZE), static_cast<float>(ty * TILE_SIZE) };
 
 	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
 	const size_t index = tx + ty * widthX;
@@ -36,7 +35,6 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 	const int ty = static_cast<int>(y / TILE_SIZE);
 
 
-	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
 	const size_t index = tx + ty * widthX;
 	if (tileMap[index] != 0) {
 
@@ -49,24 +47,7 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 	}
 	return false;
 }
-bool Tilemap::OnFloor(const Circle& c, float2& floorPos) const
-{
-	const int tx = static_cast<int>(c.c.x / TILE_SIZE);
-	const int ty = static_cast<int>(c.c.y / TILE_SIZE);
 
-
-	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
-	const size_t index = tx + ty * widthX;
-	if (tileMap[index] != 0) {
-
-		const float2 centerTile = { static_cast<float>(tx * TILE_SIZE),
-		static_cast<float>(ty * TILE_SIZE) };
-
-		floorPos = centerTile - TILE_SIZE / 2.0f;
-		return AABB::CircleCollides(c, { centerTile,TILE_SIZE / 2.0f });
-	}
-	return false;
-}
 //remade from https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
 bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
 {
@@ -81,7 +62,6 @@ bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
 		|| IsColliding(a.max.x, a.max.y);
 
 }
-//TODO you do not need the AABB here
 bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos)
 {
 	//take the four corners of the box and check them
@@ -99,18 +79,7 @@ bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos)
 		|| IsColliding(maxX, maxY, floorPos);
 
 }
-bool Tilemap::IsCollidingCircle(float2 _pos, const Circle& _a, float2& floorPos) const
-{
-	//take the four corners of the box and check them
 
-	const Circle a = AABB::At(_pos, _a);
-
-
-	//check circle
-	return OnFloor(a, floorPos);
-
-
-}
 
 void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 {
@@ -141,7 +110,7 @@ void Tilemap::ExtractWidthHeight(const char* tilemapRaw)
 	delete[] tilemap;
 }
 
-void Tilemap::loadCSVFile(const char* csvPath)
+void Tilemap::LoadCSVFile(const char* csvPath)
 {
 	//copy into a c style string
 	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
@@ -246,7 +215,7 @@ void Tilemap::Init(const char* sourceFile, const char* csvPath)
 {
 
 	tilePalette = new Surface(sourceFile);
-	loadCSVFile(csvPath);
+	LoadCSVFile(csvPath);
 
 
 }
@@ -299,13 +268,6 @@ void Tilemap::Render(Surface* screen)
 	}
 }
 
-
-
-void Tilemap::Update(float deltaTime)
-{
-
-	//nothing to do
-}
 
 
 

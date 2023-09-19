@@ -7,8 +7,8 @@
 
 
 Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
-velocity(),
-pos(), dir()
+                   velocity(),
+                   pos(), lastTileColumn(0), dir()
 {
 }
 
@@ -245,8 +245,4 @@ float2 Avatar::GetPos() const
 	return pos;
 }
 
-const float2* Avatar::GetPos()
-{
-	return &pos;
-}
 

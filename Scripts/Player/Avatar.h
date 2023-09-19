@@ -9,17 +9,18 @@ class Avatar
 public:
 	Avatar();
 	~Avatar();
+	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _tilemap, Tilemap& ropes, Camera& _cam);
+	void Init(const char* spritePath, Tilemap& _tilemap, Tilemap& _ropes, Camera& _cam);
 	void Render(Surface* screen);
 	void GetInput(int2 input);
-	void SnapToFloor(float deltaTime, float2& floorPos);
 	void Update(float deltaTime);
 	void Jump();
 	float2 GetPos() const;
-	const float2* GetPos();
 
 private:
+	void SnapToFloor(float deltaTime, float2& floorPos);
+
 	enum playerState
 	{
 		FREEMOVE,
@@ -56,8 +57,8 @@ private:
 	Box boxCollider;
 
 	const float FLOOR_SIZE = 8.0f;
-	const float2 FLOOR_POS = { 9.5f,20.0f };
 	Box floorCollider;
+	const float2 FLOOR_POS = { 9.5f,20.0f };
 	const float2 PLAYER_OFFSET = { 12.0f,3.0f };
 
 	//animation
