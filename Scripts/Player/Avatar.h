@@ -41,8 +41,8 @@ private:
 	float2 velocity, pos;
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
-	const float JUMP_FORCE = 4.0f;
-	const float CLIMBING_JUMP_FORCE = 2.0f;
+	const float JUMP_FORCE = 3.0f;
+	const float CLIMBING_JUMP_FORCE = 2.5f;
 	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
 	bool canJump = false;

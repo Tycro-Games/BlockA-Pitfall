@@ -136,7 +136,8 @@ void Avatar::SetState(float2 floorPos)
 		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
 		velocity.y = 0;
 	}
-	else if (!ladders->IsCollidingBox(pos, boxCollider) && !ladders->IsCollidingBox(pos, floorCollider))
+	else if (!ladders->IsCollidingBox(pos, boxCollider)
+		)
 	{
 		state = FREEMOVE;
 
@@ -250,7 +251,6 @@ void Avatar::Jump()
 
 		}
 	}
-
 }
 
 float2 Avatar::GetPos() const
