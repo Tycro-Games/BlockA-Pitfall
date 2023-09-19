@@ -24,7 +24,7 @@ private:
 	enum playerState
 	{
 		FREEMOVE,
-		LADDER,
+		CLIMBPING,
 		COUNT
 	}state;
 	//base for general sprite class and render
@@ -41,9 +41,10 @@ private:
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
 	const float JUMP_FORCE = 4.0f;
+	const float CLIMBING_JUMP_FORCE = .2f;
 	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
-	int lastTileColumn;
+	uint lastTileColumn;
 	bool onFloor = false;
 	short int flipX = false;
 

@@ -7,8 +7,8 @@
 
 
 Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
-                   velocity(),
-                   pos(), lastTileColumn(0), dir()
+velocity(),
+pos(), lastTileColumn(0), dir()
 {
 }
 
@@ -56,8 +56,8 @@ void Avatar::Render(Surface* screen)
 {
 	//convert to screen position
 	const float2 camPos = cam->GetPosition();
-	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x); 
-	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y); 
+	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
+	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
 
 	if (dir.x) {
 		flipX = dir.x < 0;
@@ -115,6 +115,8 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 		floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
 		pos.y = floorPos.y;
 		velocity.y = 0;
+		lastTileColumn = 100000;
+
 	}
 	//add gravity
 	else
@@ -122,7 +124,6 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 
 		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
 	}
-	lastTileColumn = -1;
 
 }
 
@@ -159,7 +160,7 @@ void Avatar::Update(float deltaTime)
 		}
 
 
-		newPos = pos + float2{ 0,newPosY };
+		newPos = pos + float2{ 0, newPosY };
 
 		if (!floors->IsCollidingBox(newPos, boxCollider))
 		{
@@ -178,7 +179,7 @@ void Avatar::Update(float deltaTime)
 		SnapToFloor(deltaTime, floorPos);
 
 		break;
-	case LADDER:
+	case CLIMBPING:
 		vertical = velocity.y + static_cast<float>(dir.y) * SPEED;
 		velocity.y = 0;
 		//horizontal = (velocity.x + static_cast<float>(dir.x)) * SPEED;
@@ -192,7 +193,7 @@ void Avatar::Update(float deltaTime)
 			pos = newPos;
 		}*/
 
-		newPos = pos + float2{ 0,newPosY };
+		newPos = pos + float2{ 0, newPosY };
 
 		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 		{
@@ -207,13 +208,16 @@ void Avatar::Update(float deltaTime)
 	}
 	const uint currentTileColumn = ladders->GetTileColumn(pos);
 
-	if (state == FREEMOVE && ladders->IsCollidingBox(pos, boxCollider) && currentTileColumn != lastTileColumn) {
+	if (state == FREEMOVE &&
+		(ladders->IsCollidingBox(pos, boxCollider, floorPos)) &&
+		currentTileColumn != lastTileColumn) {
 
-		state = LADDER;
+		state = CLIMBPING;
+		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
 		velocity.y = 0;
 		lastTileColumn = currentTileColumn;
 	}
-	else if (!ladders->IsCollidingBox(pos, boxCollider))
+	else if (!ladders->IsCollidingBox(pos, boxCollider) && !ladders->IsCollidingBox(pos, floorCollider))
 	{
 		state = FREEMOVE;
 
@@ -229,13 +233,19 @@ void Avatar::Update(float deltaTime)
 void Avatar::Jump()
 {
 	//check for floor
-	onFloor = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider) ||
-		(ladders->IsCollidingBox(pos + FLOOR_POS, floorCollider));
-
-	if (onFloor) {
-		velocity.y = -JUMP_FORCE;
+	if (state == CLIMBPING) {
+		velocity.y = -CLIMBING_JUMP_FORCE;
 
 		state = FREEMOVE;
+	}
+	else {
+		onFloor = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider) ||
+			(ladders->IsCollidingBox(pos + FLOOR_POS, floorCollider));
+
+		if (onFloor) {
+			velocity.y = -JUMP_FORCE;
+
+		}
 	}
 
 }
