@@ -56,14 +56,7 @@ void Sprite::Draw(Surface* target, int x, int y)
 
 			const int line = j + (y1 - y);
 
-			//source for debug https://stackoverflow.com/questions/1611410/how-to-check-if-a-app-is-in-debug-or-release
-			//adds the width to lsx only on release, tile map is not visible in that case
-//#if (!_DEBUG)
-//			const int lsx = start[currentFrame][line] + x - width;
-//#endif
-//#if (_DEBUG)
-//			
-//#endif
+
 			const int lsx = start[currentFrame][line] + x;//template optimization
 			xs = (lsx > x1) ? lsx - x1 : 0;
 			for (int i = xs; i < w; i++)

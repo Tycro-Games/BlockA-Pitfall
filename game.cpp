@@ -50,10 +50,11 @@ void Game::Render()
 {
 	screen->Clear(0);
 
+
+
 	cam.Render(screen);
-
-	avatar.Render(screen);
-
+	avatar.Render(cam.pGetPreRender());
+	cam.RenderToScreen(screen);
 
 
 }
