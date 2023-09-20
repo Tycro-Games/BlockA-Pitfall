@@ -1,6 +1,5 @@
 #pragma once
-#include "Scripts/Tilemap/Tilemap.h"
-#include "Scripts/Utilities/AABB.h"
+
 
 class Camera;
 
@@ -38,7 +37,8 @@ private:
 
 
 	//physics
-	float2 velocity, pos;
+	float2 velocity;
+	float2 pos;
 	const float2 CAMERA_OFFSET = { 100 ,0 };
 	const float GRAVITY = 9.8f;
 	const float JUMP_FORCE = 3.0f;

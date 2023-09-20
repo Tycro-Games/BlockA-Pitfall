@@ -23,12 +23,16 @@ void Game::Init()
 	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
 	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
-
-	enviroment = new Sprite(new Surface(tilemaps[FLOOR].GetWidth(),tilemaps[FLOOR].GetHeight()),1 );
+	//it gets owned by the sprite so we don't have to delete it
+	Surface* surf = new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight());
+	//make it white so the optimization of the sprite still draws it.
+	surf->Clear(0xFFF);
+	enviroment = new Sprite(surf, 1);
 
 	for (int i = 0; i < COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
+
 #ifdef _DEBUG
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
 #endif

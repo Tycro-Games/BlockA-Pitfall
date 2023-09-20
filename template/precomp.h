@@ -57,7 +57,10 @@ using namespace std;
 // template headers
 #include "surface.h"
 #include "sprite.h"
-
+//my header
+#include "./Scripts/Tilemap/Tilemap.h"
+#include "./Scripts/Utilities/AABB.h"
+#include "./Scripts/Player/Camera.h"
 // namespaces
 using namespace Tmpl8;
 

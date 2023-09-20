@@ -40,7 +40,7 @@ namespace Tmpl8
 		// data members
 		int2 mousePos;
 		//entities
-		Sprite* enviroment;
+		 Sprite* enviroment;
 		Camera cam;
 		Tilemap tilemaps[COUNT];
 		Avatar avatar;
