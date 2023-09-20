@@ -4,13 +4,12 @@
 
 #pragma once
 
-#include "Scripts/Player/Avatar.h"
-#include "Scripts/Player/Camera.h"
-#include "Scripts/Tilemap/Tilemap.h"
+
 namespace Tmpl8
 {
 	enum TilemapType
 	{
+		PARALLAX,
 		BG,
 		FLOOR,
 		LADDERS,
@@ -21,9 +20,9 @@ namespace Tmpl8
 	{
 	public:
 
-		~Game() ;
+		~Game();
 		// game flow methods
-		void Init() ;
+		void Init();
 		void Render();
 		void Update(float deltaTime);
 		void UpdateInput();
@@ -40,7 +39,8 @@ namespace Tmpl8
 		// data members
 		int2 mousePos;
 		//entities
-		 Sprite* enviroment;
+		Sprite* enviroment;
+		Sprite* parallaxSprite;
 		Camera cam;
 		Tilemap tilemaps[COUNT];
 		Avatar avatar;

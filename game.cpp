@@ -11,7 +11,7 @@
 Game::~Game()
 {
 	delete enviroment;
-
+	delete parallaxSprite;
 }
 
 // -----------------------------------------------------------
@@ -19,26 +19,29 @@ Game::~Game()
 // -----------------------------------------------------------
 void Game::Init()
 {
-
+	tilemaps[PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
 	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
 	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
 	//it gets owned by the sprite so we don't have to delete it
 	Surface* surf = new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight());
-	//make it white so the optimization of the sprite still draws it.
-	surf->Clear(0xFFF);
-	enviroment = new Sprite(surf, 1);
 
-	for (int i = 0; i < COUNT; i++) {
+	Surface* par = new Surface(tilemaps[PARALLAX].GetWidth(), tilemaps[PARALLAX].GetHeight());
+	par->Clear(0x000001);
+	surf->Clear(0xFF000000);
+	enviroment = new Sprite(surf, 1);
+	parallaxSprite = new Sprite(par, 1);
+	for (int i = BG; i < COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
-
+	tilemaps[PARALLAX].Render(parallaxSprite->GetSurface());
+	
 #ifdef _DEBUG
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
+	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
 
-	cam.Init(float2{ 0.0f, 700.0f }, enviroment);
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
 
 }
@@ -47,8 +50,8 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-
 	cam.Render(screen);
+
 	avatar.Render(screen);
 
 

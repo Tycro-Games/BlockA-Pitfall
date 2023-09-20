@@ -96,7 +96,6 @@ void Sprite::InitializeStartData()
 {
 	for (unsigned int f = 0; f < numFrames; ++f)
 	{
-		cout << start << '\n';
 		start[f] = new unsigned int[height];
 
 		for (int y = 0; y < height; ++y)

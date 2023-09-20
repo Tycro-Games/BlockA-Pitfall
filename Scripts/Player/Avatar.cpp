@@ -1,19 +1,19 @@
 #include "precomp.h"
 #include "Avatar.h"
 
-#include <iostream>
 
-#include "Camera.h"
 
 
 Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
 velocity(),
 pos(), dir()
 {
+	climbTimer = new Timer();
 }
 
 Avatar::~Avatar()
 {
+	delete climbTimer;
 	delete sprite;
 	delete spriteFlipped;
 }
@@ -129,9 +129,9 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 void Avatar::SetState(float2 floorPos)
 {
 
-	if (climbTimer.elapsed() >= climbDelay && state == FREEMOVE &&
+	if (climbTimer->elapsed() >= climbDelay && state == FREEMOVE &&
 		ladders->IsCollidingBox(pos, boxCollider, floorPos)) {
-		climbTimer.reset();
+		climbTimer->reset();
 		state = CLIMBPING;
 		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
 		velocity.y = 0;
@@ -240,7 +240,7 @@ void Avatar::Jump()
 		if (canJump) {
 			velocity.y = -CLIMBING_JUMP_FORCE;
 			state = FREEMOVE;
-			climbTimer.reset();
+			climbTimer->reset();
 		}
 	}
 	else {

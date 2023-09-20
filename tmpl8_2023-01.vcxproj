@@ -146,6 +146,7 @@
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Scripts\Player\Camera.cpp" />
+    <ClCompile Include="Scripts\Tilemap\Parallax.cpp" />
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Scripts\Player\Camera.h" />
+    <ClInclude Include="Scripts\Tilemap\Parallax.h" />
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />

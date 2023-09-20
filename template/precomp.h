@@ -13,7 +13,8 @@
 #include <vector>				// standard template library std::vector
 #include <list>					// standard template library std::list
 #include <algorithm>			// standard algorithms for stl containers
-#include <string>				// strings
+#include <string>
+#include  <iostream>// strings
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
@@ -61,6 +62,11 @@ using namespace std;
 #include "./Scripts/Tilemap/Tilemap.h"
 #include "./Scripts/Utilities/AABB.h"
 #include "./Scripts/Player/Camera.h"
+#include "./Scripts/Tilemap/Tilemap.h"
+#include "./Scripts/Player/Avatar.h"
+#include "./Scripts/Tilemap/Parallax.h"
+#include "Scripts/Tilemap/Parallax.h"
+
 // namespaces
 using namespace Tmpl8;
 
@@ -162,7 +168,7 @@ protected:
 class JobThread
 {
 public:
-	void CreateAndStartThread( unsigned int threadId );
+	void CreateAndStartThread(unsigned int threadId);
 	void Go();
 	void BackgroundTask();
 	HANDLE m_GoSignal, m_ThreadHandle;
@@ -171,16 +177,16 @@ public:
 class JobManager	// singleton class!
 {
 protected:
-	JobManager( unsigned int numThreads );
+	JobManager(unsigned int numThreads);
 public:
 	~JobManager();
-	static void CreateJobManager( unsigned int numThreads );
+	static void CreateJobManager(unsigned int numThreads);
 	static JobManager* GetJobManager();
-	static void GetProcessorCount( uint& cores, uint& logical );
-	void AddJob2( Job* a_Job );
+	static void GetProcessorCount(uint& cores, uint& logical);
+	void AddJob2(Job* a_Job);
 	unsigned int GetNumThreads() { return m_NumThreads; }
 	void RunJobs();
-	void ThreadDone( unsigned int n );
+	void ThreadDone(unsigned int n);
 	int MaxConcurrent() { return m_NumThreads; }
 protected:
 	friend class JobThread;
@@ -194,13 +200,13 @@ protected:
 };
 
 // forward declaration of helper functions
-void FatalError( const char* fmt, ... );
-bool FileIsNewer( const char* file1, const char* file2 );
-bool FileExists( const char* f );
-bool RemoveFile( const char* f );
-string TextFileRead( const char* _File );
-int LineCount( const string s );
-void TextFileWrite( const string& text, const char* _File );
+void FatalError(const char* fmt, ...);
+bool FileIsNewer(const char* file1, const char* file2);
+bool FileExists(const char* f);
+bool RemoveFile(const char* f);
+string TextFileRead(const char* _File);
+int LineCount(const string s);
+void TextFileWrite(const string& text, const char* _File);
 
 // global project settigs; shared with OpenCL.
 // If you change these a lot, consider moving the include out of precomp.h.
@@ -211,7 +217,7 @@ void TextFileWrite( const string& text, const char* _File );
 #define cpuid(info, x) __cpuidex(info, x, 0)
 #else
 #include <cpuid.h>
-void cpuid( int info[4], int InfoType ) { __cpuid_count( InfoType, 0, info[0], info[1], info[2], info[3] ); }
+void cpuid(int info[4], int InfoType) { __cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]); }
 #endif
 class CPUCaps // from https://github.com/Mysticial/FeatureDetector
 {
@@ -239,14 +245,14 @@ public:
 	CPUCaps()
 	{
 		int info[4];
-		cpuid( info, 0 );
+		cpuid(info, 0);
 		int nIds = info[0];
-		cpuid( info, 0x80000000 );
+		cpuid(info, 0x80000000);
 		unsigned nExIds = info[0];
 		// detect cpu features
 		if (nIds >= 0x00000001)
 		{
-			cpuid( info, 0x00000001 );
+			cpuid(info, 0x00000001);
 			HW_MMX = (info[3] & ((int)1 << 23)) != 0;
 			HW_SSE = (info[3] & ((int)1 << 25)) != 0;
 			HW_SSE2 = (info[3] & ((int)1 << 26)) != 0;
@@ -261,7 +267,7 @@ public:
 		}
 		if (nIds >= 0x00000007)
 		{
-			cpuid( info, 0x00000007 );
+			cpuid(info, 0x00000007);
 			HW_AVX2 = (info[1] & ((int)1 << 5)) != 0;
 			HW_BMI1 = (info[1] & ((int)1 << 3)) != 0;
 			HW_BMI2 = (info[1] & ((int)1 << 8)) != 0;
@@ -280,7 +286,7 @@ public:
 		}
 		if (nExIds >= 0x80000001)
 		{
-			cpuid( info, 0x80000001 );
+			cpuid(info, 0x80000001);
 			HW_x64 = (info[3] & ((int)1 << 29)) != 0;
 			HW_ABM = (info[2] & ((int)1 << 5)) != 0;
 			HW_SSE4a = (info[2] & ((int)1 << 6)) != 0;
@@ -296,14 +302,14 @@ class TheApp
 public:
 	virtual ~TheApp() = default;
 	virtual void Init() = 0;
-	virtual void Tick( float deltaTime ) = 0;
+	virtual void Tick(float deltaTime) = 0;
 	virtual void Shutdown() = 0;
-	virtual void MouseUp( int button ) = 0;
-	virtual void MouseDown( int button ) = 0;
-	virtual void MouseMove( int x, int y ) = 0;
-	virtual void MouseWheel( float y ) = 0;
-	virtual void KeyUp( int key ) = 0;
-	virtual void KeyDown( int key ) = 0;
+	virtual void MouseUp(int button) = 0;
+	virtual void MouseDown(int button) = 0;
+	virtual void MouseMove(int x, int y) = 0;
+	virtual void MouseWheel(float y) = 0;
+	virtual void KeyUp(int key) = 0;
+	virtual void KeyDown(int key) = 0;
 	Surface* screen = nullptr;
 };
 

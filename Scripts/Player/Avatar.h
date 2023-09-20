@@ -1,6 +1,7 @@
 #pragma once
 
 
+struct Timer;
 class Camera;
 
 class Avatar
@@ -47,7 +48,7 @@ private:
 	const uint NUMBER_FRAMES = 10;
 	bool canJump = false;
 	short int flipX = false;
-	Timer climbTimer;
+	Timer* climbTimer;
 	const float climbDelay = 0.5f;
 	//input
 	int2 dir;
