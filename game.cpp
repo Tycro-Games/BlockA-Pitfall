@@ -52,7 +52,7 @@ void Game::Render()
 
 
 
-	cam.Render(screen);
+	cam.RenderTilemaps(screen);
 	avatar.Render(cam.pGetPreRender());
 	cam.RenderToScreen(screen);
 
@@ -62,6 +62,7 @@ void Game::Render()
 void Game::Update(float deltaTime)
 {
 	//do something every frame
+	cam.Update(deltaTime);
 }
 
 
@@ -106,6 +107,11 @@ void Game::Tick(float deltaTime)
 
 
 	Update(deltaTime);
+}
+
+void Game::MouseWheel(float wheelDirection)
+{
+	cam.GetInput(wheelDirection);
 }
 
 void Game::KeyUp(int key)

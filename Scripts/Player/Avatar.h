@@ -40,7 +40,7 @@ private:
 	//physics
 	float2 velocity;
 	float2 pos;
-	const float2 CAMERA_OFFSET = { 100 ,0 };
+	const float2 CAMERA_OFFSET = { 100 ,-50 };
 	const float GRAVITY = 9.8f;
 	const float JUMP_FORCE = 3.0f;
 	const float CLIMBING_JUMP_FORCE = 2.5f;

@@ -14,13 +14,27 @@ Camera::~Camera()
 	delete preRender;
 }
 
+void Camera::GetInput(float input)
+{
+	inputScaling = input;
+
+}
+
 void Camera::SetCameraScale(const float cameraScale)
 {
-	currentCameraScale = cameraScale;
+
+	currentCameraScale = clamp(cameraScale, MIN_SCALE, MAX_SCALE);
+
 	resX = currentCameraScale * SCRWIDTH;
 	resY = currentCameraScale * SCRHEIGHT;
 	maxPosX = static_cast<float>(tilemap->GetWidth()) - resX - 1;
 	maxPosY = static_cast<float>(tilemap->GetHeight()) - resY - 1;
+
+	//we need a new surface for rendering
+	delete preRender;
+	Surface* s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
+	s->Clear(0xff000000);
+	preRender = new Sprite(s, 1);
 }
 
 void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface)
@@ -28,14 +42,12 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 
 	pos = screenPos;
 	tilemap = tilemapSurface;
-
+	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
-
-
-	Surface* s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
-	s->Clear(0xff000000);
 	parallax = new Parallax(parallaxSurface, &pos);
-	preRender = new Sprite(s, 1);
+
+
+
 
 
 }
@@ -43,10 +55,9 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 void Camera::RenderToScreen(Surface* screen) const
 {
 	preRender->DrawScaled(0, 0, SCRWIDTH, SCRHEIGHT, screen);
-	//preRender->Draw(screen, 0, 0);
 }
 
-void Camera::Render(Surface* screen) const
+void Camera::RenderTilemaps(Surface* screen) const
 {
 
 	const float2 screenPos = -(pos);//-float2{ SCRWIDTH / 2, SCRHEIGHT / 2 };
@@ -63,17 +74,28 @@ void Camera::Render(Surface* screen) const
 void Camera::UpdatePosition(float deltaTime, float2 playerPos, float2 leftOrRight)
 {
 	//apply camera scaling to the offset
-	const float2 cameraOffset = playerPos - leftOrRight*currentCameraScale;
-	const float2 newPos = lerp(pos, (cameraOffset - float2{ resX / 2, resY / 2 }), deltaTime* CAM_SPEED);
+	const float2 cameraOffset = playerPos - leftOrRight * currentCameraScale;
+	const float2 halfScreen{ resX / 2, resY / 2 };
+	const float2 newPos = lerp(pos, (cameraOffset - halfScreen), deltaTime * CAM_SPEED);
 
 	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;
 	pos.y = newPos.y < 0 ? 0 : newPos.y > maxPosY ? maxPosY : newPos.y;
+
 	parallax->Update(deltaTime);
 }
 
 float2 Camera::GetPosition() const
 {
 	return pos;
+}
+
+void Camera::Update(float deltaTime)
+{
+	if (inputScaling) {
+		const float step = -inputScaling * INCREMENT_SCALE;
+		SetCameraScale(lerp(currentCameraScale, step + currentCameraScale,deltaTime*ZOOMING_SPEED ));
+		inputScaling = 0;
+	}
 }
 
 bool Camera::OnScreen(float2 screenPos)

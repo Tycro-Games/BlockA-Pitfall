@@ -60,9 +60,9 @@ void Avatar::Render(Surface* screen)
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
 
 	if (dir.x) {
-		flipX = -dir.x ;
+		flipX = -dir.x;
 	}
-	
+
 	if (flipX > 0)
 		spriteFlipped->Draw(screen, x, y);
 	else
@@ -227,7 +227,8 @@ void Avatar::Update(float deltaTime)
 	}
 	SetState(floorPos);
 
-	cam->UpdatePosition(deltaTime, newPos, CAMERA_OFFSET * static_cast<float2>(flipX) );
+	cam->UpdatePosition(deltaTime, newPos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
+		CAMERA_OFFSET.y });
 
 
 
