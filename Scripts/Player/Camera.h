@@ -11,7 +11,7 @@ public:
 	void GetInput(float input);
 	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
 	void RenderToScreen(Surface* screen) const;
-	void RenderTilemaps(Surface* screen) const;
+	void RenderTilemaps() const;
 	void UpdatePosition(float deltaTime, float2 playerPos, const float2 leftOrRight);
 	float2 GetPosition()const;
 	void Update(float deltaTime);

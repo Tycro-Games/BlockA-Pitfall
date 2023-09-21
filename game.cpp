@@ -51,8 +51,7 @@ void Game::Render()
 	screen->Clear(0);
 
 
-
-	cam.RenderTilemaps(screen);
+	cam.RenderTilemaps();
 	avatar.Render(cam.pGetPreRender());
 	cam.RenderToScreen(screen);
 

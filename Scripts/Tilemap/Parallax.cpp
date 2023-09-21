@@ -18,6 +18,10 @@ void Parallax::Render(Surface* screen)
 
 void Parallax::Update(float deltaTime)
 {
-	pos += (-*pCamPosition + lastCamPosition) * SPEED * deltaTime;
+	const float2 dir = (-*pCamPosition + lastCamPosition);
+	//prevent -nan(ind) by checking magnitude non zero
+	if (sqrLength(dir) > 0)//more efficient than length by not doing sqrtf  
+		normalize(dir);
+	pos += dir * SPEED * deltaTime;
 	lastCamPosition = *pCamPosition;
 }

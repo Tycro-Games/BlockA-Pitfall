@@ -33,6 +33,7 @@ void Camera::SetCameraScale(const float cameraScale)
 	//we need a new surface for rendering
 	delete preRender;
 	Surface* s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
+	//clean it so the sprite optimization still draws it
 	s->Clear(0xff000000);
 	preRender = new Sprite(s, 1);
 }
@@ -54,20 +55,20 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 
 void Camera::RenderToScreen(Surface* screen) const
 {
-	preRender->DrawScaled(0, 0, SCRWIDTH, SCRHEIGHT, screen);
+	preRender->DrawScaled(0, 0,
+		SCRWIDTH, SCRHEIGHT,
+		screen);
 }
 
-void Camera::RenderTilemaps(Surface* screen) const
+void Camera::RenderTilemaps() const
 {
 
-	const float2 screenPos = -(pos);//-float2{ SCRWIDTH / 2, SCRHEIGHT / 2 };
+	const float2 screenPos = -pos;
 	preRender->GetSurface()->Clear(0);
 
 	parallax->Render(preRender->GetSurface());
-	tilemap->Draw(preRender->GetSurface(), screenPos.x, screenPos.y);
-
-
-
+	tilemap->Draw(preRender->GetSurface(),
+		screenPos.x, screenPos.y);
 
 }
 
@@ -93,7 +94,7 @@ void Camera::Update(float deltaTime)
 {
 	if (inputScaling) {
 		const float step = -inputScaling * INCREMENT_SCALE;
-		SetCameraScale(lerp(currentCameraScale, step + currentCameraScale,deltaTime*ZOOMING_SPEED ));
+		SetCameraScale(lerp(currentCameraScale, step + currentCameraScale, deltaTime * ZOOMING_SPEED));
 		inputScaling = 0;
 	}
 }
