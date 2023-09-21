@@ -4,7 +4,7 @@
 
 
 
-Camera::Camera() : pos(), tilemap(nullptr), maxPosX(0), maxPosY(0)
+Camera::Camera() : pos()
 {
 }
 
@@ -14,18 +14,30 @@ Camera::~Camera()
 	delete preRender;
 }
 
+void Camera::SetCameraScale(const float cameraScale)
+{
+	currentCameraScale = cameraScale;
+	resX = currentCameraScale * SCRWIDTH;
+	resY = currentCameraScale * SCRHEIGHT;
+	maxPosX = static_cast<float>(tilemap->GetWidth()) - resX - 1;
+	maxPosY = static_cast<float>(tilemap->GetHeight()) - resY - 1;
+}
+
 void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface)
 {
 
 	pos = screenPos;
-	Surface* s = new Surface(SCRWIDTH/2, SCRHEIGHT);
-	s->Clear(0xff000000);
-
-	preRender = new Sprite(s, 1);
 	tilemap = tilemapSurface;
+
+	SetCameraScale(DEFAULT_CAMERA_SCALE);
+
+
+	Surface* s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
+	s->Clear(0xff000000);
 	parallax = new Parallax(parallaxSurface, &pos);
-	maxPosX = static_cast<float>(tilemap->GetWidth() - SCRWIDTH - 1);
-	maxPosY = static_cast<float>(tilemap->GetHeight() - SCRHEIGHT - 1);
+	preRender = new Sprite(s, 1);
+
+
 }
 
 void Camera::RenderToScreen(Surface* screen) const
@@ -36,38 +48,23 @@ void Camera::RenderToScreen(Surface* screen) const
 
 void Camera::Render(Surface* screen) const
 {
-	//TODO offset everything by the scale amount
-	const float2 screenPos = -pos;//-float2{ SCRWIDTH / 2, SCRHEIGHT / 2 };
+
+	const float2 screenPos = -(pos);//-float2{ SCRWIDTH / 2, SCRHEIGHT / 2 };
 	preRender->GetSurface()->Clear(0);
 
 	parallax->Render(preRender->GetSurface());
 	tilemap->Draw(preRender->GetSurface(), screenPos.x, screenPos.y);
 
-	/*tilemap->DrawScaled(screen,
-		static_cast<int>(screenPos.x),
-		static_cast<int>(screenPos.y));*/
-		//preRender->CopyTo(screen, 0, 0);
 
 
-		/*TODO add camera zooming
-		 *Sprite* preRender = new Sprite(new Surface(SCRWIDTH, SCRHEIGHT), 1);
-		tilemap->DrawScaled(0, 0, SCRWIDTH/4, SCRHEIGHT/4, preRender->GetSurface());
-		preRender->Draw(screen,
-			static_cast<int>(screenPos.x),
-			static_cast<int>(screenPos.y));*/
-	screen->Box(static_cast<int>(1), static_cast<int>(1), SCRWIDTH - 1, SCRHEIGHT - 1, 255 << 16);
 
-	//source for debug https://stackoverflow.com/questions/1611410/how-to-check-if-a-app-is-in-debug-or-release
-
-#ifdef _DEBUG
-	screen->Box(static_cast<int>(screenPos.x), static_cast<int>(screenPos.y), SCRWIDTH - 1, SCRHEIGHT - 1, 255 << 16);
-#endif
 }
 
-void Camera::UpdatePosition(float deltaTime, float2 player_pos)
+void Camera::UpdatePosition(float deltaTime, float2 playerPos, float2 leftOrRight)
 {
-
-	const float2 newPos = lerp(pos, (player_pos - float2{ SCRWIDTH / 2, SCRHEIGHT / 2 }), deltaTime * CAM_SPEED);
+	//apply camera scaling to the offset
+	const float2 cameraOffset = playerPos - leftOrRight*currentCameraScale;
+	const float2 newPos = lerp(pos, (cameraOffset - float2{ resX / 2, resY / 2 }), deltaTime* CAM_SPEED);
 
 	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;
 	pos.y = newPos.y < 0 ? 0 : newPos.y > maxPosY ? maxPosY : newPos.y;

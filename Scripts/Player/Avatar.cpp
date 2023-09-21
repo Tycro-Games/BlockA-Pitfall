@@ -60,8 +60,9 @@ void Avatar::Render(Surface* screen)
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
 
 	if (dir.x) {
-		flipX = dir.x < 0;
+		flipX = -dir.x ;
 	}
+	
 	if (flipX > 0)
 		spriteFlipped->Draw(screen, x, y);
 	else
@@ -69,6 +70,7 @@ void Avatar::Render(Surface* screen)
 		sprite->Draw(screen, x, y);
 
 	}
+	//source for debug https://stackoverflow.com/questions/1611410/how-to-check-if-a-app-is-in-debug-or-release
 
 #ifdef _DEBUG
 
@@ -109,7 +111,7 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
 		return;
 	}
-	canJump = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider, floorPos);
+	canJump = floors->IsCollidingBox(pos, floorCollider, floorPos);
 
 	if (canJump) {
 		floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
@@ -169,7 +171,7 @@ void Avatar::Update(float deltaTime)
 
 		newPos = pos + float2{ newPosX, 0 };
 
-		if (!floors->IsCollidingBox(newPos, floorCollider)) {
+		if (!floors->IsCollidingBox(newPos, floorCollider) && !floors->IsCollidingBox(newPos, boxCollider)) {
 			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
 			{
 				pos = newPos;
@@ -192,8 +194,8 @@ void Avatar::Update(float deltaTime)
 		else
 		{
 			velocity.y = 0;//hit something up so stop velocity
-
 		}
+
 		SnapToFloor(deltaTime, floorPos);
 
 		break;
@@ -225,8 +227,9 @@ void Avatar::Update(float deltaTime)
 	}
 	SetState(floorPos);
 
-	cam->UpdatePosition(deltaTime, newPos - CAMERA_OFFSET * flipX);
-	//cout << lastTileColumn << '\n';
+	cam->UpdatePosition(deltaTime, newPos, CAMERA_OFFSET * static_cast<float2>(flipX) );
+
+
 
 }
 
