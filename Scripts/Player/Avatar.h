@@ -4,7 +4,7 @@
 struct Timer;
 class Camera;
 
-struct Input {
+inline struct Input {
 	int2 arrowKeys = { 0 };
 	bool jumping = false;
 }input;
