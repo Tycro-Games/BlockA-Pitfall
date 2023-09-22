@@ -100,9 +100,10 @@ void Avatar::Render(Surface* screen)
 
 }
 
-void Avatar::GetInput(int2 input)
+void Avatar::SetInput(int2 _input)
 {
-	dir = (input);
+	input.arrowKeys = _input;
+	dir = (_input);
 }
 
 void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
@@ -149,14 +150,12 @@ void Avatar::SetState(float2 floorPos)
 
 void Avatar::Update(float deltaTime)
 {
-
-
 	//get input and velocity
 	float vertical;
 	float horizontal;
 
 	float2 floorPos = 0;
-	float2 newPos;
+	float2 newPos = 0;
 	float newPosY;
 	float newPosX;
 
@@ -164,7 +163,7 @@ void Avatar::Update(float deltaTime)
 	switch (state)
 	{
 	case FREEMOVE:
-		horizontal = (velocity.x + static_cast<float>(dir.x)) * SPEED;
+		horizontal = (velocity.x + static_cast<float>(input.arrowKeys.x)) * SPEED;
 		vertical = velocity.y * SPEED;
 		newPosX = horizontal * deltaTime;
 		newPosY = vertical * deltaTime;
@@ -235,8 +234,11 @@ void Avatar::Update(float deltaTime)
 }
 
 
-void Avatar::Jump()
+void Avatar::SetJumpInput(bool jumpInput)
 {
+	input.jumping = jumpInput;
+	if (!jumpInput)
+		return;
 	//check for floor
 	if (state == CLIMBPING) {
 		canJump = !floors->IsCollidingBox(pos, floorCollider) &&
@@ -260,6 +262,46 @@ void Avatar::Jump()
 float2 Avatar::GetPos() const
 {
 	return pos;
+}
+
+float2 Avatar::GetVelocity() const
+{
+	return velocity;
+}
+
+void Avatar::SetVelocity(float2 _velocity)
+{
+	velocity = _velocity;
+}
+
+float Avatar::GetSpeed() const
+{
+	return SPEED;
+}
+
+Tilemap* Avatar::GetFloors() const
+{
+	return floors;
+}
+
+Tilemap* Avatar::GetLadders() const
+{
+	return ladders;
+}
+
+Camera* Avatar::GetCamera() const
+{
+	return cam;
+}
+
+Box Avatar::GetFloorCollider()
+{
+	return floorCollider;
+}
+
+Box Avatar::GetBoxCollider()
+{
+	return boxCollider;
 }
 
 

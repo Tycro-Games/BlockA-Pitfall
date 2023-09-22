@@ -59,13 +59,19 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 //my header
-#include "./Scripts/Tilemap/Tilemap.h"
-#include "./Scripts/Utilities/AABB.h"
-#include "./Scripts/Player/Camera.h"
-#include "./Scripts/Tilemap/Tilemap.h"
-#include "./Scripts/Player/Avatar.h"
-#include "./Scripts/Tilemap/Parallax.h"
+#include "Scripts/Tilemap/Tilemap.h"
+#include "Scripts/Utilities/AABB.h"
+#include "Scripts/Utilities/MathLibrary.h"
+#include "Scripts/Player/Camera.h"
+#include "Scripts/Tilemap/Tilemap.h"
+#include "Scripts/Player/Avatar.h"
 #include "Scripts/Tilemap/Parallax.h"
+//FSM
+#include "Scripts/Utilities/StateManager.h"
+#include "Scripts/Utilities/State.h"
+#include "Scripts/Player/States/FreemovingState.h"
+#include "Scripts/Player/States/ClimbingState.h"
+#include "Scripts/Player/States/JumpingState.h"
 
 // namespaces
 using namespace Tmpl8;

@@ -35,7 +35,7 @@ void Game::Init()
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
 	tilemaps[PARALLAX].Render(parallaxSprite->GetSurface());
-	
+
 #ifdef _DEBUG
 	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
 #endif
@@ -67,15 +67,14 @@ void Game::Update(float deltaTime)
 
 void Game::UpdateInput()
 {
-	avatar.GetInput(int2(horizontalMove, verticalMove));
+	avatar.SetInput(int2(horizontalMove, verticalMove));
 
-	if (isJumping)
-	{
-		avatar.Jump();
-		isJumping = false;
-	}
 
+	avatar.SetJumpInput(isJumping);
+	isJumping = false;
 }
+
+
 
 void Game::FixedUpdate(float deltaTime)
 {

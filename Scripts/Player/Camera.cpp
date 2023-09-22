@@ -107,9 +107,9 @@ bool Camera::OnScreen(float2 screenPos)
 		&& screenPos.x < SCRWIDTH;
 }
 
-bool Camera::OnScreen(float2 screenPos, const Box& _a)
+bool Camera::OnScreen(float2 worldPos, const Box& _a)
 {
-	const Box a = AABB::At(screenPos, _a);
+	const Box a = AABB::At(worldPos, _a);
 
 	return OnScreen({ a.min.x,a.min.y }) ||
 		OnScreen({ a.min.x,a.max.y }) ||

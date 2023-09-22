@@ -4,8 +4,13 @@
 struct Timer;
 class Camera;
 
+struct Input {
+	int2 arrowKeys = { 0 };
+	bool jumping = false;
+}input;
 class Avatar
 {
+
 public:
 	Avatar();
 	~Avatar();
@@ -13,10 +18,20 @@ public:
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
 	void Init(const char* spritePath, Tilemap& _tilemap, Tilemap& _ropes, Camera& _cam);
 	void Render(Surface* screen);
-	void GetInput(int2 input);
 	void Update(float deltaTime);
-	void Jump();
+	void SetJumpInput(bool jumpInput);
+	void SetInput(int2 input);
 	float2 GetPos() const;
+
+	float2 GetVelocity() const;
+	void SetVelocity(float2 velocity) ;
+
+	float GetSpeed() const;
+	Tilemap* GetFloors() const;
+	Tilemap* GetLadders() const;
+	Camera* GetCamera()const;
+	Box GetFloorCollider();
+	Box GetBoxCollider();
 
 private:
 	void SnapToFloor(float deltaTime, float2& floorPos);
@@ -28,6 +43,8 @@ private:
 		CLIMBPING,
 		COUNT
 	}state;
+
+
 	//base for general sprite class and render
 	Sprite* sprite;
 	Sprite* spriteFlipped;

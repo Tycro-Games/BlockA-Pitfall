@@ -143,6 +143,9 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="Scripts\Player\States\JumpingState.cpp" />
+    <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
+    <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Scripts\Player\Camera.cpp" />
@@ -169,6 +172,9 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripts\Player\States\JumpingState.h" />
+    <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
+    <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
