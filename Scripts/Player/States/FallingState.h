@@ -1,7 +1,9 @@
 ﻿#pragma once
 
-class FallingState :State
+class FallingState : public State
 {
-public:
-
+	// Inherited via State
+	void OnEnter() override;
+	State* Update(Avatar& player, Input input, float deltaTime) override;
+	void OnExit() override;
 };

@@ -4,17 +4,9 @@ void MovingOnGroundState::OnEnter()
 {
 }
 
-void MovingOnGroundState::SetVariables(Avatar& p, Input input, float deltaTime, float2& pos, float2& newPos, Tilemap*& floors, Camera*& cam, Box& floorCollider, Box& boxCollider, float2& velocity)
-{
-	pos = p.GetPos();
-	floors = p.GetFloors();
-	cam = p.GetCamera();
-	floorCollider = p.GetFloorCollider();
-	boxCollider = p.GetBoxCollider();
-	velocity = p.GetVelocity();
-}
 
-void MovingOnGroundState::Update(Avatar& p, Input input, float deltaTime)
+
+State* MovingOnGroundState::Update(Avatar& p, Input _input, float deltaTime)
 {
 	float2 pos;
 	float2 newPos;
@@ -23,7 +15,7 @@ void MovingOnGroundState::Update(Avatar& p, Input input, float deltaTime)
 	Box floorCollider;
 	Box boxCollider;
 	float2 velocity;
-	SetVariables(p, input, deltaTime, pos, newPos, floors, cam, floorCollider, boxCollider, velocity);
+	SetVariables(p, deltaTime, pos, newPos, floors, cam, floorCollider, boxCollider, velocity);
 
 	const float newPosY = p.GetVelocity().y * p.GetSpeed() * deltaTime;
 	const float newPosX = (p.GetVelocity().x + static_cast<float>(input.arrowKeys.x)) * p.GetSpeed() * deltaTime;
@@ -38,21 +30,24 @@ void MovingOnGroundState::Update(Avatar& p, Input input, float deltaTime)
 			}
 	}
 
-	if (!floors->IsCollidingBox(pos, floorCollider)) //no floor
+	newPos = pos + float2{ 0, newPosY };
+
+	if (!floors->IsCollidingBox(newPos, floorCollider)) //no floor
 	{
 		// go to the falling state
+		cout << "To falling state\n";
+		return new FallingState();
+
 	}
-	else if (input.jumping == true)//on floor
+	if (input.jumping == true)//on floor
 	{
 		//go to the jumping state
+		cout << "To jumping state\n";
+		return new JumpingState();
 	}
 
 
-
-
-
-
-
+	return nullptr;
 	if (!floors->IsCollidingBox(newPos, floorCollider))
 	{
 		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
@@ -72,7 +67,6 @@ void MovingOnGroundState::Update(Avatar& p, Input input, float deltaTime)
 	if (velocity.y < 0) {
 
 		//velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
-		return;
 	}
 	//snap is on floor
 	float2 floorPos;
