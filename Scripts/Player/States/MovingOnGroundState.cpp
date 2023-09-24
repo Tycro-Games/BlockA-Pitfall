@@ -29,7 +29,7 @@ State* MovingOnGroundState::Update(Avatar& p, Input input, float deltaTime)
 
 	newPos = *pos + float2{ 0, newPosY };
 
-	if (!floors->IsCollidingBox(newPos, *floorCollider)) //no floor
+	if (!floors->IsCollidingBox(newPos , *floorCollider)) //no floor
 	{
 		// go to the falling state
 		cout << "To falling state\n";

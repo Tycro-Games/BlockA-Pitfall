@@ -160,7 +160,7 @@ void Avatar::Update(float deltaTime)
 	float newPosY;
 	float newPosX;
 	float2 newPos = 0;
-	/*State* newState = currentState->Update(*this, input, deltaTime);
+	State* newState = currentState->Update(*this, input, deltaTime);
 	if (newState != nullptr)
 	{
 		currentState->OnExit();
@@ -169,7 +169,8 @@ void Avatar::Update(float deltaTime)
 		currentState->OnEnter(*this);
 	}
 	cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
-		CAMERA_OFFSET.y });*/
+		CAMERA_OFFSET.y });
+	return;
 	switch (state)
 	{
 	case FREEMOVE:
@@ -249,7 +250,7 @@ void Avatar::SetJumpInput(bool jumpInput)
 	input.jumping = jumpInput;
 	if (!jumpInput)
 		return;
-	  
+	return;
 	//check for floor
 	if (state == CLIMBPING) {
 		canJump = !floors->IsCollidingBox(pos, floorCollider) &&
