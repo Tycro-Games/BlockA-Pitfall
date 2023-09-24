@@ -5,8 +5,9 @@
 
 
 Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
-velocity(),
-pos(), dir()
+                   currentState(nullptr),
+                   velocity(),
+                   pos(), dir()
 {
 	climbTimer = new Timer();
 }
@@ -16,6 +17,8 @@ Avatar::~Avatar()
 	delete climbTimer;
 	delete sprite;
 	delete spriteFlipped;
+	delete currentState;
+	
 }
 
 void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
@@ -46,8 +49,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, C
 	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
-
-
+	currentState = new FallingState();
+	currentState->OnEnter(*this);
 	delete[] spriteFlippedPath;
 }
 
@@ -109,7 +112,7 @@ void Avatar::SetInput(int2 _input)
 void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 {
 	if (velocity.y < 0) {
-		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
+		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, velocity.y, GRAVITY);
 		return;
 	}
 	canJump = floors->IsCollidingBox(pos, floorCollider, floorPos);
@@ -124,7 +127,7 @@ void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
 	else
 	{
 
-		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, -JUMP_FORCE, GRAVITY);
+		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, velocity.y, GRAVITY);
 	}
 
 }
@@ -155,79 +158,87 @@ void Avatar::Update(float deltaTime)
 	float horizontal;
 
 	float2 floorPos = 0;
-	float2 newPos = 0;
 	float newPosY;
 	float newPosX;
 
-
-	switch (state)
+	State* newState = currentState->Update(*this, input, deltaTime);
+	if (newState != nullptr)
 	{
-	case FREEMOVE:
-		horizontal = (velocity.x + static_cast<float>(input.arrowKeys.x)) * SPEED;
-		vertical = velocity.y * SPEED;
-		newPosX = horizontal * deltaTime;
-		newPosY = vertical * deltaTime;
-
-		newPos = pos + float2{ newPosX, 0 };
-
-		if (!floors->IsCollidingBox(newPos, floorCollider) && !floors->IsCollidingBox(newPos, boxCollider)) {
-			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-			{
-				pos = newPos;
-
-			}
-		}
-
-
-		newPos = pos + float2{ 0, newPosY };
-
-		if (!floors->IsCollidingBox(newPos, floorCollider))
-		{
-			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-			{
-				pos = newPos;
-
-			}
-
-		}
-		else
-		{
-			velocity.y = 0;//hit something up so stop velocity
-		}
-
-		SnapToFloor(deltaTime, floorPos);
-
-		break;
-	case CLIMBPING:
-		vertical = velocity.y + static_cast<float>(dir.y) * SPEED;
-		velocity.y = 0;
-
-		newPosY = vertical * deltaTime;
-
-
-		newPos = pos + float2{ 0, newPosY };
-		if (ladders->IsCollidingBox(newPos, boxCollider)) {
-			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-			{
-				pos = newPos;
-			}
-		}
-		else if (!floors->IsCollidingBox(newPos, boxCollider)) {
-			if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-			{
-				pos = newPos;
-			}
-		}
-
-
-		break;
-	default:
-		break;
+		currentState->OnExit();
+		delete currentState;
+		currentState = newState;
+		currentState->OnEnter(*this);
 	}
-	SetState(floorPos);
-
-	cam->UpdatePosition(deltaTime, newPos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
+	cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
 		CAMERA_OFFSET.y });
+	return;
+	//switch (state)
+	//{
+	//case FREEMOVE:
+	//	horizontal = (velocity.x + static_cast<float>(input.arrowKeys.x)) * SPEED;
+	//	vertical = velocity.y * SPEED;
+	//	newPosX = horizontal * deltaTime;
+	//	newPosY = vertical * deltaTime;
+
+	//	newPos = pos + float2{ newPosX, 0 };
+
+	//	if (!floors->IsCollidingBox(newPos, floorCollider) && !floors->IsCollidingBox(newPos, boxCollider)) {
+	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+	//		{
+	//			pos = newPos;
+
+	//		}
+	//	}
+
+
+	//	newPos = pos + float2{ 0, newPosY };
+
+	//	if (!floors->IsCollidingBox(newPos, floorCollider))
+	//	{
+	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+	//		{
+	//			pos = newPos;
+
+	//		}
+
+	//	}
+	//	else
+	//	{
+	//		velocity.y = 0;//hit something up so stop velocity
+	//	}
+
+	//	SnapToFloor(deltaTime, floorPos);
+
+	//	break;
+	//case CLIMBPING:
+	//	vertical = velocity.y + static_cast<float>(dir.y) * SPEED;
+	//	velocity.y = 0;
+
+	//	newPosY = vertical * deltaTime;
+
+
+	//	newPos = pos + float2{ 0, newPosY };
+	//	if (ladders->IsCollidingBox(newPos, boxCollider)) {
+	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+	//		{
+	//			pos = newPos;
+	//		}
+	//	}
+	//	else if (!floors->IsCollidingBox(newPos, boxCollider)) {
+	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
+	//		{
+	//			pos = newPos;
+	//		}
+	//	}
+
+
+	//	break;
+	//default:
+	//	break;
+	//}
+	//SetState(floorPos);
+
+	
 
 
 
@@ -239,8 +250,9 @@ void Avatar::SetJumpInput(bool jumpInput)
 	input.jumping = jumpInput;
 	if (!jumpInput)
 		return;
+	  
 	//check for floor
-	if (state == CLIMBPING) {
+	/*if (state == CLIMBPING) {
 		canJump = !floors->IsCollidingBox(pos, floorCollider) &&
 			!floors->IsCollidingBox(pos, boxCollider);
 		if (canJump) {
@@ -256,7 +268,7 @@ void Avatar::SetJumpInput(bool jumpInput)
 			velocity.y = -JUMP_FORCE;
 
 		}
-	}
+	}*/
 }
 
 float2 Avatar::GetPos() const
@@ -264,9 +276,19 @@ float2 Avatar::GetPos() const
 	return pos;
 }
 
+float2* Avatar::pGetPos()
+{
+	return &pos;
+}
+
 float2 Avatar::GetVelocity() const
 {
 	return velocity;
+}
+
+float2* Avatar::pGetVelocity()
+{
+	return &velocity;
 }
 
 void Avatar::SetVelocity(float2 _velocity)
@@ -293,15 +315,19 @@ Camera* Avatar::GetCamera() const
 {
 	return cam;
 }
-
-Box Avatar::GetFloorCollider()
+Timer* Avatar::GetClimbTimer() const
 {
-	return floorCollider;
+	return climbTimer;
 }
 
-Box Avatar::GetBoxCollider()
+Box* Avatar::GetFloorCollider()
 {
-	return boxCollider;
+	return &floorCollider;
+}
+
+Box* Avatar::GetBoxCollider()
+{
+	return &boxCollider;
 }
 
 

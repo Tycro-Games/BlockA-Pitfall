@@ -59,6 +59,8 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 //my header
+
+
 #include "Scripts/Tilemap/Tilemap.h"
 #include "Scripts/Utilities/AABB.h"
 #include "Scripts/Utilities/MathLibrary.h"
@@ -66,14 +68,13 @@ using namespace std;
 #include "Scripts/Tilemap/Tilemap.h"
 #include "Scripts/Player/Avatar.h"
 #include "Scripts/Tilemap/Parallax.h"
+
 //FSM
 #include "Scripts/Utilities/StateManager.h"
 #include "Scripts/Utilities/State.h"
 #include "Scripts/Player/States/MovingOnGroundState.h"
 #include "Scripts/Player/States/ClimbingState.h"
-#include "Scripts/Player/States/JumpingState.h"
 #include "Scripts/Player/States/FallingState.h"
-
 // namespaces
 using namespace Tmpl8;
 

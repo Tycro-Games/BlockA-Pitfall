@@ -2,13 +2,14 @@
 #include "State.h"
 
 
-void State::SetVariables(Avatar& p, float deltaTime, float2& pos, float2& newPos, Tilemap*& floors, Camera*& cam,
-	Box& floorCollider, Box& boxCollider, float2& velocity)
+void State::SetVariables(Avatar& p)
 {
-	pos = p.GetPos();
+	pos = p.pGetPos();
+	velocity = p.pGetVelocity();
+
 	floors = p.GetFloors();
 	cam = p.GetCamera();
 	floorCollider = p.GetFloorCollider();
 	boxCollider = p.GetBoxCollider();
-	velocity = p.GetVelocity();
+	speed = p.GetSpeed();
 }

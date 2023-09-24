@@ -1,13 +1,13 @@
 #pragma once
 
 
+class State;
 struct Timer;
-class Camera;
 
-inline struct Input {
+struct Input {
 	int2 arrowKeys = { 0 };
 	bool jumping = false;
-}input;
+};
 class Avatar
 {
 
@@ -22,18 +22,22 @@ public:
 	void SetJumpInput(bool jumpInput);
 	void SetInput(int2 input);
 	float2 GetPos() const;
+	float2* pGetPos();
 
 	float2 GetVelocity() const;
-	void SetVelocity(float2 velocity) ;
+	float2* pGetVelocity();
+	void SetVelocity(float2 velocity);
 
 	float GetSpeed() const;
 	Tilemap* GetFloors() const;
 	Tilemap* GetLadders() const;
 	Camera* GetCamera()const;
-	Box GetFloorCollider();
-	Box GetBoxCollider();
+	Timer* GetClimbTimer() const;
+	Box* GetFloorCollider();
+	Box* GetBoxCollider();
 
 private:
+	Input input;
 	void SnapToFloor(float deltaTime, float2& floorPos);
 	void SetState(float2 floorPos);
 
@@ -53,10 +57,12 @@ private:
 	Tilemap* ladders;
 	Camera* cam;
 
+	State* currentState;
+
 
 	//physics
-	float2 velocity;
-	float2 pos;
+	float2 velocity = 0;
+	float2 pos = 0;
 	const float2 CAMERA_OFFSET = { 100 ,-50 };
 	const float GRAVITY = 9.8f;
 	const float JUMP_FORCE = 3.0f;
