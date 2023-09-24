@@ -6,6 +6,7 @@ void ClimbingState::OnEnter(Avatar& p)
 {
 	cout << "climbing state'\n";
 	SetVariables(p);
+	ladders = p.GetLadders();
 	climbTimer = p.GetClimbTimer();
 	velocity->y = 0;
 }
@@ -21,7 +22,7 @@ State* ClimbingState::Update(Avatar& player, Input input, float deltaTime)
 			return new FallingState();
 		}
 	}
-	float2 newPos = {};
+	float2 newPos = 0;
 
 	
 	

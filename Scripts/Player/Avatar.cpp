@@ -49,7 +49,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, C
 	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
-	currentState = new FallingState();
+	currentState = new MovingOnGroundState();
 	currentState->OnEnter(*this);
 	delete[] spriteFlippedPath;
 }
@@ -142,8 +142,7 @@ void Avatar::SetState(float2 floorPos)
 		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
 		velocity.y = 0;
 	}
-	else if (!ladders->IsCollidingBox(pos, boxCollider)
-		)
+	else if (!ladders->IsCollidingBox(pos, boxCollider))
 	{
 		state = FREEMOVE;
 
@@ -171,7 +170,6 @@ void Avatar::Update(float deltaTime)
 	}
 	cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
 		CAMERA_OFFSET.y });
-	return;
 	//switch (state)
 	//{
 	//case FREEMOVE:
@@ -248,8 +246,7 @@ void Avatar::Update(float deltaTime)
 void Avatar::SetJumpInput(bool jumpInput)
 {
 	input.jumping = jumpInput;
-	if (!jumpInput)
-		return;
+	
 	  
 	//check for floor
 	/*if (state == CLIMBPING) {

@@ -3,7 +3,7 @@
 void MovingOnGroundState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
-
+	cout << "moving\n";
 }
 
 

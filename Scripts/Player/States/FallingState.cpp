@@ -57,7 +57,6 @@ State* FallingState::Update(Avatar& p, Input input, float deltaTime)
 		velocity->y = 0;
 		return new MovingOnGroundState();
 	}
-	else
 	velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
 
 
