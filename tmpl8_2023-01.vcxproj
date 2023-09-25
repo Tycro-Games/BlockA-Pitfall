@@ -151,6 +151,7 @@
     <ClCompile Include="Scripts\Tilemap\Parallax.cpp" />
     <ClCompile Include="Scripts\Tilemap\Rope.cpp" />
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="Scripts\Tilemap\Zipline.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Player\States\State.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Scripts\Tilemap\Parallax.h" />
     <ClInclude Include="Scripts\Tilemap\Rope.h" />
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
+    <ClInclude Include="Scripts\Tilemap\Zipline.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Player\States\State.h" />

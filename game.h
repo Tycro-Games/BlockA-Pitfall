@@ -45,7 +45,8 @@ namespace Tmpl8
 		Camera cam;
 		Tilemap tilemaps[COUNT];
 		Avatar avatar;
-		 Rope r;
+		Rope r;
+		Zipline z;
 
 		//input
 		int horizontalMove = 0;

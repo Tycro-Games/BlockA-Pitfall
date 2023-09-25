@@ -45,7 +45,7 @@ void Game::Init()
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
 	r.Init({500,700});
-
+	z.Init({500,1200}, { 200,1300});
 
 }
 
@@ -56,6 +56,7 @@ void Game::Render()
 	//first to call
 	cam.RenderTilemaps();
 	r.Render(cam.pGetPreRender());
+	z.Render(cam.pGetPreRender());
 
 	avatar.Render(cam.pGetPreRender());
 
