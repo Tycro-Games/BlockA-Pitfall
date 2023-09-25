@@ -13,6 +13,7 @@ namespace Tmpl8
 		BG,
 		FLOOR,
 		LADDERS,
+		ROPES,
 		COUNT
 	};
 
@@ -44,6 +45,8 @@ namespace Tmpl8
 		Camera cam;
 		Tilemap tilemaps[COUNT];
 		Avatar avatar;
+		 Rope r;
+
 		//input
 		int horizontalMove = 0;
 		int verticalMove = 0;

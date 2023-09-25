@@ -13,7 +13,7 @@ public:
 	void RenderToScreen(Surface* screen) const;
 	void RenderTilemaps() const;
 	void UpdatePosition(float deltaTime, float2 playerPos, const float2 leftOrRight);
-	float2 GetPosition()const;
+	static float2 GetPosition();
 	void Update(float deltaTime);
 	static bool OnScreen(float2 screenPos);
 	static bool OnScreen(float2 screenPos, const Box& a);
@@ -22,7 +22,7 @@ private:
 	void SetCameraScale(const float cameraScale);
 
 	Parallax* parallax = nullptr;
-	float2 pos = 0;
+	inline static float2 pos = 0;
 	Sprite* tilemap = nullptr;
 	Sprite* preRender = nullptr;
 	const float CAM_SPEED = 25.0f;

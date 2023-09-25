@@ -22,7 +22,8 @@ void Game::Init()
 	tilemaps[PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
 	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
+	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
+	tilemaps[ROPES].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
 	//it gets owned by the sprite so we don't have to delete it
 	Surface* surf = new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight());
 
@@ -43,6 +44,8 @@ void Game::Init()
 	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
+	r.Init({500,700});
+
 
 }
 
@@ -50,9 +53,12 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-
+	//first to call
 	cam.RenderTilemaps();
+	r.Render(cam.pGetPreRender());
+
 	avatar.Render(cam.pGetPreRender());
+
 	cam.RenderToScreen(screen);
 
 
@@ -61,6 +67,7 @@ void Game::Render()
 void Game::Update(float deltaTime)
 {
 	//do something every frame
+	r.Update(deltaTime);
 	cam.Update(deltaTime);
 }
 
@@ -78,7 +85,7 @@ void Game::UpdateInput()
 
 void Game::FixedUpdate(float deltaTime)
 {
-
+	
 	avatar.Update(deltaTime);
 
 }

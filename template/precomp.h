@@ -68,9 +68,9 @@ using namespace std;
 #include "Scripts/Tilemap/Tilemap.h"
 #include "Scripts/Player/Avatar.h"
 #include "Scripts/Tilemap/Parallax.h"
-
+#include "Scripts/Tilemap/Rope.h"
 //FSM
-#include "Scripts/Utilities/State.h"
+#include "Scripts/Player/States//State.h"
 #include "Scripts/Player/States/ClimbingState.h"
 #include "Scripts/Player/States/FreemovingState.h"
 // namespaces

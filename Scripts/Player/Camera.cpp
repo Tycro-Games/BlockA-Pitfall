@@ -4,7 +4,7 @@
 
 
 
-Camera::Camera() : pos()
+Camera::Camera() 
 {
 }
 
@@ -68,7 +68,7 @@ void Camera::RenderTilemaps() const
 
 	parallax->Render(preRender->GetSurface());
 	tilemap->Draw(preRender->GetSurface(),
-		screenPos.x, screenPos.y);
+		static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
 
 }
 
@@ -85,10 +85,12 @@ void Camera::UpdatePosition(float deltaTime, float2 playerPos, float2 leftOrRigh
 	parallax->Update(deltaTime);
 }
 
-float2 Camera::GetPosition() const
+float2 Camera::GetPosition()
 {
 	return pos;
+
 }
+
 
 void Camera::Update(float deltaTime)
 {

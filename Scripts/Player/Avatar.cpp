@@ -45,8 +45,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, C
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
 	//setting to world position
-	pos.x = cam->GetPosition().x + SCRWIDTH / 2;
-	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
+	pos.x = Camera::GetPosition().x + SCRWIDTH / 2;
+	pos.y = Camera::GetPosition().y + SCRHEIGHT / 2;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
 	currentState = new FreemovingState();
