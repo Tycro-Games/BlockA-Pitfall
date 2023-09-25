@@ -4,7 +4,7 @@
 
 
 
-Camera::Camera() 
+Camera::Camera()
 {
 }
 
@@ -101,21 +101,30 @@ void Camera::Update(float deltaTime)
 	}
 }
 
-bool Camera::OnScreen(float2 screenPos)
+bool Camera::OnScreen(float2 worldPos)
 {
-	return screenPos.x >= 0
-		&& screenPos.y >= 0 &&
-		screenPos.y < SCRHEIGHT
-		&& screenPos.x < SCRWIDTH;
+	return worldPos.x >= pos.x
+		&& worldPos.y >= pos.y &&
+		worldPos.y < pos.y + resY
+		&& worldPos.x < pos.x + resX;
 }
 
-bool Camera::OnScreen(float2 worldPos, const Box& _a)
+bool Camera::OnScreenPartial(float2 worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
 
 	return OnScreen({ a.min.x,a.min.y }) ||
 		OnScreen({ a.min.x,a.max.y }) ||
 		OnScreen({ a.max.x,a.min.y }) ||
+		OnScreen({ a.max.x,a.max.y });
+}
+bool Camera::OnScreenAll(float2 worldPos, const Box& _a)
+{
+	const Box a = AABB::At(worldPos, _a);
+
+	return OnScreen({ a.min.x,a.min.y }) &&
+		OnScreen({ a.min.x,a.max.y }) &&
+		OnScreen({ a.max.x,a.min.y }) &&
 		OnScreen({ a.max.x,a.max.y });
 }
 

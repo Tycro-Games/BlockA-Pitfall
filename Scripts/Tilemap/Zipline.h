@@ -10,5 +10,6 @@ private://always is the one on the left
 	float2 pointA = 0;
 	float2 pointB = 0;
 	const int halfWidth = 3;
+	Box coll;
 
 };

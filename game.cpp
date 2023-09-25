@@ -29,7 +29,7 @@ void Game::Init()
 
 	Surface* par = new Surface(tilemaps[PARALLAX].GetWidth(), tilemaps[PARALLAX].GetHeight());
 	par->Clear(0x000001);
-	surf->Clear(0xFF000000);
+	surf->Clear(0xff000000);
 	enviroment = new Sprite(surf, 1);
 	parallaxSprite = new Sprite(par, 1);
 	for (int i = BG; i < COUNT; i++) {
@@ -44,8 +44,8 @@ void Game::Init()
 	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
-	r.Init({500,700});
-	z.Init({500,1200}, { 200,1300});
+	r.Init({ 500,700 });
+	z.Init({ 500,1200 }, { 200,1300 });
 
 }
 
@@ -55,7 +55,7 @@ void Game::Render()
 
 	//first to call
 	cam.RenderTilemaps();
-	r.Render(cam.pGetPreRender());
+		r.Render(cam.pGetPreRender());
 	z.Render(cam.pGetPreRender());
 
 	avatar.Render(cam.pGetPreRender());
@@ -86,7 +86,7 @@ void Game::UpdateInput()
 
 void Game::FixedUpdate(float deltaTime)
 {
-	
+
 	avatar.Update(deltaTime);
 
 }

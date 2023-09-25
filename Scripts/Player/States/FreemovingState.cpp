@@ -31,7 +31,7 @@ State* FreemovingState::Update(float deltaTime)
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider)) { //we are on the ground
 		if (!floors->IsCollidingBox(newPos, *boxCollider))
-			if (Camera::OnScreen(newPos - cam->GetPosition(), *boxCollider))
+			if (Camera::OnScreenAll(newPos, *boxCollider))
 			{
 				*pos = newPos;
 
@@ -43,7 +43,7 @@ State* FreemovingState::Update(float deltaTime)
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider))
 	{
-		if (Camera::OnScreen(newPos - cam->GetPosition(), *boxCollider))
+		if (Camera::OnScreenAll(newPos , *boxCollider))
 		{
 			*pos = newPos;
 
@@ -89,7 +89,6 @@ void FreemovingState::SetVariables(Avatar& p)
 	velocity = p.pGetVelocity();
 
 	floors = p.GetFloors();
-	cam = p.GetCamera();
 	floorCollider = p.GetFloorCollider();
 	boxCollider = p.GetBoxCollider();
 	speed = p.GetSpeed();

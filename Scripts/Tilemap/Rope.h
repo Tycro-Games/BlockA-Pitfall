@@ -7,6 +7,7 @@ public:
 	~Rope();
 
 	void Render(Surface* screen);
+	float2 GetMovingPart(double timeElapsed);
 	void Update(float deltaTime);
 	void Init(float2 _fixedPoint);
 private:
@@ -17,4 +18,5 @@ private:
 	const float amp = 1.0f;
 	const int halfWidth = 3;
 	Timer* t;
+	Box coll;
 };

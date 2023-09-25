@@ -5,13 +5,13 @@
 void ClimbingState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
-	
+
 	velocity->y = 0;
 }
 
 State* ClimbingState::Update(float deltaTime)
 {
-	if(input->jumping==true)
+	if (input->jumping == true)
 	{
 		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
 			!floors->IsCollidingBox(*pos, *boxCollider)) {
@@ -23,25 +23,25 @@ State* ClimbingState::Update(float deltaTime)
 	}
 	float2 newPos = 0;
 
-	
-	
+
+
 	const float newPosY = (velocity->y + static_cast<float>(input->arrowKeys.y)) * speed * deltaTime;
 
 
 	newPos = *pos + float2{ 0, newPosY };
 	if (ladders->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::OnScreen(newPos - cam->GetPosition(), *boxCollider))
+		if (Camera::OnScreenAll(newPos, *boxCollider))
 		{
 			*pos = newPos;
 		}
 	}
 	else if (!floors->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::OnScreen(newPos - cam->GetPosition(), *boxCollider))
+		if (Camera::OnScreenAll(newPos, *boxCollider))
 		{
 			*pos = newPos;
 		}
 	}
-	if(!ladders->IsCollidingBox(*pos, *boxCollider))
+	if (!ladders->IsCollidingBox(*pos, *boxCollider))
 	{
 		//this is the end of a rope
 		float2 floorPos = { 0 };
@@ -66,7 +66,6 @@ void ClimbingState::SetVariables(Avatar& p)
 	velocity = p.pGetVelocity();
 
 	floors = p.GetFloors();
-	cam = p.GetCamera();
 	floorCollider = p.GetFloorCollider();
 	boxCollider = p.GetBoxCollider();
 	speed = p.GetSpeed();

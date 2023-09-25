@@ -15,8 +15,9 @@ public:
 	void UpdatePosition(float deltaTime, float2 playerPos, const float2 leftOrRight);
 	static float2 GetPosition();
 	void Update(float deltaTime);
-	static bool OnScreen(float2 screenPos);
-	static bool OnScreen(float2 screenPos, const Box& a);
+	static bool OnScreen(float2 worldPos);
+	static bool OnScreenPartial(float2 screenPos, const Box& a);
+	static bool OnScreenAll(float2 worldPos, const Box& _a);
 	Surface* pGetPreRender();
 private:
 	void SetCameraScale(const float cameraScale);
@@ -35,7 +36,7 @@ private:
 	const float MAX_SCALE = .6f;
 	float maxPosX = 0;
 	float maxPosY = 0;
-	float resX{};
-	float resY{};
+	inline static float resX{};
+	inline static float resY{};
 	float currentCameraScale = 0;
 };
