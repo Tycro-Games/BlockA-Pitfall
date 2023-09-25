@@ -12,7 +12,7 @@ State* FreemovingState::Update(float deltaTime)
 {
 	if (input->jumping == true)
 	{
-		if (floors->IsCollidingBox(*pos + floorPos, *floorCollider))
+		if (floors->IsCollidingBox(*pos + floorPosCollider, *floorCollider))
 		{
 			velocity->y = -JUMP_FORCE;
 		}
@@ -96,6 +96,6 @@ void FreemovingState::SetVariables(Avatar& p)
 	input = p.pGetInput();
 	climbTimer = p.GetClimbTimer();
 	ladders = p.GetLadders();
-	floorPos = p.getFloorPos();
+	floorPosCollider = p.getFloorPos();
 }
 

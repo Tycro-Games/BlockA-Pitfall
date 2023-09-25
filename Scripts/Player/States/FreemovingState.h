@@ -13,13 +13,11 @@ protected:
 	void SetVariables(Avatar& p) override;
 
 private:
-	const float GRAVITY = 9.8f;
 	Timer* climbTimer = nullptr;
 
-	float2 floorPos = 0;
+	float2 floorPosCollider = 0;
 	float climbDelay = 0;
-	const float CLIMB_DELAY = 0.5f;
-	const float JUMP_FORCE = 3.0f;
+	
 	Input* input = nullptr;
 	float2* pos = nullptr;
 	float2* velocity = nullptr;
@@ -29,4 +27,8 @@ private:
 	Box* floorCollider = nullptr;
 	Box* boxCollider = nullptr;
 	float speed = 0;
+	const float CLIMB_DELAY = 0.5f;
+	const float JUMP_FORCE = 3.0f;
+	const float GRAVITY = 9.8f;
+
 };

@@ -152,7 +152,7 @@
     <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
-    <ClCompile Include="Scripts\Utilities\State.cpp" />
+    <ClCompile Include="Scripts\Player\States\State.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\sprite.cpp" />
@@ -180,7 +180,7 @@
     <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
-    <ClInclude Include="Scripts\Utilities\State.h" />
+    <ClInclude Include="Scripts\Player\States\State.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />
