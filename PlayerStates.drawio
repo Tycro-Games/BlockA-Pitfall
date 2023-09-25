@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-09-25T08:39:33.075Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0" etag="pHoM-8gVUqGfYbY-1W26" version="21.7.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-25T12:40:53.183Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0" etag="GMa-84gFokjvTibhtD8V" version="21.7.5" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2534" dy="1624" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
@@ -87,6 +87,15 @@
         </mxCell>
         <mxCell id="-ud4b6nkZpTPl8-Tl8ta-3" value="&lt;div&gt;State set to&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="1" vertex="1">
           <mxGeometry x="350" y="277" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="hQWwS9eVlGvnJHP2vLC9-1" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#736CA8;fontFamily=Verdana;fontSize=12;fontColor=default;endArrow=open;endSize=8;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="382b91b5511bd0f7-5" target="Zl3hB4-WVLWjA7URHuql-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-120" y="-120" as="sourcePoint" />
+            <mxPoint x="205" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hQWwS9eVlGvnJHP2vLC9-2" value="Does not collide with rope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Verdana;fontColor=#1A1A1A;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-140" y="-10" width="190" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
