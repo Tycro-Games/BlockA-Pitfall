@@ -72,7 +72,6 @@ using namespace std;
 //FSM
 #include "Scripts/Utilities/StateManager.h"
 #include "Scripts/Utilities/State.h"
-#include "Scripts/Player/States/MovingOnGroundState.h"
 #include "Scripts/Player/States/ClimbingState.h"
 #include "Scripts/Player/States/FallingState.h"
 // namespaces

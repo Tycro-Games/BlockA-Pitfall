@@ -2,6 +2,8 @@
 #include "State.h"
 
 
+
+
 void State::SetVariables(Avatar& p)
 {
 	pos = p.pGetPos();
@@ -12,4 +14,5 @@ void State::SetVariables(Avatar& p)
 	floorCollider = p.GetFloorCollider();
 	boxCollider = p.GetBoxCollider();
 	speed = p.GetSpeed();
+	input = p.pGetInput();
 }

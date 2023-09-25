@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="Scripts\Player\States\FallingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
-    <ClCompile Include="Scripts\Player\States\MovingOnGroundState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Scripts\Player\Camera.cpp" />
@@ -174,7 +173,6 @@
   <ItemGroup>
     <ClInclude Include="Scripts\Player\States\FallingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
-    <ClInclude Include="Scripts\Player\States\MovingOnGroundState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />

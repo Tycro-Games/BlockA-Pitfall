@@ -35,11 +35,13 @@ public:
 	Timer* GetClimbTimer() const;
 	Box* GetFloorCollider();
 	Box* GetBoxCollider();
+	Input* pGetInput();
 
 private:
 	Input input;
 	void SnapToFloor(float deltaTime, float2& floorPos);
 	void SetState(float2 floorPos);
+	void UpdateCurrentState(float deltaTime);
 
 	enum playerState
 	{

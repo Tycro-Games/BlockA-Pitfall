@@ -4,21 +4,21 @@
 
 void ClimbingState::OnEnter(Avatar& p)
 {
-	cout << "climbing state'\n";
 	SetVariables(p);
 	ladders = p.GetLadders();
 	climbTimer = p.GetClimbTimer();
 	velocity->y = 0;
 }
 
-State* ClimbingState::Update(Avatar& player, Input input, float deltaTime)
+State* ClimbingState::Update(Avatar& player, float deltaTime)
 {
-	if(input.jumping==true)
+	if(input->jumping==true)
 	{
 		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
 			!floors->IsCollidingBox(*pos, *boxCollider)) {
 			velocity->y = -CLIMBING_JUMP_FORCE;
 			climbTimer->reset();
+			input->jumping = false;
 			return new FallingState();
 		}
 	}
@@ -26,7 +26,7 @@ State* ClimbingState::Update(Avatar& player, Input input, float deltaTime)
 
 	
 	
-	const float newPosY = (velocity->y + static_cast<float>(input.arrowKeys.y)) * speed * deltaTime;
+	const float newPosY = (velocity->y + static_cast<float>(input->arrowKeys.y)) * speed * deltaTime;
 
 
 	newPos = *pos + float2{ 0, newPosY };

@@ -69,8 +69,8 @@ void Game::UpdateInput()
 {
 	avatar.SetInput(int2(horizontalMove, verticalMove));
 
-
-	avatar.SetJumpInput(isJumping);
+	if (isJumping)
+		avatar.SetJumpInput(isJumping);
 	isJumping = false;
 }
 
