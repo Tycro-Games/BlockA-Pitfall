@@ -5,12 +5,11 @@
 void ClimbingState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
-	ladders = p.GetLadders();
-	climbTimer = p.GetClimbTimer();
+	
 	velocity->y = 0;
 }
 
-State* ClimbingState::Update(Avatar& player, float deltaTime)
+State* ClimbingState::Update(float deltaTime)
 {
 	if(input->jumping==true)
 	{
@@ -19,7 +18,7 @@ State* ClimbingState::Update(Avatar& player, float deltaTime)
 			velocity->y = -CLIMBING_JUMP_FORCE;
 			climbTimer->reset();
 			input->jumping = false;
-			return new FallingState();
+			return new FreemovingState();
 		}
 	}
 	float2 newPos = 0;
@@ -44,11 +43,34 @@ State* ClimbingState::Update(Avatar& player, float deltaTime)
 	}
 	if(!ladders->IsCollidingBox(*pos, *boxCollider))
 	{
-		return new FallingState();
+		//this is the end of a rope
+		float2 floorPos = { 0 };
+
+		if (floors->IsCollidingBox(*pos, *floorCollider, floorPos)) {
+			floorPos.y = floorPos.y - boxCollider->max.y / 2 - floorCollider->max.y / 2;
+			pos->y = floorPos.y;
+			velocity->y = 0;
+		}
+		return new FreemovingState();
 	}
 	return nullptr;
 }
 
 void ClimbingState::OnExit()
 {
+}
+
+void ClimbingState::SetVariables(Avatar& p)
+{
+	pos = p.pGetPos();
+	velocity = p.pGetVelocity();
+
+	floors = p.GetFloors();
+	cam = p.GetCamera();
+	floorCollider = p.GetFloorCollider();
+	boxCollider = p.GetBoxCollider();
+	speed = p.GetSpeed();
+	input = p.pGetInput();
+	ladders = p.GetLadders();
+	climbTimer = p.GetClimbTimer();
 }

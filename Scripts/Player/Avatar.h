@@ -36,20 +36,13 @@ public:
 	Box* GetFloorCollider();
 	Box* GetBoxCollider();
 	Input* pGetInput();
+	float2 getFloorPos();
+	float getClimbDelay();
 
 private:
 	Input input;
-	void SnapToFloor(float deltaTime, float2& floorPos);
-	void SetState(float2 floorPos);
+	Timer* climbTimer = nullptr;
 	void UpdateCurrentState(float deltaTime);
-
-	enum playerState
-	{
-		FREEMOVE,
-		CLIMBPING,
-		COUNT
-	}state;
-
 
 	//base for general sprite class and render
 	Sprite* sprite;
@@ -66,15 +59,9 @@ private:
 	float2 velocity = 0;
 	float2 pos = 0;
 	const float2 CAMERA_OFFSET = { 100 ,-50 };
-	const float GRAVITY = 9.8f;
-	const float JUMP_FORCE = 3.0f;
-	const float CLIMBING_JUMP_FORCE = 2.5f;
 	const float SPEED = 250.5f;
 	const uint NUMBER_FRAMES = 10;
-	bool canJump = false;
 	int flipX = -1;
-	Timer* climbTimer;
-	const float climbDelay = 0.5f;
 	//input
 	int2 dir;
 

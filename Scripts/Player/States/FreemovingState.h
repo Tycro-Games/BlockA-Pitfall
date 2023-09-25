@@ -1,17 +1,25 @@
-#pragma once
-class ClimbingState : public State
+﻿#pragma once
+
+class FreemovingState : public State
 {
 public:
 
-	// Inherited via State
+
 	void OnEnter(Avatar& p) override;
-	State* Update( float deltaTime) override;
+	State* Update(float deltaTime) override;
 	void OnExit() override;
+
 protected:
 	void SetVariables(Avatar& p) override;
+
 private:
-	const float CLIMBING_JUMP_FORCE = 2.5f;
+	const float GRAVITY = 9.8f;
 	Timer* climbTimer = nullptr;
+
+	float2 floorPos = 0;
+	float climbDelay = 0;
+	const float CLIMB_DELAY = 0.5f;
+	const float JUMP_FORCE = 3.0f;
 	Input* input = nullptr;
 	float2* pos = nullptr;
 	float2* velocity = nullptr;
@@ -22,4 +30,3 @@ private:
 	Box* boxCollider = nullptr;
 	float speed = 0;
 };
-

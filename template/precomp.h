@@ -70,10 +70,9 @@ using namespace std;
 #include "Scripts/Tilemap/Parallax.h"
 
 //FSM
-#include "Scripts/Utilities/StateManager.h"
 #include "Scripts/Utilities/State.h"
 #include "Scripts/Player/States/ClimbingState.h"
-#include "Scripts/Player/States/FallingState.h"
+#include "Scripts/Player/States/FreemovingState.h"
 // namespaces
 using namespace Tmpl8;
 

@@ -143,7 +143,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
-    <ClCompile Include="Scripts\Player\States\FallingState.cpp" />
+    <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
@@ -153,7 +153,6 @@
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Utilities\State.cpp" />
-    <ClCompile Include="Scripts\Utilities\StateManager.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\sprite.cpp" />
@@ -171,7 +170,7 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Scripts\Player\States\FallingState.h" />
+    <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />
     <ClInclude Include="cl\tools.cl" />
@@ -182,7 +181,6 @@
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Utilities\State.h" />
-    <ClInclude Include="Scripts\Utilities\StateManager.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

@@ -4,7 +4,7 @@
 
 
 
-Avatar::Avatar() : state(), sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
+Avatar::Avatar() :  sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
 currentState(nullptr),
 velocity(),
 pos(), dir()
@@ -49,7 +49,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, C
 	pos.y = cam->GetPosition().y + SCRHEIGHT / 2;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
-	currentState = new FallingState();
+	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
 	delete[] spriteFlippedPath;
 }
@@ -109,50 +109,10 @@ void Avatar::SetInput(int2 _input)
 	dir = (_input);
 }
 
-//void Avatar::SnapToFloor(float deltaTime, float2& floorPos)
-//{
-//	if (velocity.y < 0) {
-//		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, velocity.y, GRAVITY);
-//		return;
-//	}
-//	canJump = floors->IsCollidingBox(pos, floorCollider, floorPos);
-//
-//	if (canJump) {
-//		floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
-//		pos.y = floorPos.y;
-//		velocity.y = 0;
-//
-//	}
-//	//add gravity
-//	else
-//	{
-//
-//		velocity.y = clamp(GRAVITY * deltaTime + velocity.y, velocity.y, GRAVITY);
-//	}
-//
-//}
-//
-//void Avatar::SetState(float2 floorPos)
-//{
-//
-//	if (climbTimer->elapsed() >= climbDelay && state == FREEMOVE &&
-//		ladders->IsCollidingBox(pos, boxCollider, floorPos)) {
-//		climbTimer->reset();
-//		state = CLIMBPING;
-//		pos = floorPos + boxCollider.max.y / 2 + floorCollider.max.y / 2;
-//		velocity.y = 0;
-//	}
-//	else if (!ladders->IsCollidingBox(pos, boxCollider))
-//	{
-//		state = FREEMOVE;
-//
-//
-//	}
-//}
 
 void Avatar::UpdateCurrentState(float deltaTime)
 {
-	State* newState = currentState->Update(*this, deltaTime);
+	State* newState = currentState->Update(deltaTime);
 	if (newState != nullptr)
 	{
 		currentState->OnExit();
@@ -164,117 +124,17 @@ void Avatar::UpdateCurrentState(float deltaTime)
 
 void Avatar::Update(float deltaTime)
 {
-	//get input and velocity
-	float vertical;
-	float horizontal;
-
-	float2 floorPos = 0;
-	float newPosY;
-	float newPosX;
-	float2 newPos = 0;
 	UpdateCurrentState(deltaTime);
 	input.jumping = false;
+
 	cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
 		CAMERA_OFFSET.y });
-	//return;
-	//switch (state)
-	//{
-	//case FREEMOVE:
-	//	horizontal = (velocity.x + static_cast<float>(input.arrowKeys.x)) * SPEED;
-	//	vertical = velocity.y * SPEED;
-	//	newPosX = horizontal * deltaTime;
-	//	newPosY = vertical * deltaTime;
-
-	//	newPos = pos + float2{ newPosX, 0 };
-
-	//	if (!floors->IsCollidingBox(newPos, floorCollider) && !floors->IsCollidingBox(newPos, boxCollider)) {
-	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-	//		{
-	//			pos = newPos;
-
-	//		}
-	//	}
-
-
-	//	newPos = pos + float2{ 0, newPosY };
-
-	//	if (!floors->IsCollidingBox(newPos, floorCollider))
-	//	{
-	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-	//		{
-	//			pos = newPos;
-
-	//		}
-
-	//	}
-	//	else
-	//	{
-	//		velocity.y = 0;//hit something up so stop velocity
-	//	}
-
-	//	SnapToFloor(deltaTime, floorPos);
-
-	//	break;
-	//case CLIMBPING:
-	//	vertical = velocity.y + static_cast<float>(dir.y) * SPEED;
-	//	velocity.y = 0;
-
-	//	newPosY = vertical * deltaTime;
-
-
-	//	newPos = pos + float2{ 0, newPosY };
-	//	if (ladders->IsCollidingBox(newPos, boxCollider)) {
-	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-	//		{
-	//			pos = newPos;
-	//		}
-	//	}
-	//	else if (!floors->IsCollidingBox(newPos, boxCollider)) {
-	//		if (Camera::OnScreen(newPos - cam->GetPosition(), boxCollider))
-	//		{
-	//			pos = newPos;
-	//		}
-	//	}
-
-
-	//	break;
-	//default:
-	//	break;
-	//}
-	//SetState(floorPos);
-	//cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
-	//	CAMERA_OFFSET.y });
-	//
-
-
-
 }
 
 
 void Avatar::SetJumpInput(bool jumpInput)
 {
 	input.jumping = jumpInput;
-
-
-	//return;
-	////check for floor
-	//if (state == CLIMBPING) {
-	//	canJump = !floors->IsCollidingBox(pos, floorCollider) &&
-	//		!floors->IsCollidingBox(pos, boxCollider);
-	//	if (canJump) {
-	//		velocity.y = -CLIMBING_JUMP_FORCE;
-	//		state = FREEMOVE;
-	//		climbTimer->reset();
-	//	}
-	//}
-	//else {
-	//	canJump = floors->IsCollidingBox(pos + FLOOR_POS, floorCollider);
-
-	//	if (canJump) {
-	//		velocity.y = -JUMP_FORCE;
-
-	//	}
-	//}
 }
 
 float2 Avatar::GetPos() const
@@ -340,5 +200,12 @@ Input* Avatar::pGetInput()
 {
 	return &input;
 }
+
+float2 Avatar::getFloorPos()
+{
+	return FLOOR_POS;
+}
+
+
 
 
