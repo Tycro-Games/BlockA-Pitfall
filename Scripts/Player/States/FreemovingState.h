@@ -31,7 +31,7 @@ private:
 	const float HORIZONTAL_GRAVITY = 12.0f;
 	const float MAX_HORIZONTAL_SPEED = 1.0f;
 	float modifierX = 1.0f;
-	const float IN_AIR_MODIFIED_X=0.5f;
+	const float IN_AIR_MODIFIED_X=0.2f;
 	const float ON_GROUND_MODIFIED_X=1.0f;
 
 };

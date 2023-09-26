@@ -18,6 +18,7 @@ State* ClimbingState::Update(float deltaTime)
 			velocity->y = -CLIMBING_JUMP_FORCE;
 			climbTimer->reset();
 			input->jumping = false;
+			velocity->x = static_cast<float>(input->arrowKeys.x);
 			return new FreemovingState();
 		}
 	}
