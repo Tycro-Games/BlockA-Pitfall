@@ -31,7 +31,7 @@ State* FreemovingState::Update(float deltaTime)
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider)) { //we are on the ground
 		if (!floors->IsCollidingBox(newPos, *boxCollider))
-			if (Camera::OnScreenAll(newPos, *boxCollider))
+			if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
 			{
 				*pos = newPos;
 
@@ -43,7 +43,7 @@ State* FreemovingState::Update(float deltaTime)
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider))
 	{
-		if (Camera::OnScreenAll(newPos , *boxCollider))
+		if (Camera::SmallerThanScreenComplete(newPos , *boxCollider))
 		{
 			*pos = newPos;
 

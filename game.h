@@ -7,15 +7,7 @@
 
 namespace Tmpl8
 {
-	enum TilemapType
-	{
-		PARALLAX,
-		BG,
-		FLOOR,
-		LADDERS,
-		ROPES,
-		COUNT
-	};
+
 
 	class Game : public TheApp
 	{
@@ -43,7 +35,11 @@ namespace Tmpl8
 		Sprite* enviroment;
 		Sprite* parallaxSprite;
 		Camera cam;
-		Tilemap tilemaps[COUNT];
+		Tilemap tilemaps[Tilemap::COUNT];
+		SpawnNonTiles ropesPos;
+		SpawnNonTiles ziplinesPos;
+		Rope* ropes = nullptr;
+		Zipline* ziplines = nullptr;
 		Avatar avatar;
 		Rope r;
 		Zipline z;

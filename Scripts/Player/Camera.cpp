@@ -60,11 +60,15 @@ void Camera::RenderToScreen(Surface* screen) const
 		screen);
 }
 
+void Camera::CleanPreRenderSurface() const
+{
+	preRender->GetSurface()->Clear(0);
+}
+
 void Camera::RenderTilemaps() const
 {
 
 	const float2 screenPos = -pos;
-	preRender->GetSurface()->Clear(0);
 
 	parallax->Render(preRender->GetSurface());
 	tilemap->Draw(preRender->GetSurface(),
@@ -108,24 +112,27 @@ bool Camera::OnScreen(float2 worldPos)
 		worldPos.y < pos.y + resY
 		&& worldPos.x < pos.x + resX;
 }
-
-bool Camera::OnScreenPartial(float2 worldPos, const Box& _a)
+bool Camera::OnScreen(const Box& _a)
 {
-	const Box a = AABB::At(worldPos, _a);
-
-	return OnScreen({ a.min.x,a.min.y }) ||
-		OnScreen({ a.min.x,a.max.y }) ||
-		OnScreen({ a.max.x,a.min.y }) ||
-		OnScreen({ a.max.x,a.max.y });
+	const Box b = Box{ pos,pos + float2{resX,resY} };
+	return AABB::BoxCollides(_a, b);
 }
-bool Camera::OnScreenAll(float2 worldPos, const Box& _a)
+
+bool Camera::OnScreen(float2 worldPos, const Box& _a)
+{
+	const Box a = AABB::At(worldPos, _a);
+	const Box b = Box{ pos,pos + float2{resX,resY} };
+	return AABB::BoxCollides(a, b);
+
+}
+bool Camera::SmallerThanScreenComplete(float2 worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
 
-	return OnScreen({ a.min.x,a.min.y }) &&
-		OnScreen({ a.min.x,a.max.y }) &&
-		OnScreen({ a.max.x,a.min.y }) &&
-		OnScreen({ a.max.x,a.max.y });
+	return OnScreen(float2{ a.min.x,a.min.y }) &&
+		OnScreen(float2{ a.min.x,a.max.y }) &&
+		OnScreen(float2{ a.max.x,a.min.y }) &&
+		OnScreen(float2{ a.max.x,a.max.y });
 }
 
 Surface* Camera::pGetPreRender()

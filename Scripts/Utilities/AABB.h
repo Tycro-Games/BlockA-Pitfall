@@ -6,7 +6,7 @@ struct Box
 	float2 min{}, max{};
 	Box() = default;
 
-	Box(const float2 min, const Tmpl8::float2 max) :
+	explicit Box(const float2 min, const Tmpl8::float2 max) :
 		min(min), max(max)
 	{
 

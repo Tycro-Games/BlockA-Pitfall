@@ -3,7 +3,7 @@
 
 void Zipline::Render(Surface* screen)
 {
-	if (!Camera::OnScreenPartial(pointA, coll)) //not on screen
+	if (!Camera::OnScreen(coll)) //not on screen
 		return;
 	const float2 camPos = Camera::GetPosition();
 	//TODO make this a static function
@@ -19,10 +19,12 @@ void Zipline::Render(Surface* screen)
 		const float x2 = pointB.x + static_cast<float>(i) - camPos.x;
 		const float y2 = pointB.y - camPos.y;
 
-			screen->Line(x1, y1, x2, y2, 255 << 8);
-		
+		screen->Line(x1, y1, x2, y2, 255 << 8);
+
 	}
 #ifdef _DEBUG
+	x1 = -camPos.x;
+	y1 = -camPos.y;
 	screen->Box(x1 - halfWidth + coll.min.x, y1 + coll.min.y, x1 - halfWidth + coll.max.x, y1 + coll.max.y, 255 << 16);
 #endif
 
@@ -30,11 +32,16 @@ void Zipline::Render(Surface* screen)
 
 void Zipline::Init(float2 a, float2 b)
 {
-	if (a.x > b.x)
+	if (a.y > b.y)
 		swap(a, b);
 	pointA = a;
 	pointB = b;
-	coll = Box{ float2{0 ,0 },pointB - pointA };
+	const float minX = min(a.x, b.x);
+	const float minY = min(a.y, b.y);
+
+	const float maxX = max(a.x, b.x);
+	const float maxY = max(a.y, b.y);
+	coll = Box{ float2{minX ,minY },float2{maxX ,maxY } };
 
 }
 

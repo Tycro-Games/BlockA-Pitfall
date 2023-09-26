@@ -30,13 +30,13 @@ State* ClimbingState::Update(float deltaTime)
 
 	newPos = *pos + float2{ 0, newPosY };
 	if (ladders->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::OnScreenAll(newPos, *boxCollider))
+		if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
 		{
 			*pos = newPos;
 		}
 	}
 	else if (!floors->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::OnScreenAll(newPos, *boxCollider))
+		if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
 		{
 			*pos = newPos;
 		}

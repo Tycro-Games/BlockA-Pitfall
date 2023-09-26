@@ -2,11 +2,18 @@
 #include "AABB.h"
 
 
-
+//found this simple aabb here: https://youtu.be/ENuk9HgeTiI?si=wfi6SQaCQVDyR6QN&t=398
 bool AABB::BoxCollides(const Box& a, const  Box& b)
 {
-	return (a.min.x <= b.max.x && a.min.y <= b.max.y
-		&& a.max.x >= b.min.x && a.max.y >= b.min.y);
+	for (int i = 0; i < 2; i++)
+	{
+		if (a.min.cell[i] > b.max.cell[i])
+			return false;
+		if (a.max.cell[i] < b.min.cell[i])
+			return false;
+	}
+
+	return true;
 }
 
 bool AABB::CircleCollides(const Circle& a, const Circle& b)
@@ -27,7 +34,7 @@ bool AABB::InsideB(const Box& a, const Box& b)
 //returns the AABB at the position pos
 Box AABB::At(float2 pos, const Box& b)
 {
-	return { pos + b.min, pos + b.max };
+	return Box{ pos + b.min, pos + b.max };
 }
 Circle AABB::At(float2 pos, const Circle& b)
 {

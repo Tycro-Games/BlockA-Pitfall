@@ -7,10 +7,19 @@ struct Circle;
 //origin of the world {0 0}
 class Tilemap
 {
-
+	
 public:
+	enum TilemapType
+	{
+		PARALLAX,
+		BG,
+		FLOOR,
+		LADDERS,
+		COUNT
+	};
 	Tilemap();
 	~Tilemap();
+	//collision
 	bool IsColliding(float x, float y) const;
 	bool IsColliding(float x, float y, float2& floorPos) const;
 	bool IsCollidingBox(float2 pos, const Box& a) const;
@@ -33,12 +42,13 @@ public:
 	{
 		return  heightY * TILE_SIZE;
 	}
+	static void ConvertCharToInt(const char* pch, uint& numberForm);
+
 private:
-	void ExtractWidthHeight(const char* tilemapRaw);
+	void ExtractWidthHeight(const char* csvRaw);
 	void LoadCSVFile(const char* csvPath);
 	//modified from my previous implementation https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
 	void RenderTile(Surface* surface, int screenX, int screenY, uint sourceX, uint sourceY);
-	void ConvertCharToInt(const char* pch, uint& numberForm);
 
 
 	uint widthX, heightY;

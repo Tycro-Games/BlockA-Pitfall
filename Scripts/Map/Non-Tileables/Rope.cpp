@@ -14,7 +14,7 @@ Rope::~Rope()
 
 void Rope::Render(Surface* screen)
 {
-	if (!Camera::OnScreenPartial(fixedPoint, coll))//not on screen
+	if (!Camera::OnScreen(fixedPoint, coll))//not on screen
 		return;
 	const float2 camPos = Camera::GetPosition();
 	float x1 = 0;

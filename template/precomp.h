@@ -61,15 +61,17 @@ using namespace std;
 //my header
 
 
-#include "Scripts/Tilemap/Tilemap.h"
+#include "Scripts/Map//Tilemap.h"
 #include "Scripts/Utilities/AABB.h"
 #include "Scripts/Utilities/MathLibrary.h"
 #include "Scripts/Player/Camera.h"
-#include "Scripts/Tilemap/Tilemap.h"
+#include "Scripts/Map/Tilemap.h"
 #include "Scripts/Player/Avatar.h"
-#include "Scripts/Tilemap/Parallax.h"
-#include "Scripts/Tilemap/Rope.h"
-#include "Scripts/Tilemap/Zipline.h"
+#include "Scripts/Map/Parallax.h"
+//non tile 
+#include "Scripts/Map/Non-Tileables/Rope.h"
+#include "Scripts/Map/Non-Tileables/Zipline.h"
+#include "Scripts/Map/Non-Tileables/NonTileMap.h"
 //FSM
 #include "Scripts/Player/States//State.h"
 #include "Scripts/Player/States/ClimbingState.h"

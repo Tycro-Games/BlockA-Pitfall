@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-class Rope
+class Rope 
 {
 public:
 	Rope();
-	~Rope();
+	~Rope() ;
 
-	void Render(Surface* screen);
+	void Render(Surface* screen) ;
 	float2 GetMovingPart(double timeElapsed);
 	void Update(float deltaTime);
 	void Init(float2 _fixedPoint);

@@ -92,11 +92,11 @@ void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 
 }
 
-void Tilemap::ExtractWidthHeight(const char* tilemapRaw)
+void Tilemap::ExtractWidthHeight(const char* csvRaw)
 {
 	//widthX and heightY get
-	char* tilemap = new char[strlen(tilemapRaw) + 1];
-	strcpy(tilemap, tilemapRaw);
+	char* tilemap = new char[strlen(csvRaw) + 1];
+	strcpy(tilemap, csvRaw);
 
 	char* getX = strstr(tilemap, "width=") + strlen("width=");
 	char* getY = strstr(tilemap, "height=") + strlen("height=");
@@ -139,14 +139,7 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 		tileMap[index++] = numberForm;
 		pch = strtok(NULL, ",\n");
 	}
-	//cout << "\n";
-	//change to values from file
-	/*for (uint i = 0; i < heightY; i++)
-	{
-		for (uint j = 0; j < widthX; j++)
-			cout << tileMap[j + i * widthX] << " ";
-		cout << '\n';
-	}*/
+	
 	delete[] tilemapRaw;
 
 }

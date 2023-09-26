@@ -143,15 +143,16 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
     <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Scripts\Player\Camera.cpp" />
-    <ClCompile Include="Scripts\Tilemap\Parallax.cpp" />
-    <ClCompile Include="Scripts\Tilemap\Rope.cpp" />
-    <ClCompile Include="Scripts\Tilemap\Tilemap.cpp" />
-    <ClCompile Include="Scripts\Tilemap\Zipline.cpp" />
+    <ClCompile Include="Scripts\Map\Parallax.cpp" />
+    <ClCompile Include="Scripts\Map\Non-Tileables\Rope.cpp" />
+    <ClCompile Include="Scripts\Map\Tilemap.cpp" />
+    <ClCompile Include="Scripts\Map\Non-Tileables\Zipline.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Player\States\State.cpp" />
@@ -172,16 +173,17 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />
     <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Scripts\Player\Camera.h" />
-    <ClInclude Include="Scripts\Tilemap\Parallax.h" />
-    <ClInclude Include="Scripts\Tilemap\Rope.h" />
-    <ClInclude Include="Scripts\Tilemap\Tilemap.h" />
-    <ClInclude Include="Scripts\Tilemap\Zipline.h" />
+    <ClInclude Include="Scripts\Map\Parallax.h" />
+    <ClInclude Include="Scripts\Map\Non-Tileables\Rope.h" />
+    <ClInclude Include="Scripts\Map\Tilemap.h" />
+    <ClInclude Include="Scripts\Map\Non-Tileables\Zipline.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Player\States\State.h" />

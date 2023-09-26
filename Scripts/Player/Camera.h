@@ -11,17 +11,19 @@ public:
 	void GetInput(float input);
 	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
 	void RenderToScreen(Surface* screen) const;
+	void CleanPreRenderSurface() const;
 	void RenderTilemaps() const;
 	void UpdatePosition(float deltaTime, float2 playerPos, const float2 leftOrRight);
 	static float2 GetPosition();
 	void Update(float deltaTime);
 	static bool OnScreen(float2 worldPos);
-	static bool OnScreenPartial(float2 screenPos, const Box& a);
-	static bool OnScreenAll(float2 worldPos, const Box& _a);
+	static bool OnScreen(const Box& _a);
+	static bool OnScreen(float2 screenPos, const Box& a);
+	static bool SmallerThanScreenComplete(float2 worldPos, const Box& _a);
 	Surface* pGetPreRender();
 private:
 	void SetCameraScale(const float cameraScale);
-
+	
 	Parallax* parallax = nullptr;
 	inline static float2 pos = 0;
 	Sprite* tilemap = nullptr;

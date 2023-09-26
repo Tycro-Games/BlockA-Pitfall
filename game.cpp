@@ -12,6 +12,8 @@ Game::~Game()
 {
 	delete enviroment;
 	delete parallaxSprite;
+	delete[] ropes;
+	delete[] ziplines;
 }
 
 // -----------------------------------------------------------
@@ -19,31 +21,49 @@ Game::~Game()
 // -----------------------------------------------------------
 void Game::Init()
 {
-	tilemaps[PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
-	tilemaps[BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
-	tilemaps[FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	tilemaps[LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
-	tilemaps[ROPES].Init("assets/Pitfall_tilesheet.png", "assets/Ropes.tmx");
-	//it gets owned by the sprite so we don't have to delete it
-	Surface* surf = new Surface(tilemaps[FLOOR].GetWidth(), tilemaps[FLOOR].GetHeight());
+	tilemaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
+	tilemaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
+	tilemaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	tilemaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
+	//non tiles
+	//learned how to do this from John Gear
+#pragma region 
+	ropesPos.Init("assets/Ropes.tmx");
+	ziplinesPos.Init("assets/Ziplines.tmx");
+	size_t countRopes = ropesPos.GetCount();
+	size_t countZiplines = ropesPos.GetCount();
+	ropes = new Rope[countRopes];
+	ziplines = new Zipline[countZiplines];
+	for (uint i = 0; i < countRopes; i++)
+	{
+		ropes[i].Init(ropesPos.GetPosition(i));
+	}
+	for (uint i = 0; i < countZiplines; i += 2)
+	{
+		ziplines[i].Init(ziplinesPos.GetPosition(i), ziplinesPos.GetPosition(i + 1) );
+	}
+#pragma endregion NON_TILE
 
-	Surface* par = new Surface(tilemaps[PARALLAX].GetWidth(), tilemaps[PARALLAX].GetHeight());
+	//it gets owned by the sprite so we don't have to delete it
+	Surface* surf = new Surface(tilemaps[Tilemap::FLOOR].GetWidth(), tilemaps[Tilemap::FLOOR].GetHeight());
+
+	Surface* par = new Surface(tilemaps[Tilemap::PARALLAX].GetWidth(), tilemaps[Tilemap::PARALLAX].GetHeight());
 	par->Clear(0x000001);
 	surf->Clear(0xff000000);
 	enviroment = new Sprite(surf, 1);
 	parallaxSprite = new Sprite(par, 1);
-	for (int i = BG; i < COUNT; i++) {
+	for (int i = Tilemap::BG; i < Tilemap::COUNT; i++) {
 		tilemaps[i].Render(enviroment->GetSurface());
 	}
-	tilemaps[PARALLAX].Render(parallaxSprite->GetSurface());
+	tilemaps[Tilemap::PARALLAX].Render(parallaxSprite->GetSurface());
 
 #ifdef _DEBUG
-	tilemaps[FLOOR].DebugBox(enviroment->GetSurface());
+	tilemaps[Tilemap::FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
 	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[FLOOR], tilemaps[LADDERS], cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[Tilemap::FLOOR], tilemaps[Tilemap::LADDERS], cam);
 	r.Init({ 500,700 });
 	z.Init({ 500,1200 }, { 200,1300 });
 
@@ -52,11 +72,15 @@ void Game::Init()
 void Game::Render()
 {
 	screen->Clear(0);
+	cam.CleanPreRenderSurface();
 
 	//first to call
 	cam.RenderTilemaps();
-		r.Render(cam.pGetPreRender());
-	z.Render(cam.pGetPreRender());
+
+	for (uint i = 0; i < ropesPos.GetCount(); i++)
+		ropes[i].Render(cam.pGetPreRender());
+	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
+		ziplines[i].Render(cam.pGetPreRender());
 
 	avatar.Render(cam.pGetPreRender());
 
@@ -68,7 +92,8 @@ void Game::Render()
 void Game::Update(float deltaTime)
 {
 	//do something every frame
-	r.Update(deltaTime);
+	for (uint i = 0; i < ropesPos.GetCount(); i++)
+		ropes[i].Update(deltaTime);
 	cam.Update(deltaTime);
 }
 
