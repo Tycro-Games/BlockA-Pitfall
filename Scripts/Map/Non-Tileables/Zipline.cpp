@@ -25,7 +25,7 @@ void Zipline::Render(Surface* screen)
 #ifdef _DEBUG
 	x1 = -camPos.x;
 	y1 = -camPos.y;
-	screen->Box(x1 - halfWidth + coll.min.x, y1 + coll.min.y, x1 - halfWidth + coll.max.x, y1 + coll.max.y, 255 << 16);
+	screen->Box(x1 - halfWidth + coll.min.x, y1 + coll.min.y, x1 - halfWidth + coll.max.x, y1 + coll.max.y, 255 << 8);
 #endif
 
 }
