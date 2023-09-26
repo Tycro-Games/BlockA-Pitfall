@@ -40,7 +40,7 @@ void Game::Init()
 	}
 	for (uint i = 0; i < countZiplines; i += 2)
 	{
-		ziplines[i].Init(ziplinesPos.GetPosition(i), ziplinesPos.GetPosition(i + 1) );
+		ziplines[i].Init(ziplinesPos.GetPosition(i), ziplinesPos.GetPosition(i + 1));
 	}
 #pragma endregion NON_TILE
 
@@ -92,8 +92,29 @@ void Game::Render()
 void Game::Update(float deltaTime)
 {
 	//do something every frame
-	for (uint i = 0; i < ropesPos.GetCount(); i++)
+	for (uint i = 0; i < ropesPos.GetCount(); i++) {
 		ropes[i].Update(deltaTime);
+		if (ropes[i].GetOnScreen()) {
+
+
+			float2 toPlayer = avatar.GetBoxColliderPos() - ropes[i].GetMovingPart();
+
+			//cout << "Rope: " << length(toPlayer) << '\n';
+		}
+	}
+	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
+		if (ziplines[i].GetOnScreen()) {
+			float2 start = 0;
+			float2 end = 0;
+			ziplines[i].GetStartEnd(start, end);
+			float2 a = end - start;
+			float2 toPlayer = -(start - avatar.GetBoxColliderPos());
+			float2 toPlayerP = normalize(a) * length(toPlayer);
+			float2 normal = toPlayer - toPlayerP;
+
+			//cout << "Zipline: " << length(normal) << '\n';
+		}
+
 	cam.Update(deltaTime);
 }
 

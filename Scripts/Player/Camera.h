@@ -22,14 +22,16 @@ public:
 	static bool SmallerThanScreenComplete(float2 worldPos, const Box& _a);
 	Surface* pGetPreRender();
 private:
-	void SetCameraScale(const float cameraScale);
-	
+	void SetCameraScale(float cameraScale);
+
 	Parallax* parallax = nullptr;
+	const float EASE_OUT_DISTANCE = 150.0f;
 	inline static float2 pos = 0;
 	Sprite* tilemap = nullptr;
 	Sprite* preRender = nullptr;
-	const float CAM_SPEED = 25.0f;
-	const float DEFAULT_CAMERA_SCALE = 0.5f;
+	const float CAM_SPEED = 3.0f;
+	const float CAM_SPEED_EDGE = 5.0f;
+	const float DEFAULT_CAMERA_SCALE = 0.4f;
 	//scaling camera
 	float inputScaling = 0;
 	const float INCREMENT_SCALE = .01f;

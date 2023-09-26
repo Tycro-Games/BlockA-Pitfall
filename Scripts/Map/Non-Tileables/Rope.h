@@ -7,9 +7,13 @@ public:
 	~Rope() ;
 
 	void Render(Surface* screen) ;
-	float2 GetMovingPart(double timeElapsed);
 	void Update(float deltaTime);
 	void Init(float2 _fixedPoint);
+	bool GetOnScreen() const;
+	float2 GetMovingPartAtTime(float timeElapsed);
+	float2 GetMovingPart() const;
+
+
 private:
 	float2 fixedPoint = 0;
 	float2 movingPoint = 0;
@@ -19,4 +23,6 @@ private:
 	const int halfWidth = 3;
 	Timer* t;
 	Box coll;
+	bool onScreen = false;
+
 };

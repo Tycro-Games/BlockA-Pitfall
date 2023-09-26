@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="Scripts\Map\Non-Tileables\CollisionManager.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
     <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripts\Map\Non-Tileables\CollisionManager.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />
     <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />

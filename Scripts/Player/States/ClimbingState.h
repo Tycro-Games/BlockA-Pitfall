@@ -18,7 +18,7 @@ private:
 	Box* floorCollider = nullptr;
 	Box* boxCollider = nullptr;
 	float speed = 0;
-	const float CLIMBING_JUMP_FORCE = 2.5f;
+	const float CLIMBING_JUMP_FORCE = 1.4f;
 
 };
 

@@ -22,6 +22,7 @@ public:
 	void SetJumpInput(bool jumpInput);
 	void SetInput(int2 input);
 	float2 GetPos() const;
+	float2 GetBoxColliderPos() const;
 	float2* pGetPos();
 
 	float2 GetVelocity() const;

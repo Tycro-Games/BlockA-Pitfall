@@ -14,7 +14,8 @@ Rope::~Rope()
 
 void Rope::Render(Surface* screen)
 {
-	if (!Camera::OnScreen(fixedPoint, coll))//not on screen
+	onScreen = Camera::OnScreen(fixedPoint, coll);//not on screen
+	if (!onScreen)
 		return;
 	const float2 camPos = Camera::GetPosition();
 	float x1 = 0;
@@ -37,18 +38,24 @@ void Rope::Render(Surface* screen)
 
 }
 
-float2 Rope::GetMovingPart(double timeElapsed)
+float2 Rope::GetMovingPartAtTime(float timeElapsed)
 {
-	const float x = sin(timeElapsed) * len;
-	const float y = cos(timeElapsed) * len;
+	const float x = sinf(timeElapsed) * len;
+	const float y = cosf(timeElapsed) * len;
 	return fixedPoint + float2{ x,y };
+}
+
+float2 Rope::GetMovingPart() const
+{
+	return movingPoint;
 }
 
 void Rope::Update(float deltaTime)
 {
 	//got helped for this formula from Lynn 230137
-	double timeElapsed = cos(t->elapsed() * frq) * amp;
-	movingPoint = GetMovingPart(timeElapsed);
+	//TODO make this start with a random value
+	float timeElapsed = cos(t->elapsed() * frq) * amp;
+	movingPoint = GetMovingPartAtTime(timeElapsed);
 }
 
 void Rope::Init(float2 _fixedPoint)
@@ -56,4 +63,10 @@ void Rope::Init(float2 _fixedPoint)
 	fixedPoint = _fixedPoint;
 
 	coll = Box{ -float2{len ,0 }, float2{len ,len  } };
+}
+
+bool Rope::GetOnScreen() const
+{
+	return onScreen;
+
 }

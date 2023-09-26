@@ -127,7 +127,7 @@ void Avatar::Update(float deltaTime)
 	UpdateCurrentState(deltaTime);
 	input.jumping = false;
 
-	cam->UpdatePosition(deltaTime, pos, float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
+	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
 		CAMERA_OFFSET.y });
 }
 
@@ -140,6 +140,11 @@ void Avatar::SetJumpInput(bool jumpInput)
 float2 Avatar::GetPos() const
 {
 	return pos;
+}
+
+float2 Avatar::GetBoxColliderPos() const
+{
+	return pos + BOX_POS;
 }
 
 float2* Avatar::pGetPos()

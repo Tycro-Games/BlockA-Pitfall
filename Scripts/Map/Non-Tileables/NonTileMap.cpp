@@ -52,9 +52,6 @@ void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 		const char* pX = strtok(getX, "\"");
 		const char* pY = strtok(getY, "\"");
 
-
-
-
 		float x = 0;
 		float y = 0;
 		ConvertCharTofloat(pX, x);

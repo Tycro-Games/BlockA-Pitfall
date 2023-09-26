@@ -1,10 +1,12 @@
 ﻿#include "precomp.h"
 #include "Zipline.h"
 
+
+
 void Zipline::Render(Surface* screen)
 {
-	if (!Camera::OnScreen(coll)) //not on screen
-		return;
+	onScreen = Camera::OnScreen(coll);
+	if (!onScreen) return;
 	const float2 camPos = Camera::GetPosition();
 	//TODO make this a static function
 	//Lynn showed me how I could use the template line function instead of making a new one
@@ -43,5 +45,16 @@ void Zipline::Init(float2 a, float2 b)
 	const float maxY = max(a.y, b.y);
 	coll = Box{ float2{minX ,minY },float2{maxX ,maxY } };
 
+}
+
+bool Zipline::GetOnScreen() const
+{
+	return onScreen;
+}
+
+void Zipline::GetStartEnd(float2& start, float2& end) const
+{
+	start = pointA;
+	end = pointB;
 }
 
