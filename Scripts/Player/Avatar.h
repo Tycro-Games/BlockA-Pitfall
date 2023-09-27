@@ -1,6 +1,8 @@
 #pragma once
 
 
+class Rope;
+class Zipline;
 class State;
 struct Timer;
 
@@ -16,13 +18,15 @@ public:
 	~Avatar();
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _tilemap, Tilemap& _ropes, Camera& _cam);
+	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Rope* _ropes, size_t _ropeCount, Zipline* _ziplines, size_t
+	          _ziplineCount, Camera& _cam);
 	void Render(Surface* screen);
 	void Update(float deltaTime);
 	void SetJumpInput(bool jumpInput);
 	void SetInput(int2 input);
 	float2 GetPos() const;
 	float2 GetBoxColliderPos() const;
+	float2 GetBoxColliderOffset() const;
 	float2* pGetPos();
 
 	float2 GetVelocity() const;
@@ -32,6 +36,10 @@ public:
 	float GetSpeed() const;
 	Tilemap* GetFloors() const;
 	Tilemap* GetLadders() const;
+	Rope* GetRopes() const;
+	Zipline* GetZiplines() const;
+	size_t GetZiplinesCount() const;
+	size_t GetRopeCount() const;
 	Camera* GetCamera()const;
 	Timer* GetClimbTimer() const;
 	Box* GetFloorCollider();
@@ -51,8 +59,11 @@ private:
 	//components
 	Tilemap* floors;
 	Tilemap* ladders;
+	Zipline* ziplines;
+	Rope* ropes;
 	Camera* cam;
-
+	size_t ropeCount=0;
+	size_t ziplineCount=0;
 	State* currentState;
 
 

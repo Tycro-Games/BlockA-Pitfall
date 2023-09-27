@@ -30,7 +30,7 @@ private:
 	Sprite* tilemap = nullptr;
 	Sprite* preRender = nullptr;
 	const float CAM_SPEED = 3.0f;
-	const float CAM_SPEED_EDGE = 5.0f;
+	const float CAM_SPEED_EDGE = 6.0f;
 	const float DEFAULT_CAMERA_SCALE = 0.4f;
 	//scaling camera
 	float inputScaling = 0;

@@ -4,7 +4,9 @@
 
 
 
-Avatar::Avatar() :  sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), cam(nullptr),
+Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), ziplines(nullptr),
+ropes(nullptr),
+cam(nullptr),
 currentState(nullptr),
 velocity(),
 pos(), dir()
@@ -33,12 +35,15 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Camera& _cam)
+void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Rope* _ropes, size_t _ropeCount, Zipline* _ziplines, size_t _ziplineCount, Camera& _cam)
 {
 	floors = &_floors;
 	ladders = &_ladders;
-
+	ropes = _ropes;
+	ziplines = _ziplines;
 	cam = &_cam;
+	ropeCount = _ropeCount;
+	ziplineCount = _ziplineCount;
 	char* spriteFlippedPath;
 	GetFlippedPath(spritePath, spriteFlippedPath);
 
@@ -61,9 +66,18 @@ void Avatar::Render(Surface* screen)
 	const float2 camPos = cam->GetPosition();
 	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
-
-	if (dir.x) {
-		flipX = -dir.x;
+	int i = 1;
+	cout << velocity;
+	if ((velocity.x) > 0.1f)
+		i = 1;
+	else if ((velocity.x) < -0.1f)
+	{
+		i = -1;
+	}
+	else
+		i = 0;
+	if (i) {
+		flipX = -i;
 	}
 
 	if (flipX > 0)
@@ -146,6 +160,10 @@ float2 Avatar::GetBoxColliderPos() const
 {
 	return pos + BOX_POS;
 }
+float2 Avatar::GetBoxColliderOffset() const
+{
+	return  BOX_POS;
+}
 
 float2* Avatar::pGetPos()
 {
@@ -180,6 +198,22 @@ Tilemap* Avatar::GetFloors() const
 Tilemap* Avatar::GetLadders() const
 {
 	return ladders;
+}
+Rope* Avatar::GetRopes() const
+{
+	return ropes;
+}
+Zipline* Avatar::GetZiplines() const
+{
+	return ziplines;
+}
+size_t Avatar::GetZiplinesCount() const
+{
+	return ziplineCount;
+}
+size_t Avatar::GetRopeCount() const
+{
+	return ropeCount;
 }
 
 Camera* Avatar::GetCamera() const

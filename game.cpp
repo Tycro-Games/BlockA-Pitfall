@@ -31,8 +31,9 @@ void Game::Init()
 	ropesPos.Init("assets/Ropes.tmx");
 	ziplinesPos.Init("assets/Ziplines.tmx");
 	size_t countRopes = ropesPos.GetCount();
-	size_t countZiplines = ropesPos.GetCount();
+	size_t countZiplines = ziplinesPos.GetCount();
 	ropes = new Rope[countRopes];
+
 	ziplines = new Zipline[countZiplines];
 	for (uint i = 0; i < countRopes; i++)
 	{
@@ -63,9 +64,8 @@ void Game::Init()
 
 	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[Tilemap::FLOOR], tilemaps[Tilemap::LADDERS], cam);
-	r.Init({ 500,700 });
-	z.Init({ 500,1200 }, { 200,1300 });
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[Tilemap::FLOOR], tilemaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
+
 
 }
 
@@ -76,7 +76,7 @@ void Game::Render()
 
 	//first to call
 	cam.RenderTilemaps();
-	/*float2 offset = { 50,100 };
+	/*float2 offset = { 50,100 };//bezier test
 	float2 a = { SCRWIDTH / 2, SCRHEIGHT / 2 };
 	float2 b = { SCRWIDTH / 2, SCRHEIGHT / 2 + offset.y };
 	float2 c = { SCRWIDTH / 2 + offset.x, SCRHEIGHT / 2 + offset.y + offset.x };
@@ -87,9 +87,9 @@ void Game::Render()
 	screen->Plot(b.x,b.y,0xFFFFFF);
 	screen->Plot(c.x,c.y,0xFFFFFF);
 	screen->Plot(d.x,d.y,0xFFFFFF);*/
-	
-		for (uint i = 0; i < ropesPos.GetCount(); i++)
-			ropes[i].Render(cam.pGetPreRender());
+
+	for (uint i = 0; i < ropesPos.GetCount(); i++)
+		ropes[i].Render(cam.pGetPreRender());
 	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
 		ziplines[i].Render(cam.pGetPreRender());
 
@@ -105,26 +105,9 @@ void Game::Update(float deltaTime)
 	//do something every frame
 	for (uint i = 0; i < ropesPos.GetCount(); i++) {
 		ropes[i].Update(deltaTime);
-		if (ropes[i].GetOnScreen()) {
-
-
-			float2 toPlayer = avatar.GetBoxColliderPos() - ropes[i].GetMovingPart();
-
-			//cout << "Rope: " << length(toPlayer) << '\n';
-		}
+		
 	}
-	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
-		if (ziplines[i].GetOnScreen()) {
-			float2 start = 0;
-			float2 end = 0;
-			ziplines[i].GetStartEnd(start, end);
-			float2 a = end - start;
-			float2 toPlayer = -(start - avatar.GetBoxColliderPos());
-			float2 toPlayerP = normalize(a) * length(toPlayer);
-			float2 normal = toPlayer - toPlayerP;
-
-			//cout << "Zipline: " << length(normal) << '\n';
-		}
+	
 
 	cam.Update(deltaTime);
 }

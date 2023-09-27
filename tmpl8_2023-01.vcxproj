@@ -154,6 +154,8 @@
     <ClCompile Include="Scripts\Map\Non-Tileables\Rope.cpp" />
     <ClCompile Include="Scripts\Map\Tilemap.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\Zipline.cpp" />
+    <ClCompile Include="Scripts\Player\States\SwingingState.cpp" />
+    <ClCompile Include="Scripts\Player\States\ZipliningState.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Player\States\State.cpp" />
@@ -186,6 +188,8 @@
     <ClInclude Include="Scripts\Map\Non-Tileables\Rope.h" />
     <ClInclude Include="Scripts\Map\Tilemap.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\Zipline.h" />
+    <ClInclude Include="Scripts\Player\States\SwingingState.h" />
+    <ClInclude Include="Scripts\Player\States\ZipliningState.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Player\States\State.h" />

@@ -41,8 +41,7 @@ namespace Tmpl8
 		Rope* ropes = nullptr;
 		Zipline* ziplines = nullptr;
 		Avatar avatar;
-		Rope r;
-		Zipline z;
+	
 
 		//input
 		int horizontalMove = 0;

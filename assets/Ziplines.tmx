@@ -2,10 +2,10 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="47">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="18" name="Ziplines">
-  <object id="41" x="121.212" y="1533.34">
+  <object id="41" x="116.787" y="1287.02">
    <point/>
   </object>
-  <object id="42" x="327.273" y="1284.85">
+  <object id="42" x="657.662" y="1202.25">
    <point/>
   </object>
   <object id="43" x="1033.33" y="1081.82">

@@ -22,7 +22,7 @@ void Rope::Render(Surface* screen)
 	float2 p2 = points[2] - camPos;
 	float2 p3 = points[3] - camPos;
 
-	screen->BezierCurve(255 << 16, p0, p1,p2, p3, resolution);
+	screen->BezierCurve(255 << 16, p0, p1, p2, p3, resolution);
 	/*
 		for (int j = 0; j < 3; j++) {
 
@@ -57,13 +57,17 @@ float2 Rope::GetMovingPart() const
 {
 	return points[3];
 }
+float2* Rope::pGetMovingPart()
+{
+	return &points[3];
+}
 
 void Rope::Update(float deltaTime)
 {
 	//got helped for this formula from Lynn 230137
 	//TODO make this start with a random value
 	for (int i = 1; i < 4; i++) {
-		float timeElapsed = cos(t->elapsed() * frq) * amp;
+		float timeElapsed = cos(timeOffset + t->elapsed() * frq) * amp;
 
 		points[i] = GetMovingPartAtTime(points[i - 1], timeElapsed * multipler[i - 1], len[i - 1]);
 	}
@@ -71,6 +75,11 @@ void Rope::Update(float deltaTime)
 
 void Rope::Init(float2 _fixedPoint)
 {
+	InitSeed(0);
+	timeOffset = RandomFloat() * 100;
+	frq = 1.0f + clamp(RandomFloat() + 0.8f, 0.0f, 1.0f);
+	amp = clamp(RandomFloat() + 0.4f, 0.0f, 1.0f);
+	cout << timeOffset;
 	points[0] = _fixedPoint;
 	for (int i = 0; i < 3; i++)
 		totalLen += len[i];

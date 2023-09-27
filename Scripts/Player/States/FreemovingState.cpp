@@ -21,35 +21,59 @@ State* FreemovingState::Update(float deltaTime)
 
 	}
 
-
-
 	float2 newPos = {};
 
 
 	const float newPosY = velocity->y * speed * deltaTime;
+#pragma region
 	int signX = velocity->x > 0 ? 1 : -1;
 	float direction = static_cast<float>(input->arrowKeys.x) * modifierX;
-	if (signX == 1) {
-		if (velocity->x + direction <= MAX_HORIZONTAL_SPEED)
+	/*
+	if (direction > 0) {
+		if (velocity->x + direction > MAX_HORIZONTAL_INPUT_SPEED)
 		{
+			direction = 0;
+		}
+
+	}
+	else if (velocity->x + direction < -MAX_HORIZONTAL_INPUT_SPEED)
+	{
+		direction = 0;
+
+	}
+	cout << direction<<'\n';*/
+
+
+
+	if (input->arrowKeys.x != 0) {
+		if (signX == 1) {
+			if (velocity->x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
+			{
+				velocity->x = velocity->x + direction;
+			}
+			else
+			{
+				velocity->x = MAX_HORIZONTAL_INPUT_SPEED;
+			}
+
+		}
+		else if (velocity->x + direction >= -MAX_HORIZONTAL_INPUT_SPEED)
+		{
+
 			velocity->x = velocity->x + direction;
+
 		}
 		else
 		{
-			velocity->x = MAX_HORIZONTAL_SPEED;
+			velocity->x = -MAX_HORIZONTAL_INPUT_SPEED;
+
 		}
 	}
-	else if (velocity->x + direction >= -MAX_HORIZONTAL_SPEED)
-	{
-		velocity->x = velocity->x + direction;
 
-	}
-	else
-	{
-		velocity->x = -MAX_HORIZONTAL_SPEED;
-		
-	}
-	const float newPosX = velocity->x * speed * deltaTime;
+	//cout << *velocity;
+#pragma endregion Horizontal
+
+		const float newPosX = velocity->x * speed * deltaTime;
 	newPos = *pos + float2{ newPosX, 0 };
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider)) { //we are on the ground
@@ -98,20 +122,59 @@ State* FreemovingState::Update(float deltaTime)
 	}
 	velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
 
+	//check for zipline
+	if (climbTimer->elapsed() >= CLIMB_DELAY)
+	{
+		for (uint i = 0; i < ziplineCount; i++)
+			if (ziplines[i].GetOnScreen()) {
+				float2 start = 0;
+				float2 end = 0;
+				ziplines[i].GetStartEnd(start, end);
+				float2 a = end - start;
+				float2 toPlayer = -(start - (*pos + BOX_POS));
+				float2 toPlayerP = normalize(a) * length(toPlayer);
+				float2 normal = toPlayer - toPlayerP;
+				if (length(normal) <= RADIUS_TO_ZIPLINE) {
+					velocity->x = 0;
+					velocity->y = 0;
+					ZipliningState* zip = new ZipliningState();
+					climbTimer->reset();
+					zip->SetZiplineEnd(end);
+					zip->SetZiplineStart(start);
+					return zip;
+
+				}
+			}
+		for (uint i = 0; i < ropeCount; i++) {
+			if (ropes[i].GetOnScreen()) {
 
 
-	//check for ladders
-	if (climbTimer->elapsed() >= CLIMB_DELAY &&
-		ladders->IsCollidingBox(*pos, *boxCollider, floorPos)) {
-		climbTimer->reset();
-		*pos = floorPos + floorCollider->max.x + boxCollider->max.x / 2;
-		velocity->y = 0;
-		velocity->x = 0;
-		return new ClimbingState();
+				float2 toPlayer = (*pos + BOX_POS) - ropes[i].GetMovingPart();
+				if (length(toPlayer) <= RADIUS_TO_ROPE) {
+					velocity->x = 0;
+					velocity->y = 0;
+					climbTimer->reset();
+
+					SwingingState* swing = new SwingingState();
+					swing->pSetRope(ropes[i].pGetMovingPart());
+					return swing;
+				}
+			}
+		}
+		if (ladders->IsCollidingBox(*pos, *boxCollider, floorPos)) {
+			climbTimer->reset();
+			*pos = floorPos + floorCollider->max.x + boxCollider->max.x / 2;
+			velocity->y = 0;
+			velocity->x = 0;
+			return new ClimbingState();
+		}
 	}
+
+
 	return nullptr;
 
 }
+
 
 void FreemovingState::OnExit()
 {
@@ -121,7 +184,7 @@ void FreemovingState::SetVariables(Avatar& p)
 {
 	pos = p.pGetPos();
 	velocity = p.pGetVelocity();
-
+	BOX_POS = p.GetBoxColliderOffset();
 	floors = p.GetFloors();
 	floorCollider = p.GetFloorCollider();
 	boxCollider = p.GetBoxCollider();
@@ -130,5 +193,9 @@ void FreemovingState::SetVariables(Avatar& p)
 	climbTimer = p.GetClimbTimer();
 	ladders = p.GetLadders();
 	floorPosCollider = p.getFloorPos();
+	ropes = p.GetRopes();
+	ropeCount = p.GetRopeCount();
+	ziplineCount = p.GetZiplinesCount();
+	ziplines = p.GetZiplines();
 }
 

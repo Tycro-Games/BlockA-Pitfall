@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="26">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="29">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="17" name="Ropes">
   <object id="16" x="418.97" y="323.749">
    <point/>
   </object>
-  <object id="17" x="1644.93" y="540.376">
-   <point/>
-  </object>
-  <object id="18" x="449.916" y="1111.7">
+  <object id="18" x="441.916" y="1279.7">
    <point/>
   </object>
   <object id="19" x="1825.85" y="1154.55">
@@ -18,9 +15,6 @@
    <point/>
   </object>
   <object id="21" x="2159.12" y="283.281">
-   <point/>
-  </object>
-  <object id="22" x="1775.86" y="521.332">
    <point/>
   </object>
   <object id="23" x="1042.66" y="333.271">

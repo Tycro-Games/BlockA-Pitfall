@@ -75,7 +75,9 @@ using namespace std;
 //FSM
 #include "Scripts/Player/States//State.h"
 #include "Scripts/Player/States/ClimbingState.h"
+#include "Scripts/Player/States/SwingingState.h"
 #include "Scripts/Player/States/FreemovingState.h"
+#include "Scripts/Player/States/ZipliningState.h"
 // namespaces
 using namespace Tmpl8;
 
