@@ -463,13 +463,12 @@ inline uint3 clamp(const uint3& v, uint a, uint b) { return make_uint3(clamp(v.x
 inline uint3 clamp(const uint3& v, const uint3& a, const uint3& b) { return make_uint3(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z)); }
 inline uint4 clamp(const uint4& v, uint a, uint b) { return make_uint4(clamp(v.x, a, b), clamp(v.y, a, b), clamp(v.z, a, b), clamp(v.w, a, b)); }
 inline uint4 clamp(const uint4& v, const uint4& a, const uint4& b) { return make_uint4(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z), clamp(v.w, a.w, b.w)); }
-
+//source https://www.gamedev.net/articles/programming/general-and-gameplay-programming/inverse-lerp-a-super-useful-yet-often-overlooked-function-r5230/
 inline float invlerp(const float a, const float b, const float t) { return(t - a) / (b - a); }
 inline float lerp(const float a, const float b, const float t) { return a + t * (b - a); }
 inline float2 lerp(const float2& a, const float2& b, float t) { return a + t * (b - a); }
 inline float3 lerp(const float3& a, const float3& b, float t) { return a + t * (b - a); }
 inline float4 lerp(const float4& a, const float4& b, float t) { return a + t * (b - a); }
-
 inline float smoothstep(const float a, const float b, const float x)
 {
 	const float y = clamp((x - a) / (b - a), 0.0f, 1.0f);

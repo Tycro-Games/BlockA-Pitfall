@@ -76,9 +76,20 @@ void Game::Render()
 
 	//first to call
 	cam.RenderTilemaps();
+	/*float2 offset = { 50,100 };
+	float2 a = { SCRWIDTH / 2, SCRHEIGHT / 2 };
+	float2 b = { SCRWIDTH / 2, SCRHEIGHT / 2 + offset.y };
+	float2 c = { SCRWIDTH / 2 + offset.x, SCRHEIGHT / 2 + offset.y + offset.x };
+	float2 d = { SCRWIDTH / 2 + offset.x*2, SCRHEIGHT / 2 + offset.y*2 + offset.x };
+	screen->BezierCurve(255, a, b, c, d, 1);
 
-	for (uint i = 0; i < ropesPos.GetCount(); i++)
-		ropes[i].Render(cam.pGetPreRender());
+	screen->Plot(a.x,a.y,0xFFFFFF);
+	screen->Plot(b.x,b.y,0xFFFFFF);
+	screen->Plot(c.x,c.y,0xFFFFFF);
+	screen->Plot(d.x,d.y,0xFFFFFF);*/
+	
+		for (uint i = 0; i < ropesPos.GetCount(); i++)
+			ropes[i].Render(cam.pGetPreRender());
 	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
 		ziplines[i].Render(cam.pGetPreRender());
 

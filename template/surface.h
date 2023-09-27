@@ -61,6 +61,7 @@ public:
 	void Print( const char* t, int x1, int y1, uint c );
 	void Clear( uint c );
 	void Line( float x1, float y1, float x2, float y2, uint c );
+	void BezierCurve(uint col, const float2& a, const float2& b, const float2& c, const float2& d, uint resolution);
 	void Plot( int x, int y, uint c );
 	void LoadFromFile( const char* file );
 	void CopyTo( Surface* dst, int x, int y );

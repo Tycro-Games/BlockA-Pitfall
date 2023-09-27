@@ -29,7 +29,6 @@ struct AABB
 
 	static bool BoxCollides(const Box& a, const Box& b);
 	static bool CircleCollides(const Circle& a, const Circle& b);
-	static bool InsideB(const Box& a, const Box& b);
 	static Box At(float2 pos, const Box& b);
 	static Circle At(float2 pos, const Circle& b);
 };

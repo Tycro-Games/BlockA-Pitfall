@@ -1,23 +1,25 @@
 ﻿#pragma once
 
-class Rope 
+class Rope
 {
 public:
 	Rope();
-	~Rope() ;
+	~Rope();
 
-	void Render(Surface* screen) ;
+	void Render(Surface* screen);
 	void Update(float deltaTime);
 	void Init(float2 _fixedPoint);
 	bool GetOnScreen() const;
-	float2 GetMovingPartAtTime(float timeElapsed);
+	float2 GetMovingPartAtTime(float2 startPoint, float timeElapsed, const float leng);
 	float2 GetMovingPart() const;
 
 
 private:
-	float2 fixedPoint = 0;
-	float2 movingPoint = 0;
-	const float len = 200.0f;
+	float2 points[4]={};
+	const float len[3] = { 100.0f,75.0f,25.0f };
+	const float multipler[3] = { 0.7f,1.2f,2.0f };
+	const float resolution = 25.0f;
+	float totalLen = 0;
 	const float frq = .8f;
 	const float amp = 1.0f;
 	const int halfWidth = 3;

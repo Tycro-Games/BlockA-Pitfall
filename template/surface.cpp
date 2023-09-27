@@ -159,6 +159,20 @@ void Surface::Line(float x1, float y1, float x2, float y2, uint c)
 		*(pixels + (int)x1 + (int)y1 * width) = c;
 }
 
+void Surface::BezierCurve(uint col, const float2& a, const float2& b, const float2& c, const float2& d, uint resolution = 50)
+{
+
+	float2 startPoint = a;
+	for (uint i = 1; i <= resolution; i++)
+	{
+		const float2 point = MathLibrary::CubicBezierCurve(a, b, c, d,
+			static_cast<float>(i) / static_cast<float>(resolution));
+
+		Line(startPoint.x, startPoint.y, point.x, point.y, col);
+		startPoint = point;
+	}
+}
+
 // Surface::CopyTo: Copy the contents of one Surface to another, at the specified
 // location. With clipping.
 void Surface::CopyTo(Surface* d, int x, int y)

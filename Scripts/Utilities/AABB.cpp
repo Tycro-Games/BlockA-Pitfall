@@ -26,11 +26,7 @@ bool AABB::CircleCollides(const Circle& a, const Circle& b)
 
 
 
-bool AABB::InsideB(const Box& a, const Box& b)
-{
-	return (a.min.x >= b.min.x && a.min.y >= b.min.y
-		&& a.max.x <= b.max.x && a.max.y <= b.max.y);
-}
+
 //returns the AABB at the position pos
 Box AABB::At(float2 pos, const Box& b)
 {
