@@ -5,7 +5,6 @@
 
 void Zipline::Render(Surface* screen)
 {
-	onScreen = Camera::OnScreen(coll);
 	if (!onScreen) return;
 	const float2 camPos = Camera::GetPosition();
 	//TODO make this a static function
@@ -50,6 +49,12 @@ void Zipline::Init(float2 a, float2 b)
 bool Zipline::GetOnScreen() const
 {
 	return onScreen;
+}
+
+void Zipline::Update(float deltaTime)
+{
+	onScreen = Camera::OnScreen(coll);
+
 }
 
 void Zipline::GetStartEnd(float2& start, float2& end) const

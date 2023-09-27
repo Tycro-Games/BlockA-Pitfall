@@ -107,6 +107,10 @@ void Game::Update(float deltaTime)
 		ropes[i].Update(deltaTime);
 		
 	}
+	for (uint i = 0; i < ziplinesPos.GetCount(); i++) {
+		ziplines[i].Update(deltaTime);
+		
+	}
 	
 
 	cam.Update(deltaTime);
@@ -143,16 +147,18 @@ void Game::Tick(float deltaTime)
 
 
 	UpdateInput();
+
 	if (fixedTimer.elapsed() >= fixedDeltaTime) {
 		//cout << deltaTime << '\n';
 		fixedTimer.reset();
 		FixedUpdate(fixedDeltaTime);
 	}
+
+	Update(deltaTime);
+
 	Render();
 
 
-
-	Update(deltaTime);
 }
 
 void Game::MouseWheel(float wheelDirection)

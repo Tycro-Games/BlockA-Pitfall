@@ -67,7 +67,6 @@ void Avatar::Render(Surface* screen)
 	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
 	int i = 1;
-	cout << velocity;
 	if ((velocity.x) > 0.1f)
 		i = 1;
 	else if ((velocity.x) < -0.1f)
