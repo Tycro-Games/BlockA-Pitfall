@@ -102,15 +102,7 @@ void Game::Render()
 
 void Game::Update(float deltaTime)
 {
-	//do something every frame
-	for (uint i = 0; i < ropesPos.GetCount(); i++) {
-		ropes[i].Update(deltaTime);
-		
-	}
-	for (uint i = 0; i < ziplinesPos.GetCount(); i++) {
-		ziplines[i].Update(deltaTime);
-		
-	}
+	
 	
 
 	cam.Update(deltaTime);
@@ -130,7 +122,16 @@ void Game::UpdateInput()
 
 void Game::FixedUpdate(float deltaTime)
 {
+	//do something every frame
+	for (uint i = 0; i < ropesPos.GetCount(); i++) {
+		ropes[i].Update(deltaTime);
 
+	}
+	for (uint i = 0; i < ziplinesPos.GetCount(); i++) {
+		ziplines[i].Update(deltaTime);
+
+	}
+	//camera positon also gets updated
 	avatar.Update(deltaTime);
 
 }
@@ -149,7 +150,6 @@ void Game::Tick(float deltaTime)
 	UpdateInput();
 
 	if (fixedTimer.elapsed() >= fixedDeltaTime) {
-		//cout << deltaTime << '\n';
 		fixedTimer.reset();
 		FixedUpdate(fixedDeltaTime);
 	}

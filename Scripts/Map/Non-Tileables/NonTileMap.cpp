@@ -58,7 +58,6 @@ void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 
 		ConvertCharTofloat(pY, y);
 		positions[index++] = float2{ x,y };
-		cout << x << " " << y << '\n';
 		offsetIndex += NEXT_POSITION;
 		delete[] stringToEdit;
 	}

@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="47">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="55">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="18" name="Ziplines">
-  <object id="41" x="116.787" y="1287.02">
+  <object id="41" x="250.12" y="1390.05">
    <point/>
   </object>
-  <object id="42" x="657.662" y="1202.25">
+  <object id="42" x="580.329" y="1340.61">
    <point/>
   </object>
-  <object id="43" x="1033.33" y="1081.82">
+  <object id="53" x="738.329" y="1106.61">
    <point/>
   </object>
-  <object id="44" x="1921.21" y="1506.06">
+  <object id="54" x="364.329" y="1162.61">
    <point/>
   </object>
-  <object id="45" x="2154.55" y="115.152">
+  <object id="43" x="1127.27" y="1009.09">
    <point/>
   </object>
-  <object id="46" x="784.848" y="560.606">
+  <object id="44" x="1578.79" y="1093.94">
+   <point/>
+  </object>
+  <object id="45" x="1257.58" y="348.485">
+   <point/>
+  </object>
+  <object id="46" x="784.848" y="524.242">
    <point/>
   </object>
  </objectgroup>

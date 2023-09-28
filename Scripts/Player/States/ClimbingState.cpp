@@ -5,6 +5,7 @@
 void ClimbingState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
+	cout << "climbing'\n";
 
 	velocity->y = 0;
 }

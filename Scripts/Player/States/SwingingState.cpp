@@ -4,19 +4,22 @@
 void SwingingState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
+	cout << "swinging'\n";
+
 }
 
 State* SwingingState::Update(float deltaTime)
 {
 	if (input->jumping == true)
 	{
+		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
+			!floors->IsCollidingBox(*pos, *boxCollider)) {
+			velocity->x = static_cast<float>(input->arrowKeys.x) * SWINGING_JUMP_SPEED;
+			velocity->y = -SWINGING_JUMP_SPEED;
+			climbTimer->reset();
 
-		climbTimer->reset();
-		velocity->x = static_cast<float>(input->arrowKeys.x) * SWINGING_JUMP_SPEED;
-		velocity->y = -SWINGING_JUMP_SPEED;
-		climbTimer->reset();
-
-		return new FreemovingState();
+			return new FreemovingState();
+		}
 	}
 	velocity->x = -(pos->x - ropePoint->x + BOX_OFFSET.x);
 	*pos = *ropePoint - BOX_OFFSET;

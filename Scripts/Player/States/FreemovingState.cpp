@@ -4,7 +4,7 @@
 void FreemovingState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
-
+	cout << "FReemoving'\n";
 
 }
 
@@ -28,24 +28,8 @@ State* FreemovingState::Update(float deltaTime)
 #pragma region
 	int signX = velocity->x > 0 ? 1 : -1;
 	float direction = static_cast<float>(input->arrowKeys.x) * modifierX;
-	/*
-	if (direction > 0) {
-		if (velocity->x + direction > MAX_HORIZONTAL_INPUT_SPEED)
-		{
-			direction = 0;
-		}
-
-	}
-	else if (velocity->x + direction < -MAX_HORIZONTAL_INPUT_SPEED)
-	{
-		direction = 0;
-
-	}
-	cout << direction<<'\n';*/
-
-
-
-	if (input->arrowKeys.x != 0) {
+	
+	if (abs(velocity->x) <= MAX_HORIZONTAL_INPUT_SPEED) {
 		if (signX == 1) {
 			if (velocity->x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
 			{
@@ -69,11 +53,10 @@ State* FreemovingState::Update(float deltaTime)
 
 		}
 	}
-
-	//cout << *velocity;
+	velocity->x = clamp(velocity->x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED);
 #pragma endregion Horizontal
 
-		const float newPosX = velocity->x * speed * deltaTime;
+	const float newPosX = velocity->x * speed * deltaTime;
 	newPos = *pos + float2{ newPosX, 0 };
 
 	if (!floors->IsCollidingBox(newPos, *floorCollider)) { //we are on the ground
@@ -112,14 +95,17 @@ State* FreemovingState::Update(float deltaTime)
 		velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
 		return nullptr;
 	}
-	if (abs(velocity->x) > 0.1f) {
-		if (input->arrowKeys.x == 0)
+		if (abs(velocity->x) > 0.2f) {
+
 			velocity->x -= HORIZONTAL_GRAVITY * deltaTime * signX;
-	}
-	else
-	{
-		velocity->x = 0;
-	}
+		}
+		else
+		{
+			velocity->x = 0;
+		}
+	
+	
+	
 	velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
 
 	//check for zipline
@@ -130,11 +116,13 @@ State* FreemovingState::Update(float deltaTime)
 				float2 start = 0;
 				float2 end = 0;
 				ziplines[i].GetStartEnd(start, end);
+
 				float2 a = end - start;
 				float2 toPlayer = -(start - (*pos + BOX_POS));
-				float2 toPlayerP = normalize(a) * length(toPlayer);
+				float2 toPlayerP = normalize(a) * clamp(length(toPlayer), 0.0f, length(a)-ZIPLINE_OFFSET_END);//not after the end
 				float2 normal = toPlayer - toPlayerP;
 				if (length(normal) <= RADIUS_TO_ZIPLINE) {
+					*pos -= normal;//snaps player to the zipline
 					velocity->x = 0;
 					velocity->y = 0;
 					ZipliningState* zip = new ZipliningState();

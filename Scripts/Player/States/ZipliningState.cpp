@@ -4,36 +4,40 @@
 void ZipliningState::OnEnter(Avatar& p)
 {
 	SetVariables(p);
+	cout << "zipline'\n";
 
+	distance = 0;
 	originalPos = *pos;
 	originalLeng = length(ziplineEnd - originalPos + BOX_OFFSET);
 	direction = normalize(ziplineEnd - ziplineStart);
+	wholeLeng = length(ziplineEnd - ziplineStart);
 }
 
 State* ZipliningState::Update(float deltaTime)
 {
 	if (input->jumping == true)
 	{
-		*velocity = direction * 2.25f;
-		climbTimer->reset();
+		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
+			!floors->IsCollidingBox(*pos, *boxCollider)) {
+			velocity->x = 0;
+			climbTimer->reset();
 
-		velocity->y = -ZIPLINE_JUMP_SPEED;
-		return new FreemovingState();
+			velocity->y = -ZIPLINE_JUMP_SPEED;
+			return new FreemovingState();
+		}
 
 	}
-	float dist = length(ziplineEnd - *pos);
-	t = invlerp(originalLeng, 50.0f, dist);
-	bool finished = false;
-	if (t > 1) {
-		t = 1;
-		finished = true;
-	}
+
+	distance += deltaTime * MAX_SPEED;
 	*pos += direction * deltaTime * MAX_SPEED;
-	velocity->x = direction.x ;
+	//keeps player facing the right way
+	velocity->x = direction.x;
 
-	if (finished)
+	if (originalLeng <= distance)
 	{
-		*velocity = direction * 2.5f;
+		float afterVelocity =  invlerp(0, wholeLeng, distance*2);
+		clamp(afterVelocity, 0.0f, 1.0f);
+		velocity->x = direction.x * afterVelocity*maxVelocity;
 		climbTimer->reset();
 		return new FreemovingState();
 	}

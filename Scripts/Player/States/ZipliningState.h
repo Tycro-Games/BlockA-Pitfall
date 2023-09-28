@@ -12,6 +12,8 @@ public:
 protected:
 	void SetVariables(Avatar& p) override;
 private:
+	float distance = 0;
+	float maxVelocity = 2.7f;
 	float2 ziplineEnd = 0;
 	float2 ziplineStart = 0;
 	float2 direction = 0;
@@ -41,4 +43,5 @@ private:
 	const float ON_GROUND_MODIFIED_X = 1.0f;
 	const float ZIPLINE_JUMP_SPEED = 1.0f;
 	float originalLeng = 0;;
+	float wholeLeng = 0;;
 };

@@ -30,16 +30,16 @@ private:
 	Box* boxCollider = nullptr;
 	float speed = 0;
 	float2 BOX_POS = 0;
-	const float RADIUS_TO_ZIPLINE = 5.0f;
-	const float RADIUS_TO_ROPE = 20.0f;
+	const float RADIUS_TO_ZIPLINE = 10.0f;
+	const float RADIUS_TO_ROPE = 30.0f;
 	const float CLIMB_DELAY = 0.5f;
 	const float JUMP_FORCE = 2.0f;
 	const float GRAVITY = 9.8f;
 	const float HORIZONTAL_GRAVITY = 12.0f;
-	const float MAX_HORIZONTAL_SPEED = 10.0f;
+	const float MAX_HORIZONTAL_SPEED = 3.0f;
 	const float MAX_HORIZONTAL_INPUT_SPEED = 1.0f;
 	float modifierX = 1.0f;
 	const float IN_AIR_MODIFIED_X = 0.25f;
 	const float ON_GROUND_MODIFIED_X = 1.0f;
-
+	const float ZIPLINE_OFFSET_END=25.0f;
 };
