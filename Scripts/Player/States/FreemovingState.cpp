@@ -5,29 +5,32 @@ void FreemovingState::OnEnter(Avatar& _p)
 {
 	cout << "Freemoving'\n";
 
-	SetVariables(_p);
 	p = &_p;
 }
 
 
 
-State* FreemovingState::Update(float deltaTime)
+PlayerState* FreemovingState::Update(float deltaTime)
 {
-	if (input->jumping == true)
+	const Box floorCollider = p->GetFloorCollider();
+	const Box boxCollider = p->GetBoxCollider();
+	if (p->GetInput().jumping == true)
 	{
 
-		if (floors->IsCollidingBox(*pos + floorPosCollider, *floorCollider))
+		if (p->IsCollidingFloors(p->GetPos() + p->getFloorPos(), floorCollider))
 		{
-			velocity->y = -JUMP_FORCE;
+			p->SetVelocityY(-JUMP_FORCE);
+
 		}
 
 	}
-	if (input->smallJump == true)
+	if (p->GetInput().smallJump == true)
 	{
 
-		if (floors->IsCollidingBox(*pos + floorPosCollider, *floorCollider))
+		if (p->IsCollidingFloors(p->GetPos() + p->getFloorPos(), floorCollider))
 		{
-			velocity->y = -SMALL_JUMP_FORCE;
+			p->SetVelocityY(-SMALL_JUMP_FORCE);
+
 		}
 
 	}
@@ -35,56 +38,55 @@ State* FreemovingState::Update(float deltaTime)
 
 
 #pragma region
-	int signX = velocity->x > 0 ? 1 : -1;
-	float direction = static_cast<float>(input->arrowKeys.x) * modifierX;
+	int signX = p->GetVelocity().x > 0 ? 1 : -1;
+	float direction = static_cast<float>(p->GetInput().arrowKeys.x) * modifierX;
 
-	if (abs(velocity->x) <= MAX_HORIZONTAL_INPUT_SPEED) {
+	if (abs(p->GetVelocity().x) <= MAX_HORIZONTAL_INPUT_SPEED) {
 		if (signX == 1) {
-			if (velocity->x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
+			if (p->GetVelocity().x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
 			{
-				velocity->x = velocity->x + direction;
+				p->SetVelocityX(p->GetVelocity().x + direction);
 			}
 			else
 			{
-				velocity->x = MAX_HORIZONTAL_INPUT_SPEED;
+				p->SetVelocityX(MAX_HORIZONTAL_INPUT_SPEED);
 			}
 
 		}
-		else if (velocity->x + direction >= -MAX_HORIZONTAL_INPUT_SPEED)
+		else if (p->GetVelocity().x + direction >= -MAX_HORIZONTAL_INPUT_SPEED)
 		{
 
-			velocity->x = velocity->x + direction;
+			p->SetVelocityX(p->GetVelocity().x + direction);
+
 
 		}
 		else
 		{
-			velocity->x = -MAX_HORIZONTAL_INPUT_SPEED;
-
+			p->SetVelocityX(-MAX_HORIZONTAL_INPUT_SPEED);
 		}
 	}
-	velocity->x = clamp(velocity->x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED);
+	p->SetVelocityX( clamp(p->GetVelocity().x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED));
 #pragma endregion Horizontal
 
-	const float newPosX = velocity->x * speed * deltaTime;
+	const float newPosX = p->GetVelocity().x * p->GetSpeed() * deltaTime;
 	newPos = p->GetPos() + float2{ newPosX, 0 };
 
-	if (!floors->IsCollidingBox(newPos, *floorCollider)) { //we are on the ground
-		if (!floors->IsCollidingBox(newPos, *boxCollider))
-			if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
+	if (!p->IsCollidingFloors(newPos, p->GetFloorCollider())) { //we are on the ground
+		if (!p->IsCollidingFloors(newPos, p->GetBoxCollider()))
+			if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 			{
-				*pos = newPos;
-
+				p->SetPosition(newPos);
 			}
 	}
 	//on Y check
-	const float newPosY = p->GetVelocity().y * speed * deltaTime;
-	newPos = *pos + float2{ 0, newPosY };
+	const float newPosY = p->GetVelocity().y * p->GetSpeed() * deltaTime;
+	newPos = p->GetPos() + float2{ 0, newPosY };
 
-	if (!floors->IsCollidingBox(newPos, *floorCollider))
+	if (!p->IsCollidingFloors(newPos, p->GetFloorCollider()))
 	{
-		if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
+		if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 		{
-			*pos = newPos;
+			p->SetPosition(newPos);
 			modifierX = IN_AIR_MODIFIED_X;
 
 		}
@@ -93,29 +95,29 @@ State* FreemovingState::Update(float deltaTime)
 	else
 	{
 		modifierX = ON_GROUND_MODIFIED_X;
-		velocity->y = 0;//hit something up so stop velocity 
-		climbTimer->reset();
+		p->SetVelocityY(0);
+		p->ResetClimbTimer();
 	}
 
 	//checks for floor snapping
 	float2 floorPos = { 0 };
 
-	if (velocity->y < 0) {//wait for the peak of the jump
-		velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
+	if (p->GetVelocity().y < 0) {//wait for the peak of the jump
+		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
 		return nullptr;
 	}
-	if (abs(velocity->x) > 0.2f) {
+	if (abs(p->GetVelocity().x) > 0.2f) {
 
-		velocity->x -= HORIZONTAL_GRAVITY * deltaTime * signX;
+		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * signX);
+
 	}
 	else
 	{
-		velocity->x = 0;
+		p->SetVelocityX(0);
 	}
 
+	p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
 
-
-	velocity->y = clamp(GRAVITY * deltaTime + velocity->y, velocity->y, GRAVITY);
 
 	//check for zipline
 	if (p->IsClimbTimerFinished(CLIMB_DELAY))
@@ -125,7 +127,7 @@ State* FreemovingState::Update(float deltaTime)
 		float2 end = 0;
 
 		if (p->IsCollidingZiplines(normal, start, end)) {
-			p->TransaltePosition(-normal);//snaps player to the zipline
+			p->TranslatePosition(-normal);//snaps player to the zipline
 			p->ResetClimbTimer();
 
 			ZipliningState* zip = new ZipliningState();
@@ -140,8 +142,6 @@ State* FreemovingState::Update(float deltaTime)
 		float2* movingPart = nullptr;
 		if (p->IsCollidingRopes(movingPart))
 		{
-			velocity->x = 0;
-			velocity->y = 0;
 			p->ResetClimbTimer();
 			p->SetVelocity(0);
 
@@ -149,11 +149,11 @@ State* FreemovingState::Update(float deltaTime)
 			swing->pSetRope(movingPart);
 			return swing;
 		}
-		if (p->IsCollidingLadders(floorPos)) {
+		if (p->IsCollidingLadders(boxCollider, floorPos)) {
 			p->ResetClimbTimer();
 			p->SetVelocity(0);
 
-			p->SetPostion(floorPos + floorCollider->max.x + boxCollider->max.x / 2);
+			p->SetPosition(floorPos + floorCollider.max.x + boxCollider.max.x / 2);
 			return new ClimbingState();
 		}
 	}
@@ -169,20 +169,4 @@ void FreemovingState::OnExit()
 {
 }
 
-void FreemovingState::SetVariables(Avatar& p)
-{
-	pos = p.pGetPos();
-	velocity = p.pGetVelocity();
-	floors = p.GetFloors();
-	floorCollider = p.GetFloorCollider();
-	boxCollider = p.GetBoxCollider();
-	speed = p.GetSpeed();
-	input = p.pGetInput();
-	climbTimer = p.GetClimbTimer();
-	floorPosCollider = p.getFloorPos();
-	ropes = p.GetRopes();
-	ropeCount = p.GetRopeCount();
-	ziplineCount = p.GetZiplinesCount();
-	ziplines = p.GetZiplines();
-}
 

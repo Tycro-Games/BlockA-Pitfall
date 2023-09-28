@@ -3,7 +3,7 @@
 
 class Rope;
 class Zipline;
-class State;
+class PlayerState;
 struct Timer;
 
 struct Input {
@@ -23,7 +23,12 @@ public:
 		_ziplineCount, Camera& _cam);
 	void Render(Surface* screen);
 	void Update(float deltaTime);
-	bool IsCollidingLadders(float2& floorPos) const;
+	bool IsCollidingLadders(const Box& col, float2& floorPos) const;
+	bool IsCollidingLadders(const float2& newPos, const Box& col) const;
+	bool IsCollidingLadders(const Box& col) const;
+	bool IsCollidingFloors(const float2& newPos, const Box& col) const;
+	bool IsCollidingFloors(const Box& col) const;
+
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end);
 	bool IsClimbTimerFinished(float time) const;
@@ -37,9 +42,13 @@ public:
 	float2 GetVelocity() const;
 	float2* pGetVelocity();
 	void SetVelocity(const float2& _velocity);
+	void SetVelocityX(float x);
+	void SetVelocityY(float y);
 
-	void SetPostion(const float2& _pos);
-	void TransaltePosition(const float2& _pos);
+	void SetPosition(const float2& _pos);
+	void SetPositionX(float x);
+	void SetPositionY(float y);
+	void TranslatePosition(const float2& _pos);
 	float GetSpeed() const;
 	Tilemap* GetFloors() const;
 	Tilemap* GetLadders() const;
@@ -49,9 +58,9 @@ public:
 	size_t GetRopeCount() const;
 	Camera* GetCamera()const;
 	Timer* GetClimbTimer() const;
-	Box* GetFloorCollider();
-	Box* GetBoxCollider();
-	Input* pGetInput();
+	const Box& GetFloorCollider();
+	const Box& GetBoxCollider();
+	const Input& GetInput() const;
 	float2 getFloorPos();
 
 private:
@@ -74,7 +83,7 @@ private:
 	Camera* cam;
 	size_t ropeCount = 0;
 	size_t ziplineCount = 0;
-	State* currentState;
+	PlayerState* currentState;
 
 
 	//physics

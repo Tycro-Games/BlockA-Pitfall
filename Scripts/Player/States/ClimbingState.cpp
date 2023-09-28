@@ -2,56 +2,55 @@
 #include "ClimbingState.h"
 
 
-void ClimbingState::OnEnter(Avatar& p)
+void ClimbingState::OnEnter(Avatar& _p)
 {
-	SetVariables(p);
 	cout << "climbing'\n";
-
-	velocity->y = 0;
+	p = &_p;
+	p->SetVelocityY(0);
 }
 
-State* ClimbingState::Update(float deltaTime)
+PlayerState* ClimbingState::Update(float deltaTime)
 {
-	if (input->jumping == true||input->smallJump==true)
+	const Box floorCollider = p->GetFloorCollider();
+	const Box boxCollider = p->GetBoxCollider();
+	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
-		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
-			!floors->IsCollidingBox(*pos, *boxCollider)) {
-			velocity->y = -CLIMBING_JUMP_FORCE;
-			climbTimer->reset();
-			input->jumping = false;
-			velocity->x = static_cast<float>(input->arrowKeys.x);
+		if (!p->IsCollidingFloors(floorCollider) &&
+			!p->IsCollidingFloors(boxCollider)) {
+			p->SetVelocityY(-CLIMBING_JUMP_FORCE);
+			p->ResetClimbTimer();
+			p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x));
 			return new FreemovingState();
 		}
 	}
-	float2 newPos = 0;
 
 
+	const float newPosY = (p->GetVelocity().y + static_cast<float>(p->GetInput().arrowKeys.y)) * p->GetSpeed() * deltaTime;
 
-	const float newPosY = (velocity->y + static_cast<float>(input->arrowKeys.y)) * speed * deltaTime;
 
-
-	newPos = *pos + float2{ 0, newPosY };
-	if (ladders->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
+	float2 newPos = p->GetPos() + float2{ 0, newPosY };
+	if (p->IsCollidingLadders(newPos, boxCollider)) {
+		if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 		{
-			*pos = newPos;
+			p->SetPosition(newPos);
 		}
 	}
-	else if (!floors->IsCollidingBox(newPos, *boxCollider)) {
-		if (Camera::SmallerThanScreenComplete(newPos, *boxCollider))
+	else if (!p->IsCollidingFloors(newPos, boxCollider)) {
+		if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 		{
-			*pos = newPos;
+			p->SetPosition(newPos);
 		}
 	}
-	if (!ladders->IsCollidingBox(*pos, *boxCollider))
+	if (!p->IsCollidingLadders(boxCollider))
 	{
 		//this is the end of a rope
 		float2 floorPos = { 0 };
 
-		if (floors->IsCollidingBox(*pos, *floorCollider, floorPos)) {
-			floorPos.y = floorPos.y - boxCollider->max.y / 2 - floorCollider->max.y / 2;
-			pos->y = floorPos.y;
-			velocity->y = 0;
+		if (p->IsCollidingFloors(floorPos, floorCollider)) {
+			floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
+			p->SetPositionY(floorPos.y);
+			p->SetVelocityY(0);
+
 		}
 		return new FreemovingState();
 	}
@@ -62,16 +61,3 @@ void ClimbingState::OnExit()
 {
 }
 
-void ClimbingState::SetVariables(Avatar& p)
-{
-	pos = p.pGetPos();
-	velocity = p.pGetVelocity();
-
-	floors = p.GetFloors();
-	floorCollider = p.GetFloorCollider();
-	boxCollider = p.GetBoxCollider();
-	speed = p.GetSpeed();
-	input = p.pGetInput();
-	ladders = p.GetLadders();
-	climbTimer = p.GetClimbTimer();
-}

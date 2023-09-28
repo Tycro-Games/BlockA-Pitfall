@@ -1,34 +1,20 @@
 ﻿#pragma once
 
-class FreemovingState final : public State
+class FreemovingState final : public PlayerState
 {
 public:
 	void OnEnter(Avatar& p) override;
-	State* Update(float deltaTime) override;
+	PlayerState* Update(float deltaTime) override;
 	void OnExit() override;
 
 protected:
-	void SetVariables(Avatar& p) override;
 
 private:
-	Avatar* p=nullptr;
-	Timer* climbTimer = nullptr;
 
-	float2 floorPosCollider = 0;
 
-	Input* input = nullptr;
-	float2* pos = nullptr;
-	float2* velocity = nullptr;
-	Tilemap* floors = nullptr;
-	Tilemap* ladders = nullptr;
-	Rope* ropes = nullptr;
-	Zipline* ziplines = nullptr;
-	size_t ropeCount = 0;
-	size_t ziplineCount = 0;
-	Box* floorCollider = nullptr;
-	Box* boxCollider = nullptr;
+
 	float speed = 0;
-	
+
 	const float CLIMB_DELAY = 0.5f;
 	const float JUMP_FORCE = 2.0f;
 	const float SMALL_JUMP_FORCE = 1.0f;

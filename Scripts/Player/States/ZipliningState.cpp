@@ -1,44 +1,45 @@
 ﻿#include "precomp.h"
 #include "ZipliningState.h"
 
-void ZipliningState::OnEnter(Avatar& p)
+void ZipliningState::OnEnter(Avatar& _p)
 {
-	SetVariables(p);
 	cout << "zipline'\n";
-
+	p = &_p;
 	distance = 0;
-	originalPos = *pos;
-	originalLeng = length(ziplineEnd - originalPos + BOX_OFFSET);
+	originalLeng = length(ziplineEnd - p->GetPos() + p->GetBoxColliderOffset());
 	direction = normalize(ziplineEnd - ziplineStart);
 	wholeLeng = length(ziplineEnd - ziplineStart);
 }
 
-State* ZipliningState::Update(float deltaTime)
+PlayerState* ZipliningState::Update(float deltaTime)
 {
-	if (input->jumping == true || input->smallJump == true)
+	const Box floorCollider = p->GetFloorCollider();
+	const Box boxCollider = p->GetBoxCollider();
+	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
-		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
-			!floors->IsCollidingBox(*pos, *boxCollider)) {
-			velocity->x = 0;
-			climbTimer->reset();
+		if (!p->IsCollidingFloors(floorCollider) &&
+			!p->IsCollidingFloors(boxCollider)) {
+			p->SetVelocityX(0);
+			p->SetVelocityY(-ZIPLINE_JUMP_SPEED);
 
-			velocity->y = -ZIPLINE_JUMP_SPEED;
+			p->ResetClimbTimer();
+
 			return new FreemovingState();
 		}
 
 	}
 
 	distance += deltaTime * MAX_SPEED;
-	*pos += direction * deltaTime * MAX_SPEED;
+	p->TranslatePosition(direction * deltaTime * MAX_SPEED);
 	//keeps player facing the right way
-	velocity->x = direction.x;
+	p->SetVelocityX(direction.x);
 
 	if (originalLeng <= distance)
 	{
-		float afterVelocity =  invlerp(0, wholeLeng, distance*2);
+		float afterVelocity = invlerp(0, wholeLeng, distance * 2);
 		clamp(afterVelocity, 0.0f, 1.0f);
-		velocity->x = direction.x * afterVelocity*maxVelocity;
-		climbTimer->reset();
+		p->SetVelocityX(direction.x * afterVelocity * maxVelocity);
+		p->ResetClimbTimer();
 		return new FreemovingState();
 	}
 	return nullptr;
@@ -56,17 +57,4 @@ void ZipliningState::SetZiplineEnd(float2 end)
 	ziplineStart = start;
 }
 
-void ZipliningState::SetVariables(Avatar& p)
-{
-	pos = p.pGetPos();
-	velocity = p.pGetVelocity();
-	BOX_OFFSET = p.GetBoxColliderOffset();
-	floors = p.GetFloors();
-	floorCollider = p.GetFloorCollider();
-	boxCollider = p.GetBoxCollider();
-	speed = p.GetSpeed();
-	input = p.pGetInput();
-	climbTimer = p.GetClimbTimer();
-	ladders = p.GetLadders();
-	floorPosCollider = p.getFloorPos();
-}
+

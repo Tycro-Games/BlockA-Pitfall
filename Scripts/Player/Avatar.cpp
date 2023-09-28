@@ -126,7 +126,7 @@ void Avatar::SetInput(int2 _input)
 
 void Avatar::UpdateCurrentState(float deltaTime)
 {
-	State* newState = currentState->Update(deltaTime);
+	PlayerState* newState = currentState->Update(deltaTime);
 	if (newState != nullptr)
 	{
 		currentState->OnExit();
@@ -144,15 +144,27 @@ void Avatar::Update(float deltaTime)
 
 	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), static_cast<float>(flipX));
 }
-bool Avatar::IsCollidingLadders(float2& floorPos) const
+bool Avatar::IsCollidingLadders( const Box& col, float2& floorPos) const
 {
-	return ladders->IsCollidingBox(pos, boxCollider, floorPos);
+	return ladders->IsCollidingBox(pos, col, floorPos);
 }
-bool Avatar::IsCollidingFloors(float2& floorPos) const
+bool Avatar::IsCollidingLadders(const float2& newPos, const Box& col) const
 {
-	floors->IsCollidingBox(newPos, *floorCollider);
-	return ladders->IsCollidingBox(pos, boxCollider, floorPos);
+	return ladders->IsCollidingBox(newPos, col);
 }
+bool Avatar::IsCollidingLadders( const Box& col) const
+{
+	return ladders->IsCollidingBox(pos, col);
+}
+bool Avatar::IsCollidingFloors(const float2& newPos, const Box& col) const
+{
+	return floors->IsCollidingBox(newPos, col);
+}
+bool Avatar::IsCollidingFloors( const Box& col) const
+{
+	return floors->IsCollidingBox(pos, col);
+}
+
 bool Avatar::IsCollidingRopes(float2*& pMovingPart) const
 {
 	for (uint i = 0; i < ropeCount; i++) {
@@ -267,11 +279,27 @@ void Avatar::SetVelocity(const float2& _velocity)
 {
 	velocity = _velocity;
 }
-void Avatar::SetPostion(const float2& _pos)
+void Avatar::SetVelocityX(float x)
+{
+	velocity.x = x;
+}
+void Avatar::SetVelocityY(float y)
+{
+	velocity.y = y;
+}
+void Avatar::SetPosition(const float2& _pos)
 {
 	pos = _pos;
 }
-void Avatar::TransaltePosition(const float2& _pos)
+void Avatar::SetPositionX(const float x)
+{
+	pos.x = x;
+}
+void Avatar::SetPositionY(const float y)
+{
+	pos.y = y;
+}
+void Avatar::TranslatePosition(const float2& _pos)
 {
 	pos += _pos;
 }
@@ -316,19 +344,19 @@ Timer* Avatar::GetClimbTimer() const
 	return climbTimer;
 }
 
-Box* Avatar::GetFloorCollider()
+const Box& Avatar::GetFloorCollider()
 {
-	return &floorCollider;
+	return floorCollider;
 }
 
-Box* Avatar::GetBoxCollider()
+const Box& Avatar::GetBoxCollider()
 {
-	return &boxCollider;
+	return boxCollider;
 }
 
-Input* Avatar::pGetInput()
+const Input& Avatar::GetInput() const
 {
-	return &input;
+	return input;
 }
 
 float2 Avatar::getFloorPos()

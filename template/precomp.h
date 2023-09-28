@@ -73,7 +73,7 @@ using namespace std;
 #include "Scripts/Map/Non-Tileables/Zipline.h"
 #include "Scripts/Map/Non-Tileables/NonTileMap.h"
 //FSM
-#include "Scripts/Player/States//State.h"
+#include "Scripts/Player/States//PlayerState.h"
 #include "Scripts/Player/States/ClimbingState.h"
 #include "Scripts/Player/States/SwingingState.h"
 #include "Scripts/Player/States/FreemovingState.h"

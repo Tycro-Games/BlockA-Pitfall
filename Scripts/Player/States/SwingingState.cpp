@@ -1,28 +1,29 @@
 ﻿#include "precomp.h"
 #include "SwingingState.h"
 
-void SwingingState::OnEnter(Avatar& p)
+void SwingingState::OnEnter(Avatar& _p)
 {
-	SetVariables(p);
 	cout << "swinging'\n";
-
+	p = &_p;
 }
 
-State* SwingingState::Update(float deltaTime)
+PlayerState* SwingingState::Update(float deltaTime)
 {
-	if (input->jumping == true || input->smallJump == true)
+	const Box floorCollider = p->GetFloorCollider();
+	const Box boxCollider = p->GetBoxCollider();
+	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
-		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
-			!floors->IsCollidingBox(*pos, *boxCollider)) {
-			velocity->x = static_cast<float>(input->arrowKeys.x) * SWINGING_JUMP_SPEED;
-			velocity->y = -SWINGING_JUMP_SPEED;
-			climbTimer->reset();
+		if (!p->IsCollidingFloors(floorCollider) &&
+			!p->IsCollidingFloors(boxCollider)) {
+			p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x) * SWINGING_JUMP_SPEED);
+			p->SetVelocityY(-SWINGING_JUMP_SPEED);
+			p->ResetClimbTimer();
 
 			return new FreemovingState();
 		}
 	}
-	velocity->x = -(pos->x - ropePoint->x + BOX_OFFSET.x);
-	*pos = *ropePoint - BOX_OFFSET;
+	p->SetVelocityX(-(p->GetPos().x - ropePoint->x + p->GetBoxColliderOffset().x));
+	p->SetPosition(*ropePoint - p->GetBoxColliderOffset());
 	return nullptr;
 }
 
@@ -30,21 +31,9 @@ void SwingingState::OnExit()
 {
 }
 
-void SwingingState::SetVariables(Avatar& p)
-{
-	pos = p.pGetPos();
-	velocity = p.pGetVelocity();
-	BOX_OFFSET = p.GetBoxColliderOffset();
-	floors = p.GetFloors();
-	floorCollider = p.GetFloorCollider();
-	boxCollider = p.GetBoxCollider();
-	speed = p.GetSpeed();
-	input = p.pGetInput();
-	climbTimer = p.GetClimbTimer();
-	floorPosCollider = p.getFloorPos();
-}
 
-void SwingingState::pSetRope(float2* p)
+
+void SwingingState::pSetRope(float2* _pRopePoints)
 {
-	ropePoint = p;
+	ropePoint = _pRopePoints;
 }
