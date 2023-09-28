@@ -28,6 +28,7 @@ public:
 	bool IsCollidingLadders(const Box& col) const;
 	bool IsCollidingFloors(const float2& newPos, const Box& col) const;
 	bool IsCollidingFloors(const Box& col) const;
+	bool IsCollidingFloors(const Box& col, float2& floorPos) const;
 
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;

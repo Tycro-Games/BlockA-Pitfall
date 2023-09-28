@@ -171,6 +171,10 @@ bool Avatar::IsCollidingFloors( const Box& col) const
 {
 	return floors->IsCollidingBox(pos, col);
 }
+bool Avatar::IsCollidingFloors(const Box& col, float2& floorPos) const
+{
+	return floors->IsCollidingBox(pos, col, floorPos);
+}
 
 bool Avatar::IsCollidingRopes(float2*& pMovingPart) const
 {

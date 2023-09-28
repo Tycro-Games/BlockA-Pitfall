@@ -46,7 +46,7 @@ PlayerState* ClimbingState::Update(float deltaTime)
 		//this is the end of a rope
 		float2 floorPos = { 0 };
 
-		if (p->IsCollidingFloors(floorPos, floorCollider)) {
+		if (p->IsCollidingFloors(floorCollider, floorPos)) {
 			floorPos.y = floorPos.y - boxCollider.max.y / 2 - floorCollider.max.y / 2;
 			p->SetPositionY(floorPos.y);
 			p->SetVelocityY(0);
