@@ -9,14 +9,16 @@ ropes(nullptr),
 cam(nullptr),
 currentState(nullptr),
 velocity(),
-pos(), dir()
+pos()
 {
 	climbTimer = new Timer();
+	jumpTimer = new Timer();
 }
 
 Avatar::~Avatar()
 {
 	delete climbTimer;
+	delete jumpTimer;
 	delete sprite;
 	delete spriteFlipped;
 	delete currentState;
@@ -66,17 +68,17 @@ void Avatar::Render(Surface* screen)
 	const float2 camPos = cam->GetPosition();
 	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
-	int i = 1;
-	if ((velocity.x) > 0.1f)
-		i = 1;
+	int directionToLook = 1;
+	if (velocity.x > 0.1f)
+		directionToLook = 1;
 	else if ((velocity.x) < -0.1f)
 	{
-		i = -1;
+		directionToLook = -1;
 	}
 	else
-		i = 0;
-	if (i) {
-		flipX = -i;
+		directionToLook = 0;
+	if (directionToLook) {
+		flipX = -directionToLook;
 	}
 
 	if (flipX > 0)
@@ -119,7 +121,6 @@ void Avatar::Render(Surface* screen)
 void Avatar::SetInput(int2 _input)
 {
 	input.arrowKeys = _input;
-	dir = (_input);
 }
 
 
@@ -139,15 +140,93 @@ void Avatar::Update(float deltaTime)
 {
 	UpdateCurrentState(deltaTime);
 	input.jumping = false;
+	input.smallJump = false;
 
-	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), float2{ CAMERA_OFFSET.x * static_cast<float>(flipX),
-		CAMERA_OFFSET.y });
+	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), static_cast<float>(flipX));
 }
+bool Avatar::IsCollidingLadders(float2& floorPos) const
+{
+	return ladders->IsCollidingBox(pos, boxCollider, floorPos);
+}
+bool Avatar::IsCollidingFloors(float2& floorPos) const
+{
+	floors->IsCollidingBox(newPos, *floorCollider);
+	return ladders->IsCollidingBox(pos, boxCollider, floorPos);
+}
+bool Avatar::IsCollidingRopes(float2*& pMovingPart) const
+{
+	for (uint i = 0; i < ropeCount; i++) {
+		if (ropes[i].GetOnScreen()) {
 
 
+			float2 toPlayer = (pos + BOX_POS) - ropes[i].GetMovingPart();
+			if (length(toPlayer) <= RADIUS_TO_ROPE) {
+
+				pMovingPart = ropes[i].pGetMovingPart();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+bool Avatar::IsCollidingZiplines(float2& _normal,
+	float2& _start,
+	float2& _end)
+{
+	for (uint i = 0; i < ziplineCount; i++)
+		if (ziplines[i].GetOnScreen()) {
+			float2 start = 0;
+			float2 end = 0;
+			ziplines[i].GetStartEnd(start, end);
+
+			float2 a = end - start;
+			float2 toPlayer = -(start - (pos + BOX_POS));
+			float2 toPlayerP = normalize(a) * clamp(length(toPlayer), 0.0f, length(a) - ZIPLINE_OFFSET_END);//not after the end
+			float2 normal = toPlayer - toPlayerP;
+			if (length(normal) <= RADIUS_TO_ZIPLINE) {
+				_normal = normal;
+				_start = start;
+				_end = end;
+				return true;
+			}
+		}
+	return false;
+
+}
+bool Avatar::IsClimbTimerFinished(float time) const
+{
+	return climbTimer->elapsed() >= time;
+}
 void Avatar::SetJumpInput(bool jumpInput)
 {
-	input.jumping = jumpInput;
+	if (jumpInput) {
+		if (startedJump == false)
+		{
+			startedJump = true;
+			jumpTimer->reset();
+		}
+		else if (jumpTimer->elapsed() > SMALL_JUMP_END && !alreadyJumped)
+		{
+			startedJump = false;
+			input.jumping = true;
+			alreadyJumped = true;
+			jumpTimer->reset();
+		}
+
+	}
+	else
+	{
+		alreadyJumped = false;
+		if (startedJump) {
+			if (jumpTimer->elapsed() <= SMALL_JUMP_END) {
+				input.smallJump = true;
+			}
+
+			jumpTimer->reset();
+			startedJump = false;
+		}
+	}
+	//input.jumping = jumpInput;
 }
 
 float2 Avatar::GetPos() const
@@ -169,6 +248,11 @@ float2* Avatar::pGetPos()
 	return &pos;
 }
 
+void Avatar::ResetClimbTimer()
+{
+	climbTimer->reset();
+}
+
 float2 Avatar::GetVelocity() const
 {
 	return velocity;
@@ -179,9 +263,17 @@ float2* Avatar::pGetVelocity()
 	return &velocity;
 }
 
-void Avatar::SetVelocity(float2 _velocity)
+void Avatar::SetVelocity(const float2& _velocity)
 {
 	velocity = _velocity;
+}
+void Avatar::SetPostion(const float2& _pos)
+{
+	pos = _pos;
+}
+void Avatar::TransaltePosition(const float2& _pos)
+{
+	pos += _pos;
 }
 
 float Avatar::GetSpeed() const

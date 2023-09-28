@@ -12,7 +12,7 @@ void ClimbingState::OnEnter(Avatar& p)
 
 State* ClimbingState::Update(float deltaTime)
 {
-	if (input->jumping == true)
+	if (input->jumping == true||input->smallJump==true)
 	{
 		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
 			!floors->IsCollidingBox(*pos, *boxCollider)) {

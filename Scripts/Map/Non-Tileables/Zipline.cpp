@@ -13,16 +13,14 @@ void Zipline::Render(Surface* screen)
 	float y1 = 0;
 
 
-	for (int i = -halfWidth; i < halfWidth; i++) {
-		x1 = pointA.x + static_cast<float>(i) - camPos.x;
-		y1 = pointA.y - camPos.y;
+	x1 = pointA.x - camPos.x;
+	y1 = pointA.y - camPos.y;
 
-		const float x2 = pointB.x + static_cast<float>(i) - camPos.x;
-		const float y2 = pointB.y - camPos.y;
+	const float x2 = pointB.x - camPos.x;
+	const float y2 = pointB.y - camPos.y;
 
-		screen->Line(x1, y1, x2, y2, 255 << 8);
+	screen->Line(x1, y1, x2, y2, 255 << 8);
 
-	}
 #ifdef _DEBUG
 	x1 = -camPos.x;
 	y1 = -camPos.y;

@@ -76,10 +76,11 @@ void Camera::RenderTilemaps() const
 
 }
 
-void Camera::UpdatePosition(float deltaTime, float2 playerPos, float2 leftOrRight)
+void Camera::UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight)
 {
+
 	//apply camera scaling to the offset
-	const float2 cameraOffset = playerPos - leftOrRight * currentCameraScale;
+	const float2 cameraOffset = playerPos - leftOrRight * currentCameraScale*CAMERA_OFFSET;
 	const float2 halfScreen{ resX / 2, resY / 2 };
 	float multiplier = invlerp(0, EASE_OUT_DISTANCE, length((cameraOffset - halfScreen) - pos));
 	const float step = clamp(deltaTime * (CAM_SPEED + CAM_SPEED_EDGE * multiplier), 0.0f, 1.0f);

@@ -105,7 +105,6 @@ void Game::Update(float deltaTime)
 	
 	
 
-	cam.Update(deltaTime);
 }
 
 
@@ -113,9 +112,7 @@ void Game::UpdateInput()
 {
 	avatar.SetInput(int2(horizontalMove, verticalMove));
 
-	if (isJumping)
 		avatar.SetJumpInput(isJumping);
-	isJumping = false;
 }
 
 
@@ -132,6 +129,8 @@ void Game::FixedUpdate(float deltaTime)
 
 	}
 	//camera positon also gets updated
+	cam.Update(deltaTime);
+
 	avatar.Update(deltaTime);
 
 }

@@ -13,7 +13,7 @@ public:
 	void RenderToScreen(Surface* screen) const;
 	void CleanPreRenderSurface() const;
 	void RenderTilemaps() const;
-	void UpdatePosition(float deltaTime, float2 playerPos, const float2 leftOrRight);
+	void UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight);
 	static float2 GetPosition();
 	void Update(float deltaTime);
 	static bool OnScreen(float2 worldPos);
@@ -33,6 +33,7 @@ private:
 	const float CAM_SPEED_EDGE = 7.0f;
 	const float DEFAULT_CAMERA_SCALE = 0.4f;
 	//scaling camera
+	const float2 CAMERA_OFFSET = { 100 ,-50 };
 	float inputScaling = 0;
 	const float INCREMENT_SCALE = .01f;
 	const float ZOOMING_SPEED = 50.0f;

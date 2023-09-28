@@ -21,7 +21,7 @@ void Rope::Render(Surface* screen) const
 	const float2 p1 = points[1] - camPos;
 	const float2 p2 = points[2] - camPos;
 	const float2 p3 = points[3] - camPos;
-	screen->BezierCurve(255 << static_cast<uint>(t->elapsed()) % 16, p0, p1, p2, p3, resolution);
+	screen->BezierCurve(255 << 16, p0, p1, p2, p3, resolution);
 
 #ifdef _DEBUG
 	const float x1 = points[0].x - camPos.x;
@@ -71,7 +71,7 @@ void Rope::Init(float2 _fixedPoint)
 	points[0] = _fixedPoint;
 	for (int i = 0; i < 3; i++)
 		totalLen += len[i];
-	coll = Box{ -float2{totalLen * lenMultiplier ,0 }, float2{totalLen * lenMultiplier  ,totalLen* lenMultiplier   } };
+	coll = Box{ -float2{totalLen * lenMultiplier ,0 }, float2{totalLen * lenMultiplier  ,totalLen * lenMultiplier   } };
 }
 
 bool Rope::GetOnScreen() const

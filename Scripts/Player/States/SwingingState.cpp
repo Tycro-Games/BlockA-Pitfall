@@ -10,7 +10,7 @@ void SwingingState::OnEnter(Avatar& p)
 
 State* SwingingState::Update(float deltaTime)
 {
-	if (input->jumping == true)
+	if (input->jumping == true || input->smallJump == true)
 	{
 		if (!floors->IsCollidingBox(*pos, *floorCollider) &&
 			!floors->IsCollidingBox(*pos, *boxCollider)) {
