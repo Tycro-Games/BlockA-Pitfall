@@ -16,8 +16,8 @@ private:
 	float speed = 0;
 
 	const float CLIMB_DELAY = 0.5f;
-	const float JUMP_FORCE = 2.0f;
-	const float SMALL_JUMP_FORCE = 1.0f;
+	const float JUMP_FORCE = 2.2f;
+	const float SMALL_JUMP_FORCE = 1.7f;
 	const float GRAVITY = 9.8f;
 	const float HORIZONTAL_GRAVITY = 12.0f;
 	const float MAX_HORIZONTAL_SPEED = 3.0f;

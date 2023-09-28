@@ -157,7 +157,6 @@ void Game::Tick(float deltaTime)
 	Update(deltaTime);
 
 	Render();
-	cout << "diff: " << t.elapsed() - start << "\n";
 
 
 }

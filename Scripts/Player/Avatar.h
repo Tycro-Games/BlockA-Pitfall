@@ -30,7 +30,7 @@ public:
 	bool IsCollidingFloors(const Box& col) const;
 
 	bool IsCollidingRopes(float2*& pMovingPart) const;
-	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end);
+	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
 	bool IsClimbTimerFinished(float time) const;
 	void SetJumpInput(bool jumpInput);
 	void SetInput(int2 input);
@@ -38,7 +38,7 @@ public:
 	float2 GetBoxColliderPos() const;
 	float2 GetBoxColliderOffset() const;
 	float2* pGetPos();
-	void ResetClimbTimer();
+	void ResetClimbTimer() const;
 	float2 GetVelocity() const;
 	float2* pGetVelocity();
 	void SetVelocity(const float2& _velocity);
@@ -58,10 +58,12 @@ public:
 	size_t GetRopeCount() const;
 	Camera* GetCamera()const;
 	Timer* GetClimbTimer() const;
-	const Box& GetFloorCollider();
-	const Box& GetBoxCollider();
+	const Box& GetFloorCollider() const;
+	const Box& GetBoxCollider() const;
+	const Box& GetJumpCollider() const;
 	const Input& GetInput() const;
-	float2 getFloorPos();
+	float2 GetFloorPos() const;
+	float2 GetJumpPos() const;
 
 private:
 	Input input;
@@ -69,7 +71,7 @@ private:
 	bool startedJump = false;
 	bool alreadyJumped = false;
 	Timer* jumpTimer = nullptr;
-	const float SMALL_JUMP_END = 0.02f;
+	const float SMALL_JUMP_END = 0.2f;
 	void UpdateCurrentState(float deltaTime);
 
 	//base for general sprite class and render
@@ -102,6 +104,11 @@ private:
 	Box floorCollider;
 	const float2 FLOOR_POS = { 9.5f,30.0f };
 	const float2 PLAYER_OFFSET = { 15.0f,-7.0f };
+
+	Box jumpCollider;
+	const float2 JUMP_POS = { 9.5f,42.0f };
+	const float JUMP_SIZE_X = 8.0f;
+	const float JUMP_SIZE_Y = 4.0f;
 
 	//ziplines and ropes
 	const float RADIUS_TO_ZIPLINE = 10.0f;

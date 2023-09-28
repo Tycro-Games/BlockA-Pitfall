@@ -56,6 +56,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, R
 	pos.y = Camera::GetPosition().y + SCRHEIGHT / 2;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
+	jumpCollider = Box{ JUMP_POS - float2{JUMP_SIZE_X,JUMP_SIZE_Y},JUMP_POS + float2{JUMP_SIZE_X,JUMP_SIZE_Y} };
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
 	delete[] spriteFlippedPath;
@@ -112,6 +113,12 @@ void Avatar::Render(Surface* screen)
 		static_cast<int>(ci.min.y),
 		static_cast<int>(ci.max.x),
 		static_cast<int>(ci.max.y), c);
+	Box fl = AABB::At({ debugX, debugY }, jumpCollider);
+	screen->Box(
+		static_cast<int>(fl.min.x),
+		static_cast<int>(fl.min.y),
+		static_cast<int>(fl.max.x),
+		static_cast<int>(fl.max.y), c);
 
 
 #endif
@@ -183,7 +190,7 @@ bool Avatar::IsCollidingRopes(float2*& pMovingPart) const
 }
 bool Avatar::IsCollidingZiplines(float2& _normal,
 	float2& _start,
-	float2& _end)
+	float2& _end) const
 {
 	for (uint i = 0; i < ziplineCount; i++)
 		if (ziplines[i].GetOnScreen()) {
@@ -228,15 +235,16 @@ void Avatar::SetJumpInput(bool jumpInput)
 	}
 	else
 	{
-		alreadyJumped = false;
 		if (startedJump) {
 			if (jumpTimer->elapsed() <= SMALL_JUMP_END) {
 				input.smallJump = true;
 			}
 
-			jumpTimer->reset();
-			startedJump = false;
 		}
+		startedJump = false;
+		alreadyJumped = false;
+		jumpTimer->reset();
+
 	}
 	//input.jumping = jumpInput;
 }
@@ -260,7 +268,7 @@ float2* Avatar::pGetPos()
 	return &pos;
 }
 
-void Avatar::ResetClimbTimer()
+void Avatar::ResetClimbTimer() const
 {
 	climbTimer->reset();
 }
@@ -344,14 +352,18 @@ Timer* Avatar::GetClimbTimer() const
 	return climbTimer;
 }
 
-const Box& Avatar::GetFloorCollider()
+const Box& Avatar::GetFloorCollider() const
 {
 	return floorCollider;
 }
 
-const Box& Avatar::GetBoxCollider()
+const Box& Avatar::GetBoxCollider() const
 {
 	return boxCollider;
+}
+const Box& Avatar::GetJumpCollider() const
+{
+	return jumpCollider;
 }
 
 const Input& Avatar::GetInput() const
@@ -359,9 +371,13 @@ const Input& Avatar::GetInput() const
 	return input;
 }
 
-float2 Avatar::getFloorPos()
+float2 Avatar::GetFloorPos() const
 {
 	return FLOOR_POS;
+}
+float2 Avatar::GetJumpPos() const
+{
+	return JUMP_POS;
 }
 
 

@@ -14,26 +14,28 @@ PlayerState* FreemovingState::Update(float deltaTime)
 {
 	const Box floorCollider = p->GetFloorCollider();
 	const Box boxCollider = p->GetBoxCollider();
+	const Box jumpCollider = p->GetJumpCollider();
 	if (p->GetInput().jumping == true)
 	{
-
-		if (p->IsCollidingFloors(p->GetPos() + p->getFloorPos(), floorCollider))
+		cout << "should jump'\n";
+		if (p->IsCollidingFloors(p->GetPos() , jumpCollider))
 		{
 			p->SetVelocityY(-JUMP_FORCE);
 
 		}
 
-	}
-	if (p->GetInput().smallJump == true)
+	}else if (p->GetInput().smallJump == true)
 	{
+		cout << "should jump'\n";
 
-		if (p->IsCollidingFloors(p->GetPos() + p->getFloorPos(), floorCollider))
+		if (p->IsCollidingFloors(p->GetPos() , jumpCollider))
 		{
 			p->SetVelocityY(-SMALL_JUMP_FORCE);
 
 		}
 
 	}
+	
 	float2 newPos = {};
 
 
@@ -71,8 +73,8 @@ PlayerState* FreemovingState::Update(float deltaTime)
 	const float newPosX = p->GetVelocity().x * p->GetSpeed() * deltaTime;
 	newPos = p->GetPos() + float2{ newPosX, 0 };
 
-	if (!p->IsCollidingFloors(newPos, p->GetFloorCollider())) { //we are on the ground
-		if (!p->IsCollidingFloors(newPos, p->GetBoxCollider()))
+	if (!p->IsCollidingFloors(newPos, floorCollider)) { //we are on the ground
+		if (!p->IsCollidingFloors(newPos, boxCollider))
 			if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 			{
 				p->SetPosition(newPos);
@@ -82,7 +84,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 	const float newPosY = p->GetVelocity().y * p->GetSpeed() * deltaTime;
 	newPos = p->GetPos() + float2{ 0, newPosY };
 
-	if (!p->IsCollidingFloors(newPos, p->GetFloorCollider()))
+	if (!p->IsCollidingFloors(newPos, floorCollider))
 	{
 		if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
 		{

@@ -19,6 +19,6 @@ private:
 
 	const float ZIPLINE_JUMP_SPEED = 1.0f;
 
-	float originalLeng = 0;;
-	float wholeLeng = 0;;
+	float originalLeng = 0;
+	float wholeLeng = 0;
 };

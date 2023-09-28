@@ -9,6 +9,7 @@ void ZipliningState::OnEnter(Avatar& _p)
 	originalLeng = length(ziplineEnd - p->GetPos() + p->GetBoxColliderOffset());
 	direction = normalize(ziplineEnd - ziplineStart);
 	wholeLeng = length(ziplineEnd - ziplineStart);
+	p->SetVelocityY(0);
 }
 
 PlayerState* ZipliningState::Update(float deltaTime)

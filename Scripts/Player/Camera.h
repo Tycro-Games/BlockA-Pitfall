@@ -25,15 +25,15 @@ private:
 	void SetCameraScale(float cameraScale);
 
 	Parallax* parallax = nullptr;
-	const float EASE_OUT_DISTANCE = 150.0f;
+	const float EASE_OUT_DISTANCE = 120.0f;
 	inline static float2 pos = 0;
 	Sprite* tilemap = nullptr;
 	Sprite* preRender = nullptr;
-	const float CAM_SPEED = 2.0f;
-	const float CAM_SPEED_EDGE = 7.0f;
+	const float CAM_SPEED = 1.0f;
+	const float CAM_SPEED_EDGE = 15.0f;
 	const float DEFAULT_CAMERA_SCALE = 0.4f;
 	//scaling camera
-	const float2 CAMERA_OFFSET = { 100 ,-50 };
+	const float2 CAMERA_OFFSET = { 150 ,-50 };
 	float inputScaling = 0;
 	const float INCREMENT_SCALE = .01f;
 	const float ZOOMING_SPEED = 50.0f;
