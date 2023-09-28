@@ -72,15 +72,24 @@ void Sprite::Draw(Surface* target, int x, int y)
 }
 
 // draw scaled sprite
+//help from matt Y3
 void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 {
+	//more efficient than division per pixel
+	const float divX = 1.0f / static_cast<float>(w);
+	const float divY = 1.0f / static_cast<float>(h);
 	if (width == 0 || height == 0) return;
-	for (int x = 0; x < w; x++) for (int y = 0; y < h; y++)
-	{
-		int u = (int)((float)x * ((float)width / (float)w));
-		int v = (int)((float)y * ((float)height / (float)h));
-		uint color = GetBuffer()[u + v * width * numFrames];
-		if (color & 0xffffff) target->pixels[x1 + x + ((y1 + y) * target->width)] = color;
+	for (int x = 0; x < w; x++) {
+		const int u = static_cast<int>(static_cast<float>(x) *
+			(static_cast<float>(width) * divX));
+		for (int y = 0; y < h; y++)
+		{
+			const int v = static_cast<int>(static_cast<float>(y) *
+				(static_cast<float>(height) * divY));
+
+			const uint color = GetBuffer()[u + v * width * numFrames];
+			if (color & 0xffffff) target->pixels[x1 + x + ((y1 + y) * target->width)] = color;
+		}
 	}
 }
 

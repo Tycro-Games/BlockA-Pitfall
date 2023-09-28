@@ -145,7 +145,8 @@ void Game::Tick(float deltaTime)
 
 	deltaTime *= 0.001f;
 
-
+	static Timer t;
+	float start = t.elapsed();
 	UpdateInput();
 
 	if (fixedTimer.elapsed() >= fixedDeltaTime) {
@@ -156,6 +157,7 @@ void Game::Tick(float deltaTime)
 	Update(deltaTime);
 
 	Render();
+	cout << "diff: " << t.elapsed() - start << "\n";
 
 
 }
