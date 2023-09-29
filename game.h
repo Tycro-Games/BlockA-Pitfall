@@ -47,7 +47,6 @@ namespace Tmpl8
 		int horizontalMove = 0;
 		int verticalMove = 0;
 		bool isJumping = false;
-		const float fixedDeltaTime = 0.02f;
 	};
 
 } // namespace Tmpl8

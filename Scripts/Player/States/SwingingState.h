@@ -12,6 +12,7 @@ private:
 	float2* ropePoint = 0;
 
 	const float SWINGING_JUMP_SPEED = 1.5f;
-
+	const float2 OFFSET_ROPE = { 7.0f,10.0f };
+	float2 previousR = 0;
 };
 

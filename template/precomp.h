@@ -157,11 +157,11 @@ using namespace Tmpl8;
 struct Timer
 {
 	Timer() { reset(); }
-	float elapsed() const
+	double elapsed() const
 	{
 		chrono::high_resolution_clock::time_point t2 = chrono::high_resolution_clock::now();
 		chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(t2 - start);
-		return (float)time_span.count();
+		return time_span.count();
 	}
 	void reset() { start = chrono::high_resolution_clock::now(); }
 	chrono::high_resolution_clock::time_point start;

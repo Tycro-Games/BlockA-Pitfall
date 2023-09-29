@@ -52,8 +52,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, R
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
 	//setting to world position
-	pos.x = Camera::GetPosition().x + SCRWIDTH / 2;
-	pos.y = Camera::GetPosition().y + SCRHEIGHT / 2;
+	pos.x = Camera::GetPosition().x + Camera::resX ;
+	pos.y = Camera::GetPosition().y + Camera::resY  ;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
 	jumpCollider = Box{ JUMP_POS - float2{JUMP_SIZE_X,JUMP_SIZE_Y},JUMP_POS + float2{JUMP_SIZE_X,JUMP_SIZE_Y} };

@@ -5,6 +5,8 @@ void SwingingState::OnEnter(Avatar& _p)
 {
 	cout << "swinging'\n";
 	p = &_p;
+	p->SetVelocityX(-(p->GetPos().x + p->GetBoxColliderOffset().x - ropePoint->x + OFFSET_ROPE.x));
+	previousR = *ropePoint;
 }
 
 PlayerState* SwingingState::Update(float deltaTime)
@@ -22,8 +24,21 @@ PlayerState* SwingingState::Update(float deltaTime)
 			return new FreemovingState();
 		}
 	}
-	p->SetVelocityX(-(p->GetPos().x - ropePoint->x + p->GetBoxColliderOffset().x));
-	p->SetPosition(*ropePoint - p->GetBoxColliderOffset());
+	float2 offsetSign = OFFSET_ROPE;
+	float2 ropP = *ropePoint;
+
+	if (previousR.x - ropP.x > 0) {
+
+		offsetSign.x *= -1;
+	}
+
+	p->SetVelocityX(-(p->GetPos().x + p->GetBoxColliderOffset().x - ropP.x- offsetSign.x));
+	p->SetPosition(ropP - p->GetBoxColliderOffset()- offsetSign);
+	cout << p->GetVelocity();
+
+	previousR = ropP;
+
+
 	return nullptr;
 }
 

@@ -97,8 +97,8 @@ private:
 	int flipX = -1;
 
 	//colliders
-	const float BOX_SIZE = 4.0f;
-	const float2 BOX_POS = { 9.0f,15.0f };
+	const float BOX_SIZE = 5.0f;
+	const float2 BOX_POS = { 9.0f,17.0f };
 	Box boxCollider;
 
 	const float FLOOR_SIZE = 8.0f;
@@ -112,7 +112,7 @@ private:
 	const float JUMP_SIZE_Y = 4.0f;
 
 	//ziplines and ropes
-	const float RADIUS_TO_ZIPLINE = 10.0f;
+	const float RADIUS_TO_ZIPLINE = 25.0f;
 	const float RADIUS_TO_ROPE = 30.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;
 

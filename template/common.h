@@ -8,6 +8,10 @@
 // default screen resolution
 constexpr int SCRWIDTH = 1152;
 constexpr int SCRHEIGHT = 648;
+constexpr double MS_PER_UPDATE = 1.0 / 65;
+constexpr double fixedDeltaTime = 0.01f;
+
+
 // #define FULLSCREEN
 
 // constants

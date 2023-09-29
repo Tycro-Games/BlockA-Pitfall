@@ -11,7 +11,7 @@ public:
 
 private:
 	float distance = 0;
-	float maxVelocity = 2.7f;
+	float maxVelocity = 2.3f;
 	float2 ziplineEnd = 0;
 	float2 ziplineStart = 0;
 	float2 direction = 0;

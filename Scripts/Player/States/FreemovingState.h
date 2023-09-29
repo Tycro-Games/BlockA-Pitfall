@@ -7,12 +7,7 @@ public:
 	PlayerState* Update(float deltaTime) override;
 	void OnExit() override;
 
-protected:
-
 private:
-
-
-
 	float speed = 0;
 
 	const float CLIMB_DELAY = 0.5f;

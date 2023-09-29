@@ -145,8 +145,6 @@ void Game::Tick(float deltaTime)
 
 	deltaTime *= 0.001f;
 
-	static Timer t;
-	float start = t.elapsed();
 	UpdateInput();
 
 	if (fixedTimer.elapsed() >= fixedDeltaTime) {
