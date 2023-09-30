@@ -8,14 +8,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FreemovingState" Collapsed="true">
-    <Position X="3" Y="3.25" Width="1.5" />
+    <Position X="0.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>iAQAIEIAACAAQAAEAgAAECAAAAAQAACAEIBAAAAAAAQ=</HashCode>
       <FileName>Scripts\Player\States\FreemovingState.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClimbingState" Collapsed="true">
-    <Position X="3" Y="1.75" Width="1.5" />
+    <Position X="3" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAIAAAAAAAAAAAAAAEBAAAAAQACCAAIAgAAAAAAA=</HashCode>
       <FileName>Scripts\Player\States\ClimbingState.h</FileName>
@@ -35,22 +35,29 @@
       <FileName>Scripts\Player\Camera.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Parallax">
-    <Position X="7.25" Y="5" Width="1.5" />
+  <Class Name="Parallax" Collapsed="true">
+    <Position X="15.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAQACIAAAAAIAAABEAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Scripts\Map\Parallax.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Rope" Collapsed="true">
-    <Position X="7.75" Y="3.75" Width="1.5" />
+    <Position X="10" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAQACAAAAAABAAEACACDAAQBAIAAAAIBSGAAAQAIA=</HashCode>
       <FileName>Scripts\Map\Non-Tileables\Rope.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Tilemap" Collapsed="true">
+  <Class Name="Tilemap">
     <Position X="11.75" Y="4.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Tilemap::TilemapType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Scripts\Map\Tilemap.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAAIAIQASBAABAAECAAAAAAJYSAEIEAAA=</HashCode>
       <FileName>Scripts\Map\Tilemap.h</FileName>
@@ -64,14 +71,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SwingingState" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Position X="5.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAACBAAAAAKAAAAAAAAQAAAAAIgAAAAAAAA=</HashCode>
       <FileName>Scripts\Player\States\SwingingState.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ZipliningState" Collapsed="true">
-    <Position X="7.5" Y="1.75" Width="1.5" />
+    <Position X="7.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEQAAAQIAABAICAAgAAAAAAAgEAQAAAAAJAQAAAAAAA=</HashCode>
       <FileName>Scripts\Player\States\ZipliningState.h</FileName>
@@ -85,7 +92,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerState">
-    <Position X="1.25" Y="0.75" Width="1.5" />
+    <Position X="4" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAABAAAAAAAAAAAAAAAQAAAAAMAAAAAAAAA=</HashCode>
       <FileName>Scripts\Player\States\PlayerState.h</FileName>
@@ -148,14 +155,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TheApp" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAgEAAAAgAAQQAAAAAEAAAAIACAACAQAA=</HashCode>
       <FileName>template\precomp.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="mat2" Collapsed="true">
-    <Position X="9.75" Y="2.25" Width="1.5" />
+    <Position X="10" Y="2.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -186,7 +193,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Tmpl8::Game">
-    <Position X="0.5" Y="4.75" Width="1.5" />
+    <Position X="0.5" Y="5.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAQABgAAAgAAkEAAAAgSAQBFAACQEAAAAJACEAWAQAA=</HashCode>
       <FileName>game.h</FileName>
@@ -220,7 +227,7 @@
       <FileName>Scripts\Player\Avatar.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="Box">
+  <Struct Name="Box" Collapsed="true">
     <Position X="11.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
@@ -234,8 +241,8 @@
       <FileName>Scripts\Utilities\AABB.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="AABB" Collapsed="true">
-    <Position X="10" Y="5.75" Width="1.5" />
+  <Struct Name="AABB">
+    <Position X="8.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAACAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Scripts\Utilities\AABB.h</FileName>
@@ -256,21 +263,21 @@
     </TypeIdentifier>
   </Struct>
   <Typedef Name="PFNWGLGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
-    <Position X="11.75" Y="8" Width="1.5" />
+    <Position X="11.75" Y="8" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>template\template.cpp</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="PFNGLXGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
-    <Position X="10" Y="8" Width="1.5" />
+    <Position X="10" Y="8" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>template\template.cpp</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="uchar" Collapsed="true">
-    <Position X="13.5" Y="8" Width="1.5" />
+    <Position X="13.5" Y="8" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>template\precomp.h</FileName>
@@ -284,7 +291,7 @@
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="ushort" Collapsed="true">
-    <Position X="17" Y="8" Width="1.5" />
+    <Position X="17" Y="8" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>template\precomp.h</FileName>

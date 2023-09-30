@@ -27,8 +27,8 @@ void Camera::SetCameraScale(const float cameraScale)
 
 	resX = currentCameraScale * SCRWIDTH;
 	resY = currentCameraScale * SCRHEIGHT;
-	maxPosX = static_cast<float>(tilemap->GetWidth()) - resX - 1;
-	maxPosY = static_cast<float>(tilemap->GetHeight()) - resY - 1;
+	maxPosX = static_cast<float>(tileMap->GetWidth()) - resX - 1;
+	maxPosY = static_cast<float>(tileMap->GetHeight()) - resY - 1;
 
 	//we need a new surface for rendering
 	delete preRender;
@@ -42,7 +42,7 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 {
 
 	pos = screenPos;
-	tilemap = tilemapSurface;
+	tileMap = tilemapSurface;
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
 	parallax = new Parallax(parallaxSurface, &pos);
@@ -74,7 +74,7 @@ void Camera::RenderTilemaps() const
 	const float2 screenPos = -pos;
 
 	parallax->Render(preRender->GetSurface());
-	tilemap->Draw(preRender->GetSurface(),
+	tileMap->Draw(preRender->GetSurface(),
 		static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
 
 }
