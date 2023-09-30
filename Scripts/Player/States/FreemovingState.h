@@ -8,8 +8,15 @@ public:
 	void OnExit() override;
 
 private:
-	float speed = 0;
+	//simmilar to the one in the climbing state
+	PlayerState* ToTheLadder(float deltaTime);
 
+	float speed = 0;
+	//for smooth ladder
+	float currentTime = 0;
+	float totalTimeToLadder = 0.1f;
+	float2 originalPlayerPos = 0;
+	float ladderPositionX = -1;
 	const float CLIMB_DELAY = 0.5f;
 	const float JUMP_FORCE = 2.2f;
 	const float SMALL_JUMP_FORCE = 1.7f;

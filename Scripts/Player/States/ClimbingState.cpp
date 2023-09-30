@@ -52,6 +52,10 @@ PlayerState* ClimbingState::Update(float deltaTime)
 				floorPos.y = floorPos.y - floorCollider.max.y * 0.6f;
 				originalPlayerPos = p->GetPos();
 			}
+			else
+			{
+				return new FreemovingState();
+			}
 
 
 
