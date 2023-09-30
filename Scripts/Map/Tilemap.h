@@ -51,7 +51,8 @@ private:
 	void RenderTile(Surface* surface, int screenX, int screenY, uint sourceX, uint sourceY);
 
 
-	uint widthX, heightY;
+	uint widthX;
+	uint heightY;
 	uint* tileMap;//number of tiles might need to be dynamic
 
 	Surface* tilePalette;

@@ -12,23 +12,23 @@ struct Box
 
 	}
 };
-struct Circle
-{
-	float2 c{};
-	float r{};
-	Circle() = default;
-	Circle(const float2 center, const float radius)
-		:c(center), r(radius)
-	{
-
-	}
-};
+//struct Circle
+//{
+//	float2 c{};
+//	float r{};
+//	Circle() = default;
+//	Circle(const float2 center, const float radius)
+//		:c(center), r(radius)
+//	{
+//
+//	}
+//};
 struct AABB
 {
 
 
 	static bool BoxCollides(const Box& a, const Box& b);
-	static bool CircleCollides(const Circle& a, const Circle& b);
+	//static bool CircleCollides(const Circle& a, const Circle& b);
 	static Box At(float2 pos, const Box& b);
-	static Circle At(float2 pos, const Circle& b);
+	//static Circle At(float2 pos, const Circle& b);
 };
