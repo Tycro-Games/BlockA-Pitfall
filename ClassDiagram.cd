@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SpawnNonTiles" Collapsed="true">
+    <Position X="13.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAIBAAAAAIAAAAAAAAACAAAACAAABAAA=</HashCode>
+      <FileName>Scripts\Map\Non-Tileables\NonTileMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FreemovingState" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAQAIEIAACAAQAAEAgAAECAAAAAQAACAEIBAAAAAAAQ=</HashCode>
+      <FileName>Scripts\Player\States\FreemovingState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClimbingState" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAAAAAAAAAAAAAEBAAAAAQACCAAIAgAAAAAAA=</HashCode>
+      <FileName>Scripts\Player\States\ClimbingState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Avatar" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MYSOBAFNASAgCYwgYAQarIxtQDMCAnCAABViEEGzAAE=</HashCode>
+      <FileName>Scripts\Player\Avatar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQSCwQAAACgIBGYAQAgACIAQgAAFEIAhAQACAAAQCAA=</HashCode>
+      <FileName>Scripts\Player\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parallax">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAQACIAAAAAIAAABEAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Map\Parallax.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rope" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAQACAAAAAABAAEACACDAAQBAIAAAAIBSGAAAQAIA=</HashCode>
+      <FileName>Scripts\Map\Non-Tileables\Rope.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tilemap" Collapsed="true">
+    <Position X="11.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAIAIQASBAABAAECAAAAAAJYSAEIEAAA=</HashCode>
+      <FileName>Scripts\Map\Tilemap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zipline" Collapsed="true">
+    <Position X="13.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAAAAAAAAAgAAAAAAABAAAAAAIBAGAAAAAIA=</HashCode>
+      <FileName>Scripts\Map\Non-Tileables\Zipline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SwingingState" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAACBAAAAAKAAAAAAAAQAAAAAIgAAAAAAAA=</HashCode>
+      <FileName>Scripts\Player\States\SwingingState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ZipliningState" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAQIAABAICAAgAAAAAAAgEAQAAAAAJAQAAAAAAA=</HashCode>
+      <FileName>Scripts\Player\States\ZipliningState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MathLibrary" Collapsed="true">
+    <Position X="13.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Utilities\MathLibrary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerState">
+    <Position X="1.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAAAAAAAAAAAAAAAQAAAAAMAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Player\States\PlayerState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buffer" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAIAAAAAAEAAIAAAAAgAAABABAAAERAAQBQYAA=</HashCode>
+      <FileName>template\opencl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kernel" Collapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACICACAAIRAAAAgARACIEAAAUAIIgAoCGEQhHAAAM=</HashCode>
+      <FileName>template\opencl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GLTexture" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAgCQAQAAAAAAAAAAAAQAAAAAAAAIAIAA=</HashCode>
+      <FileName>template\opengl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="11.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAgAAAAAAQggEIAQAAAAAAQAAAAAEABAAGAAAAAEA=</HashCode>
+      <FileName>template\opengl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Job" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobThread" Collapsed="true">
+    <Position X="15.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgAAAAAAAAAAKAAAAAAACAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobManager" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAASQAAAAAAAIAghAEAAAAAIBAIAAgISQAAAiAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPUCaps" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AcQgAWAAAICjAUEAAAAAAAACAANAAJAAQCACIECBBBA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheApp" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgEAAAAgAAQQAAAAAEAAAAIACAACAQAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mat2" Collapsed="true">
+    <Position X="9.75" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQEAAEAAAAAAAAAAAACAAAEAAAAAAAAA=</HashCode>
+      <FileName>template\tmpl8math.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mat4" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAWAAAAABIAkEAEAIAAQAAEAEAARAAAEAEYACAAAI=</HashCode>
+      <FileName>template\tmpl8math.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="quat" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAQAAAAEAAASEAAAAAAAAAACgAAAARAAAQhhAQAAAAA=</HashCode>
+      <FileName>template\tmpl8math.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aabb" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAAACBAAAABAAAAAAABBBAAAAAAAAAAAAAAQAYAAA=</HashCode>
+      <FileName>template\tmpl8math.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::Game">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABgAAAgAAkEAAAAgSAQBFAACQEAAAAJACEAWAQAA=</HashCode>
+      <FileName>game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::Sprite" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAgQAAAgQgQAQACABQAAAIAAAQAAQAAEBAAAc=</HashCode>
+      <FileName>template\sprite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::Surface" Collapsed="true">
+    <Position X="17" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAASAAAgAAAUAQAEIAAAEAAIAAAAQIAAEAABFMAA=</HashCode>
+      <FileName>template\surface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::Surface8" Collapsed="true">
+    <Position X="10" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAVAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\surface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Input" Collapsed="true">
+    <Position X="17" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgABAIAAA=</HashCode>
+      <FileName>Scripts\Player\Avatar.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Box">
+    <Position X="11.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Utilities\AABB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Circle" Collapsed="true">
+    <Position X="13.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAACAAAABAAAAAAA=</HashCode>
+      <FileName>Scripts\Utilities\AABB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AABB" Collapsed="true">
+    <Position X="10" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAACAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Scripts\Utilities\AABB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Timer" Collapsed="true">
+    <Position X="10" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="float3" Collapsed="true">
+    <Position X="15.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAEAAAAAACCAAAAAAAA=</HashCode>
+      <FileName>template\tmpl8math.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="PFNWGLGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
+    <Position X="11.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\template.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="PFNGLXGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
+    <Position X="10" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\template.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uchar" Collapsed="true">
+    <Position X="13.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint" Collapsed="true">
+    <Position X="15.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ushort" Collapsed="true">
+    <Position X="17" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>template\precomp.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

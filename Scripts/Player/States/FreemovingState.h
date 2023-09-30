@@ -11,7 +11,6 @@ private:
 	//simmilar to the one in the climbing state
 	PlayerState* ToTheLadder(float deltaTime);
 
-	float speed = 0;
 	//for smooth ladder
 	float currentTime = 0;
 	float totalTimeToLadder = 0.1f;
