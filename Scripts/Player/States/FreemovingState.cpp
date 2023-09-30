@@ -17,7 +17,6 @@ PlayerState* FreemovingState::Update(float deltaTime)
 	const Box jumpCollider = p->GetJumpCollider();
 	if (p->GetInput().jumping == true)
 	{
-		cout << "should jump'\n";
 		if (p->IsCollidingFloors(p->GetPos() , jumpCollider))
 		{
 			p->SetVelocityY(-JUMP_FORCE);
@@ -26,7 +25,6 @@ PlayerState* FreemovingState::Update(float deltaTime)
 
 	}else if (p->GetInput().smallJump == true)
 	{
-		cout << "should jump'\n";
 
 		if (p->IsCollidingFloors(p->GetPos() , jumpCollider))
 		{

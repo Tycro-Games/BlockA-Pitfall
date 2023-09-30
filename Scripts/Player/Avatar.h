@@ -24,6 +24,7 @@ public:
 	void Render(Surface* screen);
 	void Update(float deltaTime);
 	bool IsCollidingLadders(const Box& col, float2& floorPos) const;
+	bool IsCollidingLadders(const float2& newPos, const Box& col, float2& floorPos) const;
 	bool IsCollidingLadders(const float2& newPos, const Box& col) const;
 	bool IsCollidingLadders(const Box& col) const;
 	bool IsCollidingFloors(const float2& newPos, const Box& col) const;
@@ -72,7 +73,7 @@ private:
 	bool startedJump = false;
 	bool alreadyJumped = false;
 	Timer* jumpTimer = nullptr;
-	const float SMALL_JUMP_END = 0.2f;
+	const float SMALL_JUMP_END = 0.13f;
 	void UpdateCurrentState(float deltaTime);
 
 	//base for general sprite class and render

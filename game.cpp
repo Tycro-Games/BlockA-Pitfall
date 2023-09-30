@@ -62,7 +62,7 @@ void Game::Init()
 	tilemaps[Tilemap::FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
-	cam.Init(float2{ 0.0f, 700.0f }, enviroment, parallaxSprite);
+	cam.Init(float2{ 200, 400.0f }, enviroment, parallaxSprite);
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tilemaps[Tilemap::FLOOR], tilemaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
 
@@ -88,6 +88,7 @@ void Game::Render()
 	screen->Plot(c.x,c.y,0xFFFFFF);
 	screen->Plot(d.x,d.y,0xFFFFFF);*/
 
+	
 	for (uint i = 0; i < ropesPos.GetCount(); i++)
 		ropes[i].Render(cam.pGetPreRender());
 	for (uint i = 0; i < ziplinesPos.GetCount(); i++)
@@ -147,7 +148,7 @@ void Game::Tick(float deltaTime)
 
 	UpdateInput();
 
-	if (fixedTimer.elapsed() >= fixedDeltaTime) {
+	if (fixedTimer.elapsed() > fixedDeltaTime) {
 		fixedTimer.reset();
 		FixedUpdate(fixedDeltaTime);
 	}
