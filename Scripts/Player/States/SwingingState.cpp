@@ -26,16 +26,23 @@ PlayerState* SwingingState::Update(float deltaTime)
 	}
 	float2 offsetSign = OFFSET_ROPE;
 	float2 ropP = *ropePoint;
+	//left or right
 	float heading = previousR.x - ropP.x;
 	if (heading > 0) {
-
+		//player should be on the left in this case
 		offsetSign.x *= -1;
 	}
+	//neccesary for giving the illusion
+	//of weight when the player is swinging
 	if (abs(heading) < 1.0f)
 		offsetSign.x *= abs(heading);
-	p->SetVelocityX(-(p->GetPos().x + p->GetBoxColliderOffset().x - ropP.x - offsetSign.x));
-	p->SetPosition(ropP - p->GetBoxColliderOffset() - offsetSign);
-	cout << previousR.x - ropP.x << '\n';
+	//player is looking in the right directions
+	p->SetVelocityX(-(p->GetPos().x +
+		p->GetBoxColliderOffset().x - ropP.x - 
+		offsetSign.x));
+
+	p->SetPosition(ropP - p->GetBoxColliderOffset() 
+		- offsetSign);
 
 	previousR = ropP;
 
