@@ -116,6 +116,7 @@ private:
 	const float RADIUS_TO_ZIPLINE = 25.0f;
 	const float RADIUS_TO_ROPE = 30.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;
+	const float ZIPLINE_OFFSET_START = 25.0f;
 
 	//animation
 

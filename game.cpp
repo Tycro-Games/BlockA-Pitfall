@@ -121,7 +121,6 @@ void Game::UpdateInput()
 
 void Game::FixedUpdate(float deltaTime)
 {
-	//do something every frame
 	for (uint i = 0; i < countRopes; i++) {
 		ropes[i].Update(deltaTime);
 
