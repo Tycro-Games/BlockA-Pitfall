@@ -3,7 +3,12 @@
 class SpawnNonTiles
 {
 public:
-
+	enum NonTileType
+	{
+		ROPE,
+		ZIPLINE,
+		COUNT
+	};
 	void Init(const char* csvPath);
 	size_t GetCount() const;
 	float2 GetPosition(size_t index) const;

@@ -68,10 +68,10 @@ using namespace std;
 #include "Scripts/Map/Tilemap.h"
 #include "Scripts/Player/Avatar.h"
 #include "Scripts/Map/Parallax.h"
-//non tile 
+//non tile
+#include "Scripts/Map/Non-Tileables/NonTileMap.h"
 #include "Scripts/Map/Non-Tileables/Rope.h"
 #include "Scripts/Map/Non-Tileables/Zipline.h"
-#include "Scripts/Map/Non-Tileables/NonTileMap.h"
 //FSM
 #include "Scripts/Player/States//PlayerState.h"
 #include "Scripts/Player/States/ClimbingState.h"

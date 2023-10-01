@@ -16,13 +16,13 @@ bool AABB::BoxCollides(const Box& a, const  Box& b)
 	return true;
 }
 
-bool AABB::CircleCollides(const Circle& a, const Circle& b)
-{
-	const float2 dist = a.c - b.c;//get the distance between the circles
-	//compare it to the radius
-	return (dist.x <= a.r + b.r) &&
-		(dist.y <= a.r + b.r);
-}
+//bool AABB::CircleCollides(const Circle& a, const Circle& b)
+//{
+//	const float2 dist = a.c - b.c;//get the distance between the circles
+//	//compare it to the radius
+//	return (dist.x <= a.r + b.r) &&
+//		(dist.y <= a.r + b.r);
+//}
 
 
 
@@ -32,7 +32,7 @@ Box AABB::At(float2 pos, const Box& b)
 {
 	return Box{ pos + b.min, pos + b.max };
 }
-Circle AABB::At(float2 pos, const Circle& b)
-{
-	return { pos + b.c, b.r };
-}
+//Circle AABB::At(float2 pos, const Circle& b)
+//{
+//	return { pos + b.c, b.r };
+//}

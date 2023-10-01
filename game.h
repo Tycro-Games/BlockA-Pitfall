@@ -35,18 +35,20 @@ namespace Tmpl8
 		Sprite* enviroment;
 		Sprite* parallaxSprite;
 		Camera cam;
-		Tilemap tilemaps[Tilemap::COUNT];
-		SpawnNonTiles ropesPos;
-		SpawnNonTiles ziplinesPos;
+		Tilemap tileMaps[Tilemap::COUNT];
+		SpawnNonTiles nonTiles[SpawnNonTiles::COUNT];
+		size_t countRopes;
+		size_t countZiplines;
 		Rope* ropes = nullptr;
 		Zipline* ziplines = nullptr;
 		Avatar avatar;
 	
 
 		//input
-		int horizontalMove = 0;
+		Input input;
+		/*int horizontalMove = 0;
 		int verticalMove = 0;
-		bool isJumping = false;
+		bool isJumping = false;*/
 	};
 
 } // namespace Tmpl8
