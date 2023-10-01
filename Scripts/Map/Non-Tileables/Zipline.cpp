@@ -7,8 +7,7 @@ void Zipline::Render(Surface* screen)
 {
 	if (!onScreen) return;
 	const float2 camPos = Camera::GetPosition();
-	//TODO make this a static function
-	//Lynn showed me how I could use the template line function instead of making a new one
+
 	float x1 = 0;
 	float y1 = 0;
 
@@ -24,7 +23,7 @@ void Zipline::Render(Surface* screen)
 #ifdef _DEBUG
 	x1 = -camPos.x;
 	y1 = -camPos.y;
-	screen->Box(x1 - halfWidth + coll.min.x, y1 + coll.min.y, x1 - halfWidth + coll.max.x, y1 + coll.max.y, 255 << 8);
+	screen->Box(x1  + coll.min.x, y1 + coll.min.y, x1  + coll.max.x, y1 + coll.max.y, 255 << 8);
 #endif
 
 }

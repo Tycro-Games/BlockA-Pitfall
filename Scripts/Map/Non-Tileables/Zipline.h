@@ -13,7 +13,6 @@ private:
 	//always is the one which is the highest
 	float2 pointA = 0;
 	float2 pointB = 0;
-	const int halfWidth = 3;
 	Box coll;
 	bool onScreen = false;
 };
