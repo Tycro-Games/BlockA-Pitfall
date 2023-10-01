@@ -83,10 +83,14 @@ void Camera::UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight
 {
 
 	//apply camera scaling to the offset
-	const float2 cameraOffset = playerPos - float2{ CAMERA_OFFSET.x * leftOrRight * currentCameraScale,CAMERA_OFFSET.y * currentCameraScale };
+	const float2 cameraOffset = playerPos -
+		float2{ CAMERA_OFFSET.x * leftOrRight * currentCameraScale,
+			CAMERA_OFFSET.y * currentCameraScale };
 	const float2 halfScreen{ resX / 2, resY / 2 };
-	float multiplier = invlerp(0, EASE_OUT_DISTANCE, length((cameraOffset - halfScreen) - pos));
-	const float step = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplier), 0.0f, 1.0f);
+	float multiplier = invlerp(0, EASE_OUT_DISTANCE, 
+		length((cameraOffset - halfScreen) - pos));
+	const float step = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplier), 
+		0.0f, 1.0f);
 	const float2 newPos = lerp(pos, (cameraOffset - halfScreen), step);
 
 	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;
