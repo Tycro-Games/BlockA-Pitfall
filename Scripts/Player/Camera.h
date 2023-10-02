@@ -1,15 +1,16 @@
 ﻿#pragma once
 
-
+struct Timer;
+class Observer;
 class Parallax;
 
-class Camera
+class Camera: public Observer
 {
 public:
 
 	Camera();
 	~Camera();
-	void GetInput(float input);
+	void GetInput();
 	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
 	void RenderToScreen(Surface* screen) const;
 	void CleanPreRenderSurface() const;
@@ -24,9 +25,11 @@ public:
 	Surface* pGetPreRender();
 	inline static float resX{};
 	inline static float resY{};
+	void Notify(int context, EVENT ev) override;
 private:
 	void SetCameraScale(float cameraScale);
-
+	Timer* t;
+	const float DELAY_ZOOM = .5f;
 	Parallax* parallax = nullptr;
 	const float EASE_OUT_DISTANCE = 120.0f;
 	inline static float2 pos = 0;
@@ -38,7 +41,8 @@ private:
 	//scaling camera
 	const float2 CAMERA_OFFSET = { 150.0f,-50.0f};
 	float inputScaling = 0;
-	const float INCREMENT_SCALE = .01f;
+	float desiredCameraScaling;
+	const float INCREMENT_SCALE = .05f;
 	const float ZOOMING_SPEED = 50.0f;
 	const float MIN_SCALE = .4f;
 	const float MAX_SCALE = .6f;

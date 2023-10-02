@@ -7,6 +7,8 @@ void SwingingState::OnEnter(Avatar& _p)
 	p = &_p;
 	p->SetVelocityX(-(p->GetPos().x + p->GetBoxColliderOffset().x - ropePoint->x + OFFSET_ROPE.x));
 	previousR = *ropePoint;
+
+	p->GetSubject()->Notify(0, ZOOM);
 }
 
 PlayerState* SwingingState::Update(float deltaTime)
@@ -52,6 +54,8 @@ PlayerState* SwingingState::Update(float deltaTime)
 
 void SwingingState::OnExit()
 {
+	p->GetSubject()->Notify(1, ZOOM);
+
 }
 
 

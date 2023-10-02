@@ -67,7 +67,7 @@ void Game::Init()
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
 
-
+	avatar.GetSubject()->AddObserver(cam);
 }
 
 void Game::Render()
@@ -160,10 +160,17 @@ void Game::Tick(float deltaTime)
 
 }
 
-void Game::MouseWheel(float wheelDirection)
+void Game::Shutdown()
 {
-	cam.GetInput(wheelDirection);
+	//remove observers
+	avatar.GetSubject()->RemoveObserver(cam);
+
 }
+//this is called automatically now
+//void Game::MouseWheel(float wheelDirection)
+//{
+//	cam.GetInput(wheelDirection);
+//}
 
 void Game::KeyUp(int key)
 {

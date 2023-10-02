@@ -13,10 +13,12 @@ pos()
 {
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
+	subject = new Subject();
 }
 
 Avatar::~Avatar()
 {
+	delete subject;
 	delete climbTimer;
 	delete jumpTimer;
 	delete sprite;
@@ -52,8 +54,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, R
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
 	//setting to world position
-	pos.x = Camera::GetPosition().x + Camera::resX ;
-	pos.y = Camera::GetPosition().y + Camera::resY  ;
+	pos.x = Camera::GetPosition().x + Camera::resX;
+	pos.y = Camera::GetPosition().y + Camera::resY;
 	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
 	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
 	jumpCollider = Box{ JUMP_POS - float2{JUMP_SIZE_X,JUMP_SIZE_Y},JUMP_POS + float2{JUMP_SIZE_X,JUMP_SIZE_Y} };
@@ -134,6 +136,7 @@ void Avatar::SetInput(int2 _input)
 void Avatar::UpdateCurrentState(float deltaTime)
 {
 	PlayerState* newState = currentState->Update(deltaTime);
+
 	if (newState != nullptr)
 	{
 		currentState->OnExit();
@@ -151,7 +154,7 @@ void Avatar::Update(float deltaTime)
 
 	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), static_cast<float>(flipX));
 }
-bool Avatar::IsCollidingLadders( const Box& col, float2& floorPos) const
+bool Avatar::IsCollidingLadders(const Box& col, float2& floorPos) const
 {
 	return ladders->IsCollidingBox(pos, col, floorPos);
 }
@@ -163,7 +166,7 @@ bool Avatar::IsCollidingLadders(const float2& newPos, const Box& col) const
 {
 	return ladders->IsCollidingBox(newPos, col);
 }
-bool Avatar::IsCollidingLadders( const Box& col) const
+bool Avatar::IsCollidingLadders(const Box& col) const
 {
 	return ladders->IsCollidingBox(pos, col);
 }
@@ -171,7 +174,7 @@ bool Avatar::IsCollidingFloors(const float2& newPos, const Box& col) const
 {
 	return floors->IsCollidingBox(newPos, col);
 }
-bool Avatar::IsCollidingFloors( const Box& col) const
+bool Avatar::IsCollidingFloors(const Box& col) const
 {
 	return floors->IsCollidingBox(pos, col);
 }
@@ -208,7 +211,7 @@ bool Avatar::IsCollidingZiplines(float2& _normal,
 
 			float2 a = end - start;
 			float2 toPlayer = -(start - (pos + BOX_POS));
-			float2 toPlayerP = normalize(a) * clamp(length(toPlayer), 
+			float2 toPlayerP = normalize(a) * clamp(length(toPlayer),
 				ZIPLINE_OFFSET_START,
 				length(a) - ZIPLINE_OFFSET_END);//not after the end or start
 			float2 normal = toPlayer - toPlayerP;
@@ -380,6 +383,11 @@ const Box& Avatar::GetJumpCollider() const
 const Input& Avatar::GetInput() const
 {
 	return input;
+}
+
+Subject* Avatar::GetSubject() const
+{
+	return subject;
 }
 
 float2 Avatar::GetFloorPos() const

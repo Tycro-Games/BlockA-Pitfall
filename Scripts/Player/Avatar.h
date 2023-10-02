@@ -64,10 +64,12 @@ public:
 	const Box& GetBoxCollider() const;
 	const Box& GetJumpCollider() const;
 	const Input& GetInput() const;
+	Subject* GetSubject() const;
 	float2 GetFloorPos() const;
 	float2 GetJumpPos() const;
 
 private:
+	Subject* subject;
 	Input input;
 	Timer* climbTimer = nullptr;
 	bool startedJump = false;

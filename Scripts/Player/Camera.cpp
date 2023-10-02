@@ -6,24 +6,59 @@
 
 Camera::Camera()
 {
+	t = new Timer();
 }
 
 Camera::~Camera()
 {
+	delete t;
 	delete parallax;
 	delete preRender;
 }
 
-void Camera::GetInput(float input)
+void Camera::GetInput()
 {
-	inputScaling = input;
+	t->reset();
+	//start zooming in or out
+	if (currentCameraScale < desiredCameraScaling)
+		inputScaling = .1f;
+	else if (currentCameraScale > desiredCameraScaling)
+	{
+		inputScaling = -.1f;
 
+	}
+
+}
+
+void Camera::Notify(int context, EVENT ev)
+{
+	switch (ev)
+	{
+	case ZOOM:
+		desiredCameraScaling = invlerp(MIN_SCALE, MAX_SCALE, static_cast<float>(context));//set to minimum or maximum value
+		GetInput();
+		break;
+	default:
+		break;
+	}
 }
 
 void Camera::SetCameraScale(const float cameraScale)
 {
+	if (cameraScale < MIN_SCALE) {
+		inputScaling = 0;
+		currentCameraScale = MIN_SCALE;
+	}
+	else if (cameraScale > MAX_SCALE)
+	{
+		inputScaling = 0;
 
-	currentCameraScale = clamp(cameraScale, MIN_SCALE, MAX_SCALE);
+		currentCameraScale = MAX_SCALE;
+	}
+	else
+	{
+		currentCameraScale = cameraScale;
+	}
 
 	resX = currentCameraScale * SCRWIDTH;
 	resY = currentCameraScale * SCRHEIGHT;
@@ -44,6 +79,7 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 	pos = screenPos;
 	tileMap = tilemapSurface;
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
+	desiredCameraScaling = currentCameraScale;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
 	parallax = new Parallax(parallaxSurface, &pos);
 
@@ -87,9 +123,9 @@ void Camera::UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight
 		float2{ CAMERA_OFFSET.x * leftOrRight * currentCameraScale,
 			CAMERA_OFFSET.y * currentCameraScale };
 	const float2 halfScreen{ resX / 2, resY / 2 };
-	float multiplier = invlerp(0, EASE_OUT_DISTANCE, 
+	float multiplier = invlerp(0, EASE_OUT_DISTANCE,
 		length((cameraOffset - halfScreen) - pos));
-	const float step = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplier), 
+	const float step = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplier),
 		0.0f, 1.0f);
 	const float2 newPos = lerp(pos, (cameraOffset - halfScreen), step);
 
@@ -108,11 +144,11 @@ float2 Camera::GetPosition()
 
 void Camera::Update(float deltaTime)
 {
-	if (inputScaling) {
-		const float step = -inputScaling * INCREMENT_SCALE;
-		SetCameraScale(lerp(currentCameraScale, step + currentCameraScale, deltaTime * ZOOMING_SPEED));
-		inputScaling = 0;
-	}
+	if (DELAY_ZOOM < t->elapsed())
+		if (abs(inputScaling) > 0.01f) {
+			const float step = -inputScaling * INCREMENT_SCALE;
+			SetCameraScale(lerp(currentCameraScale, step + currentCameraScale, deltaTime * ZOOMING_SPEED));
+		}
 }
 
 bool Camera::OnScreen(float2 worldPos)

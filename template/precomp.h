@@ -60,8 +60,11 @@ using namespace std;
 #include "sprite.h"
 //my header
 
+//observer
+#include "Scripts/Observer/Observer.h"
+#include "Scripts/Observer/Subject.h"
 
-#include "Scripts/Map//Tilemap.h"
+#include "Scripts/Map/Tilemap.h"
 #include "Scripts/Utilities/AABB.h"
 #include "Scripts/Utilities/MathLibrary.h"
 #include "Scripts/Player/Camera.h"
@@ -78,6 +81,7 @@ using namespace std;
 #include "Scripts/Player/States/SwingingState.h"
 #include "Scripts/Player/States/FreemovingState.h"
 #include "Scripts/Player/States/ZipliningState.h"
+
 // namespaces
 using namespace Tmpl8;
 
