@@ -138,6 +138,7 @@
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Player\States\PlayerState.cpp" />
+    <ClCompile Include="Scripts\Enemies\Spike.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\sprite.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Player\States\PlayerState.h" />
+    <ClInclude Include="Scripts\Enemies\Spike.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

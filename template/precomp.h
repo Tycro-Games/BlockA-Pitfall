@@ -81,7 +81,8 @@ using namespace std;
 #include "Scripts/Player/States/SwingingState.h"
 #include "Scripts/Player/States/FreemovingState.h"
 #include "Scripts/Player/States/ZipliningState.h"
-
+//enemies
+#include "Scripts/Enemies/Spike.h"
 // namespaces
 using namespace Tmpl8;
 

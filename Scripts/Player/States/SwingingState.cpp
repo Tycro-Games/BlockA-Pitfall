@@ -20,7 +20,8 @@ PlayerState* SwingingState::Update(float deltaTime)
 		if (!p->IsCollidingFloors(floorCollider) &&
 			!p->IsCollidingFloors(boxCollider)) {
 			p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x) * SWINGING_JUMP_SPEED);
-			p->SetVelocityY(-SWINGING_JUMP_SPEED);
+			if (p->GetInput().arrowKeys.x)
+				p->SetVelocityY(-SWINGING_JUMP_SPEED);
 			p->ResetClimbTimer();
 
 			return new FreemovingState();
@@ -40,10 +41,10 @@ PlayerState* SwingingState::Update(float deltaTime)
 		offsetSign.x *= abs(heading);
 	//player is looking in the right directions
 	p->SetVelocityX(-(p->GetPos().x +
-		p->GetBoxColliderOffset().x - ropP.x - 
+		p->GetBoxColliderOffset().x - ropP.x -
 		offsetSign.x));
 
-	p->SetPosition(ropP - p->GetBoxColliderOffset() 
+	p->SetPosition(ropP - p->GetBoxColliderOffset()
 		- offsetSign);
 
 	previousR = ropP;

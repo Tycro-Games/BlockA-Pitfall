@@ -5,7 +5,6 @@
 #include "precomp.h"
 #include "game.h"
 
-#include <iostream>
 
 
 Game::~Game()
@@ -14,6 +13,7 @@ Game::~Game()
 	delete parallaxSprite;
 	delete[] ropes;
 	delete[] ziplines;
+	delete[] spikes;
 }
 
 // -----------------------------------------------------------
@@ -30,11 +30,19 @@ void Game::Init()
 #pragma region 
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
 	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx");
+	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
 	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
+
+	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
+
 	ropes = new Rope[countRopes];
 
 	ziplines = new Zipline[countZiplines];
+
+	spikes = new Spike[countSpikes];
+
+
 	for (uint i = 0; i < countRopes; i++)
 	{
 		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
@@ -43,6 +51,10 @@ void Game::Init()
 	{
 		ziplines[i].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
 			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
+	}
+	for (uint i = 0; i < countSpikes; i++)
+	{
+		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i));
 	}
 #pragma endregion NON_TILE
 

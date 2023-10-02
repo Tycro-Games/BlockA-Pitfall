@@ -10,7 +10,7 @@ void SpawnNonTiles::Init(const char* csvPath)
 
 size_t SpawnNonTiles::GetCount() const
 {
-	return index + 1;
+	return index ;
 }
 
 float2 SpawnNonTiles::GetPosition(size_t index) const

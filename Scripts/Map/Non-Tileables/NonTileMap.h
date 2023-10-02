@@ -7,6 +7,7 @@ public:
 	{
 		ROPE,
 		ZIPLINE,
+		SPIKES,
 		COUNT
 	};
 	void Init(const char* csvPath);

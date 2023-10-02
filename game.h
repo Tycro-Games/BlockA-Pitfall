@@ -38,9 +38,11 @@ namespace Tmpl8
 		Tilemap tileMaps[Tilemap::COUNT];
 		SpawnNonTiles nonTiles[SpawnNonTiles::COUNT];
 		size_t countRopes;
+		size_t countSpikes;
 		size_t countZiplines;
 		Rope* ropes = nullptr;
 		Zipline* ziplines = nullptr;
+		Spike* spikes = nullptr;
 		Avatar avatar;
 	
 
