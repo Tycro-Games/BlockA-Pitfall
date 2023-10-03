@@ -6,7 +6,8 @@ enum EVENT
 	ENEMY_DEAD,
 	ENEMY_HIT,
 	ZOOM,
-	PLAYER_HIT
+	PLAYER_HIT,
+	PLAYER_DEAD
 };
 //source http://gameprogrammingpatterns.com/observer.html
 class Observer

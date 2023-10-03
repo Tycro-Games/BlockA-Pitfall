@@ -121,9 +121,11 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="Scripts\Enemies\Enemy.cpp" />
     <ClCompile Include="Scripts\Observer\Observer.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
     <ClCompile Include="Scripts\Observer\Subject.cpp" />
+    <ClCompile Include="Scripts\Player\HealthBar.cpp" />
     <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
@@ -136,6 +138,7 @@
     <ClCompile Include="Scripts\Player\States\SwingingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ZipliningState.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
+    <ClCompile Include="Scripts\Utilities\Health.cpp" />
     <ClCompile Include="Scripts\Utilities\MathLibrary.cpp" />
     <ClCompile Include="Scripts\Player\States\PlayerState.cpp" />
     <ClCompile Include="Scripts\Enemies\Spike.cpp" />
@@ -152,9 +155,11 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripts\Enemies\Enemy.h" />
     <ClInclude Include="Scripts\Observer\Observer.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />
     <ClInclude Include="Scripts\Observer\Subject.h" />
+    <ClInclude Include="Scripts\Player\HealthBar.h" />
     <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />
@@ -168,6 +173,7 @@
     <ClInclude Include="Scripts\Player\States\SwingingState.h" />
     <ClInclude Include="Scripts\Player\States\ZipliningState.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
+    <ClInclude Include="Scripts\Utilities\Health.h" />
     <ClInclude Include="Scripts\Utilities\MathLibrary.h" />
     <ClInclude Include="Scripts\Player\States\PlayerState.h" />
     <ClInclude Include="Scripts\Enemies\Spike.h" />

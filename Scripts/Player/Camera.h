@@ -10,7 +10,7 @@ public:
 
 	Camera();
 	~Camera();
-	void GetInput();
+	void SetInputScaling();
 	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
 	void RenderToScreen(Surface* screen) const;
 	void CleanPreRenderSurface() const;

@@ -63,7 +63,11 @@ using namespace std;
 //observer
 #include "Scripts/Observer/Observer.h"
 #include "Scripts/Observer/Subject.h"
+//ui
+#include "Scripts/Player/HealthBar.h"
 
+//components
+#include "Scripts/Utilities/Health.h"
 #include "Scripts/Map/Tilemap.h"
 #include "Scripts/Utilities/AABB.h"
 #include "Scripts/Utilities/MathLibrary.h"
@@ -82,6 +86,7 @@ using namespace std;
 #include "Scripts/Player/States/FreemovingState.h"
 #include "Scripts/Player/States/ZipliningState.h"
 //enemies
+#include "Scripts/Enemies/Enemy.h"
 #include "Scripts/Enemies/Spike.h"
 // namespaces
 using namespace Tmpl8;

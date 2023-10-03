@@ -14,6 +14,7 @@ namespace Tmpl8
 	public:
 
 		~Game();
+		void AddObservers();
 		// game flow methods
 		void Init();
 		void Render();
@@ -21,6 +22,7 @@ namespace Tmpl8
 		void UpdateInput();
 		void FixedUpdate(float deltaTime);
 		void Tick(float deltaTime);
+		void RemoveObservers();
 		void Shutdown();
 		// input handling
 		void MouseUp(int) { /* implement if you want to detect mouse button presses */ }
@@ -44,7 +46,8 @@ namespace Tmpl8
 		Zipline* ziplines = nullptr;
 		Spike* spikes = nullptr;
 		Avatar avatar;
-	
+		//UI
+		HealthBar healthBar;
 
 		//input
 		Input input;

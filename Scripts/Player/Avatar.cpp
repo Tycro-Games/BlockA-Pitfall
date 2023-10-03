@@ -215,7 +215,6 @@ bool Avatar::IsCollidingZiplines(float2& _normal,
 				ZIPLINE_OFFSET_START,
 				length(a) - ZIPLINE_OFFSET_END);//not after the end or start
 			float2 normal = toPlayer - toPlayerP;
-			cout << length(normal) << '\n';
 			if (length(normal) <= RADIUS_TO_ZIPLINE) {
 				_normal = normal;
 				_start = start;
@@ -397,6 +396,18 @@ float2 Avatar::GetFloorPos() const
 float2 Avatar::GetJumpPos() const
 {
 	return JUMP_POS;
+}
+
+void Avatar::Notify(int context, EVENT ev)
+{
+	switch (ev)
+	{
+
+
+	default:
+		break;
+
+	}
 }
 
 

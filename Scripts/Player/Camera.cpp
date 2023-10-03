@@ -16,7 +16,7 @@ Camera::~Camera()
 	delete preRender;
 }
 
-void Camera::GetInput()
+void Camera::SetInputScaling()
 {
 	t->reset();
 	//start zooming in or out
@@ -35,8 +35,10 @@ void Camera::Notify(int context, EVENT ev)
 	switch (ev)
 	{
 	case ZOOM:
-		desiredCameraScaling = invlerp(MIN_SCALE, MAX_SCALE, static_cast<float>(context));//set to minimum or maximum value
-		GetInput();
+		desiredCameraScaling = invlerp(MIN_SCALE,
+			MAX_SCALE,
+			static_cast<float>(context));//set to minimum or maximum value
+		SetInputScaling();
 		break;
 	default:
 		break;

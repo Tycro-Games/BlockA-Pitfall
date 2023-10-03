@@ -11,7 +11,7 @@ struct Input {
 	bool jumping = false;
 	bool smallJump = false;
 };
-class Avatar
+class Avatar : public Observer
 {
 
 public:
@@ -23,6 +23,7 @@ public:
 		_ziplineCount, Camera& _cam);
 	void Render(Surface* screen);
 	void Update(float deltaTime);
+
 	bool IsCollidingLadders(const Box& col, float2& floorPos) const;
 	bool IsCollidingLadders(const float2& newPos, const Box& col, float2& floorPos) const;
 	bool IsCollidingLadders(const float2& newPos, const Box& col) const;
@@ -30,19 +31,22 @@ public:
 	bool IsCollidingFloors(const float2& newPos, const Box& col) const;
 	bool IsCollidingFloors(const Box& col) const;
 	bool IsCollidingFloors(const Box& col, float2& floorPos) const;
-
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
+
 	bool IsClimbTimerFinished(float time) const;
+	void ResetClimbTimer() const;
+
 	void SetJumpInput(bool jumpInput);
 	void SetInput(int2 input);
+
 	float2 GetPos() const;
 	float2 GetBoxColliderPos() const;
 	float2 GetBoxColliderOffset() const;
 	float2* pGetPos();
-	void ResetClimbTimer() const;
 	float2 GetVelocity() const;
 	float2* pGetVelocity();
+
 	void SetVelocity(const float2& _velocity);
 	void SetVelocityX(float x);
 	void SetVelocityY(float y);
@@ -52,6 +56,7 @@ public:
 	void SetPositionY(float y);
 	void TranslatePosition(const float2& _pos);
 	float GetSpeed() const;
+
 	Tilemap* GetFloors() const;
 	Tilemap* GetLadders() const;
 	Rope* GetRopes() const;
@@ -67,8 +72,11 @@ public:
 	Subject* GetSubject() const;
 	float2 GetFloorPos() const;
 	float2 GetJumpPos() const;
+	void Notify(int context, EVENT ev) override;
 
 private:
+
+	//
 	Subject* subject;
 	Input input;
 	Timer* climbTimer = nullptr;
@@ -77,6 +85,7 @@ private:
 	Timer* jumpTimer = nullptr;
 	const float SMALL_JUMP_END = 0.13f;
 	void UpdateCurrentState(float deltaTime);
+
 
 	//base for general sprite class and render
 	Sprite* sprite;

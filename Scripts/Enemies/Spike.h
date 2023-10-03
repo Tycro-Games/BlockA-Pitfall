@@ -1,9 +1,13 @@
 #pragma once
-class Spike
+class Spike : public Enemy
 {
 public:
-	void Init(const float2& _position);
+	void Init(const float2& _position, Avatar* avatar);
+	void Update(float deltaTime) override;
+	~Spike() override;
+
 private:
-	float2 position = 0;
+	const float DISTANCE_TO_PLAYER=50.0f;
+	const int DAMAGE = 5.0f;
 };
 

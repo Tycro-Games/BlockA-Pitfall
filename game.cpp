@@ -16,11 +16,19 @@ Game::~Game()
 	delete[] spikes;
 }
 
+void Game::AddObservers()
+{
+	spikes[0].GetSubject()->AddObserver(healthBar);
+	avatar.GetSubject()->AddObserver(cam);
+}
+
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
+	healthBar.Init("assets/heart_animated_1.png");
+
 	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
 	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
 	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
@@ -54,7 +62,7 @@ void Game::Init()
 	}
 	for (uint i = 0; i < countSpikes; i++)
 	{
-		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i));
+		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i),&avatar);
 	}
 #pragma endregion NON_TILE
 
@@ -79,7 +87,9 @@ void Game::Init()
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
 
-	avatar.GetSubject()->AddObserver(cam);
+
+	
+	AddObservers();
 }
 
 void Game::Render()
@@ -89,17 +99,6 @@ void Game::Render()
 
 	//first to call
 	cam.RenderTilemaps();
-	/*float2 offset = { 50,100 };//bezier test
-	float2 a = { SCRWIDTH / 2, SCRHEIGHT / 2 };
-	float2 b = { SCRWIDTH / 2, SCRHEIGHT / 2 + offset.y };
-	float2 c = { SCRWIDTH / 2 + offset.x, SCRHEIGHT / 2 + offset.y + offset.x };
-	float2 d = { SCRWIDTH / 2 + offset.x*2, SCRHEIGHT / 2 + offset.y*2 + offset.x };
-	screen->BezierCurve(255, a, b, c, d, 1);
-
-	screen->Plot(a.x,a.y,0xFFFFFF);
-	screen->Plot(b.x,b.y,0xFFFFFF);
-	screen->Plot(c.x,c.y,0xFFFFFF);
-	screen->Plot(d.x,d.y,0xFFFFFF);*/
 
 
 	for (uint i = 0; i < countRopes; i++)
@@ -108,8 +107,13 @@ void Game::Render()
 		ziplines[i].Render(cam.pGetPreRender());
 
 	avatar.Render(cam.pGetPreRender());
-
+	int x = spikes[0].GetPosition().x - cam.GetPosition().x;
+	int y = spikes[0].GetPosition().y-cam.GetPosition().y;
+	int space = 50.0f;
+	cam.pGetPreRender()->Box(x- space,y- space,x +space,y +space, 255 << 16);
 	cam.RenderToScreen(screen);
+
+	healthBar.Render(screen);
 
 
 }
@@ -117,7 +121,7 @@ void Game::Render()
 void Game::Update(float deltaTime)
 {
 
-
+	spikes[0].Update(deltaTime);
 
 }
 
@@ -172,16 +176,22 @@ void Game::Tick(float deltaTime)
 
 }
 
+void Game::RemoveObservers()
+{
+	spikes->GetSubject()->RemoveObserver(healthBar);
+	avatar.GetSubject()->RemoveObserver(cam);
+}
+
 void Game::Shutdown()
 {
 	//remove observers
-	avatar.GetSubject()->RemoveObserver(cam);
-
+	RemoveObservers();
 }
+
 //this is called automatically now
 //void Game::MouseWheel(float wheelDirection)
 //{
-//	cam.GetInput(wheelDirection);
+//	cam.SetInputScaling(wheelDirection);
 //}
 
 void Game::KeyUp(int key)
