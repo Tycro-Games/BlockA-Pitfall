@@ -75,7 +75,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 
 		if (!p->IsCollidingFloors(newPos, floorCollider)) { //we are on the ground
 			if (!p->IsCollidingFloors(newPos, boxCollider))
-				if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
+				if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
 				{
 					p->SetPosition(newPos);
 				}
@@ -86,7 +86,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 
 		if (!p->IsCollidingFloors(newPos, floorCollider))
 		{
-			if (Camera::SmallerThanScreenComplete(newPos, boxCollider))
+			if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
 			{
 				p->SetPosition(newPos);
 				modifierX = IN_AIR_MODIFIED_X;
@@ -119,7 +119,6 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		}
 
 		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
-
 
 		//check for zipline
 		if (p->IsClimbTimerFinished(CLIMB_DELAY))

@@ -21,7 +21,7 @@ public:
 	static bool OnScreen(float2 worldPos);
 	static bool OnScreen(const Box& _a);
 	static bool OnScreen(float2 screenPos, const Box& a);
-	static bool SmallerThanScreenComplete(float2 worldPos, const Box& _a);
+	static bool SmallerThanScreenCompleteCollision(float2 worldPos, const Box& _a);
 	Surface* pGetPreRender();
 	inline static float resX{};
 	inline static float resY{};

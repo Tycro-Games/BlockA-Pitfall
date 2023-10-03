@@ -353,9 +353,10 @@ void main()
 	while (!glfwWindowShouldClose(window))
 	{
 		deltaTime = min(500.0f, 1000.0f * static_cast<float>(timer.elapsed()));
-		//cap to 60 frames
+		//cap to 65 frames
 		if (timer.elapsed() > MS_PER_UPDATE) {
 			timer.reset();
+
 			app->Tick(deltaTime);
 
 

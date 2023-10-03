@@ -173,7 +173,7 @@ bool Camera::OnScreen(float2 worldPos, const Box& _a)
 	return AABB::BoxCollides(a, b);
 
 }
-bool Camera::SmallerThanScreenComplete(float2 worldPos, const Box& _a)
+bool Camera::SmallerThanScreenCompleteCollision(float2 worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
 
