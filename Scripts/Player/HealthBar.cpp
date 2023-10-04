@@ -6,6 +6,7 @@ HealthBar::~HealthBar()
 	delete sprite;
 	delete t;
 	delete deathSubject;
+	delete hp;
 }
 
 void HealthBar::Init(const char* spritePath)
@@ -13,8 +14,9 @@ void HealthBar::Init(const char* spritePath)
 	sprite = new Sprite(new Surface(spritePath), NUMBER_OF_FRAMES);
 	deathSubject = new Subject();
 	hp = new Health();
-	UpdateUI();
 	t = new Timer();
+
+	UpdateUI();
 }
 
 void HealthBar::Render(Surface* screen) const
@@ -32,11 +34,13 @@ void HealthBar::UpdateUI()
 		currentframe = NUMBER_OF_FRAMES - 1;
 		deathSubject->Notify(0, PLAYER_DEAD);
 		cout << "player dead'\n";
+
 	}
 	else
 	{
+
 		//gets the correct frame based on the remaining health
-		currentframe =(static_cast<float>(maxHealth - hp->GetHp()) / 10.0f);
+		currentframe =static_cast<int>(static_cast<float>(maxHealth - hp->GetHp()) / 10.0f);
 	}
 }
 
@@ -47,6 +51,7 @@ void HealthBar::Notify(int context, EVENT ev)
 	case PLAYER_HIT:
 		if (t->elapsed() > HIT_COOLDOWN) {
 			hp->TakeDamage(context);
+			cout << "takes damage'\n";
 			UpdateUI();
 			t->reset();
 		}

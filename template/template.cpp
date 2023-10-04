@@ -170,7 +170,7 @@ void main()
 		"#define OutputGamma	2.2								\n"
 		"#define BRIGHTBOOST	1.6								\n"
 		"#define SCANLINES		0.7							\n"
-		"#define SHARPER		0								\n"
+		"#define SHARPER		1								\n"
 		"#define GAMMA_IN(color)  pow(color, vec3(InputGamma, InputGamma, InputGamma)) \n"
 		"#define GAMMA_OUT(color) pow(color, vec3(1.0 / OutputGamma, 1.0 / OutputGamma, 1.0 / OutputGamma)) \n"
 		"void main(){											\n"
@@ -210,8 +210,8 @@ void main()
 		"f = vec4( GAMMA_OUT( color ), 1.0 );}";
 	char* sw = strstr(fs, "SCRWIDTH "), * sh = strstr(fs, "SCRHEIGHT ");
 	char swt[16], sht[16];
-	sprintf(swt, "%i", SCRWIDTH / 7);
-	sprintf(sht, "%i", SCRHEIGHT / 7);
+	sprintf(swt, "%i", SCRWIDTH / 5);
+	sprintf(sht, "%i", SCRHEIGHT / 5);
 	memcpy(sw + 9, swt, strlen(swt));
 	memcpy(sh + 10, sht, strlen(sht));
 	Shader* shader = new Shader(

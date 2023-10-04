@@ -10,14 +10,20 @@ constexpr int SCRWIDTH = 1152;
 constexpr int SCRHEIGHT = 648;
 constexpr double MS_PER_UPDATE = 1.0 / 65;
 constexpr double fixedDeltaTime = 0.01f;
+constexpr uint RED = 0xff0000;
+constexpr uint YELLOW = 0xffff00;
+constexpr uint PINK = 0xff00ff;
+constexpr uint ORANGE = 0xff8000;
 
+constexpr uint GREEN = 0x00ff00;
+constexpr uint BLUE = 0x0000ff;
 
 // #define FULLSCREEN
 
 // constants
-#define PI			3.14159265358979323846264f
-#define INVPI		0.31830988618379067153777f
-#define INV2PI		0.15915494309189533576888f
-#define TWOPI		6.28318530717958647692528f
-#define SQRT_PI_INV	0.56418958355f
-#define LARGE_FLOAT	1e34f
+constexpr float  PI = 3.14159265358979323846264f;
+constexpr float  INVPI = 0.31830988618379067153777f;
+constexpr float  INV2PI = 0.15915494309189533576888f;
+constexpr float  TWOPI = 6.28318530717958647692528f;
+constexpr float  SQRT_PI_INV = 0.56418958355f;
+constexpr float  LARGE_FLOAT = 1e34f;

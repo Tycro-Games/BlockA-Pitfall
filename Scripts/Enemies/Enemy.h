@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-class Enemy
+class Enemy : public Entity
 {
 public:
-	virtual ~Enemy()=default;
-	virtual void Update(float deltaTime) = 0;
+	~Enemy() override = default;
+	void Update(float deltaTime) override = 0;
 	Subject* GetSubject() const;
 	float2 GetPosition()const;
 protected:

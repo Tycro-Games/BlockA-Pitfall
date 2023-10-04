@@ -18,7 +18,8 @@ Game::~Game()
 
 void Game::AddObservers()
 {
-	spikes[0].GetSubject()->AddObserver(healthBar);
+	for (uint i = 0; i < countSpikes; i++)
+		spikes[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
 }
 
@@ -58,6 +59,12 @@ void Game::AddAllEntities()
 
 
 	}
+	for (uint i = 0; i < countSpikes; i++)
+	{
+		AddPreEntity(spikes[i]);
+
+	}
+
 	AddAfterEntity(avatar);
 }
 
@@ -134,7 +141,7 @@ void Game::Render()
 	//first to call
 	cam.RenderTilemaps();
 
-	for(uint i=0;i<indexPreEntities;i++)
+	for (uint i = 0; i < indexPreEntities; i++)
 	{
 		preCamera[i]->Render(cam.pGetPreRender());
 	}
