@@ -6,7 +6,7 @@ void ZipliningState::OnEnter(Avatar& _p)
 	cout << "zipline'\n";
 	p = &_p;
 	distance = 0;
-	originalLeng = length(ziplineEnd - p->GetPos() + p->GetCollisionChecker()->GetBoxColliderOffset());
+	originalLeng = length(ziplineEnd - p->GetCollisionChecker()->GetBoxColliderPos());
 	direction = normalize(ziplineEnd - ziplineStart);
 	wholeLeng = length(ziplineEnd - ziplineStart);
 	p->SetVelocityY(0);

@@ -2,11 +2,6 @@
 #include "CollisionChecker.h"
 
 
-Tilemap* CollisionChecker::GetFloors() const
-{
-	return floors;
-}
-
 
 
 

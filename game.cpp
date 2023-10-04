@@ -14,12 +14,15 @@ Game::~Game()
 	delete[] ropes;
 	delete[] ziplines;
 	delete[] spikes;
+	delete[] boars;
 }
 
 void Game::AddObservers()
 {
 	for (uint i = 0; i < countSpikes; i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
+	for (uint i = 0; i < countBoars / 2; i++)
+		boars[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
 }
 
@@ -64,6 +67,11 @@ void Game::AddAllEntities()
 		AddPreEntity(spikes[i]);
 
 	}
+	for (uint i = 0; i < countBoars / 2; i++)
+	{
+		AddPreEntity(boars[i]);
+
+	}
 
 	AddAfterEntity(avatar);
 }
@@ -84,17 +92,22 @@ void Game::Init()
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
 	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx");
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
+	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx");
 
 	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
 	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
 
 	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
 
+	countBoars = nonTiles[SpawnNonTiles::BOARS].GetCount();
+
 	ropes = new Rope[countRopes];
 
-	ziplines = new Zipline[countZiplines];
+	ziplines = new Zipline[countZiplines ];
 
 	spikes = new Spike[countSpikes];
+
+	boars = new Boar[countBoars ];
 
 
 	for (uint i = 0; i < countRopes; i++)
@@ -113,7 +126,15 @@ void Game::Init()
 	}
 	for (uint i = 0; i < countSpikes; i++)
 	{
-		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), &avatar);
+		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
+	}
+	zIndex = 0;
+
+	for (uint i = 0; i < countBoars; i += 2)
+	{
+		boars[zIndex++].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
+			nonTiles[SpawnNonTiles::BOARS].GetPosition(i+1)
+			, avatar);
 	}
 #pragma endregion MAP_SET_UP
 	healthBar.Init("assets/heart_animated_1.png");
@@ -158,8 +179,6 @@ void Game::Render()
 
 void Game::Update(float deltaTime)
 {
-
-	spikes[0].Update(deltaTime);
 
 }
 
@@ -215,7 +234,11 @@ void Game::Tick(float deltaTime)
 
 void Game::RemoveObservers()
 {
-	spikes->GetSubject()->RemoveObserver(healthBar);
+	for (uint i = 0; i < countSpikes; i++)
+		spikes[i].GetSubject()->RemoveObserver(healthBar);
+	for (uint i = 0; i < countBoars / 2; i++)
+
+		boars[i].GetSubject()->RemoveObserver(healthBar);
 	avatar.GetSubject()->RemoveObserver(cam);
 }
 

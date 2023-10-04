@@ -14,7 +14,7 @@ public:
 	void Notify(int context, EVENT ev) override;
 	Subject* GetSubject() const;
 private:
-	Timer* t;
+	Timer* t=nullptr;
 	const float HIT_COOLDOWN = 0.5f;
 	Health* hp = nullptr;
 	Sprite* sprite = nullptr;

@@ -5,11 +5,27 @@ class Enemy : public Entity
 public:
 	~Enemy() override = default;
 	void Update(float deltaTime) override = 0;
-	Subject* GetSubject() const;
-	float2 GetPosition()const;
-protected:
-	float2 position = 0;
 
+	Subject* GetSubject() const;
+	const float2& GetPosition()const;
+	void TryToHitPlayer(float distanceToPlayer);
+
+	void SetPosition(const float2& pos);
+	void SetDamage(float dg);
+	virtual float GetDistanceToPlayer() = 0;
+protected:
+	void GetDrawCoordinates();
+	void GetDrawCoordinatesMoving();
+
+	float2 position = 0;
+	float damage = 0;
 	Subject* subject = nullptr;
 	Avatar* avatar = nullptr;
+	bool onScreen = false;
+
+	int x1 = 0;
+	int x2 = 0;
+	int y1 = 0;
+	int y2 = 0;
+	Box col;
 };

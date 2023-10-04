@@ -5,7 +5,7 @@ void SwingingState::OnEnter(Avatar& _p)
 {
 	cout << "swinging'\n";
 	p = &_p;
-	p->SetVelocityX(-(p->GetPos().x + p->GetCollisionChecker()->GetBoxColliderOffset().x - ropePoint->x + OFFSET_ROPE.x));
+	p->SetVelocityX(-(p->GetCollisionChecker()->GetBoxColliderPos().x - ropePoint->x + OFFSET_ROPE.x));
 	previousR = *ropePoint;
 
 	p->GetSubject()->Notify(0, ZOOM);

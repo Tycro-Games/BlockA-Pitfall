@@ -88,7 +88,10 @@ using namespace std;
 #include "Scripts/Player/States/ZipliningState.h"
 //enemies
 #include "Scripts/Enemies/Enemy.h"
+#include  "Scripts/Enemies/Boar.h"
 #include "Scripts/Enemies/Spike.h"
+#include "Scripts/Enemies/EnemyStates/BoarState.h"
+#include "Scripts/Enemies/EnemyStates/BoarPatrolState.h"
 // namespaces
 using namespace Tmpl8;
 

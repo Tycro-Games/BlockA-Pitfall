@@ -22,12 +22,8 @@ public:
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
 
 
-	Tilemap* GetFloors() const;
-	Tilemap* GetLadders() const;
-	Rope* GetRopes() const;
-	Zipline* GetZiplines() const;
-	size_t GetZiplinesCount() const;
-	size_t GetRopeCount() const;
+
+
 	const Box* GetFloorCollider() const;
 
 	const Box* GetBoxCollider() const;
@@ -40,7 +36,7 @@ public:
 
 private:
 
-	float2* pos;
+	float2* pos=nullptr;
 	Tilemap* floors;
 	Tilemap* ladders;
 	Zipline* ziplines;

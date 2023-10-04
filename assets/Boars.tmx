@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="21" nextobjectid="64">
+ <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
+ <objectgroup id="20" name="Boar">
+  <object id="60" x="256" y="1504">
+   <point/>
+  </object>
+  <object id="61" x="608" y="1504">
+   <point/>
+  </object>
+  <object id="62" x="1088" y="1440">
+   <point/>
+  </object>
+  <object id="63" x="1408" y="1440">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

@@ -68,7 +68,7 @@ int FreemovingState::SignOfHorizontalMovement() const
 	return p->GetVelocity().x > 0 ? 1 : -1;
 }
 
-bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& value1)
+bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& state)
 {
 	if (p->IsClimbTimerFinished(CLIMB_DELAY))
 	{
@@ -84,7 +84,7 @@ bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floor
 
 			zip->SetZiplineEnd(end);
 			zip->SetZiplineStart(start);
-			value1 = zip;
+			state = zip;
 			return true;
 
 		}
@@ -98,7 +98,7 @@ bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floor
 
 			SwingingState* swing = new SwingingState();
 			swing->pSetRope(movingPart);
-			value1 = swing;
+			state = swing;
 			return true;
 		}
 		float2 floorPos = 0;
@@ -148,12 +148,12 @@ void FreemovingState::MoveOnFloor(float deltaTime, const CollisionChecker* col, 
 	}
 }
 
-bool FreemovingState::UpdateVelocity(float deltaTime, PlayerState*& value1) const
+bool FreemovingState::UpdateVelocity(float deltaTime) const
 {
 	//wait for the peak of the jump
 	if (p->GetVelocity().y < 0) {
 		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
-		value1 = nullptr;
+
 		return true;
 	}
 	//momentum on horizontal
@@ -187,16 +187,16 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		MoveOnFloor(deltaTime, col, floorCollider, boxCollider);
 
 
-		PlayerState* state;
+		PlayerState* state=nullptr;
 
-		if (UpdateVelocity(deltaTime, state))
+		if (UpdateVelocity(deltaTime))
 			return state;
 
 		if (CheckZipRope(col, floorCollider, boxCollider, state))
 			return state;
 
 
-		return nullptr;
+		return state;
 	}
 	//Smooth exit transition to the ladder
 

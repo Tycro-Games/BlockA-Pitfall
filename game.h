@@ -48,9 +48,11 @@ namespace Tmpl8
 		size_t countRopes;
 		size_t countSpikes;
 		size_t countZiplines;
+		size_t countBoars;
 		Rope* ropes = nullptr;
 		Zipline* ziplines = nullptr;
 		Spike* spikes = nullptr;
+		Boar* boars = nullptr;
 		Avatar avatar;
 		//UI
 		HealthBar healthBar;

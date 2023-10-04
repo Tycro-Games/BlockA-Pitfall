@@ -8,9 +8,9 @@ public:
 	void ClampHorizontalMovement(int signX) const;
 	int SignOfHorizontalMovement() const;
 	bool CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider,
-	                  PlayerState*& value1);
+	                  PlayerState*& state);
 	void MoveOnFloor(float deltaTime, const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider);
-	bool UpdateVelocity(float deltaTime, PlayerState*& value1) const;
+	bool UpdateVelocity(float deltaTime) const;
 	PlayerState* Update(float deltaTime) override;
 	void OnExit() override;
 

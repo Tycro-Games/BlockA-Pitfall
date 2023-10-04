@@ -8,6 +8,9 @@ public:
 		ROPE,
 		ZIPLINE,
 		SPIKES,
+		BOARS,
+		MONKEYS,
+		ELASTIC_PLANTS,
 		COUNT
 	};
 	void Init(const char* csvPath);
