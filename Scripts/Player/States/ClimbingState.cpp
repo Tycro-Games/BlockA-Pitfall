@@ -13,13 +13,14 @@ PlayerState* ClimbingState::Update(float deltaTime)
 {
 
 	if (floorPos.y < 0) {
+		const CollisionChecker* col = p->GetCollisionChecker();
 
-		const Box floorCollider = p->GetFloorCollider();
-		const Box boxCollider = p->GetBoxCollider();
+		const Box* floorCollider = col->GetFloorCollider();
+		const Box* boxCollider = col->GetBoxCollider();
 		if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 		{
-			if (!p->IsCollidingFloors(floorCollider) &&
-				!p->IsCollidingFloors(boxCollider)) {
+			if (!col->IsCollidingFloors(floorCollider) &&
+				!col->IsCollidingFloors(boxCollider)) {
 				p->SetVelocityY(-CLIMBING_JUMP_FORCE);
 				p->ResetClimbTimer();
 				p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x));
@@ -31,25 +32,25 @@ PlayerState* ClimbingState::Update(float deltaTime)
 		const float newPosY = (p->GetVelocity().y + static_cast<float>(p->GetInput().arrowKeys.y)) * p->GetSpeed() * deltaTime;
 
 
-		float2 newPos = p->GetPos() + float2{ 0, newPosY };
-		if (p->IsCollidingLadders(newPos, boxCollider)) {
-			if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
+		const float2 newPos = p->GetPos() + float2{ 0, newPosY };
+		if (col->IsCollidingLadders(newPos, boxCollider)) {
+			if (Camera::SmallerThanScreenCompleteCollision(newPos, *boxCollider))
 			{
 				p->SetPosition(newPos);
 			}
 		}
-		else if (!p->IsCollidingFloors(newPos, boxCollider)) {
-			if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
+		else if (!col->IsCollidingFloors(newPos, boxCollider)) {
+			if (Camera::SmallerThanScreenCompleteCollision(newPos, *boxCollider))
 			{
 				p->SetPosition(newPos);
 			}
 		}
-		if (!p->IsCollidingLadders(boxCollider))
+		if (!col->IsCollidingLadders(boxCollider))
 		{
 			//this is the end of a rope
 
-			if (p->IsCollidingFloors(floorCollider, floorPos)) {
-				floorPos.y = floorPos.y - floorCollider.max.y * 0.6f;
+			if (col->IsCollidingFloors(floorCollider, floorPos)) {
+				floorPos.y = floorPos.y - floorCollider->max.y * 0.6f;
 				originalPlayerPos = p->GetPos();
 			}
 			else

@@ -1,14 +1,16 @@
 ﻿#pragma once
 
-class Zipline
+class Zipline: public Entity
 {
 public:
-	void Render(Surface* screen);
+	void Render(Surface* screen) override;
 	void Init(float2 a, float2 b);
 	bool GetOnScreen() const;
-	void Update(float deltaTime);
+	void Update(float deltaTime) override;
 
 	void GetStartEnd(float2& start, float2& end) const;
+	~Zipline() override;
+
 private:
 	//always is the one which is the highest
 	float2 pointA = 0;

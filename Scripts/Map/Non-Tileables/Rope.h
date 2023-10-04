@@ -1,13 +1,13 @@
 ﻿#pragma once
 
-class Rope
+class Rope: public Entity
 {
 public:
 	Rope();
-	~Rope();
+	~Rope() override;
 
-	void Render(Surface* screen) const;
-	void Update(float deltaTime);
+	void Render(Surface* screen) override;
+	void Update(float deltaTime) override;
 	void Init(float2 _fixedPoint);
 	bool GetOnScreen() const;
 	static float2 GetMovingPartAtTime(float2 startPoint, float timeElapsed, const float leng);

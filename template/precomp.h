@@ -59,7 +59,7 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 //my header
-
+#include "Scripts/Utilities/Entity.h"
 //observer
 #include "Scripts/Observer/Observer.h"
 #include "Scripts/Observer/Subject.h"
@@ -67,6 +67,7 @@ using namespace std;
 #include "Scripts/Player/HealthBar.h"
 
 //components
+#include "Scripts/Utilities/CollisionChecker.h"
 #include "Scripts/Utilities/Health.h"
 #include "Scripts/Map/Tilemap.h"
 #include "Scripts/Utilities/AABB.h"

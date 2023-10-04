@@ -4,20 +4,21 @@ struct Timer;
 class Observer;
 class Parallax;
 
-class Camera: public Observer
+class Camera: public Observer , public Entity
 {
 public:
 
 	Camera();
-	~Camera();
+	~Camera() override;
 	void SetInputScaling();
 	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
-	void RenderToScreen(Surface* screen) const;
+	//still behaves like an entity using render for scaling
+	void Render(Surface* screen)override;
 	void CleanPreRenderSurface() const;
 	void RenderTilemaps() const;
 	void UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight);
 	static float2 GetPosition();
-	void Update(float deltaTime);
+	void Update(float deltaTime) override;
 	static bool OnScreen(float2 worldPos);
 	static bool OnScreen(const Box& _a);
 	static bool OnScreen(float2 screenPos, const Box& a);
@@ -28,6 +29,10 @@ public:
 	void Notify(int context, EVENT ev) override;
 private:
 	void SetCameraScale(float cameraScale);
+
+public:
+
+private:
 	Timer* t;
 	const float DELAY_ZOOM = .5f;
 	Parallax* parallax = nullptr;

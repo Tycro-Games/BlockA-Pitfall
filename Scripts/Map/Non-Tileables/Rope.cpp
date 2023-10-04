@@ -11,7 +11,7 @@ Rope::~Rope()
 	delete t;
 }
 
-void Rope::Render(Surface* screen) const
+void Rope::Render(Surface* screen) 
 {
 
 	if (!onScreen)

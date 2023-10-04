@@ -10,7 +10,7 @@ void Spike::Init(const float2& _position, Avatar* _avatar)
 
 void Spike::Update(float deltaTime)
 {
-	if (length(avatar->GetBoxColliderPos() - position) <= DISTANCE_TO_PLAYER)//hit event
+	if (length(avatar->GetCollisionChecker()->GetBoxColliderPos() - position) <= DISTANCE_TO_PLAYER)//hit event
 	{
 		subject->Notify(DAMAGE, PLAYER_HIT);
 	}

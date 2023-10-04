@@ -22,50 +22,8 @@ void Game::AddObservers()
 	avatar.GetSubject()->AddObserver(cam);
 }
 
-// -----------------------------------------------------------
-// Initialize the application
-// -----------------------------------------------------------
-void Game::Init()
+void Game::SetUpCamera()
 {
-	healthBar.Init("assets/heart_animated_1.png");
-
-	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
-	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
-	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
-	//non tiles
-	//learned how to do pragma regions  from John Gear
-#pragma region 
-	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
-	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx");
-	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
-	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
-	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
-
-	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
-
-	ropes = new Rope[countRopes];
-
-	ziplines = new Zipline[countZiplines];
-
-	spikes = new Spike[countSpikes];
-
-
-	for (uint i = 0; i < countRopes; i++)
-	{
-		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
-	}
-	for (uint i = 0; i < countZiplines; i += 2)
-	{
-		ziplines[i].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
-			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
-	}
-	for (uint i = 0; i < countSpikes; i++)
-	{
-		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), &avatar);
-	}
-#pragma endregion NON_TILE
-
 	//it gets owned by the sprite so we don't have to delete it
 	Surface* surf = new Surface(tileMaps[Tilemap::FLOOR].GetWidth(), tileMaps[Tilemap::FLOOR].GetHeight());
 
@@ -84,36 +42,109 @@ void Game::Init()
 #endif
 
 	cam.Init(float2{ 200, 400.0f }, enviroment, parallaxSprite);
+}
+
+void Game::AddAllEntities()
+{
+	for (uint i = 0; i < countZiplines / 2; i++)
+	{
+		AddPreEntity(ziplines[i]);
+
+
+	}
+	for (uint i = 0; i < countRopes; i++)
+	{
+		AddPreEntity(ropes[i]);
+
+
+	}
+	AddAfterEntity(avatar);
+}
+
+// -----------------------------------------------------------
+// Initialize the application
+// -----------------------------------------------------------
+void Game::Init()
+{
+#pragma region 
+	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
+	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
+	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
+	//non tiles
+	//learned how to do pragma regions  from John Gear
+
+	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
+	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx");
+	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
+
+	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
+	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
+
+	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
+
+	ropes = new Rope[countRopes];
+
+	ziplines = new Zipline[countZiplines];
+
+	spikes = new Spike[countSpikes];
+
+
+	for (uint i = 0; i < countRopes; i++)
+	{
+
+		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
+
+	}
+	uint zIndex = 0;
+	for (uint i = 0; i < countZiplines; i += 2)
+	{
+		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
+			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
+
+
+	}
+	for (uint i = 0; i < countSpikes; i++)
+	{
+		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), &avatar);
+	}
+#pragma endregion MAP_SET_UP
+	healthBar.Init("assets/heart_animated_1.png");
+
+	SetUpCamera();
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
 
 
-
+	AddAllEntities();
 	AddObservers();
+}
+
+void Game::RenderUI()
+{
+	healthBar.Render(screen);
 }
 
 void Game::Render()
 {
+	//clean the surfaces
 	screen->Clear(0);
 	cam.CleanPreRenderSurface();
 
 	//first to call
 	cam.RenderTilemaps();
 
-	//TODO make rendering nicer
-	for (uint i = 0; i < countRopes; i++)
-		ropes[i].Render(cam.pGetPreRender());
-	for (uint i = 0; i < countZiplines; i++)
-		ziplines[i].Render(cam.pGetPreRender());
+	for(uint i=0;i<indexPreEntities;i++)
+	{
+		preCamera[i]->Render(cam.pGetPreRender());
+	}
+	for (uint i = 0; i < indexAfterEntities; i++)
+	{
+		afterCamera[i]->Render(cam.pGetPreRender());
+	}
+	cam.Render(screen);
 
-	avatar.Render(cam.pGetPreRender());
-	int x = spikes[0].GetPosition().x - cam.GetPosition().x;
-	int y = spikes[0].GetPosition().y - cam.GetPosition().y;
-	int space = 50.0f;
-	cam.pGetPreRender()->Box(x - space, y - space, x + space, y + space, 255 << 16);
-	cam.RenderToScreen(screen);
-
-	healthBar.Render(screen);
+	RenderUI();
 
 
 }
@@ -137,18 +168,17 @@ void Game::UpdateInput()
 
 void Game::FixedUpdate(float deltaTime)
 {
-	for (uint i = 0; i < countRopes; i++) {
-		ropes[i].Update(deltaTime);
-
-	}
-	for (uint i = 0; i < countZiplines; i++) {
-		ziplines[i].Update(deltaTime);
-
+	for (uint i = 0; i < indexPreEntities; i++)
+	{
+		preCamera[i]->Update(deltaTime);
 	}
 	//camera position also gets updated
 	cam.Update(deltaTime);
 
-	avatar.Update(deltaTime);
+	for (uint i = 0; i < indexAfterEntities; i++)
+	{
+		afterCamera[i]->Update(deltaTime);
+	}
 
 }
 // -----------------------------------------------------------
@@ -240,6 +270,15 @@ void Game::KeyDown(int key)
 	default:
 		break;
 	}
+}
+
+void Game::AddPreEntity(Entity& entity)
+{
+	preCamera[indexPreEntities++] = &entity;
+}
+void Game::AddAfterEntity(Entity& entity)
+{
+	afterCamera[indexAfterEntities++] = &entity;
 }
 
 

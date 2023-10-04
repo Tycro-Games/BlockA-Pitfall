@@ -63,6 +63,7 @@ void Surface::Clear(uint c)
 	// WARNING: not the fastest way to do this.
 	const int s = width * height;
 	for (int i = 0; i < s; i++) pixels[i] = c;
+
 }
 
 void Surface::Plot(int x, int y, uint c)

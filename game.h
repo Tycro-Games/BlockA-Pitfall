@@ -8,6 +8,7 @@
 namespace Tmpl8
 {
 
+	constexpr uint MAX_ENTITIES_NUMBER = 100;
 
 	class Game : public TheApp
 	{
@@ -15,8 +16,11 @@ namespace Tmpl8
 
 		~Game();
 		void AddObservers();
+		void SetUpCamera();
+		void AddAllEntities();
 		// game flow methods
 		void Init();
+		void RenderUI();
 		void Render();
 		void Update(float deltaTime);
 		void UpdateInput();
@@ -31,9 +35,11 @@ namespace Tmpl8
 		void MouseWheel(float wheelDirection){};
 		void KeyUp(int);
 		void KeyDown(int);
+		void AddPreEntity(Entity& entity);
+		void AddAfterEntity(Entity& entity);
 		// data members
 		int2 mousePos;
-		//entities
+		//preCamera
 		Sprite* enviroment;
 		Sprite* parallaxSprite;
 		Camera cam;
@@ -48,12 +54,15 @@ namespace Tmpl8
 		Avatar avatar;
 		//UI
 		HealthBar healthBar;
+		//Update and rendering
 
+		Entity* preCamera[MAX_ENTITIES_NUMBER];
+		Entity* afterCamera[MAX_ENTITIES_NUMBER];
+		uint indexPreEntities = 0;
+		uint indexAfterEntities = 0;
 		//input
 		Input input;
-		/*int horizontalMove = 0;
-		int verticalMove = 0;
-		bool isJumping = false;*/
+
 	};
 
 } // namespace Tmpl8

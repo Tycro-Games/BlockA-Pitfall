@@ -3,9 +3,7 @@
 
 
 
-
-Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr), floors(nullptr), ladders(nullptr), ziplines(nullptr),
-ropes(nullptr),
+Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr),
 cam(nullptr),
 currentState(nullptr),
 velocity(),
@@ -14,10 +12,12 @@ pos()
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	subject = new Subject();
+
 }
 
 Avatar::~Avatar()
 {
+	delete col;
 	delete subject;
 	delete climbTimer;
 	delete jumpTimer;
@@ -41,13 +41,9 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 
 void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Rope* _ropes, size_t _ropeCount, Zipline* _ziplines, size_t _ziplineCount, Camera& _cam)
 {
-	floors = &_floors;
-	ladders = &_ladders;
-	ropes = _ropes;
-	ziplines = _ziplines;
+	
 	cam = &_cam;
-	ropeCount = _ropeCount;
-	ziplineCount = _ziplineCount;
+	
 	char* spriteFlippedPath;
 	GetFlippedPath(spritePath, spriteFlippedPath);
 
@@ -56,11 +52,9 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, R
 	//setting to world position
 	pos.x = Camera::GetPosition().x + Camera::resX;
 	pos.y = Camera::GetPosition().y + Camera::resY;
-	floorCollider = Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
-	boxCollider = Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
-	jumpCollider = Box{ JUMP_POS - float2{JUMP_SIZE_X,JUMP_SIZE_Y},JUMP_POS + float2{JUMP_SIZE_X,JUMP_SIZE_Y} };
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
+	col = new CollisionChecker(&pos, &_floors, &_ladders, _ziplines, _ziplineCount, _ropes, _ropeCount);
 	delete[] spriteFlippedPath;
 }
 
@@ -101,7 +95,7 @@ void Avatar::Render(Surface* screen)
 	const float debugX = pos.x - camPos.x;
 	const float debugY = pos.y - camPos.y;
 
-	Box a = AABB::At({ debugX, debugY }, boxCollider);
+	Box a = AABB::At({ debugX, debugY }, *col->GetBoxCollider());
 	screen->Box(
 		static_cast<int>(a.min.x),
 		static_cast<int>(a.min.y),
@@ -109,13 +103,13 @@ void Avatar::Render(Surface* screen)
 		static_cast<int>(a.max.y),
 		c);
 	//circle
-	Box ci = AABB::At({ debugX, debugY }, floorCollider);
+	Box ci = AABB::At({ debugX, debugY }, *col->GetFloorCollider());
 	screen->Box(
 		static_cast<int>(ci.min.x),
 		static_cast<int>(ci.min.y),
 		static_cast<int>(ci.max.x),
 		static_cast<int>(ci.max.y), c);
-	Box fl = AABB::At({ debugX, debugY }, jumpCollider);
+	Box fl = AABB::At({ debugX, debugY }, *col->GetJumpCollider());
 	screen->Box(
 		static_cast<int>(fl.min.x),
 		static_cast<int>(fl.min.y),
@@ -152,78 +146,7 @@ void Avatar::Update(float deltaTime)
 	input.jumping = false;
 	input.smallJump = false;
 
-	cam->UpdatePosition(deltaTime, GetBoxColliderPos(), static_cast<float>(flipX));
-}
-bool Avatar::IsCollidingLadders(const Box& col, float2& floorPos) const
-{
-	return ladders->IsCollidingBox(pos, col, floorPos);
-}
-bool Avatar::IsCollidingLadders(const float2& newPos, const Box& col, float2& floorPos) const
-{
-	return ladders->IsCollidingBox(pos, col, floorPos);
-}
-bool Avatar::IsCollidingLadders(const float2& newPos, const Box& col) const
-{
-	return ladders->IsCollidingBox(newPos, col);
-}
-bool Avatar::IsCollidingLadders(const Box& col) const
-{
-	return ladders->IsCollidingBox(pos, col);
-}
-bool Avatar::IsCollidingFloors(const float2& newPos, const Box& col) const
-{
-	return floors->IsCollidingBox(newPos, col);
-}
-bool Avatar::IsCollidingFloors(const Box& col) const
-{
-	return floors->IsCollidingBox(pos, col);
-}
-bool Avatar::IsCollidingFloors(const Box& col, float2& floorPos) const
-{
-	return floors->IsCollidingBox(pos, col, floorPos);
-}
-
-bool Avatar::IsCollidingRopes(float2*& pMovingPart) const
-{
-	for (uint i = 0; i < ropeCount; i++) {
-		if (ropes[i].GetOnScreen()) {
-
-
-			float2 toPlayer = (pos + BOX_POS) - ropes[i].GetMovingPart();
-			if (length(toPlayer) <= RADIUS_TO_ROPE) {
-
-				pMovingPart = ropes[i].pGetMovingPart();
-				return true;
-			}
-		}
-	}
-	return false;
-}
-bool Avatar::IsCollidingZiplines(float2& _normal,
-	float2& _start,
-	float2& _end) const
-{
-	for (uint i = 0; i < ziplineCount; i++)
-		if (ziplines[i].GetOnScreen()) {
-			float2 start = 0;
-			float2 end = 0;
-			ziplines[i].GetStartEnd(start, end);
-
-			float2 a = end - start;
-			float2 toPlayer = -(start - (pos + BOX_POS));
-			float2 toPlayerP = normalize(a) * clamp(length(toPlayer),
-				ZIPLINE_OFFSET_START,
-				length(a) - ZIPLINE_OFFSET_END);//not after the end or start
-			float2 normal = toPlayer - toPlayerP;
-			if (length(normal) <= RADIUS_TO_ZIPLINE) {
-				_normal = normal;
-				_start = start;
-				_end = end;
-				return true;
-			}
-		}
-	return false;
-
+	cam->UpdatePosition(deltaTime, col->GetBoxColliderPos(), static_cast<float>(flipX));
 }
 bool Avatar::IsClimbTimerFinished(float time) const
 {
@@ -267,14 +190,6 @@ float2 Avatar::GetPos() const
 	return pos;
 }
 
-float2 Avatar::GetBoxColliderPos() const
-{
-	return pos + BOX_POS;
-}
-float2 Avatar::GetBoxColliderOffset() const
-{
-	return  BOX_POS;
-}
 
 float2* Avatar::pGetPos()
 {
@@ -330,31 +245,11 @@ float Avatar::GetSpeed() const
 	return SPEED;
 }
 
-Tilemap* Avatar::GetFloors() const
+CollisionChecker* Avatar::GetCollisionChecker() const
 {
-	return floors;
+	return col;
 }
 
-Tilemap* Avatar::GetLadders() const
-{
-	return ladders;
-}
-Rope* Avatar::GetRopes() const
-{
-	return ropes;
-}
-Zipline* Avatar::GetZiplines() const
-{
-	return ziplines;
-}
-size_t Avatar::GetZiplinesCount() const
-{
-	return ziplineCount;
-}
-size_t Avatar::GetRopeCount() const
-{
-	return ropeCount;
-}
 
 Camera* Avatar::GetCamera() const
 {
@@ -365,19 +260,6 @@ Timer* Avatar::GetClimbTimer() const
 	return climbTimer;
 }
 
-const Box& Avatar::GetFloorCollider() const
-{
-	return floorCollider;
-}
-
-const Box& Avatar::GetBoxCollider() const
-{
-	return boxCollider;
-}
-const Box& Avatar::GetJumpCollider() const
-{
-	return jumpCollider;
-}
 
 const Input& Avatar::GetInput() const
 {
@@ -389,14 +271,7 @@ Subject* Avatar::GetSubject() const
 	return subject;
 }
 
-float2 Avatar::GetFloorPos() const
-{
-	return FLOOR_POS;
-}
-float2 Avatar::GetJumpPos() const
-{
-	return JUMP_POS;
-}
+
 
 void Avatar::Notify(int context, EVENT ev)
 {
@@ -409,7 +284,3 @@ void Avatar::Notify(int context, EVENT ev)
 
 	}
 }
-
-
-
-

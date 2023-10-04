@@ -4,7 +4,7 @@
 
 
 
-Camera::Camera()
+Camera::Camera(): desiredCameraScaling(0)
 {
 	t = new Timer();
 }
@@ -91,9 +91,8 @@ void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurf
 
 }
 
-void Camera::RenderToScreen(Surface* screen) const
+void Camera::Render(Surface* screen)
 {
-
 
 	preRender->DrawScaled(0, 0,
 		SCRWIDTH, SCRHEIGHT,

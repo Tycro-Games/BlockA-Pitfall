@@ -9,161 +9,196 @@ void FreemovingState::OnEnter(Avatar& _p)
 }
 
 
+void FreemovingState::AddJumpForce(const CollisionChecker* col, const Box* jumpCollider) const
+{
+	if (p->GetInput().jumping == true)
+	{
+		if (col->IsCollidingFloors(p->GetPos(), jumpCollider))
+		{
+			p->SetVelocityY(-JUMP_FORCE);
+
+		}
+
+	}
+	else if (p->GetInput().smallJump == true)
+	{
+
+		if (col->IsCollidingFloors(p->GetPos(), jumpCollider))
+		{
+			p->SetVelocityY(-SMALL_JUMP_FORCE);
+
+		}
+
+	}
+}
+
+void FreemovingState::ClampHorizontalMovement(const int signX) const
+{
+	const float direction = static_cast<float>(p->GetInput().arrowKeys.x) * modifierX;
+
+	if (abs(p->GetVelocity().x) <= MAX_HORIZONTAL_INPUT_SPEED) {
+		if (signX == 1) {
+			if (p->GetVelocity().x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
+			{
+				p->SetVelocityX(p->GetVelocity().x + direction);
+			}
+			else
+			{
+				p->SetVelocityX(MAX_HORIZONTAL_INPUT_SPEED);
+			}
+
+		}
+		else if (p->GetVelocity().x + direction >= -MAX_HORIZONTAL_INPUT_SPEED)
+		{
+
+			p->SetVelocityX(p->GetVelocity().x + direction);
+
+
+		}
+		else
+		{
+			p->SetVelocityX(-MAX_HORIZONTAL_INPUT_SPEED);
+		}
+	}
+	p->SetVelocityX(clamp(p->GetVelocity().x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED));
+}
+
+int FreemovingState::SignOfHorizontalMovement() const
+{
+	return p->GetVelocity().x > 0 ? 1 : -1;
+}
+
+bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& value1)
+{
+	if (p->IsClimbTimerFinished(CLIMB_DELAY))
+	{
+		float2 normal = 0;
+		float2 start = 0;
+		float2 end = 0;
+
+		if (col->IsCollidingZiplines(normal, start, end)) {
+			p->TranslatePosition(-normal);//snaps player to the zipline
+			p->ResetClimbTimer();
+
+			ZipliningState* zip = new ZipliningState();
+
+			zip->SetZiplineEnd(end);
+			zip->SetZiplineStart(start);
+			value1 = zip;
+			return true;
+
+		}
+
+
+		float2* movingPart = nullptr;
+		if (col->IsCollidingRopes(movingPart))
+		{
+			p->ResetClimbTimer();
+			p->SetVelocity(0);
+
+			SwingingState* swing = new SwingingState();
+			swing->pSetRope(movingPart);
+			value1 = swing;
+			return true;
+		}
+		float2 floorPos = 0;
+		if (col->IsCollidingLadders(boxCollider, floorPos)) {
+			p->ResetClimbTimer();
+			p->SetVelocity(0);
+			originalPlayerPos = p->GetPos();
+			ladderPositionX = floorPos.x + floorCollider->max.x + boxCollider->max.x / 2;
+
+
+		}
+	}
+	return false;
+}
+
+void FreemovingState::MoveOnFloor(float deltaTime, const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider)
+{
+	const float newPosX = p->GetVelocity().x * p->GetSpeed() * deltaTime;
+	float2 newPos = p->GetPos() + float2{ newPosX, 0 };
+
+	if (!col->IsCollidingFloors(newPos, floorCollider)) { //we are on the ground
+		if (!col->IsCollidingFloors(newPos, boxCollider))
+			if (Camera::SmallerThanScreenCompleteCollision(newPos, *boxCollider))
+			{
+				p->SetPosition(newPos);
+			}
+	}
+	//on Y check
+	const float newPosY = p->GetVelocity().y * p->GetSpeed() * deltaTime;
+	newPos = p->GetPos() + float2{ 0, newPosY };
+
+	if (!col->IsCollidingFloors(newPos, floorCollider))
+	{
+		if (Camera::SmallerThanScreenCompleteCollision(newPos, *boxCollider))
+		{
+			p->SetPosition(newPos);
+			modifierX = IN_AIR_MODIFIED_X;
+
+		}
+
+	}
+	else
+	{
+		modifierX = ON_GROUND_MODIFIED_X;
+		p->SetVelocityY(0);
+		p->ResetClimbTimer();
+	}
+}
+
+bool FreemovingState::UpdateVelocity(float deltaTime, PlayerState*& value1) const
+{
+	//wait for the peak of the jump
+	if (p->GetVelocity().y < 0) {
+		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
+		value1 = nullptr;
+		return true;
+	}
+	//momentum on horizontal
+	if (abs(p->GetVelocity().x) > 0.2f) {
+
+		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * static_cast<float>(SignOfHorizontalMovement()));
+
+	}
+	else
+	{
+		p->SetVelocityX(0);
+	}
+	//fall
+	p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
+	return false;
+}
 
 PlayerState* FreemovingState::Update(float deltaTime)
 {
 	if (ladderPositionX < 0) {
-		const Box floorCollider = p->GetFloorCollider();
-		const Box boxCollider = p->GetBoxCollider();
-		const Box jumpCollider = p->GetJumpCollider();
-		if (p->GetInput().jumping == true)
-		{
-			if (p->IsCollidingFloors(p->GetPos(), jumpCollider))
-			{
-				p->SetVelocityY(-JUMP_FORCE);
+		const CollisionChecker* col = p->GetCollisionChecker();
+		const Box* floorCollider = col->GetFloorCollider();
+		const Box* boxCollider = col->GetBoxCollider();
+		const Box* jumpCollider = col->GetJumpCollider();
+		//only on floor
+		AddJumpForce(col, jumpCollider);
 
-			}
-
-		}
-		else if (p->GetInput().smallJump == true)
-		{
-
-			if (p->IsCollidingFloors(p->GetPos(), jumpCollider))
-			{
-				p->SetVelocityY(-SMALL_JUMP_FORCE);
-
-			}
-
-		}
-
-		float2 newPos = {};
+		ClampHorizontalMovement(SignOfHorizontalMovement());
 
 
-#pragma region
-		int signX = p->GetVelocity().x > 0 ? 1 : -1;
-		float direction = static_cast<float>(p->GetInput().arrowKeys.x) * modifierX;
-
-		if (abs(p->GetVelocity().x) <= MAX_HORIZONTAL_INPUT_SPEED) {
-			if (signX == 1) {
-				if (p->GetVelocity().x + direction <= MAX_HORIZONTAL_INPUT_SPEED)
-				{
-					p->SetVelocityX(p->GetVelocity().x + direction);
-				}
-				else
-				{
-					p->SetVelocityX(MAX_HORIZONTAL_INPUT_SPEED);
-				}
-
-			}
-			else if (p->GetVelocity().x + direction >= -MAX_HORIZONTAL_INPUT_SPEED)
-			{
-
-				p->SetVelocityX(p->GetVelocity().x + direction);
+		MoveOnFloor(deltaTime, col, floorCollider, boxCollider);
 
 
-			}
-			else
-			{
-				p->SetVelocityX(-MAX_HORIZONTAL_INPUT_SPEED);
-			}
-		}
-		p->SetVelocityX(clamp(p->GetVelocity().x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED));
-#pragma endregion Horizontal
+		PlayerState* state;
 
-		const float newPosX = p->GetVelocity().x * p->GetSpeed() * deltaTime;
-		newPos = p->GetPos() + float2{ newPosX, 0 };
+		if (UpdateVelocity(deltaTime, state))
+			return state;
 
-		if (!p->IsCollidingFloors(newPos, floorCollider)) { //we are on the ground
-			if (!p->IsCollidingFloors(newPos, boxCollider))
-				if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
-				{
-					p->SetPosition(newPos);
-				}
-		}
-		//on Y check
-		const float newPosY = p->GetVelocity().y * p->GetSpeed() * deltaTime;
-		newPos = p->GetPos() + float2{ 0, newPosY };
-
-		if (!p->IsCollidingFloors(newPos, floorCollider))
-		{
-			if (Camera::SmallerThanScreenCompleteCollision(newPos, boxCollider))
-			{
-				p->SetPosition(newPos);
-				modifierX = IN_AIR_MODIFIED_X;
-
-			}
-
-		}
-		else
-		{
-			modifierX = ON_GROUND_MODIFIED_X;
-			p->SetVelocityY(0);
-			p->ResetClimbTimer();
-		}
-
-		//checks for floor snapping
-		float2 floorPos = { 0 };
-
-		if (p->GetVelocity().y < 0) {//wait for the peak of the jump
-			p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
-			return nullptr;
-		}
-		if (abs(p->GetVelocity().x) > 0.2f) {
-
-			p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * signX);
-
-		}
-		else
-		{
-			p->SetVelocityX(0);
-		}
-
-		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
-
-		//check for zipline
-		if (p->IsClimbTimerFinished(CLIMB_DELAY))
-		{
-			float2 normal = 0;
-			float2 start = 0;
-			float2 end = 0;
-
-			if (p->IsCollidingZiplines(normal, start, end)) {
-				p->TranslatePosition(-normal);//snaps player to the zipline
-				p->ResetClimbTimer();
-
-				ZipliningState* zip = new ZipliningState();
-
-				zip->SetZiplineEnd(end);
-				zip->SetZiplineStart(start);
-				return zip;
-
-			}
-
-
-			float2* movingPart = nullptr;
-			if (p->IsCollidingRopes(movingPart))
-			{
-				p->ResetClimbTimer();
-				p->SetVelocity(0);
-
-				SwingingState* swing = new SwingingState();
-				swing->pSetRope(movingPart);
-				return swing;
-			}
-			if (p->IsCollidingLadders(boxCollider, floorPos)) {
-				p->ResetClimbTimer();
-				p->SetVelocity(0);
-				originalPlayerPos = p->GetPos();
-				ladderPositionX = floorPos.x + floorCollider.max.x + boxCollider.max.x / 2;
-
-
-			}
-		}
-
+		if (CheckZipRope(col, floorCollider, boxCollider, state))
+			return state;
 
 
 		return nullptr;
 	}
+	//Smooth exit transition to the ladder
 
 	return ToTheLadder(deltaTime);
 
@@ -174,7 +209,6 @@ PlayerState* FreemovingState::Update(float deltaTime)
 void FreemovingState::OnExit()
 {
 }
-
 PlayerState* FreemovingState::ToTheLadder(float deltaTime)
 {
 	//lerp

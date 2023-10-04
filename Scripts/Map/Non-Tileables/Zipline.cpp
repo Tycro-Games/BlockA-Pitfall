@@ -60,3 +60,6 @@ void Zipline::GetStartEnd(float2& start, float2& end) const
 	end = pointB;
 }
 
+Zipline::~Zipline() = default;
+
+
