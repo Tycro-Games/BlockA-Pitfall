@@ -24,6 +24,7 @@ void Game::AddObservers()
 	for (uint i = 0; i < countBoars / 2; i++)
 		boars[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
+	healthBar.GetSubject()->AddObserver(avatar);
 }
 
 void Game::SetUpCamera()
@@ -90,9 +91,9 @@ void Game::Init()
 	//learned how to do pragma regions  from John Gear
 
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
-	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx");
+	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", true);
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
-	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx");
+	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", true);
 
 	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
 	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
@@ -103,11 +104,11 @@ void Game::Init()
 
 	ropes = new Rope[countRopes];
 
-	ziplines = new Zipline[countZiplines ];
+	ziplines = new Zipline[countZiplines];
 
 	spikes = new Spike[countSpikes];
 
-	boars = new Boar[countBoars ];
+	boars = new Boar[countBoars];
 
 
 	for (uint i = 0; i < countRopes; i++)
@@ -117,7 +118,7 @@ void Game::Init()
 
 	}
 	uint zIndex = 0;
-	for (uint i = 0; i < countZiplines; i += 2)
+	for (uint i = 0; i < countZiplines * 2; i += 2)
 	{
 		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
 			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
@@ -130,10 +131,10 @@ void Game::Init()
 	}
 	zIndex = 0;
 
-	for (uint i = 0; i < countBoars; i += 2)
+	for (uint i = 0; i < countBoars * 2; i += 2)
 	{
 		boars[zIndex++].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
-			nonTiles[SpawnNonTiles::BOARS].GetPosition(i+1)
+			nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
 			, avatar);
 	}
 #pragma endregion MAP_SET_UP
@@ -177,10 +178,7 @@ void Game::Render()
 
 }
 
-void Game::Update(float deltaTime)
-{
 
-}
 
 
 void Game::UpdateInput()
@@ -225,7 +223,7 @@ void Game::Tick(float deltaTime)
 		FixedUpdate(fixedDeltaTime);
 	}
 
-	Update(deltaTime);
+	//Update(deltaTime);
 
 	Render();
 

@@ -11,7 +11,7 @@ Rope::~Rope()
 	delete t;
 }
 
-void Rope::Render(Surface* screen) 
+void Rope::Render(Surface* screen)
 {
 
 	if (!onScreen)
@@ -21,12 +21,15 @@ void Rope::Render(Surface* screen)
 	const float2 p1 = points[1] - camPos;
 	const float2 p2 = points[2] - camPos;
 	const float2 p3 = points[3] - camPos;
-	screen->BezierCurve(255 << 16, p0, p1, p2, p3, resolution);
+	screen->BezierCurve(RED, p0, p1, p2, p3, resolution);
 
 #ifdef _DEBUG
-	const float x1 = points[0].x - camPos.x;
-	const float y1 = points[0].y - camPos.y;
-	screen->Box(x1 + coll.min.x, y1 + coll.min.y, x1 + coll.max.x, y1 + coll.max.y, 255 << 16);
+	const int x1 = static_cast<int>(points[0].x - camPos.x + coll.min.x);
+	const int y1 = static_cast<int>(points[0].y - camPos.y + coll.min.y);
+
+	const int x2 = static_cast<int>(points[0].x - camPos.x + coll.max.x);
+	const int y2 = static_cast<int>(points[0].y - camPos.y + coll.max.y);
+	screen->Box(x1, y1, x2, y2, RED);
 #endif
 
 }
@@ -49,11 +52,11 @@ float2* Rope::pGetMovingPart()
 
 void Rope::Update(float deltaTime)
 {
+
 	onScreen = Camera::OnScreen(points[0], coll);
 	//got helped for this formula from Lynn 230137
-	//TODO make this start with a random value
 	for (int i = 1; i < 4; i++) {
-		const float timeElapsed = cos(timeOffset + t->elapsed() * frq) * amp;
+		const float timeElapsed = cosf(timeOffset + t->elapsedF() * frq) * amp * deltaTime;
 
 		points[i] = GetMovingPartAtTime(points[i - 1], timeElapsed * multipler[i - 1], len[i - 1] * lenMultiplier);
 	}

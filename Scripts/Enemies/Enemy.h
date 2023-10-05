@@ -11,14 +11,14 @@ public:
 	void TryToHitPlayer(float distanceToPlayer);
 
 	void SetPosition(const float2& pos);
-	void SetDamage(float dg);
+	void SetDamage(uint dg);
 	virtual float GetDistanceToPlayer() = 0;
 protected:
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();
 
 	float2 position = 0;
-	float damage = 0;
+	uint damage = 0;
 	Subject* subject = nullptr;
 	Avatar* avatar = nullptr;
 	bool onScreen = false;

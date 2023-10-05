@@ -28,7 +28,7 @@ void Enemy::SetPosition(const float2& pos)
 	position = pos;
 }
 
-void Enemy::SetDamage(float dg)
+void Enemy::SetDamage(uint dg)
 {
 	damage = dg;
 }

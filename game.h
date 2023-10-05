@@ -22,7 +22,7 @@ namespace Tmpl8
 		void Init();
 		void RenderUI();
 		void Render();
-		void Update(float deltaTime);
+		//void Update(float deltaTime);
 		void UpdateInput();
 		void FixedUpdate(float deltaTime);
 		void Tick(float deltaTime);
@@ -32,7 +32,7 @@ namespace Tmpl8
 		void MouseUp(int) { /* implement if you want to detect mouse button presses */ }
 		void MouseDown(int) { /* implement if you want to detect mouse button presses */ }
 		void MouseMove(int x, int y) { mousePos.x = x, mousePos.y = y; }
-		void MouseWheel(float wheelDirection){};
+		void MouseWheel(float ){}
 		void KeyUp(int);
 		void KeyDown(int);
 		void AddPreEntity(Entity& entity);

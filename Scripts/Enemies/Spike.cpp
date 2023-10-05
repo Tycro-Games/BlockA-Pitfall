@@ -13,6 +13,7 @@ void Spike::Init(const float2& _position, Avatar& _avatar)
 
 void Spike::Update(float deltaTime)
 {
+	deltaTime;
 	onScreen = Camera::OnScreen(col);
 	if (!onScreen)
 		return;

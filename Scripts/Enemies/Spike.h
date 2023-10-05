@@ -11,7 +11,7 @@ public:
 
 private:
 	const float DISTANCE_TO_PLAYER = 20.0f;
-	const int DAMAGE = 5.0f;
+	const int DAMAGE = 5;
 	
 };
 

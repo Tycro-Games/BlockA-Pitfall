@@ -3,6 +3,7 @@
 class Zipline: public Entity
 {
 public:
+	void DebugDraw(Surface* screen, float2 camPos) const;
 	void Render(Surface* screen) override;
 	void Init(float2 a, float2 b);
 	bool GetOnScreen() const;

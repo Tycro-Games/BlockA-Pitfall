@@ -3,19 +3,25 @@
 
 
 
-void SpawnNonTiles::Init(const char* csvPath)
+void SpawnNonTiles::Init(const char* csvPath, bool half )
 {
 	LoadCSVFile(csvPath);
+	if (half) {
+		if (index % 2 != 0)
+			cout << "non even number of positions!'\n";
+		index /= 2;
+
+	}
 }
 
 size_t SpawnNonTiles::GetCount() const
 {
-	return index ;
+	return index;
 }
 
-float2 SpawnNonTiles::GetPosition(size_t index) const
+float2 SpawnNonTiles::GetPosition(size_t _index) const
 {
-	return positions[index];
+	return positions[_index];
 }
 
 void SpawnNonTiles::LoadCSVFile(const char* csvPath)
@@ -30,13 +36,22 @@ void SpawnNonTiles::LoadCSVFile(const char* csvPath)
 	delete[] tilemapRaw;
 
 }
+
+size_t SpawnNonTiles::GetNextXIndex(char* tilemap)
+{
+	char* firstX = strstr(tilemap, "x=");
+	return static_cast<size_t>(firstX - tilemap);
+}
+
 void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 {
 	char* tilemap = new char[strlen(csvRaw) + 1];
 	strcpy(tilemap, csvRaw);
-	const uint INITIAL_OFFSET = 340;
-	const uint NEXT_POSITION = 63;
-	uint offsetIndex = INITIAL_OFFSET;//first position
+	//this post showed how to use pointer substraction https://stackoverflow.com/questions/7500892/get-index-of-substring
+	const size_t INITIAL_OFFSET = GetNextXIndex(tilemap);
+	//so it finds the next x=
+	const size_t NEXT_POSITION = GetNextXIndex(tilemap + INITIAL_OFFSET + 3);
+	size_t offsetIndex = INITIAL_OFFSET;//first position
 	while (offsetIndex < strlen(tilemap)) {
 		char* stringToEdit = new char[strlen(tilemap + offsetIndex) + 1];
 		strcpy(stringToEdit, tilemap + offsetIndex);

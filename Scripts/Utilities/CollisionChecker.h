@@ -12,7 +12,6 @@ public:
 		Rope* ropes, size_t rope_count);
 	~CollisionChecker();
 	bool IsCollidingLadders(const Box* col, float2& floorPos) const;
-	bool IsCollidingLadders(const float2& newPos, const Box* col, float2& floorPos) const;
 	bool IsCollidingLadders(const float2& newPos, const Box* col) const;
 	bool IsCollidingLadders(const Box* col) const;
 	bool IsCollidingFloors(const float2& newPos, const Box* col) const;
@@ -50,18 +49,19 @@ private:
 	const float RADIUS_TO_ROPE = 30.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;
 	const float ZIPLINE_OFFSET_START = 25.0f;
+	//Adriaensen, Remi (231390),  explained how to fix warning C4324 on discord
 
 	//colliders
-	const float BOX_SIZE = 5.0f;
+	const float2 FLOOR_POS = { 9.5f,30.0f };
+	const float2 JUMP_POS = { 9.5f, 42.0f };
 	const float2 BOX_POS = { 9.0f, 17.0f };
+	Box* floorCollider;
+	Box* jumpCollider;
 	Box* boxCollider;
 
+	const float BOX_SIZE = 5.0f;
 	const float FLOOR_SIZE = 8.0f;
-	Box* floorCollider;
-	const float2 FLOOR_POS = { 9.5f,30.0f };
-
-	Box* jumpCollider;
-	const float2 JUMP_POS = { 9.5f, 42.0f };
+	
 	const float JUMP_SIZE_X = 8.0f;
 	const float JUMP_SIZE_Y = 4.0f;
 };

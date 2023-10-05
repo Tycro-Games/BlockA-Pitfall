@@ -130,7 +130,6 @@ void Surface::Print(const char* s, int x1, int y1, uint c)
 
 // Surface::Line: Draw a line between the specified screen coordinates.
 // Uses clipping for lines that are partially off-screen. Not efficient.
-//TODO make it thicker
 void Surface::Line(float x1, float y1, float x2, float y2, uint c)
 {
 	// clip (Cohen-Sutherland, https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm)

@@ -2,6 +2,16 @@
 #include "Zipline.h"
 
 
+void Zipline::DebugDraw(Surface* screen, const float2 camPos) const
+{
+	const int x1 = static_cast<int>(-camPos.x + coll.min.x);
+	const int y1 = static_cast<int>(-camPos.y + coll.min.y);
+
+	const int x2 = static_cast<int>(-camPos.x + coll.max.x);
+	const int y2 = static_cast<int>(-camPos.y + coll.max.y);
+
+	screen->Box(x1, y1, x2, y2, GREEN);
+}
 
 void Zipline::Render(Surface* screen)
 {
@@ -21,9 +31,9 @@ void Zipline::Render(Surface* screen)
 	screen->Line(x1, y1, x2, y2, 255 << 8);
 
 #ifdef _DEBUG
-	x1 = -camPos.x;
-	y1 = -camPos.y;
-	screen->Box(x1  + coll.min.x, y1 + coll.min.y, x1  + coll.max.x, y1 + coll.max.y, 255 << 8);
+
+	DebugDraw(screen, camPos);
+
 #endif
 
 }

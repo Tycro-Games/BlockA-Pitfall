@@ -13,6 +13,7 @@ void SwingingState::OnEnter(Avatar& _p)
 
 PlayerState* SwingingState::Update(float deltaTime)
 {
+	deltaTime;//fixes warning C4100
 	const CollisionChecker* col = p->GetCollisionChecker();
 
 	const Box* floorCollider = col->GetFloorCollider();

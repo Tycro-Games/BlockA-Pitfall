@@ -33,6 +33,8 @@ private:
 public:
 
 private:
+	const float2 CAMERA_OFFSET = { 150.0f,-50.0f };
+
 	Timer* t;
 	const float DELAY_ZOOM = .5f;
 	Parallax* parallax = nullptr;
@@ -44,7 +46,6 @@ private:
 	const float CAM_SPEED_EDGE = 30.0f;
 	const float DEFAULT_CAMERA_SCALE = 0.4f;
 	//scaling camera
-	const float2 CAMERA_OFFSET = { 150.0f,-50.0f};
 	float inputScaling = 0;
 	float desiredCameraScaling;
 	const float INCREMENT_SCALE = .05f;

@@ -61,10 +61,7 @@ bool CollisionChecker::IsCollidingLadders(const Box* col, float2& floorPos) cons
 {
 	return ladders->IsCollidingBox(*pos, *col, floorPos);
 }
-bool CollisionChecker::IsCollidingLadders(const float2& newPos, const Box* col, float2& floorPos) const
-{
-	return ladders->IsCollidingBox(*pos, *col, floorPos);
-}
+
 bool CollisionChecker::IsCollidingLadders(const float2& newPos, const Box* col) const
 {
 	return ladders->IsCollidingBox(newPos, *col);

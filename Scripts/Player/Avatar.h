@@ -81,6 +81,7 @@ private:
 	Timer* jumpTimer = nullptr;
 	const float SMALL_JUMP_END = 0.13f;
 	void UpdateCurrentState(float deltaTime);
+	void ResetInput();
 
 
 	//base for general sprite class and render
@@ -104,5 +105,6 @@ private:
 	//animation
 	const float2 PLAYER_OFFSET = { 15.0f,-7.0f };
 
+	bool canMove = true;
 };
 

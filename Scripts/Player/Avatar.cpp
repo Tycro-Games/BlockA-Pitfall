@@ -41,9 +41,9 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 
 void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Rope* _ropes, size_t _ropeCount, Zipline* _ziplines, size_t _ziplineCount, Camera& _cam)
 {
-	
+
 	cam = &_cam;
-	
+
 	char* spriteFlippedPath;
 	GetFlippedPath(spritePath, spriteFlippedPath);
 
@@ -140,11 +140,21 @@ void Avatar::UpdateCurrentState(float deltaTime)
 	}
 }
 
-void Avatar::Update(float deltaTime)
+void Avatar::ResetInput()
 {
-	UpdateCurrentState(deltaTime);
+	input.arrowKeys = 0;
 	input.jumping = false;
 	input.smallJump = false;
+}
+
+void Avatar::Update(float deltaTime)
+{
+	if (!canMove) {
+		ResetInput();
+	}
+	UpdateCurrentState(deltaTime);
+	ResetInput();
+
 
 	cam->UpdatePosition(deltaTime, col->GetBoxColliderPos(), static_cast<float>(flipX));
 }
@@ -275,9 +285,15 @@ Subject* Avatar::GetSubject() const
 
 void Avatar::Notify(int context, EVENT ev)
 {
+	context;
 	switch (ev)
 	{
-
+	case PLAYER_DEAD:
+		canMove = false;
+		break;
+	case PLAYER_HIT:
+		cout << "Show some hit'\n";
+		break;
 
 	default:
 		break;
