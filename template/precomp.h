@@ -87,13 +87,18 @@ using namespace std;
 #include "Scripts/Player/States/FreemovingState.h"
 #include "Scripts/Player/States/ZipliningState.h"
 //enemies
-#include "Scripts/Enemies/Enemy.h"
-#include  "Scripts/Enemies/Boar.h"
-#include "Scripts/Enemies/Spike.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyState.h"
 #include "Scripts/Enemies/EnemyStates/BoarState.h"
 #include "Scripts/Enemies/EnemyStates/BoarPatrolState.h"
 #include "Scripts/Enemies/EnemyStates/BoarTurnState.h"
 #include "Scripts/Enemies/EnemyStates/BoarStopState.h"
+
+#include "Scripts/Enemies/Enemy.h"
+#include  "Scripts/Enemies/Boar.h"
+#include  "Scripts/Enemies/Monkey.h"
+#include "Scripts/Enemies/Spike.h"
+
+
 // namespaces
 using namespace Tmpl8;
 

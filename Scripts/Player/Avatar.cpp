@@ -54,7 +54,8 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, R
 	pos.y = Camera::GetPosition().y + Camera::resY;
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
-	col = new CollisionChecker(&pos, &_floors, &_ladders, _ziplines, _ziplineCount, _ropes, _ropeCount);
+	col = new CollisionChecker(&pos, &_floors, &_ladders);
+	col->SetRopesZiplines(_ziplines, _ziplineCount, _ropes, _ropeCount);
 	delete[] spriteFlippedPath;
 }
 

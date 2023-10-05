@@ -23,6 +23,7 @@ public:
 	bool IsColliding(float x, float y) const;
 	bool IsColliding(float x, float y, float2& floorPos) const;
 	bool IsCollidingBox(float2 pos, const Box& a) const;
+	bool IsCollidingBoxComplete(float2 _pos, const Box& _a) const;
 	bool IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos);
 	
 	

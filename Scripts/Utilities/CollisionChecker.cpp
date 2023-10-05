@@ -36,18 +36,13 @@ float2 CollisionChecker::GetBoxColliderOffset() const
 	return  BOX_POS;
 }
 
-CollisionChecker::CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders, Zipline* ziplines,
-                                   size_t ziplineCount, Rope* ropes, size_t rope_count) : pos(pos),
-                                                                                          floors(floors),
-                                                                                          ladders(ladders),
-                                                                                          ziplines(ziplines),
-                                                                                          ziplineCount(ziplineCount),
-                                                                                          ropes(ropes),
-                                                                                          ropeCount(rope_count)
+CollisionChecker::CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders) : pos(pos),
+	floors(floors),
+	ladders(ladders), ziplines(nullptr), ziplineCount(0), ropes(nullptr), ropeCount(0)
 {
-	floorCollider = new  Box{ FLOOR_POS - FLOOR_SIZE,FLOOR_POS + FLOOR_SIZE };
-	boxCollider = new Box{ BOX_POS - BOX_SIZE,BOX_POS + BOX_SIZE };
-	jumpCollider = new Box{ JUMP_POS - float2{JUMP_SIZE_X,JUMP_SIZE_Y},JUMP_POS + float2{JUMP_SIZE_X,JUMP_SIZE_Y} };
+	floorCollider = new Box{FLOOR_POS - FLOOR_SIZE, FLOOR_POS + FLOOR_SIZE};
+	boxCollider = new Box{BOX_POS - BOX_SIZE, BOX_POS + BOX_SIZE};
+	jumpCollider = new Box{JUMP_POS - float2{JUMP_SIZE_X, JUMP_SIZE_Y}, JUMP_POS + float2{JUMP_SIZE_X, JUMP_SIZE_Y}};
 }
 
 CollisionChecker::~CollisionChecker()
@@ -73,6 +68,10 @@ bool CollisionChecker::IsCollidingLadders(const Box* col) const
 bool CollisionChecker::IsCollidingFloors(const float2& newPos, const Box* col) const
 {
 	return floors->IsCollidingBox(newPos, *col);
+}
+bool CollisionChecker::IsCollidingFloorsComplete(const float2& newPos, const Box* col) const
+{
+	return floors->IsCollidingBoxComplete(newPos, *col);
 }
 bool CollisionChecker::IsCollidingFloors(const Box* col) const
 {
@@ -123,5 +122,15 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 			}
 		}
 	return false;
+
+}
+
+void CollisionChecker::SetRopesZiplines(Zipline* _ziplines, size_t _ziplineCount, Rope* _ropes, size_t _rope_count)
+{
+	ziplines = _ziplines;
+	ziplineCount = _ziplineCount;
+
+	ropes = _ropes;
+	ropeCount = _rope_count;
 
 }

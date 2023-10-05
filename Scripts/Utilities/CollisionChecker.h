@@ -8,18 +8,19 @@ class Rope;
 class CollisionChecker
 {
 public:
-	CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders, Zipline* ziplines, size_t ziplineCount,
-		Rope* ropes, size_t rope_count);
+	CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders);
 	~CollisionChecker();
 	bool IsCollidingLadders(const Box* col, float2& floorPos) const;
 	bool IsCollidingLadders(const float2& newPos, const Box* col) const;
 	bool IsCollidingLadders(const Box* col) const;
 	bool IsCollidingFloors(const float2& newPos, const Box* col) const;
+	bool IsCollidingFloorsComplete(const float2& newPos, const Box* col) const;
 	bool IsCollidingFloors(const Box* col) const;
 	bool IsCollidingFloors(const Box* col, float2& floorPos) const;
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
-
+	void SetRopesZiplines(Zipline* ziplines, size_t ziplineCount,
+		Rope* ropes, size_t ropeCount);
 
 
 

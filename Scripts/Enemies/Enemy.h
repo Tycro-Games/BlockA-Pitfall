@@ -13,6 +13,7 @@ public:
 	void SetPosition(const float2& pos);
 	void SetDamage(int dg);
 	virtual float GetDistanceToPlayer() = 0;
+	Box* GetBox();
 protected:
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();

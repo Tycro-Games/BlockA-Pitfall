@@ -62,6 +62,19 @@ bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
 		|| IsColliding(a.max.x, a.max.y);
 
 }
+bool Tilemap::IsCollidingBoxComplete(float2 _pos, const Box& _a) const
+{
+	//take the four corners of the box and check them
+
+	const Box a = AABB::At(_pos, _a);
+
+	//check all the corners
+	return IsColliding(a.min.x, a.min.y)
+		&& IsColliding(a.min.x, a.max.y)
+		&& IsColliding(a.max.x, a.min.y)
+		&& IsColliding(a.max.x, a.max.y);
+
+}
 bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos)
 {
 	//take the four corners of the box and check them

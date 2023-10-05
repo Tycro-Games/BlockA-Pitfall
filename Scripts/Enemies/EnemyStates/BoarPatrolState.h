@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+class Boar;
+
 class BoarPatrolState : public BoarState
 {
 public:

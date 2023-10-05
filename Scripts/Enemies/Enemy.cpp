@@ -36,6 +36,11 @@ void Enemy::SetDamage(int dg)
 	damage = dg;
 }
 
+Box* Enemy::GetBox()
+{
+	return &col;
+}
+
 void Enemy::GetDrawCoordinates()
 {
 	x1 = static_cast<int>(col.min.x - Camera::GetPosition().x);

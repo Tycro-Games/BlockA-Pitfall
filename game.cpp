@@ -46,7 +46,7 @@ void Game::SetUpCamera()
 	tileMaps[Tilemap::FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
-	cam.Init(float2{ 200, 400.0f }, enviroment, parallaxSprite);
+	cam.Init(float2{ 0, 700 }, enviroment, parallaxSprite);
 }
 
 void Game::AddAllEntities()
@@ -73,6 +73,11 @@ void Game::AddAllEntities()
 		AddPreEntity(boars[i]);
 
 	}
+	for (uint i = 0; i < countMonkeys ; i++)
+	{
+		AddPreEntity(monkeys[i]);
+
+	}
 
 	AddAfterEntity(avatar);
 }
@@ -93,11 +98,12 @@ void Game::Init()
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
 	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", true);
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
+	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
 	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", true);
 
 	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
 	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
-
+	countMonkeys= nonTiles[SpawnNonTiles::MONKEYS].GetCount();
 	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
 
 	countBoars = nonTiles[SpawnNonTiles::BOARS].GetCount();
@@ -110,6 +116,7 @@ void Game::Init()
 
 	boars = new Boar[countBoars];
 
+	monkeys = new Monkey[countMonkeys];
 
 	for (uint i = 0; i < countRopes; i++)
 	{
@@ -128,6 +135,10 @@ void Game::Init()
 	for (uint i = 0; i < countSpikes; i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
+	}
+	for (uint i = 0; i < countMonkeys; i++)
+	{
+		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR], &tileMaps[Tilemap::LADDERS], avatar);
 	}
 	zIndex = 0;
 
