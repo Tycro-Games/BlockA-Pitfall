@@ -21,7 +21,7 @@ void Game::AddObservers()
 {
 	for (uint i = 0; i < countSpikes; i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
-	for (uint i = 0; i < countBoars / 2; i++)
+	for (uint i = 0; i < countBoars ; i++)
 		boars[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
 	healthBar.GetSubject()->AddObserver(avatar);
@@ -51,7 +51,7 @@ void Game::SetUpCamera()
 
 void Game::AddAllEntities()
 {
-	for (uint i = 0; i < countZiplines / 2; i++)
+	for (uint i = 0; i < countZiplines ; i++)
 	{
 		AddPreEntity(ziplines[i]);
 
@@ -68,7 +68,7 @@ void Game::AddAllEntities()
 		AddPreEntity(spikes[i]);
 
 	}
-	for (uint i = 0; i < countBoars / 2; i++)
+	for (uint i = 0; i < countBoars ; i++)
 	{
 		AddPreEntity(boars[i]);
 

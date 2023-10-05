@@ -60,6 +60,7 @@ bool Zipline::GetOnScreen() const
 
 void Zipline::Update(float deltaTime)
 {
+	deltaTime;
 	onScreen = Camera::OnScreen(coll);
 
 }

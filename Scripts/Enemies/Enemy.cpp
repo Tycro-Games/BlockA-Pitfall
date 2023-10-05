@@ -12,23 +12,26 @@ const float2& Enemy::GetPosition() const
 	return position;
 }
 
-void Enemy::TryToHitPlayer(float distanceToPlayer)
+bool Enemy::TryToHitPlayer(float distanceToPlayer) const
 {
 
 	if (length(avatar->GetCollisionChecker()->GetBoxColliderPos() - position) < distanceToPlayer)//hit event
 	{
 		subject->Notify(damage, PLAYER_HIT);
+		return true;
 	}
-
-
+	return false;
 }
+
 
 void Enemy::SetPosition(const float2& pos)
 {
 	position = pos;
 }
 
-void Enemy::SetDamage(uint dg)
+
+
+void Enemy::SetDamage(int dg)
 {
 	damage = dg;
 }

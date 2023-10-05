@@ -13,8 +13,7 @@ void Boar::Render(Surface* screen)
 void Boar::Update(float deltaTime)
 {
 	onScreen = Camera::OnScreen(position, col);
-	if(onScreen)
-		TryToHitPlayer(DISTANCE_TO_PLAYER);
+	
 
 	BoarState* state = currentState->Update(this, deltaTime);
 	if (state != nullptr)
@@ -29,14 +28,19 @@ void Boar::Update(float deltaTime)
 
 Boar::~Boar()
 {
+	delete hitRecently;
 	delete currentState;
 	delete subject;
 }
 
+bool Boar::AtackPlayer()
+{
+	return TryToHitPlayer(DISTANCE_TO_PLAYER);
+}
 void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 {
 	subject = new Subject();
-
+	hitRecently = new Timer();
 	avatar = &_avatar;
 	pointA = _a;
 	pointB = _b;
@@ -53,6 +57,18 @@ const float2& Boar::GetDesiredPos() const
 {
 	return desiredPos;
 }
+const float2& Boar::GetStartPos() const
+{
+	return pointA;
+}
+const float2& Boar::GetEndPos() const
+{
+	return pointB;
+}
+void Boar::SwitchPositions() 
+{
+	swap(pointA, pointB);
+}
 
 void Boar::SetDesiredPos(const float2& _desiredPos)
 {
@@ -62,6 +78,16 @@ void Boar::SetDesiredPos(const float2& _desiredPos)
 float Boar::GetDistanceToPlayer()
 {
 	return DISTANCE_TO_PLAYER;
+}
+
+bool Boar::IsOnScreen() const
+{
+	return onScreen;
+}
+
+Timer* Boar::GetHitTimer() const
+{
+	return hitRecently;
 }
 
 

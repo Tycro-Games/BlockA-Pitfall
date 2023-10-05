@@ -8,17 +8,17 @@ public:
 
 	Subject* GetSubject() const;
 	const float2& GetPosition()const;
-	void TryToHitPlayer(float distanceToPlayer);
+	bool TryToHitPlayer(float distanceToPlayer) const;
 
 	void SetPosition(const float2& pos);
-	void SetDamage(uint dg);
+	void SetDamage(int dg);
 	virtual float GetDistanceToPlayer() = 0;
 protected:
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();
 
 	float2 position = 0;
-	uint damage = 0;
+	int damage = 0;
 	Subject* subject = nullptr;
 	Avatar* avatar = nullptr;
 	bool onScreen = false;

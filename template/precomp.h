@@ -92,6 +92,8 @@ using namespace std;
 #include "Scripts/Enemies/Spike.h"
 #include "Scripts/Enemies/EnemyStates/BoarState.h"
 #include "Scripts/Enemies/EnemyStates/BoarPatrolState.h"
+#include "Scripts/Enemies/EnemyStates/BoarTurnState.h"
+#include "Scripts/Enemies/EnemyStates/BoarStopState.h"
 // namespaces
 using namespace Tmpl8;
 
