@@ -14,13 +14,15 @@ public:
 	CollisionChecker* GetCollisionChecker() const;
 	Timer* GetHitTimer() const;
 	Timer* GetThrowTimer() const;
+	Timer* GetBallTimer() const;
 	void SetHeading(bool _heading);
 	bool GetHeading() const;
-
+	void SetBall(MonkeyBall* _ball);
 private:
 	MonkeyState* currentState = nullptr;
 	Timer* hitTimer = nullptr;
 	Timer* throwTimer = nullptr;
+	Timer* ballTimer = nullptr;
 	const float DISTANCE_TO_PLAYER=15;
 	const int DAMAGE=10;
 	CollisionChecker* colCheck = nullptr;
@@ -28,6 +30,8 @@ private:
 	const float2 minThrow = { 25,-DISTANCE_TO_PLAYER };
 	const float2 maxhrow = { 100,DISTANCE_TO_PLAYER };
 	bool headingRight = true;
+	MonkeyBall* ball = nullptr;
+	const float TIME_ALIVE_BALL = 3.0f;
 
 	
 };

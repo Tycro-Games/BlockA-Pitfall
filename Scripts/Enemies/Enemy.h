@@ -14,6 +14,7 @@ public:
 	void SetDamage(int dg);
 	virtual float GetDistanceToPlayer() = 0;
 	Box* GetBox();
+	Avatar* GetAvatar() const;
 protected:
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();

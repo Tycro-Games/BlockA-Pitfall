@@ -12,18 +12,21 @@ void MonkeyThrowState::OnEnter()
 
 
 }
-
+void MonkeyThrowState::SpawnBall(Monkey* monkey)
+{
+	monkey->SetBall(new MonkeyBall(monkey->GetSubject(),monkey, monkey->GetAvatar(), monkey->GetPosition()));
+}
 MonkeyState* MonkeyThrowState::Update(Monkey* monkey, float deltaTime)
 {
-	if (stopTimer->elapsed() > TIME_TO_THROW )
+	if (stopTimer->elapsed() > TIME_TO_THROW)
 	{
 		cout << "Thorws some stuff'\n";
+		SpawnBall(monkey);
+		monkey->GetBallTimer()->reset();
 		monkey->GetThrowTimer()->reset();
-		MonkeyPatrolState* patrolState = new MonkeyPatrolState();
-		patrolState->SetOriginalPosition(monkey->GetPosition());
-		const float clampedFloat = clamp(MIN_VALUE, 1.0f, RandomFloat());
-		patrolState->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(clampedFloat, !monkey->GetHeading()));
-		return patrolState;
+		MonkeyTurnState* turnState = new MonkeyTurnState();
+		
+		return turnState;
 	}
 	return nullptr;
 

@@ -5,6 +5,10 @@
 
 void Monkey::Render(Surface* screen)
 {
+	if (ball != nullptr)
+	{
+		ball->Render(screen);
+	}
 	if (!onScreen)
 		return;
 	GetDrawCoordinatesMoving();
@@ -20,6 +24,8 @@ Box Monkey::GetThrowCollider() const
 	float sign = headingRight ? -1 : 1;
 	b.min.x *= sign;
 	b.max.x *= sign;
+	if (sign == -1)
+		swap(b.min.x, b.max.x);
 	return b;
 }
 bool Monkey::SeesPlayer() const
@@ -36,6 +42,7 @@ bool Monkey::SeesPlayer() const
 
 Monkey::~Monkey()
 {
+	delete ballTimer;
 	delete throwTimer;
 	delete hitTimer;
 	delete colCheck;
@@ -46,7 +53,14 @@ void Monkey::Update(float deltaTime)
 {
 	onScreen = Camera::OnScreen(position, col);
 	MonkeyState* state = currentState->Update(this, deltaTime);
-
+	if (ball != nullptr && ballTimer->elapsedF() > TIME_ALIVE_BALL) {
+		delete ball;
+		ball = nullptr;
+	}
+	if (ball != nullptr)
+	{
+		ball->Update(deltaTime);
+	}
 	if (state != nullptr)
 	{
 		InitSeed(headingRight);
@@ -71,6 +85,7 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	subject = new Subject();
 	hitTimer = new Timer();
 	throwTimer = new Timer();
+	ballTimer = new Timer();
 	headingRight = true;
 
 	//collision checker is also used in avatar
@@ -108,6 +123,11 @@ Timer* Monkey::GetThrowTimer() const
 	return throwTimer;
 }
 
+Timer* Monkey::GetBallTimer() const
+{
+	return ballTimer;
+}
+
 void Monkey::SetHeading(bool _heading)
 {
 	headingRight = _heading;
@@ -116,5 +136,10 @@ void Monkey::SetHeading(bool _heading)
 bool Monkey::GetHeading() const
 {
 	return headingRight;
+}
+
+void Monkey::SetBall(MonkeyBall* _ball)
+{
+	ball = _ball;
 }
 
