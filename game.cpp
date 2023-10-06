@@ -15,6 +15,7 @@ Game::~Game()
 	delete[] ziplines;
 	delete[] spikes;
 	delete[] boars;
+	delete[] monkeys;
 }
 
 void Game::AddObservers()
@@ -23,6 +24,8 @@ void Game::AddObservers()
 		spikes[i].GetSubject()->AddObserver(healthBar);
 	for (uint i = 0; i < countBoars ; i++)
 		boars[i].GetSubject()->AddObserver(healthBar);
+	for (uint i = 0; i < countMonkeys ; i++)
+		monkeys[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
 	healthBar.GetSubject()->AddObserver(avatar);
 }
@@ -246,8 +249,9 @@ void Game::RemoveObservers()
 	for (uint i = 0; i < countSpikes; i++)
 		spikes[i].GetSubject()->RemoveObserver(healthBar);
 	for (uint i = 0; i < countBoars / 2; i++)
-
 		boars[i].GetSubject()->RemoveObserver(healthBar);
+	for (uint i = 0; i < countMonkeys ; i++)
+		monkeys[i].GetSubject()->RemoveObserver(healthBar);
 	avatar.GetSubject()->RemoveObserver(cam);
 }
 

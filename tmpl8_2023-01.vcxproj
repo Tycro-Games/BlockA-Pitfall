@@ -129,6 +129,7 @@
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyToGroundState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyPatrolState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyState.cpp" />
+    <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.cpp" />
     <ClCompile Include="Scripts\Enemies\Monkey.cpp" />
     <ClCompile Include="Scripts\Observer\Observer.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyToGroundState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyPatrolState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyState.h" />
+    <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.h" />
     <ClInclude Include="Scripts\Enemies\Monkey.h" />
     <ClInclude Include="Scripts\Observer\Observer.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />

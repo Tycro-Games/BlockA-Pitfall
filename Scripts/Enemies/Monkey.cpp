@@ -15,6 +15,7 @@ Monkey::~Monkey()
 {
 	delete colCheck;
 	delete currentState;
+	delete subject;
 }
 void Monkey::Update(float deltaTime)
 {
@@ -22,8 +23,10 @@ void Monkey::Update(float deltaTime)
 	MonkeyState* state = currentState->Update(this, deltaTime);
 	if (state != nullptr)
 	{
+		currentState->OnExit();
 		delete currentState;
 		currentState = state;
+		currentState->OnEnter();
 	}
 }
 
@@ -38,14 +41,24 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	avatar = &p;
 	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };
 	SetDamage(DAMAGE);
+	subject = new Subject();
 	//collision checker is also used in avatar
 	colCheck = new CollisionChecker(&position, floors, ladders);
 	currentState = new MonkeyToGroundState();
 }
 
-float Monkey::GetValueFromMonkeyFunction(float t)
+float Monkey::GetValueFromMonkeyFunction(float t, bool positive )
+
 {
-	return -(4 * powf(t - 1, 7) - cosf(8 * t + 9)) * 0.1f;
+	float value = -(4 * powf(t - 1, 7) - cosf(8 * t + 9)) * 0.1f;
+	if (positive)
+		return abs(value);
+	//we need negative
+	if (value < 0)
+	{
+		return value;
+	}
+	return -value;
 }
 
 CollisionChecker* Monkey::GetCollisionChecker() const

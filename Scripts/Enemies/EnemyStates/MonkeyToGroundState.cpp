@@ -5,6 +5,8 @@
 
 void MonkeyToGroundState::OnEnter()
 {
+	InitSeed(RandomUInt());
+
 }
 
 void MonkeyToGroundState::OnExit()
@@ -23,14 +25,13 @@ MonkeyState* MonkeyToGroundState::Update(Monkey* monkey, float deltaTime)
 
 	if (!monkey->GetCollisionChecker()->IsCollidingFloors(oldPosition, col))
 	{
-		cout << "Do not go there monkey'\n";
 		newPosY += deltaTime * FALL_SPEED;
 	}
 	else
 	{
 		MonkeyPatrolState* patrol = new MonkeyPatrolState();
 		patrol->SetOriginalPosition(monkey->GetPosition());
-		patrol->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(RandomFloat()));
+		patrol->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(RandomFloat(), true));
 		return patrol;
 	}
 	monkey->SetPosition(float2{ oldPosition .x,oldPosition.y+newPosY });
