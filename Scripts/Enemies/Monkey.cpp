@@ -9,13 +9,34 @@ void Monkey::Render(Surface* screen)
 		return;
 	GetDrawCoordinatesMoving();
 	screen->Box(x1, y1, x2, y2, PINK);
-	GetDrawCoordinatesMoving(throwCollider);
+	GetDrawCoordinatesMoving(GetThrowCollider());
 	screen->Box(x1, y1, x2, y2, BLUE);
 
 }
 
+Box Monkey::GetThrowCollider() const
+{
+	Box b = throwCollider;
+	float sign = headingRight ? -1 : 1;
+	b.min.x *= sign;
+	b.max.x *= sign;
+	return b;
+}
+bool Monkey::SeesPlayer() const
+{
+	const float2 playerPos = avatar->GetCollisionChecker()->GetBoxColliderPos();
+	const Box playerCol = AABB::At(playerPos, *avatar->GetCollisionChecker()->GetBoxCollider());
+	const Box monkeyCollider = AABB::At(position, GetThrowCollider());
+	if (AABB::BoxCollides(playerCol, monkeyCollider))
+	{
+		return true;
+	}
+	return false;
+}
+
 Monkey::~Monkey()
 {
+	delete throwTimer;
 	delete hitTimer;
 	delete colCheck;
 	delete currentState;
@@ -25,8 +46,10 @@ void Monkey::Update(float deltaTime)
 {
 	onScreen = Camera::OnScreen(position, col);
 	MonkeyState* state = currentState->Update(this, deltaTime);
+
 	if (state != nullptr)
 	{
+		InitSeed(headingRight);
 		currentState->OnExit();
 		delete currentState;
 		currentState = state;
@@ -47,13 +70,16 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	SetDamage(DAMAGE);
 	subject = new Subject();
 	hitTimer = new Timer();
+	throwTimer = new Timer();
+	headingRight = true;
+
 	//collision checker is also used in avatar
 	colCheck = new CollisionChecker(&position, floors, ladders);
 	throwCollider = Box{ minThrow,maxhrow };
 	currentState = new MonkeyToGroundState();
 }
 
-float Monkey::GetValueFromMonkeyFunction(float t, bool positive )
+float Monkey::GetValueFromMonkeyFunction(float t, bool positive)
 
 {
 	float value = -(4 * powf(t - 1, 7) - cosf(8 * t + 9)) * 0.1f;
@@ -75,5 +101,20 @@ CollisionChecker* Monkey::GetCollisionChecker() const
 Timer* Monkey::GetHitTimer() const
 {
 	return hitTimer;
+}
+
+Timer* Monkey::GetThrowTimer() const
+{
+	return throwTimer;
+}
+
+void Monkey::SetHeading(bool _heading)
+{
+	headingRight = _heading;
+}
+
+bool Monkey::GetHeading() const
+{
+	return headingRight;
 }
 

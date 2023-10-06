@@ -11,7 +11,6 @@ public:
 	void OnExit() override;
 	void SetDesiredPosition(float x);
 	void SetOriginalPosition(const float2& pos);
-	void SetHeading(bool _heading);
 private:
 	float2 originalPosition = 0;
 	float2 desiredPos = 0;
@@ -20,7 +19,8 @@ private:
 	float MIN_TO_NEXT_POSITION = 50.0f;
 	float SPEED_TIME = 1.5f;
 	float SPEED_MODIFIER = 0;
-	bool headingRight = true;
 	const float MIN_SPEED = 0.2f;
 	const float HIT_TIME_COOLDOWN = 1.50f;
+	const float THROW_COOLDOWN = .75f;
+
 };

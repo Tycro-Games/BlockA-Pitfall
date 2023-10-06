@@ -12,7 +12,7 @@ MonkeyTurnState::~MonkeyTurnState()
 void MonkeyTurnState::OnEnter()
 {
 	stopTimer = new Timer();
-	InitSeed(headingRight);
+	
 	timeToTurn += RandomFloat()*RANDOM_MODIFIER_TIME ;
 }
 
@@ -22,10 +22,10 @@ MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 	{
 		MonkeyPatrolState* patrolState = new MonkeyPatrolState();
 		//to the other direction
-		patrolState->SetHeading(!headingRight);
+		monkey->SetHeading(!monkey->GetHeading());
 		patrolState->SetOriginalPosition(monkey->GetPosition());
 		const float clampedFloat = clamp(MIN_VALUE, 1.0f, RandomFloat());
-		patrolState->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(clampedFloat, !headingRight));
+		patrolState->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(clampedFloat, !monkey->GetHeading()));
 		return patrolState;
 	}
 	return nullptr;
@@ -35,7 +35,3 @@ void MonkeyTurnState::OnExit()
 {
 }
 
-void MonkeyTurnState::SetHeading(bool _heading)
-{
-	headingRight = _heading;
-}

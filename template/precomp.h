@@ -88,6 +88,11 @@ using namespace std;
 #include "Scripts/Player/States/ZipliningState.h"
 //enemies
 #include  "Scripts/Enemies/EnemyStates/MonkeyState.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyTurnState.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyPatrolState.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyThrowState.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyToGroundState.h"
+
 #include "Scripts/Enemies/EnemyStates/BoarState.h"
 #include "Scripts/Enemies/EnemyStates/BoarPatrolState.h"
 #include "Scripts/Enemies/EnemyStates/BoarTurnState.h"

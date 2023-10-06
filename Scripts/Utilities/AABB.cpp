@@ -28,7 +28,7 @@ bool AABB::BoxCollides(const Box& a, const  Box& b)
 
 
 //returns the AABB at the position pos
-Box AABB::At(float2 pos, const Box& b)
+Box AABB::At(const float2& pos, const Box& b)
 {
 	return Box{ pos + b.min, pos + b.max };
 }

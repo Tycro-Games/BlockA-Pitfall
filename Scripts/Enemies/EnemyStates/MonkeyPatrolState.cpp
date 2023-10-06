@@ -23,7 +23,6 @@ void MonkeyPatrolState::OnEnter()
 MonkeyState* MonkeyPatrolState::ToTurnState() const
 {
 	MonkeyTurnState* turnState = new MonkeyTurnState();
-	turnState->SetHeading(headingRight);
 	return turnState;
 }
 
@@ -32,6 +31,10 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 	t += deltaTime * SPEED_TIME * SPEED_MODIFIER;
 	const float2 newPos = lerp(originalPosition, desiredPos, t);
 	const float2 touchFloor = { 0,monkey->GetDistanceToPlayer() * 2 };
+	if(monkey->SeesPlayer()&&monkey->GetThrowTimer()->elapsedF() > THROW_COOLDOWN)
+	{
+		return new MonkeyThrowState();
+	}
 	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
 		cout << "Player hit'\n";
 		monkey->GetHitTimer()->reset();
@@ -77,7 +80,3 @@ void MonkeyPatrolState::SetOriginalPosition(const float2& pos)
 	originalPosition = pos;
 }
 
-void MonkeyPatrolState::SetHeading(bool _heading)
-{
-	headingRight = _heading;
-}

@@ -126,6 +126,7 @@
     <ClCompile Include="Scripts\Enemies\EnemyStates\BoarPatrolState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\BoarStopState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\BoarTurnState.cpp" />
+    <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyThrowState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyToGroundState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyPatrolState.cpp" />
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyState.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Scripts\Enemies\EnemyStates\BoarState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\BoarStopState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\BoarTurnState.h" />
+    <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyThrowState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyToGroundState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyPatrolState.h" />
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyState.h" />
