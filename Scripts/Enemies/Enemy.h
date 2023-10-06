@@ -17,6 +17,7 @@ public:
 protected:
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();
+	void GetDrawCoordinatesMoving(const Box& col);
 
 	float2 position = 0;
 	int damage = 0;

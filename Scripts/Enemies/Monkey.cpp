@@ -9,10 +9,14 @@ void Monkey::Render(Surface* screen)
 		return;
 	GetDrawCoordinatesMoving();
 	screen->Box(x1, y1, x2, y2, PINK);
+	GetDrawCoordinatesMoving(throwCollider);
+	screen->Box(x1, y1, x2, y2, BLUE);
+
 }
 
 Monkey::~Monkey()
 {
+	delete hitTimer;
 	delete colCheck;
 	delete currentState;
 	delete subject;
@@ -42,8 +46,10 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };
 	SetDamage(DAMAGE);
 	subject = new Subject();
+	hitTimer = new Timer();
 	//collision checker is also used in avatar
 	colCheck = new CollisionChecker(&position, floors, ladders);
+	throwCollider = Box{ minThrow,maxhrow };
 	currentState = new MonkeyToGroundState();
 }
 
@@ -64,5 +70,10 @@ float Monkey::GetValueFromMonkeyFunction(float t, bool positive )
 CollisionChecker* Monkey::GetCollisionChecker() const
 {
 	return colCheck;
+}
+
+Timer* Monkey::GetHitTimer() const
+{
+	return hitTimer;
 }
 

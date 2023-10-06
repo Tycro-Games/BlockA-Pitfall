@@ -10,9 +10,9 @@ public:
 	void SetHeading(bool _heading);
 private:
 	Timer* stopTimer = nullptr;
-	 float timeToTurn = .378f;
+	 float timeToTurn = .198f;
 	bool headingRight = false;
 	const float MIN_VALUE=0.3f;
-	const float RANDOM_MODIFIER_TIME = 1.2f;
+	const float RANDOM_MODIFIER_TIME = 0.4f;
 
 };

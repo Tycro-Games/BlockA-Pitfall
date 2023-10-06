@@ -31,9 +31,10 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 {
 	t += deltaTime * SPEED_TIME * SPEED_MODIFIER;
 	const float2 newPos = lerp(originalPosition, desiredPos, t);
-	const float2 touchFloor = { 0,monkey->GetDistanceToPlayer()*2};
-	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer())) {
+	const float2 touchFloor = { 0,monkey->GetDistanceToPlayer() * 2 };
+	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
 		cout << "Player hit'\n";
+		monkey->GetHitTimer()->reset();
 		//add throw
 		//ignore for a few seconds
 		return ToTurnState();

@@ -57,3 +57,11 @@ void Enemy::GetDrawCoordinatesMoving()
 	y1 = static_cast<int>(position.y + col.min.y - Camera::GetPosition().y);
 	y2 = static_cast<int>(position.y + col.max.y - Camera::GetPosition().y);
 }
+void Enemy::GetDrawCoordinatesMoving(const Box& _col)
+{
+	x1 = static_cast<int>(position.x + _col.min.x - Camera::GetPosition().x);
+	x2 = static_cast<int>(position.x + _col.max.x - Camera::GetPosition().x);
+									   
+	y1 = static_cast<int>(position.y + _col.min.y - Camera::GetPosition().y);
+	y2 = static_cast<int>(position.y + _col.max.y - Camera::GetPosition().y);
+}
