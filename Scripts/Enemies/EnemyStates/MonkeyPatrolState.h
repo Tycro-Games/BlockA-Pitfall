@@ -21,6 +21,6 @@ private:
 	float SPEED_MODIFIER = 0;
 	const float MIN_SPEED = 0.2f;
 	const float HIT_TIME_COOLDOWN = 1.50f;
-	const float THROW_COOLDOWN = .75f;
+	const float THROW_COOLDOWN = 2.75f;
 
 };

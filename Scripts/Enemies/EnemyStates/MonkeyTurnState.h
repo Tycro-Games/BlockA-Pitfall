@@ -9,8 +9,8 @@ public:
 	void OnExit() override;
 private:
 	Timer* stopTimer = nullptr;
-	float timeToTurn = .198f;
-	const float MIN_VALUE = 0.3f;
-	const float RANDOM_MODIFIER_TIME = 0.4f;
+	float timeToTurn = .1f;
+	const float MIN_VALUE = 0.1f;
+	const float RANDOM_MODIFIER_TIME = 0.3f;
 
 };

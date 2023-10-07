@@ -167,7 +167,7 @@ void Surface::BezierCurve(uint col, const float2& a, const float2& b, const floa
 	for (uint i = 1; i <= resolution; i++)
 	{
 		const float2 point = MathLibrary::CubicBezierCurve(a, b, c, d,
-			static_cast<float>(i) / static_cast<float>(resolution));
+		                                                   static_cast<float>(i) / static_cast<float>(resolution));
 
 		Line(startPoint.x, startPoint.y, point.x, point.y, col);
 		startPoint = point;

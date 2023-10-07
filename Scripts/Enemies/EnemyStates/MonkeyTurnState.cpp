@@ -11,20 +11,25 @@ MonkeyTurnState::~MonkeyTurnState()
 
 void MonkeyTurnState::OnEnter()
 {
-	stopTimer = new Timer();
 	
-	timeToTurn += RandomFloat()*RANDOM_MODIFIER_TIME ;
+	
 }
 
 MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 {
+	if(stopTimer==nullptr)
+	{
+		stopTimer = new Timer();
+		SetSeed(InitSeed(static_cast<uint>(monkey->GetPosition().x)));
+		timeToTurn += Rand(RANDOM_MODIFIER_TIME);
+	}
 	if (stopTimer->elapsed() > timeToTurn)
 	{
 		MonkeyPatrolState* patrolState = new MonkeyPatrolState();
 		//to the other direction
 		monkey->SetHeading(!monkey->GetHeading());
 		patrolState->SetOriginalPosition(monkey->GetPosition());
-		const float clampedFloat = clamp(MIN_VALUE, 1.0f, RandomFloat());
+		const float clampedFloat = RandomFloat();
 		patrolState->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(clampedFloat, !monkey->GetHeading()));
 		return patrolState;
 	}

@@ -63,7 +63,6 @@ void Monkey::Update(float deltaTime)
 	}
 	if (state != nullptr)
 	{
-		InitSeed(headingRight);
 		currentState->OnExit();
 		delete currentState;
 		currentState = state;
@@ -78,6 +77,7 @@ float Monkey::GetDistanceToPlayer()
 
 void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& p)
 {
+
 	position = pos;
 	avatar = &p;
 	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };

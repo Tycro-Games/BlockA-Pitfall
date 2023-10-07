@@ -23,8 +23,8 @@ private:
 	Timer* hitTimer = nullptr;
 	Timer* throwTimer = nullptr;
 	Timer* ballTimer = nullptr;
-	const float DISTANCE_TO_PLAYER=15;
-	const int DAMAGE=10;
+	const float DISTANCE_TO_PLAYER = 15;
+	const int DAMAGE = 10;
 	CollisionChecker* colCheck = nullptr;
 	Box throwCollider;
 	const float2 minThrow = { 25,-DISTANCE_TO_PLAYER };
@@ -33,5 +33,5 @@ private:
 	MonkeyBall* ball = nullptr;
 	const float TIME_ALIVE_BALL = 3.0f;
 
-	
+
 };

@@ -980,6 +980,7 @@ template <class T> void Swap(T& x, T& y) { T t; t = x, x = y, y = t; }
 
 // random numbers
 uint InitSeed(uint seedBase);
+void SetSeed(uint s);
 uint RandomUInt();
 uint RandomUInt(uint& seed);
 float RandomFloat();

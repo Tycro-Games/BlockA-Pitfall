@@ -2,41 +2,33 @@
 #include "MonkeyBall.h"
 
 
-void MonkeyBall::UpdateVelocity()
+void MonkeyBall::UpdatePosition()
 {
-	dir.x = KinematicEquation(0, velocity.x, sPos.x, t);
-	dir.y = KinematicEquation(speed, velocity.y, sPos.y, t);
 }
 
 MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos)
 {
+	t = 0;
 	subject = s;
 	avatar = p;
-	sPos = _startPos;
 	monkey = _monkey;
-	fPos = p->GetCollisionChecker()->GetBoxColliderPos();
-	fPos.y = fPos.y - 15;
-	position = sPos;
-	speed = GetVelocity(sPos.x, fPos.y, timeToReach);
-	velocity = normalize(fPos - sPos) * speed;
+	startPos = _startPos;
+
+	finalPos = p->GetCollisionChecker()->GetBoxColliderPos();
+	finalPos.y = startPos.y;
+	midPos = lerp(startPos, finalPos, 0.5f + Rand(0.2f)) + float2{ 0,MID_POINT_MIN + MID_POINT_RANDOM * RandomFloat() };
+
+	position = startPos;
 	SetDamage(DG);
 	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };
 }
 
 MonkeyBall::~MonkeyBall()
 {
-
 }
 
-//derived from https://youtu.be/3lBYVSplAuo?si=8QG2rB5ZFNHWYubu&t=173
-float MonkeyBall::KinematicEquation(float a, float v, float p, float _t)
-{
-	return a * _t * _t * 0.5f + v * _t + p;
-}
-float MonkeyBall::GetVelocity(float pI, float pF, float t)
-{
-	return (pF - pI) / t;
-}
+
+
 //TODO add on screen
 void MonkeyBall::Render(Surface* screen)
 {
@@ -46,11 +38,15 @@ void MonkeyBall::Render(Surface* screen)
 
 void MonkeyBall::Update(float deltaTime)
 {
-	t += deltaTime;
-	UpdateVelocity();
-	position = dir;
+	t += deltaTime * SPEED;
 
-	if (TryToHitPlayer(DISTANCE_TO_PLAYER))
+
+	position = MathLibrary::QuadraticBezierCurve(startPos, midPos, finalPos, t / timeToReach);
+
+
+	if (TryToHitPlayer(DISTANCE_TO_PLAYER) ||
+		avatar->GetCollisionChecker()->IsCollidingFloors(position, &col))
+
 	{
 		monkey->SetBall(nullptr);
 		delete this;

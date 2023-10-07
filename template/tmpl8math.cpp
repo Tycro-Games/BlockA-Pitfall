@@ -31,6 +31,11 @@ uint InitSeed(uint seedBase)
 	return WangHash((seedBase + 1) * 17);
 }
 
+void SetSeed(uint s)
+{
+	seed = s;
+}
+
 // RandomUInt()
 // Update the seed and return it as a random 32-bit unsigned int.
 uint RandomUInt()

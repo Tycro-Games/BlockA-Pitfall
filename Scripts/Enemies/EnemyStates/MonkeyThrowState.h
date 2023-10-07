@@ -12,6 +12,6 @@ public:
 	void OnExit() override;
 private:
 	Timer* stopTimer = nullptr;
-	const float TIME_TO_THROW = 1.0f;
+	const float TIME_TO_THROW = .6f;
 	const float MIN_VALUE = 0.2f;
 };

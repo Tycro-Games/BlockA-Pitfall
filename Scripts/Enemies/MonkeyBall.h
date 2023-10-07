@@ -3,7 +3,7 @@
 class MonkeyBall: public Enemy
 {
 public:
-	void UpdateVelocity();
+	void UpdatePosition();
 	MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos);
 	~MonkeyBall();
 	float KinematicEquation(float a, float v, float p, float t);
@@ -13,14 +13,18 @@ public:
 	float GetDistanceToPlayer() override;
 
 private:
-	float2 dir;
-	float2 fPos;
-	float2 sPos;
+	float2 newPos;
+	float2 finalPos;
+	float2 startPos;
+	float2 midPos;
 	float2 velocity = 0;
-	const float DISTANCE_TO_PLAYER = 14.0f;
+	const float DISTANCE_TO_PLAYER = 7.0f;
 	Monkey* monkey = nullptr;
-	float speed = 0;
-	float timeToReach = 3.3f;
+	float SPEED = 3.0f;
+	float timeToReach = 1.5f;
 	const int DG = 10;
 	float t = 0;
+	const float MID_POINT_MIN = -30;
+	const float MID_POINT_RANDOM = -50;
+	const float GRAVITY = 9.8f;
 };
