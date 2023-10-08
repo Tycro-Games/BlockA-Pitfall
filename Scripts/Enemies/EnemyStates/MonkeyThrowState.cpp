@@ -18,6 +18,7 @@ void MonkeyThrowState::SpawnBall(Monkey* monkey)
 }
 MonkeyState* MonkeyThrowState::Update(Monkey* monkey, float deltaTime)
 {
+	deltaTime;
 	if (stopTimer->elapsed() > TIME_TO_THROW)
 	{
 		cout << "Thorws some stuff'\n";

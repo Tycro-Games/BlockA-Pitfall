@@ -17,6 +17,7 @@ void MonkeyTurnState::OnEnter()
 
 MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 {
+	deltaTime;
 	if(stopTimer==nullptr)
 	{
 		stopTimer = new Timer();
