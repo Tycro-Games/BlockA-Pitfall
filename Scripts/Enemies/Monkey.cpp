@@ -21,7 +21,7 @@ void Monkey::Render(Surface* screen)
 Box Monkey::GetThrowCollider() const
 {
 	Box b = throwCollider;
-	float sign = headingRight ? -1 : 1;
+	const float sign = headingRight ? -1.0f : 1.0f;
 	b.min.x *= sign;
 	b.max.x *= sign;
 	if (sign == -1)
@@ -97,7 +97,8 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)
 
 {
-	float value = -(4 * powf(t - 1, 7) - cosf(8 * t + 9)) * 0.1f;
+	const float value = -(4 * powf(t - 1, 7)
+		- cosf(8 * t + 9)) * 0.1f;
 	if (positive)
 		return abs(value);
 	//we need negative

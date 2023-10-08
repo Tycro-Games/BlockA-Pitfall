@@ -31,12 +31,11 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 	t += deltaTime * SPEED_TIME * SPEED_MODIFIER;
 	const float2 newPos = lerp(originalPosition, desiredPos, t);
 	const float2 touchFloor = { 0,monkey->GetDistanceToPlayer() * 2 };
-	if(monkey->SeesPlayer()&&monkey->GetThrowTimer()->elapsedF() > THROW_COOLDOWN)
+	if (monkey->SeesPlayer() && monkey->GetThrowTimer()->elapsedF() > THROW_COOLDOWN)
 	{
 		return new MonkeyThrowState();
 	}
 	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
-		cout << "Player hit'\n";
 		monkey->GetHitTimer()->reset();
 		//add throw
 		//ignore for a few seconds
@@ -70,7 +69,7 @@ void MonkeyPatrolState::OnExit()
 
 void MonkeyPatrolState::SetDesiredPosition(float x)
 {
-	float sign = x > 0 ? 1 : -1;
+	float sign = x > 0 ? 1.0f : -1.0f;
 	currentOffset = x * DISTANCE_TO_NEXT_POSITION + MIN_TO_NEXT_POSITION * sign;
 	desiredPos = float2{ originalPosition.x + currentOffset ,originalPosition.y };
 }

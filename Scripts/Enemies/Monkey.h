@@ -27,8 +27,8 @@ private:
 	const int DAMAGE = 10;
 	CollisionChecker* colCheck = nullptr;
 	Box throwCollider;
-	const float2 minThrow = { 25,-DISTANCE_TO_PLAYER };
-	const float2 maxhrow = { 100,DISTANCE_TO_PLAYER };
+	const float2 minThrow = { 40,-DISTANCE_TO_PLAYER };
+	const float2 maxhrow = { 125,DISTANCE_TO_PLAYER };
 	bool headingRight = true;
 	MonkeyBall* ball = nullptr;
 	const float TIME_ALIVE_BALL = 3.0f;

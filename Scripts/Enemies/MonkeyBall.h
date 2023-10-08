@@ -6,8 +6,6 @@ public:
 	void UpdatePosition();
 	MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos);
 	~MonkeyBall();
-	float KinematicEquation(float a, float v, float p, float t);
-	static float GetVelocity(float pI, float pF, float t);
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
 	float GetDistanceToPlayer() override;

@@ -29,8 +29,9 @@ MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 		//to the other direction
 		monkey->SetHeading(!monkey->GetHeading());
 		patrolState->SetOriginalPosition(monkey->GetPosition());
-		const float clampedFloat = RandomFloat();
-		patrolState->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(clampedFloat, !monkey->GetHeading()));
+		patrolState->SetDesiredPosition(
+			Monkey::GetValueFromMonkeyFunction(RandomFloat(),
+			!monkey->GetHeading()));
 		return patrolState;
 	}
 	return nullptr;
