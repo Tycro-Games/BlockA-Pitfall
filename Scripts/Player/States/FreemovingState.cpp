@@ -63,10 +63,6 @@ void FreemovingState::ClampHorizontalMovement(const int signX) const
 	p->SetVelocityX(clamp(p->GetVelocity().x, -MAX_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED));
 }
 
-int FreemovingState::SignOfHorizontalMovement() const
-{
-	return p->GetVelocity().x > 0 ? 1 : -1;
-}
 
 bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& state)
 {
@@ -159,7 +155,7 @@ bool FreemovingState::UpdateVelocity(float deltaTime) const
 	//momentum on horizontal
 	if (abs(p->GetVelocity().x) > 0.2f) {
 
-		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * static_cast<float>(SignOfHorizontalMovement()));
+		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * MathLibrary::Sign(p->GetVelocity().x));
 
 	}
 	else
@@ -181,7 +177,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		//only on floor
 		AddJumpForce(col, jumpCollider);
 
-		ClampHorizontalMovement(SignOfHorizontalMovement());
+		ClampHorizontalMovement(static_cast<int>(MathLibrary::Sign(p->GetVelocity().x)));
 
 
 		MoveOnFloor(deltaTime, col, floorCollider, boxCollider);

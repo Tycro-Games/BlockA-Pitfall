@@ -15,3 +15,13 @@ float2 MathLibrary::QuadraticBezierCurve(const float2& a, const float2& b, const
 	return (1.0f - t) * (1.0f - t) * a + 2 * t * (1.0f - t) * b + (t * t) * c;
 
 }
+
+float MathLibrary::Sign(float value)
+{
+	if (value > 0)
+		return 1.0f;
+
+	return -1.0f;
+
+
+}

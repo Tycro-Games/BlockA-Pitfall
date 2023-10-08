@@ -24,13 +24,13 @@ Box Monkey::GetThrowCollider() const
 	const float sign = headingRight ? -1.0f : 1.0f;
 	b.min.x *= sign;
 	b.max.x *= sign;
-	if (sign == -1)
+	if (static_cast<int>(sign) == -1)
 		swap(b.min.x, b.max.x);
 	return b;
 }
 bool Monkey::SeesPlayer() const
 {
-	const float2 playerPos = avatar->GetCollisionChecker()->GetBoxColliderPos();
+	const float2 playerPos = avatar->GetPos();
 	const Box playerCol = AABB::At(playerPos, *avatar->GetCollisionChecker()->GetBoxCollider());
 	const Box monkeyCollider = AABB::At(position, GetThrowCollider());
 	if (AABB::BoxCollides(playerCol, monkeyCollider))

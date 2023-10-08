@@ -38,7 +38,6 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
 		monkey->GetHitTimer()->reset();
 		//add throw
-		//ignore for a few seconds
 		return ToTurnState();
 
 	}
@@ -69,8 +68,7 @@ void MonkeyPatrolState::OnExit()
 
 void MonkeyPatrolState::SetDesiredPosition(float x)
 {
-	float sign = x > 0 ? 1.0f : -1.0f;
-	currentOffset = x * DISTANCE_TO_NEXT_POSITION + MIN_TO_NEXT_POSITION * sign;
+	currentOffset = x * DISTANCE_TO_NEXT_POSITION + MIN_TO_NEXT_POSITION * MathLibrary::Sign(x);
 	desiredPos = float2{ originalPosition.x + currentOffset ,originalPosition.y };
 }
 
