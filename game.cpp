@@ -183,7 +183,7 @@ void Game::Render()
 	}
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
-		afterCamera[i]->Render(cam.pGetPreRender());
+		afterCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	cam.Render(screen);
 
@@ -215,7 +215,7 @@ void Game::FixedUpdate(float deltaTime)
 
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
-		afterCamera[i]->Update(deltaTime);
+		afterCameraUpdate[i]->Update(deltaTime);
 	}
 
 }
@@ -321,7 +321,7 @@ void Game::AddPreEntity(Entity& entity)
 }
 void Game::AddAfterEntity(Entity& entity)
 {
-	afterCamera[indexAfterEntities++] = &entity;
+	afterCameraUpdate[indexAfterEntities++] = &entity;
 }
 
 

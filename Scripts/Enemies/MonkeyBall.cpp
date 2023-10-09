@@ -38,10 +38,14 @@ void MonkeyBall::Render(Surface* screen)
 
 void MonkeyBall::Update(float deltaTime)
 {
+	//code behind the projectile the monkey throw
 	t += deltaTime * SPEED;
 
 
-	position = MathLibrary::QuadraticBezierCurve(startPos, midPos, finalPos, t / timeToReach);
+	position = MathLibrary::QuadraticBezierCurve(startPos, 
+		midPos, 
+		finalPos,
+		t / timeToReach);
 
 
 	if (TryToHitPlayer(DISTANCE_TO_PLAYER) ||

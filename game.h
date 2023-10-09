@@ -62,7 +62,7 @@ namespace Tmpl8
 		//Update and rendering
 
 		Entity* preCamera[MAX_ENTITIES_NUMBER];
-		Entity* afterCamera[MAX_ENTITIES_NUMBER];
+		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER];
 		uint indexPreEntities = 0;
 		uint indexAfterEntities = 0;
 		//input
