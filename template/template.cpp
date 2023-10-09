@@ -160,6 +160,7 @@ void main()
 	// done, enter main loop changed to crt
 
 	// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
+	//used this :https://stackoverflow.com/questions/52762754/how-to-render-a-circular-vignette-with-glsl
 	char fs[] =
 		"#version 330											\n"
 		"uniform sampler2D c; in vec2 uv; out vec4 f;			\n"
@@ -169,10 +170,18 @@ void main()
 		"#define InputGamma		2.4								\n"
 		"#define OutputGamma	2.2								\n"
 		"#define BRIGHTBOOST	1.6								\n"
-		"#define SCANLINES		0.7							\n"
+		"#define SCANLINES		0.7								\n"
 		"#define SHARPER		1								\n"
 		"#define GAMMA_IN(color)  pow(color, vec3(InputGamma, InputGamma, InputGamma)) \n"
 		"#define GAMMA_OUT(color) pow(color, vec3(1.0 / OutputGamma, 1.0 / OutputGamma, 1.0 / OutputGamma)) \n"
+		"vec4 applyVignette(vec4 color){ \n"
+		"vec2 position =(f.xy/uv) - vec2(0.5);            \n"
+		"float dist = length(position * vec2(uv.x/uv.y, 1.0));						\n"
+		"float radius = 0.5; \n"
+		"float softness = 0.1; \n"
+		"float vignette = smoothstep(radius, radius - softness, dist); \n"
+		"color.rgb = color.rgb - (1 - vignette); \n"
+		"return color;} \n"
 		"void main(){											\n"
 		"vec2 vt = uv; /* vec2(uv.x-0.499999,uv.y); */			\n"
 		"vec2 ss = vec2( SCRWIDTH*3, SCRHEIGHT*3 );					\n"
@@ -207,7 +216,10 @@ void main()
 		"vec4( 1.0 - MASK_INTENSITY, 1.0, 1.0 - MASK_INTENSITY, 1.),	\n"
 		"floor( mod( vt.x * ss.x * 4, 2.0 ) ) );				\n"
 		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
-		"f = vec4( GAMMA_OUT( color ), 1.0 );}";
+		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
+		"f = vec4( GAMMA_OUT( color ), 0.5 );}";					
+		//"vec4 color = texture2D(u_texture, v_texcoord);			\n"
+		//"f = applyVignette(f);}";
 	char* sw = strstr(fs, "SCRWIDTH "), * sh = strstr(fs, "SCRHEIGHT ");
 	char swt[16], sht[16];
 	sprintf(swt, "%i", SCRWIDTH / 5);
