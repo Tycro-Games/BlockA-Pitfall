@@ -1,7 +1,6 @@
 ﻿#include "precomp.h"
 #include "Monkey.h"
 
-#include "EnemyStates/MonkeyToGroundState.h"
 
 void Monkey::Render(Surface* screen)
 {
@@ -141,6 +140,12 @@ bool Monkey::GetHeading() const
 
 void Monkey::SetBall(MonkeyBall* _ball)
 {
+
 	ball = _ball;
+}
+MonkeyBall* Monkey::GetBall()
+{
+
+	return ball;
 }
 

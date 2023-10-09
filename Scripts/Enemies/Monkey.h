@@ -18,6 +18,8 @@ public:
 	void SetHeading(bool _heading);
 	bool GetHeading() const;
 	void SetBall(MonkeyBall* _ball);
+	MonkeyBall* GetBall();
+
 private:
 	MonkeyState* currentState = nullptr;
 	Timer* hitTimer = nullptr;
@@ -31,7 +33,7 @@ private:
 	const float2 maxhrow = { 125,DISTANCE_TO_PLAYER };
 	bool headingRight = true;
 	MonkeyBall* ball = nullptr;
-	const float TIME_ALIVE_BALL = 3.0f;
+	const float TIME_ALIVE_BALL = 4.0f;
 
 
 };
