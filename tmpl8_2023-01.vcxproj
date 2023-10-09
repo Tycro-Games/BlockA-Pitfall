@@ -149,6 +149,7 @@
     <ClCompile Include="Scripts\Player\States\SwingingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ZipliningState.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
+    <ClCompile Include="Scripts\Utilities\Array.cpp" />
     <ClCompile Include="Scripts\Utilities\CollisionChecker.cpp" />
     <ClCompile Include="Scripts\Utilities\Entity.cpp" />
     <ClCompile Include="Scripts\Utilities\Health.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Scripts\Player\States\SwingingState.h" />
     <ClInclude Include="Scripts\Player\States\ZipliningState.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
+    <ClInclude Include="Scripts\Utilities\Array.h" />
     <ClInclude Include="Scripts\Utilities\CollisionChecker.h" />
     <ClInclude Include="Scripts\Utilities\Entity.h" />
     <ClInclude Include="Scripts\Utilities\Health.h" />

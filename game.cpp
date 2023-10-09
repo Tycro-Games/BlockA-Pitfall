@@ -11,20 +11,16 @@ Game::~Game()
 {
 	delete enviroment;
 	delete parallaxSprite;
-	delete[] ropes;
-	delete[] ziplines;
-	delete[] spikes;
-	delete[] boars;
-	delete[] monkeys;
 }
 
 void Game::AddObservers()
 {
-	for (uint i = 0; i < countSpikes; i++)
+	
+	for (uint i = 0; i < spikes.GetCount(); i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
-	for (uint i = 0; i < countBoars ; i++)
+	for (uint i = 0; i < boars.GetCount(); i++)
 		boars[i].GetSubject()->AddObserver(healthBar);
-	for (uint i = 0; i < countMonkeys ; i++)
+	for (uint i = 0; i < monkeys.GetCount(); i++)
 		monkeys[i].GetSubject()->AddObserver(healthBar);
 	avatar.GetSubject()->AddObserver(cam);
 	healthBar.GetSubject()->AddObserver(avatar);
@@ -54,35 +50,35 @@ void Game::SetUpCamera()
 
 void Game::AddAllEntities()
 {
-	for (uint i = 0; i < countZiplines ; i++)
+	for (uint i = 0; i < ziplines.GetCount(); i++)
 	{
-		AddPreEntity(ziplines[i]);
+		AddPreEntity(&ziplines[i]);
 
 
 	}
-	for (uint i = 0; i < countRopes; i++)
+	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
-		AddPreEntity(ropes[i]);
+		AddPreEntity(&ropes[i]);
 
 
 	}
-	for (uint i = 0; i < countSpikes; i++)
+	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
-		AddPreEntity(spikes[i]);
+		AddPreEntity(&spikes[i]);
 
 	}
-	for (uint i = 0; i < countBoars ; i++)
+	for (uint i = 0; i < boars.GetCount(); i++)
 	{
-		AddPreEntity(boars[i]);
+		AddPreEntity(&boars[i]);
 
 	}
-	for (uint i = 0; i < countMonkeys ; i++)
+	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
-		AddPreEntity(monkeys[i]);
+		AddPreEntity(&monkeys[i]);
 
 	}
 
-	AddAfterEntity(avatar);
+	AddAfterEntity(&avatar);
 }
 
 // -----------------------------------------------------------
@@ -103,49 +99,64 @@ void Game::Init()
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
 	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", true);
+	//used https://www.3dgep.com/cpp-fast-track-9-colours/
+	uint8_t countEnemies = 0;
+	uint8_t countStatics = 0;
+	size_t countZipRopes = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countStatics);
+	countZipRopes = countZipRopes | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countStatics);
 
-	countRopes = nonTiles[SpawnNonTiles::ROPE].GetCount();
-	countZiplines = nonTiles[SpawnNonTiles::ZIPLINE].GetCount();
-	countMonkeys= nonTiles[SpawnNonTiles::MONKEYS].GetCount();
-	countSpikes = nonTiles[SpawnNonTiles::SPIKES].GetCount();
+	size_t countsEnemies = nonTiles[SpawnNonTiles::SPIKES].GetCount() << GetBitSpace(countEnemies);
+	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::BOARS].GetCount() << GetBitSpace(countEnemies);
+	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::MONKEYS].GetCount() << GetBitSpace(countEnemies);
 
-	countBoars = nonTiles[SpawnNonTiles::BOARS].GetCount();
+	countEnemies = 1;
+	countStatics = 1;
 
-	ropes = new Rope[countRopes];
+	size_t count = countZipRopes & 0b11111111;//255 in binary
+	ropes.Init(count);
 
-	ziplines = new Zipline[countZiplines];
 
-	spikes = new Spike[countSpikes];
+	uint8_t shift = GetBitSpace(countStatics);
+	count = (countZipRopes & 0b11111111 << shift) >> shift;
+	ziplines.Init(count);
 
-	boars = new Boar[countBoars];
+	count = countsEnemies & 0b11111111;
+	spikes.Init(count);
 
-	monkeys = new Monkey[countMonkeys];
+	shift = GetBitSpace(countEnemies);
+	count = (countsEnemies & 0b11111111 << shift) >> shift;
 
-	for (uint i = 0; i < countRopes; i++)
+	boars.Init(count);
+
+	shift = GetBitSpace(countEnemies);
+	count = (countsEnemies & 0b11111111 << shift) >> shift;
+	monkeys.Init(count);
+
+	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
 
 		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
 
 	}
 	uint zIndex = 0;
-	for (uint i = 0; i < countZiplines * 2; i += 2)
+	for (uint i = 0; i < ziplines.GetCount() * 2; i += 2)
 	{
 		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
 			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
 
 
 	}
-	for (uint i = 0; i < countSpikes; i++)
+	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
 	}
-	for (uint i = 0; i < countMonkeys; i++)
+	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
 		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR], &tileMaps[Tilemap::LADDERS], avatar);
 	}
 	zIndex = 0;
 
-	for (uint i = 0; i < countBoars * 2; i += 2)
+	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
 	{
 		boars[zIndex++].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
 			nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
@@ -156,7 +167,7 @@ void Game::Init()
 
 	SetUpCamera();
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, countRopes, ziplines, countZiplines, cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, cam);
 
 
 	AddAllEntities();
@@ -246,11 +257,11 @@ void Game::Tick(float deltaTime)
 
 void Game::RemoveObservers()
 {
-	for (uint i = 0; i < countSpikes; i++)
+	for (uint i = 0; i < spikes.GetCount(); i++)
 		spikes[i].GetSubject()->RemoveObserver(healthBar);
-	for (uint i = 0; i < countBoars / 2; i++)
+	for (uint i = 0; i < boars.GetCount() / 2; i++)
 		boars[i].GetSubject()->RemoveObserver(healthBar);
-	for (uint i = 0; i < countMonkeys ; i++)
+	for (uint i = 0; i < monkeys.GetCount(); i++)
 		monkeys[i].GetSubject()->RemoveObserver(healthBar);
 	avatar.GetSubject()->RemoveObserver(cam);
 }
@@ -315,13 +326,20 @@ void Game::KeyDown(int key)
 	}
 }
 
-void Game::AddPreEntity(Entity& entity)
+void Game::AddPreEntity(Entity* entity)
 {
-	preCamera[indexPreEntities++] = &entity;
+	preCamera[indexPreEntities++] = entity;
 }
-void Game::AddAfterEntity(Entity& entity)
+void Game::AddAfterEntity(Entity* entity)
 {
-	afterCameraUpdate[indexAfterEntities++] = &entity;
+	afterCameraUpdate[indexAfterEntities++] = entity;
+}
+
+uint8_t Game::GetBitSpace(uint8_t& counts) const
+{
+	if (counts > sizeof(size_t))
+		cout << "no more space'\n";
+	return BitSpace * (counts++);
 }
 
 

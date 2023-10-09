@@ -38,7 +38,7 @@ float2 CollisionChecker::GetBoxColliderOffset() const
 
 CollisionChecker::CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders) : pos(pos),
 	floors(floors),
-	ladders(ladders), ziplines(nullptr), ziplineCount(0), ropes(nullptr), ropeCount(0)
+	ladders(ladders), ziplines(nullptr), ropes(nullptr)
 {
 	floorCollider = new Box{FLOOR_POS - FLOOR_SIZE, FLOOR_POS + FLOOR_SIZE};
 	boxCollider = new Box{BOX_POS - BOX_SIZE, BOX_POS + BOX_SIZE};
@@ -84,14 +84,14 @@ bool CollisionChecker::IsCollidingFloors(const Box* col, float2& floorPos) const
 
 bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 {
-	for (uint i = 0; i < ropeCount; i++) {
-		if (ropes[i].GetOnScreen()) {
+	for (uint i = 0; i < ropes->GetCount(); i++) {
+		if (ropes->Get(i).GetOnScreen()) {
 
 
-			float2 toPlayer = (*pos + BOX_POS) - ropes[i].GetMovingPart();
+			float2 toPlayer = (*pos + BOX_POS) - ropes->Get(i).GetMovingPart();
 			if (length(toPlayer) <= RADIUS_TO_ROPE) {
 
-				pMovingPart = ropes[i].pGetMovingPart();
+				pMovingPart = ropes->Get(i).pGetMovingPart();
 				return true;
 			}
 		}
@@ -102,11 +102,11 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 	float2& _start,
 	float2& _end) const
 {
-	for (uint i = 0; i < ziplineCount; i++)
-		if (ziplines[i].GetOnScreen()) {
+	for (uint i = 0; i < ziplines->GetCount(); i++)
+		if (ziplines->Get(i).GetOnScreen()) {
 			float2 start = 0;
 			float2 end = 0;
-			ziplines[i].GetStartEnd(start, end);
+			ziplines->Get(i).GetStartEnd(start, end);
 
 			float2 a = end - start;
 			float2 toPlayer = -(start - (*pos + BOX_POS));
@@ -125,12 +125,10 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 
 }
 
-void CollisionChecker::SetRopesZiplines(Zipline* _ziplines, size_t _ziplineCount, Rope* _ropes, size_t _rope_count)
+void CollisionChecker::SetRopesZiplines(Array<Zipline>& _ziplines, Array<Rope>& _ropes)
 {
-	ziplines = _ziplines;
-	ziplineCount = _ziplineCount;
+	ziplines = &_ziplines;
 
-	ropes = _ropes;
-	ropeCount = _rope_count;
+	ropes = &_ropes;
 
 }

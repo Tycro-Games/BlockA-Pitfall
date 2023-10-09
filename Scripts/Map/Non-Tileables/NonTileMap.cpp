@@ -14,7 +14,7 @@ void SpawnNonTiles::Init(const char* csvPath, bool half )
 	}
 }
 
-size_t SpawnNonTiles::GetCount() const
+uint8_t SpawnNonTiles::GetCount() const
 {
 	return index;
 }

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Array.h"
 
 struct Box;
 class Zipline;
@@ -19,8 +20,7 @@ public:
 	bool IsCollidingFloors(const Box* col, float2& floorPos) const;
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
-	void SetRopesZiplines(Zipline* ziplines, size_t ziplineCount,
-		Rope* ropes, size_t ropeCount);
+	void SetRopesZiplines(Array<Zipline>& _ziplines, Array<Rope>& _ropes);
 
 
 
@@ -36,14 +36,12 @@ public:
 
 private:
 
-	float2* pos=nullptr;
+	float2* pos = nullptr;
 	Tilemap* floors;
 	Tilemap* ladders;
-	Zipline* ziplines;
-	size_t ziplineCount;
 
-	Rope* ropes;
-	size_t ropeCount ;
+	Array<Zipline>* ziplines;
+	Array<Rope>* ropes;
 
 	//ziplines and ropes
 	const float RADIUS_TO_ZIPLINE = 25.0f;
@@ -62,7 +60,7 @@ private:
 
 	const float BOX_SIZE = 5.0f;
 	const float FLOOR_SIZE = 8.0f;
-	
+
 	const float JUMP_SIZE_X = 8.0f;
 	const float JUMP_SIZE_Y = 4.0f;
 };

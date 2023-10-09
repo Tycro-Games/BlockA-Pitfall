@@ -22,6 +22,6 @@ private:
 	Subject* deathSubject = nullptr;
 	int currentframe = 0;
 	const int maxHealth = 100;
-	const int xPos = 1080;
+	const int xPos = 920;
 	const int yPos = 50;
 };

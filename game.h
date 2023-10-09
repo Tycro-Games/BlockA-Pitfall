@@ -32,11 +32,12 @@ namespace Tmpl8
 		void MouseUp(int) { /* implement if you want to detect mouse button presses */ }
 		void MouseDown(int) { /* implement if you want to detect mouse button presses */ }
 		void MouseMove(int x, int y) { mousePos.x = x, mousePos.y = y; }
-		void MouseWheel(float ){}
+		void MouseWheel(float) {}
 		void KeyUp(int);
 		void KeyDown(int);
-		void AddPreEntity(Entity& entity);
-		void AddAfterEntity(Entity& entity);
+		void AddPreEntity(Entity* entity);
+		void AddAfterEntity(Entity* entity);
+		uint8_t GetBitSpace(uint8_t& counts) const;
 		// data members
 		int2 mousePos;
 		//preCamera
@@ -45,16 +46,16 @@ namespace Tmpl8
 		Camera cam;
 		Tilemap tileMaps[Tilemap::COUNT];
 		SpawnNonTiles nonTiles[SpawnNonTiles::COUNT];
-		size_t countRopes;
-		size_t countSpikes;
-		size_t countZiplines;
-		size_t countBoars;
-		size_t countMonkeys;
-		Rope* ropes = nullptr;
-		Zipline* ziplines = nullptr;
-		Spike* spikes = nullptr;
-		Boar* boars = nullptr;
-		Monkey* monkeys = nullptr;
+
+		const uint8_t BitSpace = 8;
+
+		Array<Rope> ropes;
+		Array<Zipline> ziplines;
+		//will add elastic plants
+
+		Array<Spike> spikes;
+		Array<Boar> boars;
+		Array<Monkey> monkeys;
 
 		Avatar avatar;
 		//UI

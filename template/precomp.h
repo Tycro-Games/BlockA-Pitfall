@@ -59,10 +59,13 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 //my header
+#include "Scripts/Utilities/Array.h"
+
 #include "Scripts/Utilities/Entity.h"
 //observer
 #include "Scripts/Observer/Observer.h"
 #include "Scripts/Observer/Subject.h"
+
 //ui
 #include "Scripts/Player/HealthBar.h"
 

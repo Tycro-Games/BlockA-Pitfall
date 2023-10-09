@@ -175,10 +175,10 @@ void main()
 		"#define GAMMA_IN(color)  pow(color, vec3(InputGamma, InputGamma, InputGamma)) \n"
 		"#define GAMMA_OUT(color) pow(color, vec3(1.0 / OutputGamma, 1.0 / OutputGamma, 1.0 / OutputGamma)) \n"
 		"vec4 applyVignette(vec4 color){ \n"
-		"vec2 position =(f.xy/uv) - vec2(0.5);            \n"
-		"float dist = length(position * vec2(uv.x/uv.y, 1.0));						\n"
-		"float radius = 0.5; \n"
-		"float softness = 0.1; \n"
+		"vec2 position = uv.xy-vec2(0.5);            \n"
+		"float dist = length(position);						\n"
+		"float radius = 0.8; \n"
+		"float softness = 0.4; \n"
 		"float vignette = smoothstep(radius, radius - softness, dist); \n"
 		"color.rgb = color.rgb - (1 - vignette); \n"
 		"return color;} \n"
@@ -217,9 +217,9 @@ void main()
 		"floor( mod( vt.x * ss.x * 4, 2.0 ) ) );				\n"
 		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
 		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
-		"f = vec4( GAMMA_OUT( color ), 0.5 );}";					
+		"f = vec4( GAMMA_OUT( color ), 0.5 );					\n"
 		//"vec4 color = texture2D(u_texture, v_texcoord);			\n"
-		//"f = applyVignette(f);}";
+		"f = applyVignette(f);}";
 	char* sw = strstr(fs, "SCRWIDTH "), * sh = strstr(fs, "SCRHEIGHT ");
 	char swt[16], sht[16];
 	sprintf(swt, "%i", SCRWIDTH / 5);

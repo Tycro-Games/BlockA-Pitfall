@@ -1,9 +1,11 @@
 ﻿#include "precomp.h"
 #include "Rope.h"
 
+
 Rope::Rope()
 {
 	t = new Timer();
+
 }
 
 Rope::~Rope()
@@ -64,6 +66,7 @@ void Rope::Update(float deltaTime)
 
 void Rope::Init(float2 _fixedPoint)
 {
+
 	//offset the function using the fixed point
 	if (static_cast<int>(_fixedPoint.x) % 2 == 0) {
 		timeOffset = PI;

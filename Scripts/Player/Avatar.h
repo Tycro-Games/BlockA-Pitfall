@@ -1,4 +1,5 @@
 #pragma once
+#include "Scripts/Utilities/Array.h"
 
 
 class Rope;
@@ -33,8 +34,8 @@ public:
 	void Notify(int context, EVENT ev) override;
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Rope* _ropes, size_t _ropeCount, Zipline* _ziplines, size_t
-		_ziplineCount, Camera& _cam);
+	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Camera&
+	          _cam);
 	//entity
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;

@@ -14,7 +14,7 @@ public:
 		COUNT
 	};
 	void Init(const char* csvPath, bool half=false);
-	size_t GetCount() const;
+	uint8_t GetCount() const;
 	float2 GetPosition(size_t index) const;
 private:
 	void LoadCSVFile(const char* csvPath);
@@ -22,5 +22,5 @@ private:
 	void ExtractPositions(const char* csvRaw);
 	void ConvertCharTofloat(const char* pch, float& numberForm);
 	float2 positions[50] = {};//should be made a vector;
-	size_t index = 0;
+	uint8_t index = 0;
 };
