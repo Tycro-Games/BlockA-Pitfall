@@ -6,17 +6,17 @@ void MonkeyBall::UpdatePosition()
 {
 }
 
-MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos)
+MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
+	const float2& _finalPos, float _speed )
 {
 	t = 0;
 	subject = s;
 	avatar = p;
 	monkey = _monkey;
 	startPos = _startPos;
-
-	finalPos = p->GetCollisionChecker()->GetBoxColliderPos();
-	finalPos.y = startPos.y;
-	midPos = lerp(startPos, finalPos, 0.5f + Rand(0.2f)) + float2{ 0,MID_POINT_MIN + MID_POINT_RANDOM * RandomFloat() };
+	speed = _speed;
+	finalPos = _finalPos;
+	midPos = _midPos;
 
 	position = startPos;
 	SetDamage(DG);
@@ -24,9 +24,7 @@ MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _st
 }
 
 MonkeyBall::~MonkeyBall()
-{
-}
-
+= default;
 
 
 //TODO add on screen
@@ -39,18 +37,17 @@ void MonkeyBall::Render(Surface* screen)
 void MonkeyBall::Update(float deltaTime)
 {
 	//code behind the projectile the monkey throw
-	t += deltaTime * SPEED;
+	t += deltaTime * speed;
 
 
-	position = MathLibrary::QuadraticBezierCurve(startPos, 
-		midPos, 
+	position = MathLibrary::QuadraticBezierCurve(startPos,
+		midPos,
 		finalPos,
 		t / timeToReach);
 
 
 	if (TryToHitPlayer(DISTANCE_TO_PLAYER) ||
 		avatar->GetCollisionChecker()->IsCollidingFloors(position, &col))
-
 	{
 		monkey->SetBall(nullptr);
 		delete this;

@@ -92,6 +92,7 @@ using namespace std;
 //enemies
 #include  "Scripts/Enemies/EnemyStates/MonkeyState.h"
 #include  "Scripts/Enemies/EnemyStates/MonkeyTurnState.h"
+#include  "Scripts/Enemies/EnemyStates/MonkeyOnLadderState.h"
 #include  "Scripts/Enemies/EnemyStates/MonkeyPatrolState.h"
 #include  "Scripts/Enemies/EnemyStates/MonkeyThrowState.h"
 #include  "Scripts/Enemies/EnemyStates/MonkeyToGroundState.h"

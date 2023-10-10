@@ -1,8 +1,6 @@
 ﻿#include "precomp.h"
 #include "MonkeyToGroundState.h"
 
-#include "MonkeyPatrolState.h"
-
 void MonkeyToGroundState::OnEnter()
 {
 	InitSeed(RandomUInt());
@@ -22,7 +20,10 @@ MonkeyState* MonkeyToGroundState::Update(Monkey* monkey, float deltaTime)
 	float newPosY = 0;
 	float2 oldPosition = monkey->GetPosition();
 	Box* col = monkey->GetBox();
-
+	if(monkey->GetCollisionChecker()->IsCollidingLadders(oldPosition, col))
+	{
+		return new MonkeyOnLadderState();
+	}
 	if (!monkey->GetCollisionChecker()->IsCollidingFloors(oldPosition, col))
 	{
 		newPosY += deltaTime * FALL_SPEED;

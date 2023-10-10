@@ -1,10 +1,14 @@
 ﻿#pragma once
 
-class MonkeyBall: public Enemy
+class MonkeyBall : public Enemy
 {
 public:
 	void UpdatePosition();
-	MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos);
+	MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
+		const float2& _finalPos, float _speed = 3.0f);
+
+
+
 	~MonkeyBall();
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
@@ -18,11 +22,9 @@ private:
 	float2 velocity = 0;
 	const float DISTANCE_TO_PLAYER = 7.0f;
 	Monkey* monkey = nullptr;
-	float SPEED = 3.0f;
+	float speed = 3.0f;
 	float timeToReach = 1.5f;
 	const int DG = 10;
 	float t = 0;
-	const float MID_POINT_MIN = -30;
-	const float MID_POINT_RANDOM = -50;
 	const float GRAVITY = 9.8f;
 };
