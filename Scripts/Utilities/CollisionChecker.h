@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Array.h"
 
+class ElasticPlant;
 struct Box;
 class Zipline;
 class Tilemap;
@@ -19,8 +20,9 @@ public:
 	bool IsCollidingFloors(const Box* col) const;
 	bool IsCollidingFloors(const Box* col, float2& floorPos) const;
 	bool IsCollidingRopes(float2*& pMovingPart) const;
+	bool IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
-	void SetRopesZiplines(Array<Zipline>& _ziplines, Array<Rope>& _ropes);
+	void SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants);
 
 
 
@@ -42,6 +44,7 @@ private:
 
 	Array<Zipline>* ziplines;
 	Array<Rope>* ropes;
+	Array<ElasticPlant>* elasticPlants;
 
 	//ziplines and ropes
 	const float RADIUS_TO_ZIPLINE = 25.0f;
@@ -51,6 +54,7 @@ private:
 	//Adriaensen, Remi (231390),  explained how to fix warning C4324 on discord
 
 	//colliders
+	//defined relative to player position
 	const float2 FLOOR_POS = { 9.5f,30.0f };
 	const float2 JUMP_POS = { 9.5f, 42.0f };
 	const float2 BOX_POS = { 9.0f, 17.0f };

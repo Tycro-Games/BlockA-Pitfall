@@ -6,7 +6,7 @@ public:
 	void OnEnter(Avatar& p) override;
 	void AddJumpForce(const CollisionChecker* col, const Box* jumpCollider) const;
 	void ClampHorizontalMovement(int signX) const;
-	bool CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider,
+	bool CheckNonTiles(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider,
 	                  PlayerState*& state);
 	void MoveOnFloor(float deltaTime, const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider);
 	bool UpdateVelocity(float deltaTime) const;

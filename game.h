@@ -51,6 +51,7 @@ namespace Tmpl8
 
 		Array<Rope> ropes;
 		Array<Zipline> ziplines;
+		Array<ElasticPlant> elasticPlants;
 		//will add elastic plants
 
 		Array<Spike> spikes;
@@ -68,7 +69,7 @@ namespace Tmpl8
 		uint indexAfterEntities = 0;
 		//input
 		Input input;
-
+		const float2 STARTING_POSITION = { 0,0 };
 	};
 
 } // namespace Tmpl8

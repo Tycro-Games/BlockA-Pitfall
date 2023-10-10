@@ -15,7 +15,7 @@ Game::~Game()
 
 void Game::AddObservers()
 {
-	
+
 	for (uint i = 0; i < spikes.GetCount(); i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
 	for (uint i = 0; i < boars.GetCount(); i++)
@@ -45,7 +45,7 @@ void Game::SetUpCamera()
 	tileMaps[Tilemap::FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
-	cam.Init(float2{ 0, 700 }, enviroment, parallaxSprite);
+	cam.Init(STARTING_POSITION, enviroment, parallaxSprite);
 }
 
 void Game::AddAllEntities()
@@ -59,6 +59,12 @@ void Game::AddAllEntities()
 	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
 		AddPreEntity(&ropes[i]);
+
+
+	}
+	for (uint i = 0; i < elasticPlants.GetCount(); i++)
+	{
+		AddPreEntity(&elasticPlants[i]);
 
 
 	}
@@ -93,17 +99,19 @@ void Game::Init()
 	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
 	//non tiles
 	//learned how to do pragma regions  from John Gear
-
+	bool hasPairOfTwoPositions = true;
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
-	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", true);
+	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", hasPairOfTwoPositions);
+	nonTiles[SpawnNonTiles::ELASTIC_PLANTS].Init("assets/ElasticPlants.tmx");
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
-	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", true);
+	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);
 	//used https://www.3dgep.com/cpp-fast-track-9-colours/
 	uint8_t countEnemies = 0;
 	uint8_t countStatics = 0;
 	size_t countZipRopes = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countStatics);
 	countZipRopes = countZipRopes | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countStatics);
+	countZipRopes = countZipRopes | nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetCount() << GetBitSpace(countStatics);
 
 	size_t countsEnemies = nonTiles[SpawnNonTiles::SPIKES].GetCount() << GetBitSpace(countEnemies);
 	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::BOARS].GetCount() << GetBitSpace(countEnemies);
@@ -119,6 +127,10 @@ void Game::Init()
 	uint8_t shift = GetBitSpace(countStatics);
 	count = (countZipRopes & 0b11111111 << shift) >> shift;
 	ziplines.Init(count);
+
+	shift = GetBitSpace(countStatics);
+	count = (countZipRopes & 0b11111111 << shift) >> shift;
+	elasticPlants.Init(count);
 
 	count = countsEnemies & 0b11111111;
 	spikes.Init(count);
@@ -146,6 +158,12 @@ void Game::Init()
 
 
 	}
+	for (uint i = 0; i < elasticPlants.GetCount(); i++)
+	{
+		elasticPlants[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
+
+
+	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
@@ -167,7 +185,7 @@ void Game::Init()
 
 	SetUpCamera();
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, cam);
 
 
 	AddAllEntities();

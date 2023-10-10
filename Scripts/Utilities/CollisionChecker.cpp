@@ -37,12 +37,12 @@ float2 CollisionChecker::GetBoxColliderOffset() const
 }
 
 CollisionChecker::CollisionChecker(float2* pos, Tilemap* floors, Tilemap* ladders) : pos(pos),
-	floors(floors),
-	ladders(ladders), ziplines(nullptr), ropes(nullptr)
+floors(floors),
+ladders(ladders), ziplines(nullptr), ropes(nullptr), elasticPlants(nullptr)
 {
-	floorCollider = new Box{FLOOR_POS - FLOOR_SIZE, FLOOR_POS + FLOOR_SIZE};
-	boxCollider = new Box{BOX_POS - BOX_SIZE, BOX_POS + BOX_SIZE};
-	jumpCollider = new Box{JUMP_POS - float2{JUMP_SIZE_X, JUMP_SIZE_Y}, JUMP_POS + float2{JUMP_SIZE_X, JUMP_SIZE_Y}};
+	floorCollider = new Box{ FLOOR_POS - FLOOR_SIZE, FLOOR_POS + FLOOR_SIZE };
+	boxCollider = new Box{ BOX_POS - BOX_SIZE, BOX_POS + BOX_SIZE };
+	jumpCollider = new Box{ JUMP_POS - float2{JUMP_SIZE_X, JUMP_SIZE_Y}, JUMP_POS + float2{JUMP_SIZE_X, JUMP_SIZE_Y} };
 }
 
 CollisionChecker::~CollisionChecker()
@@ -98,6 +98,23 @@ bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 	}
 	return false;
 }
+bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const
+{
+	for (uint i = 0; i < elasticPlants->GetCount(); i++) {
+		if (elasticPlants->Get(i).GetOnScreen()) {
+
+			//converts local to world space
+
+			float2 toPlayer = (*pos + BOX_POS) - *elasticPlants->Get(i).pGetPosition();
+			if (length(toPlayer) <= RADIUS_TO_ROPE) {
+
+				pElasticPlant = &elasticPlants->Get(i);
+				return true;
+			}
+		}
+	}
+	return false;
+}
 bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 	float2& _start,
 	float2& _end) const
@@ -125,10 +142,10 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 
 }
 
-void CollisionChecker::SetRopesZiplines(Array<Zipline>& _ziplines, Array<Rope>& _ropes)
+void CollisionChecker::SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants)
 {
 	ziplines = &_ziplines;
 
 	ropes = &_ropes;
-
+	elasticPlants = &_elasticPlants;
 }

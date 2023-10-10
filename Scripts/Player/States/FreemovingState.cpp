@@ -64,7 +64,7 @@ void FreemovingState::ClampHorizontalMovement(const int signX) const
 }
 
 
-bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& state)
+bool FreemovingState::CheckNonTiles(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider, PlayerState*& state)
 {
 	if (p->IsClimbTimerFinished(CLIMB_DELAY))
 	{
@@ -97,14 +97,24 @@ bool FreemovingState::CheckZipRope(const CollisionChecker* col, const Box* floor
 			state = swing;
 			return true;
 		}
+		ElasticPlant* pElastic = nullptr;
+		if (col->IsCollidingElasticPlant(pElastic))
+		{
+			p->ResetClimbTimer();
+			p->SetVelocity(0);
+
+			ElasticPlantState* elasticState = new ElasticPlantState();
+			elasticState->pSetPlant(pElastic);
+			state = elasticState;
+			return true;
+		}
 		float2 floorPos = 0;
 		if (col->IsCollidingLadders(boxCollider, floorPos)) {
 			p->ResetClimbTimer();
 			p->SetVelocity(0);
 			originalPlayerPos = p->GetPos();
 			ladderPositionX = floorPos.x + floorCollider->max.x + boxCollider->max.x / 2;
-
-
+			//smooths to this out of the update method
 		}
 	}
 	return false;
@@ -188,7 +198,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		if (UpdateVelocity(deltaTime))
 			return state;
 
-		if (CheckZipRope(col, floorCollider, boxCollider, state))
+		if (CheckNonTiles(col, floorCollider, boxCollider, state))
 			return state;
 
 

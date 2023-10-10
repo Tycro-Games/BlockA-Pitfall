@@ -41,3 +41,4 @@ template class Array<Rope>;
 template class Array<Spike>;
 template class Array<Monkey>;
 template class Array<Boar>;
+template class Array<ElasticPlant>;

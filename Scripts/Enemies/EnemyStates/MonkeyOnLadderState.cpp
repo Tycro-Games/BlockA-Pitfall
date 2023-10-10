@@ -19,7 +19,7 @@ void MonkeyOnLadderState::OnEnter()
 
 MonkeyState* MonkeyOnLadderState::Update(Monkey* monkey, float deltaTime)
 {
-
+	deltaTime;
 	if (stopTimer->elapsedF() > randomTime&&monkey->GetBall()==nullptr)
 	{
 		stopTimer->reset();

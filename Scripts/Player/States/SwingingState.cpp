@@ -43,10 +43,9 @@ PlayerState* SwingingState::Update(float deltaTime)
 	if (abs(heading) < 1.0f)
 		offsetSign.x *= abs(heading);
 	//player is looking in the right directions
-	p->SetVelocityX(-(p->GetPos().x +
-		col->GetBoxColliderOffset().x - ropP.x -
+	p->SetVelocityX(-(col->GetBoxColliderPos().x - ropP.x -
 		offsetSign.x));
-
+	//this substract the box collider, converting the world position
 	p->SetPosition(ropP - col->GetBoxColliderOffset()
 		- offsetSign);
 

@@ -83,12 +83,14 @@ using namespace std;
 #include "Scripts/Map/Non-Tileables/NonTileMap.h"
 #include "Scripts/Map/Non-Tileables/Rope.h"
 #include "Scripts/Map/Non-Tileables/Zipline.h"
+#include "Scripts/Map/Non-Tileables/ElasticPlant.h"
 //FSM
 #include "Scripts/Player/States//PlayerState.h"
 #include "Scripts/Player/States/ClimbingState.h"
 #include "Scripts/Player/States/SwingingState.h"
 #include "Scripts/Player/States/FreemovingState.h"
 #include "Scripts/Player/States/ZipliningState.h"
+#include  "Scripts/Player/States/ElasticPlantState.h"
 //enemies
 #include  "Scripts/Enemies/EnemyStates/MonkeyState.h"
 #include  "Scripts/Enemies/EnemyStates/MonkeyTurnState.h"

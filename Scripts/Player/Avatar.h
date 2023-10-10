@@ -34,8 +34,8 @@ public:
 	void Notify(int context, EVENT ev) override;
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Camera&
-	          _cam);
+	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<
+	          ElasticPlant>& _elasticPlants, Camera& _cam);
 	//entity
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;

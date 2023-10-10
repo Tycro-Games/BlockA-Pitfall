@@ -134,10 +134,12 @@
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.cpp" />
     <ClCompile Include="Scripts\Enemies\Monkey.cpp" />
     <ClCompile Include="Scripts\Enemies\MonkeyBall.cpp" />
+    <ClCompile Include="Scripts\Map\Non-Tileables\ElasticPlant.cpp" />
     <ClCompile Include="Scripts\Observer\Observer.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
     <ClCompile Include="Scripts\Observer\Subject.cpp" />
     <ClCompile Include="Scripts\Player\HealthBar.cpp" />
+    <ClCompile Include="Scripts\Player\States\ElasticPlantState.cpp" />
     <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
     <ClCompile Include="Scripts\Player\Avatar.cpp" />
@@ -184,10 +186,12 @@
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.h" />
     <ClInclude Include="Scripts\Enemies\Monkey.h" />
     <ClInclude Include="Scripts\Enemies\MonkeyBall.h" />
+    <ClInclude Include="Scripts\Map\Non-Tileables\ElasticPlant.h" />
     <ClInclude Include="Scripts\Observer\Observer.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />
     <ClInclude Include="Scripts\Observer\Subject.h" />
     <ClInclude Include="Scripts\Player\HealthBar.h" />
+    <ClInclude Include="Scripts\Player\States\ElasticPlantState.h" />
     <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
     <ClInclude Include="Scripts\Player\Avatar.h" />

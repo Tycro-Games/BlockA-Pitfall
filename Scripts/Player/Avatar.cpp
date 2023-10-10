@@ -39,7 +39,7 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines,  Camera& _cam)
+void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines,Array<ElasticPlant>& _elasticPlants,  Camera& _cam)
 {
 
 	
@@ -56,7 +56,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, A
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
 	col = new CollisionChecker(&pos, &_floors, &_ladders);
-	col->SetRopesZiplines(_ziplines, _ropes);
+	col->SetNonTiles(_ziplines, _ropes, _elasticPlants);
 	delete[] spriteFlippedPath;
 }
 
