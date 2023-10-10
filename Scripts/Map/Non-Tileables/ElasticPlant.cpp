@@ -38,7 +38,6 @@ float ElasticPlant::GetElasticPlantFunction(float _elapsed) const
 }
 float ElasticPlant::GetPercentOfSpeed() const
 {
-
 	return clamp(0.0f, 1.0f, invlerp(-AMP, 0.0f, sinf(elapsed) * AMP));
 }
 
