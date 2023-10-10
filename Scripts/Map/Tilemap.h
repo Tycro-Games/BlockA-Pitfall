@@ -54,7 +54,8 @@ private:
 
 	uint widthX;
 	uint heightY;
-	uint* tileMap;//number of tiles might need to be dynamic
+	//this is represented as 2D
+	uint* tileMap;
 
 	Surface* tilePalette;
 	const int TILE_SIZE = 32;
