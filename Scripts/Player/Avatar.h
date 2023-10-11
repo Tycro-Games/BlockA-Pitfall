@@ -74,7 +74,7 @@ public:
 
 	const Input& GetInput() const;
 	Subject* GetSubject() const;
-	Array<Rock*>& GetActiveRocks() const;
+	Array<Rock*>& GetRocks() const;
 	int GetFlip() const;
 
 private:

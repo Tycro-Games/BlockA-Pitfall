@@ -6,12 +6,10 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 {
 	activeRocks.Init(MAX_ROCK_NUMBER);
 
-	inactiveRocks.Init(MAX_ROCK_NUMBER);
 
-	for (uint i = 0; i < inactiveRocks.GetCount(); i++)
+	for (uint i = 0; i < activeRocks.GetCount(); i++)
 	{
 
-		inactiveRocks[i] = new Rock();
 		activeRocks[i] = new Rock();
 	}
 

@@ -304,7 +304,7 @@ Subject* Avatar::GetSubject() const
 	return subject;
 }
 
-Array<Rock*>& Avatar::GetActiveRocks() const
+Array<Rock*>& Avatar::GetRocks() const
 {
 	return spawnRocks->GetActiveRocks();
 }

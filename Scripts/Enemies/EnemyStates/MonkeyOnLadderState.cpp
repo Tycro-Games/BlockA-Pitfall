@@ -20,6 +20,10 @@ void MonkeyOnLadderState::OnEnter()
 MonkeyState* MonkeyOnLadderState::Update(Monkey* monkey, float deltaTime)
 {
 	deltaTime;
+	if(monkey->IsOnScreen())
+	{
+		monkey->TryToHitPlayer(monkey->GetDistanceToPlayer());
+	}
 	if (stopTimer->elapsedF() > randomTime&&monkey->GetBall()==nullptr)
 	{
 		stopTimer->reset();

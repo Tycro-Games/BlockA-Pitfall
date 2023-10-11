@@ -53,7 +53,7 @@ void Enemy::HitByPlayer(int _damage)
 
 void Enemy::DetectHit() 
 {
-	Array<Rock*>& rocks = avatar->GetActiveRocks();
+	Array<Rock*>& rocks = avatar->GetRocks();
 	for (uint i = 0; i < rocks.GetCount(); i++)
 	{
 		if (rocks[i]->GetActive())

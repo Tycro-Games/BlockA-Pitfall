@@ -40,7 +40,7 @@ namespace Tmpl8
 		uint8_t GetBitSpace(uint8_t& counts) const;
 		// data members
 		int2 mousePos;
-		//preCamera
+		//preCameraUpdate
 		Sprite* enviroment;
 		Sprite* parallaxSprite;
 		Camera cam;
@@ -63,7 +63,7 @@ namespace Tmpl8
 		HealthBar healthBar;
 		//Update and rendering
 
-		Entity* preCamera[MAX_ENTITIES_NUMBER];
+		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER];
 		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER];
 		uint indexPreEntities = 0;
 		uint indexAfterEntities = 0;

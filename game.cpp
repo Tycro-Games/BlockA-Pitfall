@@ -208,8 +208,8 @@ void Game::Render()
 
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
-		if (preCamera[i]->GetActive())
-			preCamera[i]->Render(cam.pGetPreRender());
+		if (preCameraUpdate[i]->GetActive())
+			preCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
@@ -240,9 +240,9 @@ void Game::FixedUpdate(float deltaTime)
 {
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
-		if (preCamera[i]->GetActive())
+		if (preCameraUpdate[i]->GetActive())
 
-		preCamera[i]->Update(deltaTime);
+		preCameraUpdate[i]->Update(deltaTime);
 	}
 	//camera position also gets updated
 	cam.Update(deltaTime);
@@ -358,7 +358,7 @@ void Game::KeyDown(int key)
 
 void Game::AddPreEntity(Entity* entity)
 {
-	preCamera[indexPreEntities++] = entity;
+	preCameraUpdate[indexPreEntities++] = entity;
 }
 void Game::AddAfterEntity(Entity* entity)
 {

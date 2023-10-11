@@ -12,7 +12,6 @@ public:
 	Array<Rock*>& GetActiveRocks();
 private:
 	Array<Rock*> activeRocks;
-	Array<Rock*> inactiveRocks;
 	const uint8_t MAX_ROCK_NUMBER = 10;
 	CollisionChecker* coll = nullptr;
 };
