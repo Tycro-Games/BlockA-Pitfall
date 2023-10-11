@@ -79,6 +79,8 @@ using namespace std;
 #include "Scripts/Map/Tilemap.h"
 #include "Scripts/Player/Avatar.h"
 #include "Scripts/Map/Parallax.h"
+#include "Scripts/Player/Rock.h"
+#include "Scripts/Player/SpawnRocks.h"
 //non tile
 #include "Scripts/Map/Non-Tileables/NonTileMap.h"
 #include "Scripts/Map/Non-Tileables/Rope.h"

@@ -14,6 +14,7 @@ void Boar::Update(float deltaTime)
 {
 	onScreen = Camera::OnScreen(position, col);
 	
+	Enemy::Update(deltaTime);
 
 	BoarState* state = currentState->Update(this, deltaTime);
 	if (state != nullptr)
@@ -80,10 +81,6 @@ float Boar::GetDistanceToPlayer()
 	return DISTANCE_TO_PLAYER;
 }
 
-bool Boar::IsOnScreen() const
-{
-	return onScreen;
-}
 
 Timer* Boar::GetHitTimer() const
 {

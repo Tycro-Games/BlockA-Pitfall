@@ -112,7 +112,7 @@ void Camera::RenderTilemaps() const
 
 	parallax->Render(preRender->GetSurface());
 	tileMap->Draw(preRender->GetSurface(),
-		static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
+	              static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
 
 }
 

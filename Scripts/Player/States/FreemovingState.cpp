@@ -184,6 +184,12 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		const Box* floorCollider = col->GetFloorCollider();
 		const Box* boxCollider = col->GetBoxCollider();
 		const Box* jumpCollider = col->GetJumpCollider();
+		//throw rock
+		const Input input = p->GetInput();
+		if (input.shooting)
+		{
+			p->GetRockSpawner()->AddRockToActive(float2{ static_cast<float>(-p->GetFlip()),0 }, p->GetPos());
+		}
 		//only on floor
 		AddJumpForce(col, jumpCollider);
 
@@ -193,7 +199,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		MoveOnFloor(deltaTime, col, floorCollider, boxCollider);
 
 
-		PlayerState* state=nullptr;
+		PlayerState* state = nullptr;
 
 		if (UpdateVelocity(deltaTime))
 			return state;

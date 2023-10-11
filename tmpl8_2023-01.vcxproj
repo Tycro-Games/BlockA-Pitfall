@@ -139,6 +139,7 @@
     <ClCompile Include="Scripts\Map\Non-Tileables\NonTileMap.cpp" />
     <ClCompile Include="Scripts\Observer\Subject.cpp" />
     <ClCompile Include="Scripts\Player\HealthBar.cpp" />
+    <ClCompile Include="Scripts\Player\SpawnRocks.cpp" />
     <ClCompile Include="Scripts\Player\States\ElasticPlantState.cpp" />
     <ClCompile Include="Scripts\Player\States\FreemovingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ClimbingState.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Scripts\Map\Non-Tileables\Zipline.cpp" />
     <ClCompile Include="Scripts\Player\States\SwingingState.cpp" />
     <ClCompile Include="Scripts\Player\States\ZipliningState.cpp" />
+    <ClCompile Include="Scripts\Player\Rock.cpp" />
     <ClCompile Include="Scripts\Utilities\AABB.cpp" />
     <ClCompile Include="Scripts\Utilities\Array.cpp" />
     <ClCompile Include="Scripts\Utilities\CollisionChecker.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Scripts\Map\Non-Tileables\NonTileMap.h" />
     <ClInclude Include="Scripts\Observer\Subject.h" />
     <ClInclude Include="Scripts\Player\HealthBar.h" />
+    <ClInclude Include="Scripts\Player\SpawnRocks.h" />
     <ClInclude Include="Scripts\Player\States\ElasticPlantState.h" />
     <ClInclude Include="Scripts\Player\States\FreemovingState.h" />
     <ClInclude Include="Scripts\Player\States\ClimbingState.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="Scripts\Map\Non-Tileables\Zipline.h" />
     <ClInclude Include="Scripts\Player\States\SwingingState.h" />
     <ClInclude Include="Scripts\Player\States\ZipliningState.h" />
+    <ClInclude Include="Scripts\Player\Rock.h" />
     <ClInclude Include="Scripts\Utilities\AABB.h" />
     <ClInclude Include="Scripts\Utilities\Array.h" />
     <ClInclude Include="Scripts\Utilities\CollisionChecker.h" />

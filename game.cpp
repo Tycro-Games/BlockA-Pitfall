@@ -208,11 +208,13 @@ void Game::Render()
 
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
-		preCamera[i]->Render(cam.pGetPreRender());
+		if (preCamera[i]->GetActive())
+			preCamera[i]->Render(cam.pGetPreRender());
 	}
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
-		afterCameraUpdate[i]->Render(cam.pGetPreRender());
+		if (afterCameraUpdate[i]->GetActive())
+			afterCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	cam.Render(screen);
 
@@ -229,6 +231,7 @@ void Game::UpdateInput()
 	avatar.SetInput(input.arrowKeys);
 
 	avatar.SetJumpInput(input.jumping);
+	avatar.SetShootInput(input.shooting);
 }
 
 
@@ -237,6 +240,8 @@ void Game::FixedUpdate(float deltaTime)
 {
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
+		if (preCamera[i]->GetActive())
+
 		preCamera[i]->Update(deltaTime);
 	}
 	//camera position also gets updated
@@ -244,6 +249,8 @@ void Game::FixedUpdate(float deltaTime)
 
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
+		if (afterCameraUpdate[i]->GetActive())
+
 		afterCameraUpdate[i]->Update(deltaTime);
 	}
 
@@ -315,6 +322,9 @@ void Game::KeyUp(int key)
 	case GLFW_KEY_SPACE:
 		input.jumping = false;
 		break;
+	case GLFW_KEY_S:
+		input.shooting = false;
+		break;
 	default:
 		break;
 	}
@@ -339,6 +349,8 @@ void Game::KeyDown(int key)
 	case GLFW_KEY_SPACE:
 		input.jumping = true;
 		break;
+	case GLFW_KEY_S:
+		input.shooting = true;
 	default:
 		break;
 	}

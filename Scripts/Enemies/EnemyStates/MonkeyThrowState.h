@@ -12,7 +12,7 @@ public:
 	void OnExit() override;
 private:
 	Timer* stopTimer = nullptr;
-	const float TIME_TO_THROW = .6f;
+	const float TIME_TO_THROW = .1f;
 	const float MIN_VALUE = 0.2f;
 	const float MID_POINT_MIN = -30;
 	const float MID_POINT_RANDOM = -50;

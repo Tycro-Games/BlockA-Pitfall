@@ -40,6 +40,7 @@ void Sprite::Draw(Surface* target, int x, int y)
 	int x1 = x, x2 = x + width;
 	int y1 = y, y2 = y + height;
 	uint* src = GetBuffer() + currentFrame * width;
+
 	if (x1 < 0) src += -x1, x1 = 0;
 	if (x2 > target->width) x2 = target->width;
 	if (y1 < 0) src += -y1 * width * numFrames, y1 = 0;

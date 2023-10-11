@@ -23,6 +23,16 @@ size_t Array<T>::GetCount() const
 	return count;
 }
 
+//template <>
+//void Array<Rock*>::Print()
+//{
+//	for (uint i=0;i<count;i++)
+//	{
+//		cout << cell[i]->GetPosition() << ' ';
+//	}
+//	cout << endl;
+//}
+
 template <class T>
 T& Array<T>::operator[](const size_t index)
 {
@@ -42,3 +52,4 @@ template class Array<Spike>;
 template class Array<Monkey>;
 template class Array<Boar>;
 template class Array<ElasticPlant>;
+template class Array<Rock*>;

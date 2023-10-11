@@ -31,20 +31,23 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 	t += deltaTime * SPEED_TIME * SPEED_MODIFIER;
 	const float2 newPos = lerp(originalPosition, desiredPos, t);
 	const float2 touchFloor = { 0,monkey->GetDistanceToPlayer() * 2 };
-	if (monkey->SeesPlayer() && monkey->GetThrowTimer()->elapsedF() > THROW_COOLDOWN)
-	{
-		return new MonkeyThrowState();
-	}
-	if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
-		monkey->GetHitTimer()->reset();
-		//add throw
-		return ToTurnState();
+	if (monkey->IsOnScreen()) {
+		if (monkey->SeesPlayer() && monkey->GetThrowTimer()->elapsedF() > THROW_COOLDOWN)
+		{
+			return new MonkeyThrowState();
+		}
 
+		if (monkey->TryToHitPlayer(monkey->GetDistanceToPlayer()) && monkey->GetHitTimer()->elapsedF() > HIT_TIME_COOLDOWN) {
+			monkey->GetHitTimer()->reset();
+			//add throw
+			return ToTurnState();
+
+		}
 	}
-	if (monkey->GetCollisionChecker()->IsCollidingFloorsComplete(newPos + touchFloor, monkey->GetBox())) {
+	if (monkey->GetCollisionChecker()->IsCollidingFloorsAllCorners(newPos + touchFloor, monkey->GetBox())) {
 
 		monkey->SetPosition(newPos);
-		if (t > 1)
+		if (t > 1)//reached destination
 		{
 
 			return ToTurnState();
@@ -53,9 +56,6 @@ MonkeyState* MonkeyPatrolState::Update(Monkey* monkey, float deltaTime)
 	}
 	else
 	{
-		/*SetSpeedModifier();
-		originalPosition = monkey->GetPosition();
-		desiredPos.x = (originalPosition.x - currentOffset);*/
 		return ToTurnState();
 
 	}

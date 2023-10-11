@@ -51,6 +51,7 @@ Monkey::~Monkey()
 void Monkey::Update(float deltaTime)
 {
 	onScreen = Camera::OnScreen(position, col);
+	Enemy::Update(deltaTime);
 	MonkeyState* state = currentState->Update(this, deltaTime);
 	if (ball != nullptr && ballTimer->elapsedF() > TIME_ALIVE_BALL) {
 		delete ball;

@@ -69,7 +69,7 @@ bool CollisionChecker::IsCollidingFloors(const float2& newPos, const Box* col) c
 {
 	return floors->IsCollidingBox(newPos, *col);
 }
-bool CollisionChecker::IsCollidingFloorsComplete(const float2& newPos, const Box* col) const
+bool CollisionChecker::IsCollidingFloorsAllCorners(const float2& newPos, const Box* col) const
 {
 	return floors->IsCollidingBoxComplete(newPos, *col);
 }

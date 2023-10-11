@@ -2,6 +2,8 @@
 #include "Scripts/Utilities/Array.h"
 
 
+class Rock;
+class SpawnRocks;
 class Rope;
 class Zipline;
 class PlayerState;
@@ -21,6 +23,7 @@ struct Timer;
 //};
 struct Input {
 	int2 arrowKeys = { 0 };
+	bool shooting = false;
 	bool jumping = false;
 	bool smallJump = false;
 };
@@ -45,6 +48,7 @@ public:
 	void ResetClimbTimer() const;
 
 	void SetJumpInput(bool jumpInput);
+	void SetShootInput(bool shootInput);
 	void SetInput(int2 input);
 
 	float2 GetPos() const;
@@ -64,13 +68,14 @@ public:
 	float GetSpeed() const;
 
 	CollisionChecker* GetCollisionChecker()const;
+	SpawnRocks* GetRockSpawner()const;
 	Camera* GetCamera()const;
 	Timer* GetClimbTimer() const;
 
 	const Input& GetInput() const;
 	Subject* GetSubject() const;
-
-
+	Array<Rock*>& GetActiveRocks() const;
+	int GetFlip() const;
 
 private:
 
@@ -102,10 +107,12 @@ private:
 
 	//colliders
 	CollisionChecker* col = nullptr;
-
+	//rocks
+	SpawnRocks* spawnRocks=nullptr;
 	//animation
 	const float2 PLAYER_OFFSET = { 15.0f,-7.0f };
 
 	bool canMove = true;
+	bool alreadyShot = false;
 };
 

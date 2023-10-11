@@ -2,6 +2,23 @@
 #include "Enemy.h"
 
 
+Enemy::~Enemy()
+{
+	delete hp;
+}
+
+Enemy::Enemy()
+{
+	hp = new Health();
+}
+
+void Enemy::Update(float deltaTime)
+{
+	if (onScreen)
+		DetectHit();
+
+}
+
 Subject* Enemy::GetSubject() const
 {
 	return subject;
@@ -14,13 +31,43 @@ const float2& Enemy::GetPosition() const
 
 bool Enemy::TryToHitPlayer(float distanceToPlayer) const
 {
-
 	if (length(avatar->GetCollisionChecker()->GetBoxColliderPos() - position) < distanceToPlayer)//hit event
 	{
 		subject->Notify(damage, PLAYER_HIT);
 		return true;
 	}
 	return false;
+}
+
+void Enemy::Dead() 
+{
+	if (hp->IsDead())
+		SetActive(false);
+}
+
+void Enemy::HitByPlayer(int _damage) 
+{
+	hp->TakeDamage(_damage);
+	Dead();
+}
+
+void Enemy::DetectHit() 
+{
+	Array<Rock*>& rocks = avatar->GetActiveRocks();
+	for (uint i = 0; i < rocks.GetCount(); i++)
+	{
+		if (rocks[i]->GetActive())
+		{
+			float2 pos = rocks[i]->GetPosition();
+			Box box = rocks[i]->GetBoxCollider();
+			if (AABB::BoxCollides(AABB::At(pos, box), AABB::At(position, col))) {
+				rocks[i]->SetActive(false);
+				HitByPlayer(10);
+			}
+
+		}
+	}
+
 }
 
 
@@ -46,6 +93,11 @@ Avatar* Enemy::GetAvatar() const
 	return avatar;
 }
 
+bool Enemy::IsOnScreen() const
+{
+	return  onScreen;
+}
+
 void Enemy::GetDrawCoordinates()
 {
 	x1 = static_cast<int>(col.min.x - Camera::GetPosition().x);
@@ -66,7 +118,7 @@ void Enemy::GetDrawCoordinatesMoving(const Box& _col)
 {
 	x1 = static_cast<int>(position.x + _col.min.x - Camera::GetPosition().x);
 	x2 = static_cast<int>(position.x + _col.max.x - Camera::GetPosition().x);
-									   
+
 	y1 = static_cast<int>(position.y + _col.min.y - Camera::GetPosition().y);
 	y2 = static_cast<int>(position.y + _col.max.y - Camera::GetPosition().y);
 }

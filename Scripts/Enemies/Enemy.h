@@ -3,19 +3,24 @@
 class Enemy : public Entity
 {
 public:
-	~Enemy() override = default;
-	void Update(float deltaTime) override = 0;
+	~Enemy() override;
+	Enemy();
+	void Update(float deltaTime) override ;
 
 	Subject* GetSubject() const;
 	const float2& GetPosition()const;
 	bool TryToHitPlayer(float distanceToPlayer) const;
-
+	void Dead();
+	void HitByPlayer(int _damage);
+	void DetectHit() ;
 	void SetPosition(const float2& pos);
 	void SetDamage(int dg);
 	virtual float GetDistanceToPlayer() = 0;
 	Box* GetBox();
 	Avatar* GetAvatar() const;
+	bool IsOnScreen() const;
 protected:
+	Health* hp = nullptr;
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();
 	void GetDrawCoordinatesMoving(const Box& col);

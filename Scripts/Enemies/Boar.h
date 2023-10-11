@@ -16,7 +16,6 @@ public:
 	void SwitchPositions();
 	void SetDesiredPos(const float2& _desiredPos);
 	float GetDistanceToPlayer() override;
-	bool IsOnScreen() const;
 	Timer* GetHitTimer() const;
 
 private:

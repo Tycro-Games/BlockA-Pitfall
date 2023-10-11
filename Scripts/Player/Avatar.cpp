@@ -12,7 +12,7 @@ pos()
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	subject = new Subject();
-
+	spawnRocks = new SpawnRocks(*col);
 }
 
 Avatar::~Avatar()
@@ -24,6 +24,7 @@ Avatar::~Avatar()
 	delete sprite;
 	delete spriteFlipped;
 	delete currentState;
+	delete spawnRocks;
 
 }
 
@@ -39,10 +40,10 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines,Array<ElasticPlant>& _elasticPlants,  Camera& _cam)
+void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Camera& _cam)
 {
 
-	
+
 	cam = &_cam;
 
 	char* spriteFlippedPath;
@@ -57,6 +58,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, A
 	currentState->OnEnter(*this);
 	col = new CollisionChecker(&pos, &_floors, &_ladders);
 	col->SetNonTiles(_ziplines, _ropes, _elasticPlants);
+	spawnRocks = new SpawnRocks(*col);
 	delete[] spriteFlippedPath;
 }
 
@@ -84,9 +86,12 @@ void Avatar::Render(Surface* screen)
 		spriteFlipped->Draw(screen, x, y);
 	else
 	{
+
 		sprite->Draw(screen, x, y);
 
 	}
+	spawnRocks->Render(screen);
+
 	//source for debug https://stackoverflow.com/questions/1611410/how-to-check-if-a-app-is-in-debug-or-release
 
 #ifdef _DEBUG
@@ -145,6 +150,7 @@ void Avatar::UpdateCurrentState(float deltaTime)
 void Avatar::ResetInput()
 {
 	input.arrowKeys = 0;
+	input.shooting = false;
 	input.jumping = false;
 	input.smallJump = false;
 }
@@ -155,6 +161,7 @@ void Avatar::Update(float deltaTime)
 		ResetInput();
 	}
 	UpdateCurrentState(deltaTime);
+	spawnRocks->Update(deltaTime);
 	ResetInput();
 
 
@@ -194,7 +201,16 @@ void Avatar::SetJumpInput(bool jumpInput)
 		jumpTimer->reset();
 
 	}
-	//input.jumping = jumpInput;
+}
+
+void Avatar::SetShootInput(bool shootInput)
+{
+	if (!alreadyShot) {
+		input.shooting = shootInput;
+		alreadyShot = true;
+	}
+	if (!shootInput)
+		alreadyShot = false;
 }
 
 float2 Avatar::GetPos() const
@@ -262,6 +278,11 @@ CollisionChecker* Avatar::GetCollisionChecker() const
 	return col;
 }
 
+SpawnRocks* Avatar::GetRockSpawner() const
+{
+	return spawnRocks;
+}
+
 
 Camera* Avatar::GetCamera() const
 {
@@ -283,6 +304,15 @@ Subject* Avatar::GetSubject() const
 	return subject;
 }
 
+Array<Rock*>& Avatar::GetActiveRocks() const
+{
+	return spawnRocks->GetActiveRocks();
+}
+
+int Avatar::GetFlip() const
+{
+	return flipX;
+}
 
 
 void Avatar::Notify(int context, EVENT ev)

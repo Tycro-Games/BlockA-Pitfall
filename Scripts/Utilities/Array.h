@@ -9,6 +9,7 @@ public:
 	~Array();
 	void Init(size_t _count);
 	size_t GetCount() const;
+	//void Print();
 	T& operator [](size_t index);
 	T& Get(size_t index);
 private:
