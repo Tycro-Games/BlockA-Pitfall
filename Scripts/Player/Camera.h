@@ -38,7 +38,8 @@ private:
 	Timer* t;
 	const float DELAY_ZOOM = .5f;
 	Parallax* parallax = nullptr;
-	const float EASE_OUT_DISTANCE = 120.0f;
+	const float EASE_OUT_DISTANCE_Y = 120.f;
+	const float EASE_OUT_DISTANCE_X = 120.f;
 	inline static float2 pos = 0;
 	Sprite* tileMap = nullptr;
 	Sprite* preRender = nullptr;

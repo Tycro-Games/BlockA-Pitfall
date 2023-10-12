@@ -4,7 +4,7 @@
 
 
 
-Camera::Camera(): desiredCameraScaling(0)
+Camera::Camera() : desiredCameraScaling(0)
 {
 	t = new Timer();
 }
@@ -112,7 +112,7 @@ void Camera::RenderTilemaps() const
 
 	parallax->Render(preRender->GetSurface());
 	tileMap->Draw(preRender->GetSurface(),
-	              static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
+		static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
 
 }
 
@@ -124,11 +124,22 @@ void Camera::UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight
 		float2{ CAMERA_OFFSET.x * leftOrRight * currentCameraScale,
 			CAMERA_OFFSET.y * currentCameraScale };
 	const float2 halfScreen{ resX / 2, resY / 2 };
-	float multiplier = invlerp(0, EASE_OUT_DISTANCE,
-		length((cameraOffset - halfScreen) - pos));
-	const float step = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplier),
+	const float lengthToNextPosition = length(cameraOffset - halfScreen - pos);
+	//uses different values for easing on X and Y axis
+	const float multiplierX = invlerp(0, EASE_OUT_DISTANCE_X,
+		lengthToNextPosition);
+	const float multiplierY = invlerp(0, EASE_OUT_DISTANCE_Y,
+		lengthToNextPosition);
+
+	const float stepX = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplierX),
 		0.0f, 1.0f);
-	const float2 newPos = lerp(pos, (cameraOffset - halfScreen), step);
+	const float stepY = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplierY),
+		0.0f, 1.0f);
+	float2 newPos;
+
+	newPos.x = lerp(pos.x, (cameraOffset.x - halfScreen.x), stepX);
+	newPos.y = lerp(pos.y, (cameraOffset.y - halfScreen.y), stepY);
+
 
 	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;
 	pos.y = newPos.y < 0 ? 0 : newPos.y > maxPosY ? maxPosY : newPos.y;
