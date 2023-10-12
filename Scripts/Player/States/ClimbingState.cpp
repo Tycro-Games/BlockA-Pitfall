@@ -27,8 +27,15 @@ PlayerState* ClimbingState::Update(float deltaTime)
 				return new FreemovingState();
 			}
 		}
+		const Input input = p->GetInput();
 
+		if (input.shooting)
+		{
 
+			const float2 dirToThrow = float2{ static_cast<float>(-p->GetFlip()), input.arrowKeys.x != 0 ? 0.0f: 1.0f };
+			p->ThrowRock(normalize(dirToThrow));
+		}
+		p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x));
 		const float newPosY = (p->GetVelocity().y + static_cast<float>(p->GetInput().arrowKeys.y)) * p->GetSpeed() * deltaTime;
 
 

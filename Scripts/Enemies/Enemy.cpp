@@ -14,6 +14,7 @@ Enemy::Enemy()
 
 void Enemy::Update(float deltaTime)
 {
+	deltaTime;
 	if (onScreen)
 		DetectHit();
 

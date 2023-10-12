@@ -69,6 +69,10 @@ bool CollisionChecker::IsCollidingFloors(const float2& newPos, const Box* col) c
 {
 	return floors->IsCollidingBox(newPos, *col);
 }
+bool CollisionChecker::IsInGameBounds(const float2& newPos, const Box* col) const
+{
+	return floors->IsInsideGameBounds(newPos, *col);
+}
 bool CollisionChecker::IsCollidingFloorsAllCorners(const float2& newPos, const Box* col) const
 {
 	return floors->IsCollidingBoxComplete(newPos, *col);

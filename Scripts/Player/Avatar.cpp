@@ -69,7 +69,7 @@ void Avatar::Render(Surface* screen)
 	const float2 camPos = cam->GetPosition();
 	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
-	int directionToLook = 1;
+	int directionToLook;
 	if (velocity.x > 0.1f)
 		directionToLook = 1;
 	else if ((velocity.x) < -0.1f)
@@ -312,6 +312,13 @@ Array<Rock*>& Avatar::GetRocks() const
 int Avatar::GetFlip() const
 {
 	return flipX;
+}
+
+void Avatar::ThrowRock(const float2& dir) const
+{
+	//TODO CUSTOM OFFSET FOR THE SHOOTING 
+	spawnRocks->AddRockToActive(dir, pos + SHOOT_OFFSET);
+
 }
 
 

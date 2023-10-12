@@ -16,6 +16,7 @@ public:
 	bool IsCollidingLadders(const float2& newPos, const Box* col) const;
 	bool IsCollidingLadders(const Box* col) const;
 	bool IsCollidingFloors(const float2& newPos, const Box* col) const;
+	bool IsInGameBounds(const float2& newPos, const Box* col) const;
 	bool IsCollidingFloorsAllCorners(const float2& newPos, const Box* col) const;
 	bool IsCollidingFloors(const Box* col) const;
 	bool IsCollidingFloors(const Box* col, float2& floorPos) const;

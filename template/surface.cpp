@@ -115,35 +115,42 @@ void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, co
 		InitCharset();
 		fontInitialized = true;
 	}
-	uint* t = pixels + x1 + y1 * width;
-	for (int i = 0; i < static_cast<int>(strlen(s)); i++, t += 6 * multiX)
+	uint* letterStart = pixels + x1 + y1 * width;
+	for (int i = 0; i < static_cast<int>(strlen(s)); i++, letterStart += 6 * multiX)
 	{
 		int pos = 0;
 		if ((s[i] >= 'A') && (s[i] <= 'Z')) pos = transl[static_cast<unsigned short>(s[i] - ('A' - 'a'))];
 		else pos = transl[static_cast<unsigned short>(s[i])];
-		uint* a = t;
-		const char* u = (const char*)font[pos];
+		uint* letterColumn = letterStart;
+		//this variable looks like o::o:, it is always 5 characters per to be drawn per line of the character
+		//it is always a combination of : and o
+		//o means to write pixels
+		//: means to skip space
+		const char* u = reinterpret_cast<const char*>(font[pos]);
 
-		for (uint v = 0; v < 5 ; v ++) {
+		for (uint columns = 0; columns < 5 ; columns ++) {
 
-			for (uint k = 0; k < multiY; k++) {
+			//extra columns if we scale on Y
+			for (uint extraColumns = 0; extraColumns < multiY; extraColumns++) {
 				const char* copyU = u;
 
-				for (uint h = 0; h < 5 * multiX; h += multiX) {
+				for (uint rows = 0; rows < 5 * multiX; rows += multiX) {
 					if (*copyU == 'o') {
-						for (uint j = 0; j < multiX; j++) {
+						//extra row spaces if we scale on X
+						for (uint extraRowSpaces = 0; extraRowSpaces < multiX; extraRowSpaces++) {
 
 
-							*(a + h + j) = c;
-							*(a + h + width + j) = 0;
+							*(letterColumn + rows + extraRowSpaces) = c;
+							*(letterColumn + rows + width + extraRowSpaces) = 0;
 						}
 					}
 					copyU++;
 				}
-				a += width;
+				letterColumn += width;
 			}
 			//next line of the character
 			u += 6;
+			//add for extra space in between
 			//a += width;
 		}
 	}

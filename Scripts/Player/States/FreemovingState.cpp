@@ -188,7 +188,9 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		const Input input = p->GetInput();
 		if (input.shooting)
 		{
-			p->GetRockSpawner()->AddRockToActive(float2{ static_cast<float>(-p->GetFlip()),0 }, p->GetPos());
+
+			const float2 dirToThrow = float2{ static_cast<float>(-p->GetFlip()), input.arrowKeys.y < 0 ? -1.0f : 0.0f };
+			p->ThrowRock(normalize(dirToThrow));
 		}
 		//only on floor
 		AddJumpForce(col, jumpCollider);

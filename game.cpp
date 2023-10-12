@@ -196,6 +196,7 @@ void Game::RenderUI()
 {
 	healthBar.Render(screen);
 	//screen->Print("HEa23sdz;/", 100, 100, YELLOW);
+	screen->Print("Score: to be added/", 100, 100, WHITE);
 
 }
 
@@ -219,7 +220,6 @@ void Game::Render()
 			afterCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	//screen->Print();
-	cam.pGetPreRender()->Print("HEa23sdz5/", 100, 100, WHITE, 6, 5);
 
 	cam.Render(screen);
 
@@ -247,7 +247,7 @@ void Game::FixedUpdate(float deltaTime)
 	{
 		if (preCameraUpdate[i]->GetActive())
 
-		preCameraUpdate[i]->Update(deltaTime);
+			preCameraUpdate[i]->Update(deltaTime);
 	}
 	//camera position also gets updated
 	cam.Update(deltaTime);
@@ -256,7 +256,7 @@ void Game::FixedUpdate(float deltaTime)
 	{
 		if (afterCameraUpdate[i]->GetActive())
 
-		afterCameraUpdate[i]->Update(deltaTime);
+			afterCameraUpdate[i]->Update(deltaTime);
 	}
 
 }

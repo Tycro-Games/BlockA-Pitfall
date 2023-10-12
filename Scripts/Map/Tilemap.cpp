@@ -29,6 +29,25 @@ bool Tilemap::IsColliding(const float x, const float y) const
 		return true;
 	return false;
 }
+
+bool Tilemap::IsInsideGameBounds(float x, float y) const
+{
+	//this can be improved
+	if (x<0 || x>widthX * TILE_SIZE || y<0 || y>heightY * TILE_SIZE)
+		return false;
+	return true;
+}
+
+bool Tilemap::IsInsideGameBounds(const float2& _pos, const Box& _a) const
+{
+	const Box a = AABB::At(_pos, _a);
+
+	return IsInsideGameBounds(a.min.x, a.min.y)
+		&& IsInsideGameBounds(a.min.x, a.max.y)
+		&& IsInsideGameBounds(a.max.x, a.min.y)
+		&& IsInsideGameBounds(a.max.x, a.max.y);
+}
+
 bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 {
 	const int tx = static_cast<int>(x / TILE_SIZE);
@@ -49,7 +68,7 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 }
 
 //remade from https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
-bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
+bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a) const
 {
 	//take the four corners of the box and check them
 
@@ -62,7 +81,7 @@ bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a) const
 		|| IsColliding(a.max.x, a.max.y);
 
 }
-bool Tilemap::IsCollidingBoxComplete(float2 _pos, const Box& _a) const
+bool Tilemap::IsCollidingBoxComplete(const float2& _pos, const Box& _a) const
 {
 	//take the four corners of the box and check them
 
@@ -75,7 +94,7 @@ bool Tilemap::IsCollidingBoxComplete(float2 _pos, const Box& _a) const
 		&& IsColliding(a.max.x, a.max.y);
 
 }
-bool Tilemap::IsCollidingBox(float2 _pos, const Box& _a, float2& floorPos)
+bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos)
 {
 	//take the four corners of the box and check them
 
@@ -152,12 +171,12 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 		tileMap[index++] = numberForm;
 		pch = strtok(NULL, ",\n");
 	}
-	
+
 	delete[] tilemapRaw;
 
 }
 
-void Tilemap::RenderTile(Surface* surface,
+void Tilemap::RenderTile(const Surface* surface,
 	int screenX, int screenY, uint sourceX, uint sourceY)
 {
 	//the x and y for the left down corner of the tile
