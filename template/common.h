@@ -6,6 +6,7 @@
 // global settings and defines.
 
 // default screen resolution
+//constexpr https://en.cppreference.com/w/cpp/language/constexpr
 constexpr int SCRWIDTH = 1152;
 constexpr int SCRHEIGHT = 648;
 constexpr double MS_PER_UPDATE = 1.0 / 65;
