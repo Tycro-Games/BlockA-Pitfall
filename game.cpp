@@ -195,6 +195,8 @@ void Game::Init()
 void Game::RenderUI()
 {
 	healthBar.Render(screen);
+	//screen->Print("HEa23sdz;/", 100, 100, YELLOW);
+
 }
 
 void Game::Render()
@@ -216,6 +218,9 @@ void Game::Render()
 		if (afterCameraUpdate[i]->GetActive())
 			afterCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
+	//screen->Print();
+	cam.pGetPreRender()->Print("HEa23sdz5/", 100, 100, WHITE, 6, 5);
+
 	cam.Render(screen);
 
 	RenderUI();

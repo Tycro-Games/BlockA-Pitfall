@@ -14,6 +14,7 @@ constexpr uint RED = 0xff0000;
 constexpr uint YELLOW = 0xffff00;
 constexpr uint PINK = 0xff00ff;
 constexpr uint ORANGE = 0xff8000;
+constexpr uint WHITE = 0xffffff;
 
 constexpr uint GREEN = 0x00ff00;
 constexpr uint BLUE = 0x0000ff;

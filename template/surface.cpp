@@ -107,7 +107,7 @@ void Surface::Bar(int x1, int y1, int x2, int y2, uint c)
 }
 
 // Surface::Print: Print some text with the hard-coded mini-font.
-void Surface::Print(const char* s, int x1, int y1, uint c)
+void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, const uint multiY )
 {
 	if (!fontInitialized)
 	{
@@ -116,15 +116,36 @@ void Surface::Print(const char* s, int x1, int y1, uint c)
 		fontInitialized = true;
 	}
 	uint* t = pixels + x1 + y1 * width;
-	for (int i = 0; i < (int)(strlen(s)); i++, t += 6)
+	for (int i = 0; i < static_cast<int>(strlen(s)); i++, t += 6 * multiX)
 	{
 		int pos = 0;
-		if ((s[i] >= 'A') && (s[i] <= 'Z')) pos = transl[(unsigned short)(s[i] - ('A' - 'a'))];
-		else pos = transl[(unsigned short)s[i]];
+		if ((s[i] >= 'A') && (s[i] <= 'Z')) pos = transl[static_cast<unsigned short>(s[i] - ('A' - 'a'))];
+		else pos = transl[static_cast<unsigned short>(s[i])];
 		uint* a = t;
 		const char* u = (const char*)font[pos];
-		for (int v = 0; v < 5; v++, u++, a += width)
-			for (int h = 0; h < 5; h++) if (*u++ == 'o') *(a + h) = c, * (a + h + width) = 0;
+
+		for (uint v = 0; v < 5 ; v ++) {
+
+			for (uint k = 0; k < multiY; k++) {
+				const char* copyU = u;
+
+				for (uint h = 0; h < 5 * multiX; h += multiX) {
+					if (*copyU == 'o') {
+						for (uint j = 0; j < multiX; j++) {
+
+
+							*(a + h + j) = c;
+							*(a + h + width + j) = 0;
+						}
+					}
+					copyU++;
+				}
+				a += width;
+			}
+			//next line of the character
+			u += 6;
+			//a += width;
+		}
 	}
 }
 
@@ -167,7 +188,7 @@ void Surface::BezierCurve(uint col, const float2& a, const float2& b, const floa
 	for (uint i = 1; i <= resolution; i++)
 	{
 		const float2 point = MathLibrary::CubicBezierCurve(a, b, c, d,
-		                                                   static_cast<float>(i) / static_cast<float>(resolution));
+			static_cast<float>(i) / static_cast<float>(resolution));
 
 		Line(startPoint.x, startPoint.y, point.x, point.y, col);
 		startPoint = point;
