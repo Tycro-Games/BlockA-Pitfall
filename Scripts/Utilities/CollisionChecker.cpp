@@ -89,13 +89,13 @@ bool CollisionChecker::IsCollidingFloors(const Box* col, float2& floorPos) const
 bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 {
 	for (uint i = 0; i < ropes->GetCount(); i++) {
-		if (ropes->Get(i).GetOnScreen()) {
+		if ((*ropes)[i].GetOnScreen()) {
 
 
-			float2 toPlayer = (*pos + BOX_POS) - ropes->Get(i).GetMovingPart();
+			float2 toPlayer = (*pos + BOX_POS) - (*ropes)[i].GetMovingPart();
 			if (length(toPlayer) <= RADIUS_TO_ROPE) {
 
-				pMovingPart = ropes->Get(i).pGetMovingPart();
+				pMovingPart = (*ropes)[i].pGetMovingPart();
 				return true;
 			}
 		}
@@ -105,14 +105,14 @@ bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const
 {
 	for (uint i = 0; i < elasticPlants->GetCount(); i++) {
-		if (elasticPlants->Get(i).GetOnScreen()) {
+		if ((*elasticPlants)[i].GetOnScreen()) {
 
 			//converts local to world space
-
-			float2 toPlayer = (*pos + BOX_POS) - *elasticPlants->Get(i).pGetPosition();
+			float2 elasticPoint = *(*elasticPlants)[i].pGetPosition();
+			float2 toPlayer = (*pos + BOX_POS) - elasticPoint;
 			if (length(toPlayer) <= RADIUS_TO_ROPE) {
 
-				pElasticPlant = &elasticPlants->Get(i);
+				pElasticPlant = &(*elasticPlants)[i];
 				return true;
 			}
 		}
@@ -124,10 +124,10 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 	float2& _end) const
 {
 	for (uint i = 0; i < ziplines->GetCount(); i++)
-		if (ziplines->Get(i).GetOnScreen()) {
+		if ((*ziplines)[i].GetOnScreen()) {
 			float2 start = 0;
 			float2 end = 0;
-			ziplines->Get(i).GetStartEnd(start, end);
+			(*ziplines)[i].GetStartEnd(start, end);
 
 			float2 a = end - start;
 			float2 toPlayer = -(start - (*pos + BOX_POS));

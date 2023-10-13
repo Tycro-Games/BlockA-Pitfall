@@ -7,11 +7,7 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 	activeRocks.Init(MAX_ROCK_NUMBER);
 
 	timer = new Timer();
-	for (uint i = 0; i < activeRocks.GetCount(); i++)
-	{
 
-		activeRocks[i] = new Rock();
-	}
 
 	coll = &_coll;
 }
@@ -19,6 +15,7 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 SpawnRocks::~SpawnRocks()
 {
 	delete timer;
+	
 }
 
 void SpawnRocks::Update(float deltaTime)
@@ -26,21 +23,21 @@ void SpawnRocks::Update(float deltaTime)
 
 	for (uint i = 0; i < activeRocks.GetCount(); i++)
 	{
-		if (activeRocks[i]->GetActive()) {
+		if (activeRocks[i].GetActive()) {
 
-			activeRocks[i]->Update(deltaTime);
-			float2 rockPos = activeRocks[i]->GetPosition();
-			Box rockCollider = activeRocks[i]->GetBoxCollider();
+			activeRocks[i].Update(deltaTime);
+			float2 rockPos = activeRocks[i].GetPosition();
+			Box rockCollider = activeRocks[i].GetBoxCollider();
 			if (coll->IsInGameBounds(rockPos, &rockCollider)) {
 				if (coll->IsCollidingFloors(rockPos, &rockCollider))
 				{
-					activeRocks[i]->SetActive(false);
+					activeRocks[i].SetActive(false);
 
 				}
 			}
 			else
 			{
-				activeRocks[i]->SetActive(false);
+				activeRocks[i].SetActive(false);
 			}
 		}
 	}
@@ -49,10 +46,10 @@ void SpawnRocks::Update(float deltaTime)
 void SpawnRocks::Render(Surface* screen)
 {
 	for (uint i = 0; i < MAX_ROCK_NUMBER; i++) {
-		if (activeRocks[i]->GetActive()) {
-			const float2 rockPos = activeRocks[i]->GetPosition();
+		if (activeRocks[i].GetActive()) {
+			const float2 rockPos = activeRocks[i].GetPosition();
 
-			const Box box = activeRocks[i]->GetBoxCollider();
+			const Box box = activeRocks[i].GetBoxCollider();
 			const float2 camPos = Camera::GetPosition();
 
 			const int x1 = static_cast<int>(rockPos.x + box.min.x - camPos.x);
@@ -68,22 +65,22 @@ void SpawnRocks::Render(Surface* screen)
 
 void SpawnRocks::AddRockToActive(const float2& dir, const float2& pos)
 {
-	if(timer->elapsedF()>FIRE_RATE)
-	for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
-	{
-		if (!activeRocks[i]->GetActive()) {
-			timer->reset();
-			activeRocks[i]->Init(pos, dir);
-			activeRocks[i]->SetActive(true);
-			break;
+	if (timer->elapsedF() > FIRE_RATE)
+		for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
+		{
+			if (!activeRocks[i].GetActive()) {
+				timer->reset();
+				activeRocks[i].Init(pos, dir);
+				activeRocks[i].SetActive(true);
+				break;
+			}
+
+
 		}
-
-
-	}
 
 }
 
-Array<Rock*>& SpawnRocks::GetActiveRocks()
+Array<Rock>& SpawnRocks::GetActiveRocks()
 {
 	return activeRocks;
 }

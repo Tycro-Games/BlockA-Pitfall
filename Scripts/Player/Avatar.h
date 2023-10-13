@@ -74,7 +74,7 @@ public:
 
 	const Input& GetInput() const;
 	Subject* GetSubject() const;
-	Array<Rock*>& GetRocks() const;
+	Array<Rock>& GetRocks() const;
 	int GetFlip() const;
 	void ThrowRock(const float2& dir) const;
 private:

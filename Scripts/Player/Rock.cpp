@@ -9,6 +9,7 @@ void Rock::Init(const float2& _pos, const float2& _dir)
 	dir = _dir;
 	col = Box{ -DISTANCE_TO_ENEMY, DISTANCE_TO_ENEMY };
 	timer = new Timer();
+	
 }
 
 Rock::~Rock()

@@ -42,6 +42,7 @@ bool Monkey::SeesPlayer() const
 Monkey::~Monkey()
 {
 	delete ballTimer;
+	delete ball;
 	delete throwTimer;
 	delete hitTimer;
 	delete colCheck;
@@ -53,13 +54,15 @@ void Monkey::Update(float deltaTime)
 	onScreen = Camera::OnScreen(position, col);
 	Enemy::Update(deltaTime);
 	MonkeyState* state = currentState->Update(this, deltaTime);
-	if (ball != nullptr && ballTimer->elapsedF() > TIME_ALIVE_BALL) {
-		delete ball;
-		ball = nullptr;
-	}
+
 	if (ball != nullptr)
 	{
 		ball->Update(deltaTime);
+	}
+	else if (ballTimer->elapsedF() > TIME_ALIVE_BALL)
+	{
+		delete ball;
+		ball = nullptr;
 	}
 	if (state != nullptr)
 	{
@@ -141,7 +144,6 @@ bool Monkey::GetHeading() const
 
 void Monkey::SetBall(MonkeyBall* _ball)
 {
-
 	ball = _ball;
 }
 MonkeyBall* Monkey::GetBall()

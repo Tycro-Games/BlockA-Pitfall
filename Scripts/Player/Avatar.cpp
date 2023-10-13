@@ -12,15 +12,16 @@ pos()
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	subject = new Subject();
-	spawnRocks = new SpawnRocks(*col);
+	
 }
 
 Avatar::~Avatar()
 {
 	delete col;
-	delete subject;
 	delete climbTimer;
 	delete jumpTimer;
+	delete subject;
+
 	delete sprite;
 	delete spriteFlipped;
 	delete currentState;
@@ -304,7 +305,7 @@ Subject* Avatar::GetSubject() const
 	return subject;
 }
 
-Array<Rock*>& Avatar::GetRocks() const
+Array<Rock>& Avatar::GetRocks() const
 {
 	return spawnRocks->GetActiveRocks();
 }

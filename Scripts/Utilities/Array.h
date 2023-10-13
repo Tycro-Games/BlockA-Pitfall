@@ -11,7 +11,6 @@ public:
 	size_t GetCount() const;
 	//void Print();
 	T& operator [](size_t index);
-	T& Get(size_t index);
 private:
 	T* cell = nullptr;
 	size_t count = 0;

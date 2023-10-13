@@ -54,15 +54,15 @@ void Enemy::HitByPlayer(int _damage)
 
 void Enemy::DetectHit() 
 {
-	Array<Rock*>& rocks = avatar->GetRocks();
+	Array<Rock>& rocks = avatar->GetRocks();
 	for (uint i = 0; i < rocks.GetCount(); i++)
 	{
-		if (rocks[i]->GetActive())
+		if (rocks[i].GetActive())
 		{
-			float2 pos = rocks[i]->GetPosition();
-			Box box = rocks[i]->GetBoxCollider();
+			float2 pos = rocks[i].GetPosition();
+			Box box = rocks[i].GetBoxCollider();
 			if (AABB::BoxCollides(AABB::At(pos, box), AABB::At(position, col))) {
-				rocks[i]->SetActive(false);
+				rocks[i].SetActive(false);
 				HitByPlayer(10);
 			}
 

@@ -3,13 +3,12 @@
 class MonkeyBall : public Enemy
 {
 public:
-	void UpdatePosition();
 	MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
 		const float2& _finalPos, float _speed = 3.0f);
 
 
 
-	~MonkeyBall();
+	~MonkeyBall() override;
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
 	float GetDistanceToPlayer() override;

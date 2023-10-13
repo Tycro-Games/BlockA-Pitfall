@@ -2,9 +2,7 @@
 #include "MonkeyBall.h"
 
 
-void MonkeyBall::UpdatePosition()
-{
-}
+
 
 MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
 	const float2& _finalPos, float _speed)
