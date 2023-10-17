@@ -81,6 +81,9 @@ using namespace std;
 #include "Scripts/Map/Parallax.h"
 #include "Scripts/Player/Rock.h"
 #include "Scripts/Player/SpawnRocks.h"
+#include "Scripts/Utilities/Score.h"
+#include "Scripts/Utilities/PlayerScore.h"
+#include "Scripts/Utilities/CoinScore.h"
 //non tile
 #include "Scripts/Map/Non-Tileables/NonTileMap.h"
 #include "Scripts/Map/Non-Tileables/Rope.h"

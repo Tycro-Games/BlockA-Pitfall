@@ -182,7 +182,7 @@ void Game::Init()
 	}
 #pragma endregion MAP_SET_UP
 	healthBar.Init("assets/heart_animated_1.png");
-
+	
 	SetUpCamera();
 
 	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, cam);
@@ -196,7 +196,8 @@ void Game::RenderUI()
 {
 	healthBar.Render(screen);
 	//screen->Print("HEa23sdz;/", 100, 100, YELLOW);
-	screen->Print("Score: to be added/", 100, 100, WHITE);
+	score.Render(screen);
+	coinScore.Render(screen);
 
 }
 

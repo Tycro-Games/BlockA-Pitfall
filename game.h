@@ -61,6 +61,8 @@ namespace Tmpl8
 		Avatar avatar;
 		//UI
 		HealthBar healthBar;
+		PlayerScore score;
+		CoinScore coinScore;
 		//Update and rendering
 
 		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER];
