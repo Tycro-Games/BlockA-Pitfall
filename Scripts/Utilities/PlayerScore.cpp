@@ -24,7 +24,7 @@ void PlayerScore::Notify(int context, EVENT ev)
 void PlayerScore::Render(Surface* screen)
 {
 	int n, x, y;
-	const char* c = GetScoreWithZeros(n, x, y);
+	const char* c = GetScoreWithZeros(n, x, y, SCORE_DIGITS);
 	if (n > 0)
 		screen->Print(c, x, y, WHITE);
 	delete[]c;

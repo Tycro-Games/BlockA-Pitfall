@@ -80,36 +80,26 @@ void Sprite::DrawFlippedX(Surface* target, int x, int y)
 	int x1 = x + width, x2 = x;
 	int y1 = y, y2 = y + height;
 	uint* src = GetBuffer() + currentFrame * width + width;
-
 	if (x2 < 0) src += x2, x2 = 0;
 	if (x1 > target->width) x1 = target->width;
 	if (y1 < 0) src += -y1 * width * numFrames, y1 = 0;
 	if (y2 > target->height) y2 = target->height;
 	uint* dest = target->pixels;
-	int xs;
 	if (x1 > x2 && y2 > y1)
 	{
-		unsigned int addr = y1 * target->width + x2;
+		uint address = y1 * target->width + x2;
 		const int w = x1 - x2;
 		const int h = y2 - y1;
 		for (int j = 0; j < h; j++)
 		{
-
-			//const int line = j + (y1 - y);
-
-
-			//const int lsx = start[currentFrame][line] + x;//template optimization
-			//xs = (lsx > x1) ? lsx - x1 : 0;
-			xs = 0;
-			for (int i = xs; i < w; i++)
+			for (int i = 0; i < w; i++)
 			{
-
 				const uint c1 = *(src - i);
 				if (c1 & 0xffffff) 
-					*(dest + addr + i) = c1; //checks for a non-empty pixel
+					*(dest + address + i) = c1; //checks for a non-empty pixel
 			}
 			//next line
-			addr += target->width;
+			address += target->width;
 			src += width * numFrames;
 		}
 	}

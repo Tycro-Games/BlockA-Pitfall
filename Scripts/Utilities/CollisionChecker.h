@@ -59,7 +59,7 @@ private:
 	//ziplines and ropes
 	const float RADIUS_TO_ZIPLINE = 25.0f;
 	const float RADIUS_TO_ROPE = 30.0f;
-	const float RADIUS_TO_COIN= 10.0f;
+	const float RADIUS_TO_COIN= 16.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;
 	const float ZIPLINE_OFFSET_START = 25.0f;
 	

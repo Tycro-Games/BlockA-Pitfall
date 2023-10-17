@@ -11,11 +11,12 @@ public:
 	void SetPoints(uint startPoints);
 	uint GetScore() const;
 	void SetPosition(const float2& _pos);
-	const char* GetScoreWithZeros(int& n, int& x, int& y) const;
+	const char* GetScoreWithZeros(int& n, int& x, int& y, uint8_t digits) const;
 	const char* GetScore(int& n, int& x, int& y) const;
 
 protected:
 	float2 pos;
 	uint score = 0;
-	const uint8_t digits = 8;
+	const uint8_t SCORE_DIGITS = 8;
+	const uint8_t COINS_DIGITS = 2;
 };

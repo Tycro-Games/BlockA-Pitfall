@@ -174,7 +174,7 @@ void Game::InitEntities()
 	}
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
-		coins[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
+		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
 
 
 	}
@@ -206,12 +206,12 @@ void Game::Init()
 	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
 	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
 	//non tiles
-	//learned how to do pragma regions  from John Gear
 	bool hasPairOfTwoPositions = true;
 	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
 	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", hasPairOfTwoPositions);
 	nonTiles[SpawnNonTiles::ELASTIC_PLANTS].Init("assets/ElasticPlants.tmx");
 	nonTiles[SpawnNonTiles::COINS].Init("assets/Coins.tmx");
+	//enemies
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
 	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);

@@ -38,7 +38,7 @@ void Score::SetPosition(const float2& _pos)
 	pos = _pos;
 }
 
-const char* Score::GetScoreWithZeros(int& n, int& x, int& y) const
+const char* Score::GetScoreWithZeros(int& n, int& x, int& y, const uint8_t digits) const
 {
 	x = static_cast<int>(pos.x);
 	y = static_cast<int>(pos.y);
@@ -62,11 +62,4 @@ const char* Score::GetScoreWithZeros(int& n, int& x, int& y) const
 	}
 	return c;
 }
-const char* Score::GetScore(int& n, int& x, int& y) const
-{
-	x = static_cast<int>(pos.x);
-	y = static_cast<int>(pos.y);
-	char* c = new char[digits + 1];
-	n = sprintf(c, "%d", score);
-	return c;
-}
+
