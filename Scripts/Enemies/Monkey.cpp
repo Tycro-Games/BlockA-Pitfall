@@ -8,7 +8,7 @@ void Monkey::Render(Surface* screen)
 	{
 		ball->Render(screen);
 	}
-	if (!onScreen)
+	if (!onScreen || dead)
 		return;
 	GetDrawCoordinatesMoving();
 	screen->Box(x1, y1, x2, y2, PINK);
@@ -51,10 +51,6 @@ Monkey::~Monkey()
 }
 void Monkey::Update(float deltaTime)
 {
-	onScreen = Camera::OnScreen(position, col);
-	Enemy::Update(deltaTime);
-	MonkeyState* state = currentState->Update(this, deltaTime);
-
 	if (ball != nullptr)
 	{
 		ball->Update(deltaTime);
@@ -62,8 +58,15 @@ void Monkey::Update(float deltaTime)
 	else if (ballTimer->elapsedF() > TIME_ALIVE_BALL)
 	{
 		delete ball;
-		ball = nullptr;
+		SetBall(nullptr);
 	}
+
+
+	onScreen = Camera::OnScreen(position, col);
+	Enemy::Update(deltaTime);
+	MonkeyState* state = currentState->Update(this, deltaTime);
+
+
 	if (state != nullptr)
 	{
 		currentState->OnExit();
@@ -90,7 +93,8 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	throwTimer = new Timer();
 	ballTimer = new Timer();
 	headingRight = true;
-
+	SetHP(MONKEY_HP);
+	SetPoints(MONKEY_POINTS);
 	//collision checker is also used in avatar
 	colCheck = new CollisionChecker(&position, floors, ladders);
 	throwCollider = Box{ minThrow,maxhrow };
@@ -145,10 +149,37 @@ bool Monkey::GetHeading() const
 void Monkey::SetBall(MonkeyBall* _ball)
 {
 	ball = _ball;
+	if (ball == nullptr)
+	{
+		if (dead && IsActive())
+		{
+			SetActive(false);
+		}
+		noBall = true;
+	}
+	else
+	{
+		noBall = false;
+	}
+
 }
 MonkeyBall* Monkey::GetBall()
 {
 
 	return ball;
+}
+
+void Monkey::Dead()
+{
+	Enemy::Dead();
+	if (!IsActive()) {
+		dead = true;
+
+		if (!noBall)
+		{
+			SetActive(true);
+
+		}
+	}
 }
 

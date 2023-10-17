@@ -7,10 +7,11 @@ CoinScore::~CoinScore()
 
 void CoinScore::Notify(int context, EVENT ev)
 {
+	context;
 	switch (ev)
 	{
 	case COIN_COLLECTED:
-		AddPoints(static_cast<uint>(context));
+		AddPoints(1);
 	default:
 		break;
 

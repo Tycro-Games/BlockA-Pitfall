@@ -8,13 +8,18 @@ void Rock::Init(const float2& _pos, const float2& _dir)
 	pos = _pos;
 	dir = _dir;
 	col = Box{ -DISTANCE_TO_ENEMY, DISTANCE_TO_ENEMY };
-	timer = new Timer();
 	
+	timer->reset();
 }
 
 Rock::~Rock()
 {
 	delete timer;
+}
+
+Rock::Rock()
+{
+	timer = new Timer();
 }
 
 const float2& Rock::GetPosition() const

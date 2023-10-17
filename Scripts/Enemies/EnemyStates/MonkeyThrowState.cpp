@@ -3,6 +3,7 @@
 
 MonkeyThrowState::~MonkeyThrowState()
 {
+	delete stopTimer;
 }
 
 void MonkeyThrowState::OnEnter()

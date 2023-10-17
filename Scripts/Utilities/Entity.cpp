@@ -6,7 +6,7 @@ void Entity::SetActive(bool val)
 	isActive = val;
 }
 
-bool Entity::GetActive() const
+bool Entity::IsActive() const
 {
 	return isActive;
 }

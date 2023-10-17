@@ -5,20 +5,23 @@ class Enemy : public Entity
 public:
 	~Enemy() override;
 	Enemy();
-	void Update(float deltaTime) override ;
+	void Update(float deltaTime) override;
 
 	Subject* GetSubject() const;
 	const float2& GetPosition()const;
 	bool TryToHitPlayer(float distanceToPlayer) const;
-	void Dead();
+	virtual void Dead();
 	void HitByPlayer(int _damage);
-	void DetectHit() ;
+	void DetectHit();
 	void SetPosition(const float2& pos);
 	void SetDamage(int dg);
 	virtual float GetDistanceToPlayer() = 0;
 	Box* GetBox();
 	Avatar* GetAvatar() const;
 	bool IsOnScreen() const;
+	void SetPoints(int p);
+	void SetHP(int _hp) const;
+
 protected:
 	Health* hp = nullptr;
 	void GetDrawCoordinates();
@@ -36,4 +39,6 @@ protected:
 	int y1 = 0;
 	int y2 = 0;
 	Box col;
+private:
+	int points = 10;
 };

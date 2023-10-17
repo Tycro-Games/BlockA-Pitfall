@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Array.h"
+#include "Scripts/Map/Non-Tileables/Coin.h"
 
 class ElasticPlant;
 struct Box;
@@ -22,8 +23,9 @@ public:
 	bool IsCollidingFloors(const Box* col, float2& floorPos) const;
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const;
+	void IsCollidingCoins() const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
-	void SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants);
+	void SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins);
 
 
 
@@ -46,12 +48,7 @@ private:
 	Array<Zipline>* ziplines;
 	Array<Rope>* ropes;
 	Array<ElasticPlant>* elasticPlants;
-
-	//ziplines and ropes
-	const float RADIUS_TO_ZIPLINE = 25.0f;
-	const float RADIUS_TO_ROPE = 30.0f;
-	const float ZIPLINE_OFFSET_END = 25.0f;
-	const float ZIPLINE_OFFSET_START = 25.0f;
+	Array<Coin>* coins;
 	//Adriaensen, Remi (231390),  explained how to fix warning C4324 on discord
 
 	//colliders
@@ -59,6 +56,13 @@ private:
 	const float2 FLOOR_POS = { 9.5f,30.0f };
 	const float2 JUMP_POS = { 9.5f, 42.0f };
 	const float2 BOX_POS = { 9.0f, 17.0f };
+	//ziplines and ropes
+	const float RADIUS_TO_ZIPLINE = 25.0f;
+	const float RADIUS_TO_ROPE = 30.0f;
+	const float RADIUS_TO_COIN= 10.0f;
+	const float ZIPLINE_OFFSET_END = 25.0f;
+	const float ZIPLINE_OFFSET_START = 25.0f;
+	
 	Box* floorCollider;
 	Box* jumpCollider;
 	Box* boxCollider;

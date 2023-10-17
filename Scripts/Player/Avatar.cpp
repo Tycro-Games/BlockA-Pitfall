@@ -41,7 +41,7 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Camera& _cam)
+void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam)
 {
 
 
@@ -58,7 +58,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, A
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
 	col = new CollisionChecker(&pos, &_floors, &_ladders);
-	col->SetNonTiles(_ziplines, _ropes, _elasticPlants);
+	col->SetNonTiles(_ziplines, _ropes, _elasticPlants,_coins);
 	spawnRocks = new SpawnRocks(*col);
 	delete[] spriteFlippedPath;
 }
@@ -84,7 +84,7 @@ void Avatar::Render(Surface* screen)
 	}
 
 	if (flipX > 0)
-		spriteFlipped->Draw(screen, x, y);
+		sprite->DrawFlippedX(screen, x, y);
 	else
 	{
 
@@ -163,6 +163,7 @@ void Avatar::Update(float deltaTime)
 	}
 	UpdateCurrentState(deltaTime);
 	spawnRocks->Update(deltaTime);
+	col->IsCollidingCoins();
 	ResetInput();
 
 

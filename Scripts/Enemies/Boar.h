@@ -27,4 +27,6 @@ private:
 	bool turn = false;
 	const float DISTANCE_TO_PLAYER = 30.0f;
 	const uint DAMAGE = 10;
+	const int BOAR_POINTS = 50;
+	const int HP = 40;
 };

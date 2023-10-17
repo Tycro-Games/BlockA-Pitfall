@@ -1,4 +1,5 @@
 #pragma once
+#include "Scripts/Map/Non-Tileables/Coin.h"
 #include "Scripts/Utilities/Array.h"
 
 
@@ -38,7 +39,7 @@ public:
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
 	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<
-	          ElasticPlant>& _elasticPlants, Camera& _cam);
+		ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
 	//entity
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
@@ -108,7 +109,7 @@ private:
 	//colliders
 	CollisionChecker* col = nullptr;
 	//rocks
-	SpawnRocks* spawnRocks=nullptr;
+	SpawnRocks* spawnRocks = nullptr;
 	//animation
 	const float2 PLAYER_OFFSET = { 15.0f,-7.0f };
 	const float2 SHOOT_OFFSET = { 9.0f, 30.f };

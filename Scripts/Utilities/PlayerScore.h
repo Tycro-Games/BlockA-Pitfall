@@ -9,4 +9,5 @@ public:
 	void Render(Surface* screen) override;
 private:
 	const float2 POSITION= { 100, 50 };
+	const int POINTS_FOR_COINS = 225;
 };

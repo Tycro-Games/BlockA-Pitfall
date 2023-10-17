@@ -119,6 +119,20 @@ bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) con
 	}
 	return false;
 }
+
+void CollisionChecker::IsCollidingCoins() const
+{
+	for (uint i = 0; i < coins->GetCount(); i++) {
+		if ((*coins)[i].GetOnScreen() && (*coins)[i].IsActive()) {
+
+
+			const float2 toPlayer = (*pos + BOX_POS) - (*coins)[i].GetPosition();
+			if (length(toPlayer) <= RADIUS_TO_COIN) {
+				(*coins)[i].Collect();
+			}
+		}
+	}
+}
 bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 	float2& _start,
 	float2& _end) const
@@ -146,10 +160,11 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 
 }
 
-void CollisionChecker::SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants)
+void CollisionChecker::SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins)
 {
 	ziplines = &_ziplines;
 
 	ropes = &_ropes;
 	elasticPlants = &_elasticPlants;
+	coins = &_coins;
 }

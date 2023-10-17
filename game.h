@@ -18,6 +18,7 @@ namespace Tmpl8
 		void AddObservers();
 		void SetUpCamera();
 		void AddAllEntities();
+		void InitEntities();
 		// game flow methods
 		void Init();
 		void RenderUI();
@@ -52,6 +53,7 @@ namespace Tmpl8
 		Array<Rope> ropes;
 		Array<Zipline> ziplines;
 		Array<ElasticPlant> elasticPlants;
+		Array<Coin> coins;
 		//will add elastic plants
 
 		Array<Spike> spikes;
@@ -65,8 +67,8 @@ namespace Tmpl8
 		CoinScore coinScore;
 		//Update and rendering
 
-		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER];
-		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER];
+		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER]={};
+		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER]={};
 		uint indexPreEntities = 0;
 		uint indexAfterEntities = 0;
 		//input

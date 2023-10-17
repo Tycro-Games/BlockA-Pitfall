@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // Template, IGAD version 3
 // Get the latest version from: https://github.com/jbikker/tmpl8
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2023
@@ -18,11 +20,23 @@ void Game::AddObservers()
 
 	for (uint i = 0; i < spikes.GetCount(); i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
-	for (uint i = 0; i < boars.GetCount(); i++)
+	for (uint i = 0; i < boars.GetCount(); i++) {
 		boars[i].GetSubject()->AddObserver(healthBar);
+		boars[i].GetSubject()->AddObserver(score);
+
+	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
+	{
 		monkeys[i].GetSubject()->AddObserver(healthBar);
+		monkeys[i].GetSubject()->AddObserver(score);
+	}
+	for (uint i = 0; i < coins.GetCount(); i++)
+	{
+		coins[i].GetSubject()->AddObserver(coinScore);
+		coins[i].GetSubject()->AddObserver(score);
+	}
 	avatar.GetSubject()->AddObserver(cam);
+
 	healthBar.GetSubject()->AddObserver(avatar);
 }
 
@@ -68,6 +82,12 @@ void Game::AddAllEntities()
 
 
 	}
+	for (uint i = 0; i < coins.GetCount(); i++)
+	{
+		AddPreEntity(&coins[i]);
+
+
+	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		AddPreEntity(&spikes[i]);
@@ -86,32 +106,16 @@ void Game::AddAllEntities()
 
 	AddAfterEntity(&avatar);
 }
-
-// -----------------------------------------------------------
-// Initialize the application
-// -----------------------------------------------------------
-void Game::Init()
+//TODO refactor so it is more easy to use
+void Game::InitEntities()
 {
-#pragma region 
-	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
-	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
-	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
-	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
-	//non tiles
-	//learned how to do pragma regions  from John Gear
-	bool hasPairOfTwoPositions = true;
-	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
-	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", hasPairOfTwoPositions);
-	nonTiles[SpawnNonTiles::ELASTIC_PLANTS].Init("assets/ElasticPlants.tmx");
-	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
-	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
-	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);
-	//used https://www.3dgep.com/cpp-fast-track-9-colours/
+	//used as reference https://www.3dgep.com/cpp-fast-track-9-colours/
 	uint8_t countEnemies = 0;
 	uint8_t countStatics = 0;
-	size_t countZipRopes = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countStatics);
-	countZipRopes = countZipRopes | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countStatics);
-	countZipRopes = countZipRopes | nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetCount() << GetBitSpace(countStatics);
+	size_t countProps = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countStatics);
+	countProps = countProps | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countStatics);
+	countProps = countProps | nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetCount() << GetBitSpace(countStatics);
+	countProps = countProps | nonTiles[SpawnNonTiles::COINS].GetCount() << GetBitSpace(countStatics);
 
 	size_t countsEnemies = nonTiles[SpawnNonTiles::SPIKES].GetCount() << GetBitSpace(countEnemies);
 	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::BOARS].GetCount() << GetBitSpace(countEnemies);
@@ -120,17 +124,21 @@ void Game::Init()
 	countEnemies = 1;
 	countStatics = 1;
 
-	size_t count = countZipRopes & 0b11111111;//255 in binary
+	size_t count = countProps & 0b11111111;//255 in binary
 	ropes.Init(count);
 
 
 	uint8_t shift = GetBitSpace(countStatics);
-	count = (countZipRopes & 0b11111111 << shift) >> shift;
+	count = (countProps & 0b11111111 << shift) >> shift;
 	ziplines.Init(count);
 
 	shift = GetBitSpace(countStatics);
-	count = (countZipRopes & 0b11111111 << shift) >> shift;
+	count = (countProps & 0b11111111 << shift) >> shift;
 	elasticPlants.Init(count);
+
+	shift = GetBitSpace(countStatics);
+	count = (countProps & 0b11111111 << shift) >> shift;
+	coins.Init(count);
 
 	count = countsEnemies & 0b11111111;
 	spikes.Init(count);
@@ -164,6 +172,12 @@ void Game::Init()
 
 
 	}
+	for (uint i = 0; i < coins.GetCount(); i++)
+	{
+		coins[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
+
+
+	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
@@ -180,12 +194,35 @@ void Game::Init()
 			nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
 			, avatar);
 	}
-#pragma endregion MAP_SET_UP
+}
+
+// -----------------------------------------------------------
+// Initialize the application
+// -----------------------------------------------------------
+void Game::Init()
+{
+	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
+	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
+	tileMaps[Tilemap::FLOOR].Init("assets/160x160 background tilemap.png", "assets/Floors.tmx");
+	tileMaps[Tilemap::LADDERS].Init("assets/Pitfall_tilesheet.png", "assets/Ladders.tmx");
+	//non tiles
+	//learned how to do pragma regions  from John Gear
+	bool hasPairOfTwoPositions = true;
+	nonTiles[SpawnNonTiles::ROPE].Init("assets/Ropes.tmx");
+	nonTiles[SpawnNonTiles::ZIPLINE].Init("assets/Ziplines.tmx", hasPairOfTwoPositions);
+	nonTiles[SpawnNonTiles::ELASTIC_PLANTS].Init("assets/ElasticPlants.tmx");
+	nonTiles[SpawnNonTiles::COINS].Init("assets/Coins.tmx");
+	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
+	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
+	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);
+
+	InitEntities();
+
 	healthBar.Init("assets/heart_animated_1.png");
-	
+
 	SetUpCamera();
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, coins, cam);
 
 
 	AddAllEntities();
@@ -212,12 +249,12 @@ void Game::Render()
 
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
-		if (preCameraUpdate[i]->GetActive())
+		if (preCameraUpdate[i]->IsActive())
 			preCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
-		if (afterCameraUpdate[i]->GetActive())
+		if (afterCameraUpdate[i]->IsActive())
 			afterCameraUpdate[i]->Render(cam.pGetPreRender());
 	}
 	//screen->Print();
@@ -246,7 +283,7 @@ void Game::FixedUpdate(float deltaTime)
 {
 	for (uint i = 0; i < indexPreEntities; i++)
 	{
-		if (preCameraUpdate[i]->GetActive())
+		if (preCameraUpdate[i]->IsActive())
 
 			preCameraUpdate[i]->Update(deltaTime);
 	}
@@ -255,7 +292,7 @@ void Game::FixedUpdate(float deltaTime)
 
 	for (uint i = 0; i < indexAfterEntities; i++)
 	{
-		if (afterCameraUpdate[i]->GetActive())
+		if (afterCameraUpdate[i]->IsActive())
 
 			afterCameraUpdate[i]->Update(deltaTime);
 	}

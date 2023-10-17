@@ -19,7 +19,7 @@ public:
 	bool GetHeading() const;
 	void SetBall(MonkeyBall* _ball);
 	MonkeyBall* GetBall();
-
+	void Dead() override;
 private:
 	MonkeyState* currentState = nullptr;
 	Timer* hitTimer = nullptr;
@@ -34,6 +34,8 @@ private:
 	bool headingRight = true;
 	MonkeyBall* ball = nullptr;
 	const float TIME_ALIVE_BALL = 4.0f;
-
-
+	const int MONKEY_POINTS = 100;
+	const int MONKEY_HP = 20;
+	bool noBall = false;
+	bool dead = false;
 };

@@ -60,6 +60,8 @@ using namespace std;
 #include "sprite.h"
 //my header
 #include "Scripts/Utilities/Array.h"
+#include "Scripts/Utilities/AABB.h"
+
 
 #include "Scripts/Utilities/Entity.h"
 //observer
@@ -73,7 +75,6 @@ using namespace std;
 #include "Scripts/Utilities/CollisionChecker.h"
 #include "Scripts/Utilities/Health.h"
 #include "Scripts/Map/Tilemap.h"
-#include "Scripts/Utilities/AABB.h"
 #include "Scripts/Utilities/MathLibrary.h"
 #include "Scripts/Player/Camera.h"
 #include "Scripts/Map/Tilemap.h"
@@ -89,6 +90,7 @@ using namespace std;
 #include "Scripts/Map/Non-Tileables/Rope.h"
 #include "Scripts/Map/Non-Tileables/Zipline.h"
 #include "Scripts/Map/Non-Tileables/ElasticPlant.h"
+#include "Scripts/Map/Non-Tileables/Coin.h"
 //FSM
 #include "Scripts/Player/States//PlayerState.h"
 #include "Scripts/Player/States/ClimbingState.h"

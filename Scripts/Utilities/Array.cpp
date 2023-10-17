@@ -6,6 +6,7 @@
 template <class T>
 Array<T>::~Array()
 {
+	//how to solve for the pointer to pointer case?
 	delete[] cell;
 }
 
@@ -39,4 +40,4 @@ template class Array<Monkey>;
 template class Array<Boar>;
 template class Array<ElasticPlant>;
 template class Array<Rock>;
-template class Array<Rock*>;
+template class Array<Coin>;

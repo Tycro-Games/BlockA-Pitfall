@@ -11,6 +11,7 @@ public:
 		BOARS,
 		MONKEYS,
 		ELASTIC_PLANTS,
+		COINS,
 		COUNT
 	};
 	void Init(const char* csvPath, bool half=false);

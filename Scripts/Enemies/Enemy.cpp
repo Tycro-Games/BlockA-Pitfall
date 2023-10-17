@@ -40,19 +40,22 @@ bool Enemy::TryToHitPlayer(float distanceToPlayer) const
 	return false;
 }
 
-void Enemy::Dead() 
+void Enemy::Dead()
 {
 	if (hp->IsDead())
+	{
+		subject->Notify(points, ENEMY_DEAD);
 		SetActive(false);
+	}
 }
 
-void Enemy::HitByPlayer(int _damage) 
+void Enemy::HitByPlayer(int _damage)
 {
 	hp->TakeDamage(_damage);
 	Dead();
 }
 
-void Enemy::DetectHit() 
+void Enemy::DetectHit()
 {
 	Array<Rock>& rocks = avatar->GetRocks();
 	for (uint i = 0; i < rocks.GetCount(); i++)
@@ -97,6 +100,16 @@ Avatar* Enemy::GetAvatar() const
 bool Enemy::IsOnScreen() const
 {
 	return  onScreen;
+}
+
+void Enemy::SetPoints(int p)
+{
+	points = p;
+}
+
+void Enemy::SetHP(int _hp) const
+{
+	hp->SetHp(_hp);
 }
 
 void Enemy::GetDrawCoordinates()
