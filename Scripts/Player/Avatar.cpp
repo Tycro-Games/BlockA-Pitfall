@@ -12,7 +12,7 @@ pos()
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	subject = new Subject();
-	
+
 }
 
 Avatar::~Avatar()
@@ -58,7 +58,7 @@ void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, A
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
 	col = new CollisionChecker(&pos, &_floors, &_ladders);
-	col->SetNonTiles(_ziplines, _ropes, _elasticPlants,_coins);
+	col->SetNonTiles(_ziplines, _ropes, _elasticPlants, _coins);
 	spawnRocks = new SpawnRocks(*col);
 	delete[] spriteFlippedPath;
 }
@@ -318,8 +318,7 @@ int Avatar::GetFlip() const
 
 void Avatar::ThrowRock(const float2& dir) const
 {
-	//TODO CUSTOM OFFSET FOR THE SHOOTING 
-	spawnRocks->AddRockToActive(dir, pos + SHOOT_OFFSET);
+	spawnRocks->AddRockToActive(dir, col->GetBoxColliderPos() + float2{ -SHOOT_OFFSET.x * static_cast<float>(flipX),SHOOT_OFFSET.y });
 
 }
 

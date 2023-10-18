@@ -22,15 +22,16 @@ struct Timer;
 //		col = b;
 //	}
 //};
-struct Input {
-	int2 arrowKeys = { 0 };
+struct Input
+{
+	int2 arrowKeys = {0};
 	bool shooting = false;
 	bool jumping = false;
 	bool smallJump = false;
 };
+
 class Avatar : public Observer, public Entity
 {
-
 public:
 	Avatar();
 	~Avatar() override;
@@ -38,8 +39,9 @@ public:
 	void Notify(int context, EVENT ev) override;
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<
-		ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
+	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
+	          Array<Zipline>& _ziplines, Array<
+		          ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
 	//entity
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
@@ -68,9 +70,9 @@ public:
 	void TranslatePosition(const float2& _pos);
 	float GetSpeed() const;
 
-	CollisionChecker* GetCollisionChecker()const;
-	SpawnRocks* GetRockSpawner()const;
-	Camera* GetCamera()const;
+	CollisionChecker* GetCollisionChecker() const;
+	SpawnRocks* GetRockSpawner() const;
+	Camera* GetCamera() const;
 	Timer* GetClimbTimer() const;
 
 	const Input& GetInput() const;
@@ -78,8 +80,8 @@ public:
 	Array<Rock>& GetRocks() const;
 	int GetFlip() const;
 	void ThrowRock(const float2& dir) const;
-private:
 
+private:
 	Subject* subject;
 	Input input;
 	Timer* climbTimer = nullptr;
@@ -111,10 +113,9 @@ private:
 	//rocks
 	SpawnRocks* spawnRocks = nullptr;
 	//animation
-	const float2 PLAYER_OFFSET = { 15.0f,-7.0f };
-	const float2 SHOOT_OFFSET = { 9.0f, 30.f };
+	const float2 PLAYER_OFFSET = {15.0f, -7.0f};
+	const float2 SHOOT_OFFSET = {15.0f, 0.0f};
 
 	bool canMove = true;
 	bool alreadyShot = false;
 };
-

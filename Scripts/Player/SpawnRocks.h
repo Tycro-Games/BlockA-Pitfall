@@ -12,6 +12,7 @@ public:
 	Array<Rock>& GetActiveRocks();
 private:
 	Array<Rock> activeRocks;
+	Sprite* rockSprite = nullptr;
 	Timer* timer = nullptr;
 	CollisionChecker* coll = nullptr;
 	const float FIRE_RATE = .1f;

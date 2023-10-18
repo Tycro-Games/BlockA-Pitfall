@@ -95,7 +95,7 @@ void Sprite::DrawFlippedX(Surface* target, int x, int y)
 			for (int i = 0; i < w; i++)
 			{
 				const uint c1 = *(src - i);
-				if (c1 & 0xffffff) 
+				if (c1 & 0xffffff)
 					*(dest + address + i) = c1; //checks for a non-empty pixel
 			}
 			//next line
@@ -109,19 +109,43 @@ void Sprite::DrawFlippedX(Surface* target, int x, int y)
 //help from matt Y3
 void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 {
-	//more efficient than division per pixel
+	//added bound checking from Draw
+	int x2 = x1 + w;
+	int y2 = y1 + h;
+	if (x1 < -w || x1  >target->width) return;
+	if (y1 < -h || y1  >target->height) return;
+
+	uint* src = GetBuffer() + currentFrame * width;
+	int maxAddY = 0;
+	int maxAddX = 0;
+	int minAddX = 0;
+	int minAddY = 0;
+
+	if (x1 < 0)
+		minAddX = -x1;
+	if (x2 > target->width)
+		maxAddX = x2 - target->width;
+	if (y1 < 0)
+		minAddY = -y1;
+	if (y2 > target->height)
+		maxAddY = y2 - target->height;
+
+
 	const float divX = 1.0f / static_cast<float>(w);
 	const float divY = 1.0f / static_cast<float>(h);
+
+
+
 	if (width == 0 || height == 0) return;
-	for (int x = 0; x < w; x++) {
+	for (int x = minAddX; x < w - maxAddX; x++) {
 		const int u = static_cast<int>(static_cast<float>(x) *
 			(static_cast<float>(width) * divX));
-		for (int y = 0; y < h; y++)
+		for (int y = minAddY; y < h - maxAddY; y++)
 		{
 			const int v = static_cast<int>(static_cast<float>(y) *
 				(static_cast<float>(height) * divY));
 
-			const uint color = GetBuffer()[u + v * width * numFrames];
+			const uint color = src[u + v * width * numFrames];
 			if (color & 0xffffff) target->pixels[x1 + x + ((y1 + y) * target->width)] = color;
 		}
 	}

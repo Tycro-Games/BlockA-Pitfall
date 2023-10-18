@@ -35,7 +35,9 @@ void Rock::Update(float deltaTime)
 }
 
 
- const Box& Rock::GetBoxCollider() const
+
+
+const Box& Rock::GetBoxCollider() const
  {
 	 return col;
 }

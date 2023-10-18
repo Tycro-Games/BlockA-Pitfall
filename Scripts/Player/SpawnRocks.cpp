@@ -8,6 +8,7 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 
 	timer = new Timer();
 
+	rockSprite = new Sprite(new Surface("assets/rock_16x16.png"), 1);
 
 	coll = &_coll;
 }
@@ -15,7 +16,9 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 SpawnRocks::~SpawnRocks()
 {
 	delete timer;
-	
+	delete rockSprite;
+
+
 }
 
 void SpawnRocks::Update(float deltaTime)
@@ -54,10 +57,14 @@ void SpawnRocks::Render(Surface* screen)
 
 			const int x1 = static_cast<int>(rockPos.x + box.min.x - camPos.x);
 			const int y1 = static_cast<int>(rockPos.y + box.min.y - camPos.y);
-
+#ifdef _DEBUG
 			const int x2 = static_cast<int>(rockPos.x + box.max.x - camPos.x);
 			const int y2 = static_cast<int>(rockPos.y + box.max.y - camPos.y);
 			screen->Box(x1, y1, x2, y2, PINK);
+#endif
+			//rockSprite->Draw(screen, x1, y1);
+			rockSprite->DrawScaled(x1, y1, rockSprite->GetWidth()*.75f, rockSprite->GetHeight()*.75f,  screen);
+
 		}
 
 	}
