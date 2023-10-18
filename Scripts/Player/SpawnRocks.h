@@ -15,7 +15,8 @@ public:
 private:
 	Array<Rock> activeRocks;
 	Sprite* rockSprite = nullptr;
-	const int RESIZE = 12;
+	Sprite* preRenderSprite = nullptr;
+	const int RESIZE = 10;
 	Timer* timer = nullptr;
 	CollisionChecker* coll = nullptr;
 	const float FIRE_RATE = .1f;

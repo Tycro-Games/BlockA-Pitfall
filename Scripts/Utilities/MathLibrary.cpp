@@ -24,7 +24,6 @@ float MathLibrary::Sign(float value)
 	return -1.0f;
 }
 
-//second paramater is assumed to be a sprite with animation frames
 bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2 screenStartB)
 {
 	const int2 screenEndA = {screenStartA.x + a->width, screenStartA.y + a->height};
@@ -40,34 +39,44 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 	maxIntersection.x = min(screenEndA.x, screenEndB.x);
 	maxIntersection.y = min(screenEndA.y, screenEndB.y);
 	//compute the amount so we start on the same pixel
-	const int addBX = abs(minIntersection.x - screenStartB.x);
-	const int addBY = abs(minIntersection.y - screenStartB.y);
 
 	const int addAX = abs(minIntersection.x - screenStartA.x);
 	const int addAY = abs(minIntersection.y - screenStartA.y);
 
+	const int addBX = abs(minIntersection.x - screenStartB.x);
+	const int addBY = abs(minIntersection.y - screenStartB.y);
+
+
 	uint* pixelSA = a->pixels + addAX + addAY * a->width;
-	uint* pixelSB = b->pixels + addBX + addBY * b->height;
+	uint* pixelSB = b->pixels + addBX + addBY * b->width;
 
-	const int w = maxIntersection.x - minIntersection.x;
-	const int h = maxIntersection.y - minIntersection.y;
-
-	a->ClearOnlyNonTransparent(BLUE);
+	const int w = abs(maxIntersection.x - minIntersection.x);
+	const int h = abs(maxIntersection.y - minIntersection.y);
+	//a->ClearOnlyNonTransparent(BLUE);
 	b->ClearOnlyNonTransparent(GREEN);
 	bool collide = false;
+	/*for (int i = 0; i < h; i++)
+	{
+		for (int j = 0; j < w; j++)
+		{
+			uint* cB = &pixelSB[j + i * b->width];
+
+			*cB = YELLOW;
+		}
+	}
+	return true;*/
 	for (int i = 0; i < h; i++)
 	{
 		for (int j = 0; j < w; j++)
 		{
-			//if both pixels are not transparent
 			uint* cA = &pixelSA[j + i * a->width];
 			uint* cB = &pixelSB[j + i * b->width];
-			if (*cA != 0 && *cB != 0)
+			//*cA = YELLOW;
+			if ((*cA & 0x00ffffff) != 0 && (*cB & 0x00ffffff) != 0)
 			{
-				*cA = RED;
 				*cB = RED;
-				//return true;
 				collide = true;
+				//return true;
 			}
 		}
 	}

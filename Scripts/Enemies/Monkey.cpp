@@ -2,6 +2,19 @@
 #include "Monkey.h"
 
 
+void Monkey::PreRenderedMonkeySurface() const
+{
+	monkeySurface->GetSurface()->Clear(0);
+	if (GetHeading())
+	{
+		preRendered->DrawFlippedX(monkeySurface->GetSurface(), 0, 0);
+	}
+	else
+	{
+		preRendered->Draw(monkeySurface->GetSurface(), 0, 0);
+	}
+}
+
 void Monkey::Render(Surface* screen)
 {
 	if (ball != nullptr)
@@ -10,10 +23,10 @@ void Monkey::Render(Surface* screen)
 	}
 	if (!onScreen || dead)
 		return;
-#ifdef _DEBUG
+
 	GetDrawCoordinatesMoving();
 	screen->Box(x1, y1, x2, y2, PINK);
-#endif
+
 	//TODO draw flipped scaled?
 	//monkeySprite->DrawScaled(x1, y1, RESIZE, RESIZE, preRendered);
 	/*if (GetHeading())
@@ -23,16 +36,12 @@ void Monkey::Render(Surface* screen)
 		monkeySprite->Draw(screen, x1, y1);
 
 	}*/
-	monkeySprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
 
-	if (GetHeading())
-		preRendered->DrawFlippedX(screen, x1, y1);
-	else
-	{
-		preRendered->Draw(screen, x1, y1);
-	}
+	if (!noDraw)
+		PreRenderedMonkeySurface();
 
 
+	monkeySurface->Draw(screen, x1, y1);
 #ifdef _DEBUG
 
 	GetDrawCoordinatesMoving(GetThrowCollider());
@@ -72,8 +81,10 @@ Monkey::~Monkey()
 	delete colCheck;
 	delete currentState;
 	delete subject;
+
 	delete monkeySprite;
 	delete preRendered;
+	delete monkeySurface;
 }
 
 void Monkey::Update(float deltaTime)
@@ -91,6 +102,8 @@ void Monkey::Update(float deltaTime)
 
 	onScreen = Camera::OnScreen(position, col);
 	Enemy::Update(deltaTime);
+	if (noDraw)
+		return;
 	MonkeyState* state = currentState->Update(this, deltaTime);
 
 
@@ -125,11 +138,19 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	throwCollider = Box{minThrow, maxhrow};
 	currentState = new MonkeyToGroundState();
 	monkeySprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
-	const auto surf = new Surface(RESIZE, RESIZE);
-	surf->Clear(0x00f);
+
+	Surface* surf = new Surface(RESIZE, RESIZE);
+	surf->Clear(0xf00);
 	preRendered = new Sprite(surf, 1);
 	surf->Clear(0);
-	surface = monkeySprite->GetSurface();
+
+	Surface* surfR = new Surface(RESIZE, RESIZE);
+	surfR->Clear(0xf00);
+	monkeySurface = new Sprite(surfR, 1);
+	surfR->Clear(0);
+
+	monkeySprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
+	surface = monkeySurface->GetSurface();
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)
@@ -201,6 +222,7 @@ MonkeyBall* Monkey::GetBall()
 
 void Monkey::Dead()
 {
+	noDraw = true;
 	Enemy::Dead();
 	if (!IsActive())
 	{

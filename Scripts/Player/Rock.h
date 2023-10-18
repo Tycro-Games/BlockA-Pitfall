@@ -21,5 +21,5 @@ private:
 	bool active = false;
 	const float SPEED = 450.0f;
 	const float TIME_ALIVE = 3.0f;
-	const float DISTANCE_TO_ENEMY = 8.0f;
+	const float DISTANCE_TO_ENEMY = 5.0f;
 };

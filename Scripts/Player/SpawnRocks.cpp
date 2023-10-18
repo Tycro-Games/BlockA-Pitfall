@@ -9,6 +9,12 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 	timer = new Timer();
 
 	rockSprite = new Sprite(new Surface("assets/rock_16x16.png"), 1);
+	Surface* surf = new Surface(RESIZE, RESIZE);
+	surf->Clear(0xf00);
+	preRenderSprite = new Sprite(surf, 1);
+	surf->Clear(0);
+
+	rockSprite->DrawScaled(0, 0, RESIZE, RESIZE, preRenderSprite->GetSurface());
 
 	coll = &_coll;
 }
@@ -16,6 +22,7 @@ SpawnRocks::SpawnRocks(CollisionChecker& _coll)
 SpawnRocks::~SpawnRocks()
 {
 	delete timer;
+	delete preRenderSprite;
 	delete rockSprite;
 }
 
@@ -45,10 +52,6 @@ void SpawnRocks::Update(float deltaTime)
 
 void SpawnRocks::Render(Surface* screen)
 {
-	const int x1 = static_cast<int>(100);
-	const int y1 = static_cast<int>(100);
-	rockSprite->DrawScaled(x1, y1, 30, 30, screen);
-
 	for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
 	{
 		if (activeRocks[i].GetActive())
@@ -66,7 +69,7 @@ void SpawnRocks::Render(Surface* screen)
 			screen->Box(x1, y1, x2, y2, PINK);
 #endif
 			//rockSprite->Draw(screen, x1, y1);
-			rockSprite->DrawScaled(x1, y1, RESIZE, RESIZE, screen);
+			preRenderSprite->DrawScaled(x1, y1, RESIZE, RESIZE, screen);
 		}
 	}
 }
@@ -93,5 +96,5 @@ Array<Rock>& SpawnRocks::GetActiveRocks()
 
 Surface* SpawnRocks::GetRockSprite() const
 {
-	return rockSprite->GetSurface();
+	return preRenderSprite->GetSurface();
 }

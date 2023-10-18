@@ -80,15 +80,16 @@ void Enemy::DetectHit()
 		}
 
 		float2 camPos = Camera::GetPosition();
-		const float2 rP = rockPos - camPos;
-		const float2 eP = position - camPos;
+		const float2 rP = rockPos - camPos + rockBox.min;
+		GetDrawCoordinatesMoving();
+		const float2 eP = {static_cast<float>(x1), static_cast<float>(y1)};
 		const int2 screenRockPos = {static_cast<int>(rP.x), static_cast<int>(rP.y)};
 		const int2 screenEnemyPosition = {static_cast<int>(eP.x), static_cast<int>(eP.y)};
 		if (MathLibrary::PixelCollision(rock, enemySurface, screenRockPos, screenEnemyPosition))
 		{
 			rocks[i].SetActive(false);
 
-			HitByPlayer(10);
+			HitByPlayer(0);
 		}
 	}
 }
