@@ -21,10 +21,10 @@ public:
 	bool IsOnScreen() const;
 	void SetPoints(int p);
 	void SetHP(int _hp) const;
-	virtual Sprite* GetSprite();
+	virtual Surface* GetSurface();
 
 protected:
-	Sprite* surface = nullptr;
+	Surface* surface = nullptr;
 	Health* hp = nullptr;
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();

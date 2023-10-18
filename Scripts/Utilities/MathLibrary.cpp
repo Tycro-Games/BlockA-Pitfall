@@ -25,10 +25,10 @@ float MathLibrary::Sign(float value)
 }
 
 //second paramater is assumed to be a sprite with animation frames
-bool MathLibrary::PixelCollision(Surface* a, Sprite* b, int2 screenStartA, int2 screenStartB)
+bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2 screenStartB)
 {
 	const int2 screenEndA = {screenStartA.x + a->width, screenStartA.y + a->height};
-	const int2 screenEndB = {screenStartB.x + b->GetWidth(), screenStartB.y + b->GetHeight()};
+	const int2 screenEndB = {screenStartB.x + b->width, screenStartB.y + b->height};
 
 	//find the pixels coordinates that might collide
 	int2 minIntersection;
@@ -47,13 +47,13 @@ bool MathLibrary::PixelCollision(Surface* a, Sprite* b, int2 screenStartA, int2 
 	const int addAY = abs(minIntersection.y - screenStartA.y);
 
 	uint* pixelSA = a->pixels + addAX + addAY * a->width;
-	uint* pixelSB = b->GetBuffer() + addBX + addBY * b->GetWidth() * b->Frames();
+	uint* pixelSB = b->pixels + addBX + addBY * b->height;
 
 	const int w = maxIntersection.x - minIntersection.x;
 	const int h = maxIntersection.y - minIntersection.y;
 
 	a->ClearOnlyNonTransparent(BLUE);
-	b->GetSurface()->ClearOnlyNonTransparent(GREEN);
+	b->ClearOnlyNonTransparent(GREEN);
 	bool collide = false;
 	for (int i = 0; i < h; i++)
 	{
@@ -61,7 +61,7 @@ bool MathLibrary::PixelCollision(Surface* a, Sprite* b, int2 screenStartA, int2 
 		{
 			//if both pixels are not transparent
 			uint* cA = &pixelSA[j + i * a->width];
-			uint* cB = &pixelSB[j + i * b->GetWidth() * b->Frames()];
+			uint* cB = &pixelSB[j + i * b->width];
 			if (*cA != 0 && *cB != 0)
 			{
 				*cA = RED;

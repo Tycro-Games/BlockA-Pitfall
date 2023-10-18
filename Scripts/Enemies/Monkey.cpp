@@ -129,7 +129,7 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	surf->Clear(0x00f);
 	preRendered = new Sprite(surf, 1);
 	surf->Clear(0);
-	surface = monkeySprite;
+	surface = monkeySprite->GetSurface();
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)

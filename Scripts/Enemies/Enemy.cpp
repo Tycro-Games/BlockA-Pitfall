@@ -70,7 +70,7 @@ void Enemy::DetectHit()
 			continue;
 
 		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
-		Sprite* enemySurface = GetSprite();
+		Surface* enemySurface = GetSurface();
 		if (enemySurface == nullptr)
 		{
 			rocks[i].SetActive(false);
@@ -130,7 +130,7 @@ void Enemy::SetHP(int _hp) const
 	hp->SetHp(_hp);
 }
 
-Sprite* Enemy::GetSprite()
+Surface* Enemy::GetSurface()
 {
 	return surface;
 }
