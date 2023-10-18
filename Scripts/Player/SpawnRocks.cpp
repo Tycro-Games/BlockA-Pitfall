@@ -45,6 +45,10 @@ void SpawnRocks::Update(float deltaTime)
 
 void SpawnRocks::Render(Surface* screen)
 {
+	const int x1 = static_cast<int>(100);
+	const int y1 = static_cast<int>(100);
+	rockSprite->DrawScaled(x1, y1, 30, 30, screen);
+
 	for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
 	{
 		if (activeRocks[i].GetActive())

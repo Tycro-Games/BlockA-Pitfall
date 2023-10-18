@@ -125,11 +125,11 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	throwCollider = Box{minThrow, maxhrow};
 	currentState = new MonkeyToGroundState();
 	monkeySprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
-	auto surf = new Surface(RESIZE, RESIZE);
+	const auto surf = new Surface(RESIZE, RESIZE);
 	surf->Clear(0x00f);
 	preRendered = new Sprite(surf, 1);
 	surf->Clear(0);
-	surface = monkeySprite->GetSurface();
+	surface = monkeySprite;
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)

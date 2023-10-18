@@ -61,6 +61,7 @@ namespace Tmpl8
 		void SetChar(int c, const char* c1, const char* c2, const char* c3, const char* c4, const char* c5);
 		void Print(const char* s, int x1, int y1, uint c, uint multiX = 5, uint multiY = 5);
 		void Clear(uint c);
+		void ClearOnlyNonTransparent(uint c);
 		void Line(float x1, float y1, float x2, float y2, uint c);
 		void BezierCurve(uint col, const float2& a, const float2& b, const float2& c, const float2& d, uint resolution);
 		void Plot(int x, int y, uint c);

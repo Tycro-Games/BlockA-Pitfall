@@ -70,6 +70,15 @@ void Surface::Clear(uint c)
 	for (int i = 0; i < s; i++) pixels[i] = c;
 }
 
+void Surface::ClearOnlyNonTransparent(uint c)
+{
+	// WARNING: not the fastest way to do this.
+	const int s = width * height;
+	for (int i = 0; i < s; i++)
+		if (pixels[i])
+			pixels[i] = c;
+}
+
 void Surface::Plot(int x, int y, uint c)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height) return;

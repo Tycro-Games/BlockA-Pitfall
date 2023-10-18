@@ -70,9 +70,15 @@ void Enemy::DetectHit()
 			continue;
 
 		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
-		Surface* enemySurface = GetSurface();
+		Sprite* enemySurface = GetSprite();
 		if (enemySurface == nullptr)
+		{
+			rocks[i].SetActive(false);
+
+			HitByPlayer(10);
 			continue;
+		}
+
 		float2 camPos = Camera::GetPosition();
 		const float2 rP = rockPos - camPos;
 		const float2 eP = position - camPos;
@@ -124,7 +130,7 @@ void Enemy::SetHP(int _hp) const
 	hp->SetHp(_hp);
 }
 
-Surface* Enemy::GetSurface()
+Sprite* Enemy::GetSprite()
 {
 	return surface;
 }

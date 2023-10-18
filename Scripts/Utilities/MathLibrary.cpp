@@ -24,10 +24,11 @@ float MathLibrary::Sign(float value)
 	return -1.0f;
 }
 
-bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2 screenStartB)
+//second paramater is assumed to be a sprite with animation frames
+bool MathLibrary::PixelCollision(Surface* a, Sprite* b, int2 screenStartA, int2 screenStartB)
 {
 	const int2 screenEndA = {screenStartA.x + a->width, screenStartA.y + a->height};
-	const int2 screenEndB = {screenStartB.x + b->width, screenStartB.y + b->height};
+	const int2 screenEndB = {screenStartB.x + b->GetWidth(), screenStartB.y + b->GetHeight()};
 
 	//find the pixels coordinates that might collide
 	int2 minIntersection;
@@ -38,35 +39,37 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 
 	maxIntersection.x = min(screenEndA.x, screenEndB.x);
 	maxIntersection.y = min(screenEndA.y, screenEndB.y);
+	//compute the amount so we start on the same pixel
+	const int addBX = abs(minIntersection.x - screenStartB.x);
+	const int addBY = abs(minIntersection.y - screenStartB.y);
 
-	int addBX = abs(minIntersection.x - screenStartB.x);
-	int addBY = abs(minIntersection.y - screenStartB.y);
-
-	int addAX = abs(minIntersection.x - screenStartA.x);
-	int addAY = abs(minIntersection.y - screenStartA.y);
+	const int addAX = abs(minIntersection.x - screenStartA.x);
+	const int addAY = abs(minIntersection.y - screenStartA.y);
 
 	uint* pixelSA = a->pixels + addAX + addAY * a->width;
-	uint* pixelSB = b->pixels + addBX + addBY * b->width;
+	uint* pixelSB = b->GetBuffer() + addBX + addBY * b->GetWidth() * b->Frames();
 
-	int w = maxIntersection.x - minIntersection.x;
-	int h = maxIntersection.y - minIntersection.y;
+	const int w = maxIntersection.x - minIntersection.x;
+	const int h = maxIntersection.y - minIntersection.y;
+
+	a->ClearOnlyNonTransparent(BLUE);
+	b->GetSurface()->ClearOnlyNonTransparent(GREEN);
+	bool collide = false;
 	for (int i = 0; i < h; i++)
 	{
 		for (int j = 0; j < w; j++)
 		{
-			if (*pixelSA != 0 && *pixelSB != 0)
+			//if both pixels are not transparent
+			uint* cA = &pixelSA[j + i * a->width];
+			uint* cB = &pixelSB[j + i * b->GetWidth() * b->Frames()];
+			if (*cA != 0 && *cB != 0)
 			{
-				*pixelSA = RED;
-
-				return true;
+				*cA = RED;
+				*cB = RED;
+				//return true;
+				collide = true;
 			}
-			//increment to the next pixel
-			pixelSA++;
-			pixelSB++;
 		}
-		//increment the next line
-		pixelSA += a->width;
-		pixelSB += b->width;
 	}
-	return false;
+	return collide;
 }
