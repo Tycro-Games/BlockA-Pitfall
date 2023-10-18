@@ -3,7 +3,6 @@
 class Monkey : public Enemy
 {
 public:
-	void PreRenderedMonkeySurface() const;
 	void Render(Surface* screen) override;
 	Box GetThrowCollider() const;
 	bool SeesPlayer() const;
@@ -45,5 +44,4 @@ private:
 	const int MONKEY_HP = 20;
 	bool noBall = false;
 	bool dead = false;
-	bool noDraw = false;
 };

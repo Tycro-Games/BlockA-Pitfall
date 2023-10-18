@@ -53,8 +53,8 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 	const int w = abs(maxIntersection.x - minIntersection.x);
 	const int h = abs(maxIntersection.y - minIntersection.y);
 	//a->ClearOnlyNonTransparent(BLUE);
-	b->ClearOnlyNonTransparent(GREEN);
-	bool collide = false;
+	//b->ClearOnlyNonTransparent(GREEN);
+	//bool collide = false;
 	/*for (int i = 0; i < h; i++)
 	{
 		for (int j = 0; j < w; j++)
@@ -74,11 +74,11 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 			//*cA = YELLOW;
 			if ((*cA & 0x00ffffff) != 0 && (*cB & 0x00ffffff) != 0)
 			{
-				*cB = RED;
-				collide = true;
-				//return true;
+				/*cB = RED;
+				collide = true;*/
+				return true;
 			}
 		}
 	}
-	return collide;
+	return false;
 }

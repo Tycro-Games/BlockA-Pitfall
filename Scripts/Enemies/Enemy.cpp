@@ -89,7 +89,7 @@ void Enemy::DetectHit()
 		{
 			rocks[i].SetActive(false);
 
-			HitByPlayer(0);
+			HitByPlayer(10);
 		}
 	}
 }

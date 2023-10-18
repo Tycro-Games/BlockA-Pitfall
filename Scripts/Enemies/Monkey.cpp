@@ -2,19 +2,6 @@
 #include "Monkey.h"
 
 
-void Monkey::PreRenderedMonkeySurface() const
-{
-	monkeySurface->GetSurface()->Clear(0);
-	if (GetHeading())
-	{
-		preRendered->DrawFlippedX(monkeySurface->GetSurface(), 0, 0);
-	}
-	else
-	{
-		preRendered->Draw(monkeySurface->GetSurface(), 0, 0);
-	}
-}
-
 void Monkey::Render(Surface* screen)
 {
 	if (ball != nullptr)
@@ -25,21 +12,20 @@ void Monkey::Render(Surface* screen)
 		return;
 
 	GetDrawCoordinatesMoving();
+#ifdef _DEBUG
 	screen->Box(x1, y1, x2, y2, PINK);
+#endif
 
-	//TODO draw flipped scaled?
-	//monkeySprite->DrawScaled(x1, y1, RESIZE, RESIZE, preRendered);
-	/*if (GetHeading())
-		monkeySprite->DrawFlippedX(screen, x1, y1);
+
+	monkeySurface->GetSurface()->Clear(0);
+	if (GetHeading())
+	{
+		preRendered->DrawFlippedX(monkeySurface->GetSurface(), 0, 0);
+	}
 	else
 	{
-		monkeySprite->Draw(screen, x1, y1);
-
-	}*/
-
-	if (!noDraw)
-		PreRenderedMonkeySurface();
-
+		preRendered->Draw(monkeySurface->GetSurface(), 0, 0);
+	}
 
 	monkeySurface->Draw(screen, x1, y1);
 #ifdef _DEBUG
@@ -102,8 +88,7 @@ void Monkey::Update(float deltaTime)
 
 	onScreen = Camera::OnScreen(position, col);
 	Enemy::Update(deltaTime);
-	if (noDraw)
-		return;
+
 	MonkeyState* state = currentState->Update(this, deltaTime);
 
 
@@ -222,7 +207,6 @@ MonkeyBall* Monkey::GetBall()
 
 void Monkey::Dead()
 {
-	noDraw = true;
 	Enemy::Dead();
 	if (!IsActive())
 	{
