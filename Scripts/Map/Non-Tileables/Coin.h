@@ -12,6 +12,7 @@ public:
 	const float2& GetPosition() const;
 	void Collect();
 	Subject* GetSubject() const;
+
 private:
 	Subject* subject = nullptr;
 	float2 position = 0;

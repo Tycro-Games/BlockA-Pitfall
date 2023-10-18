@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class BoarStopState: public BoarState
+class BoarStopState : public BoarState
 {
 public:
 	~BoarStopState() override = default;
@@ -15,5 +15,4 @@ private:
 	float2 originalPos = 0;
 	const float STOP_TIME = .70f;
 	float heading = 0;
-	
 };

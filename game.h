@@ -7,35 +7,48 @@
 
 namespace Tmpl8
 {
-
 	constexpr uint MAX_ENTITIES_NUMBER = 100;
 
 	class Game : public TheApp
 	{
 	public:
-
-		~Game();
+		~Game() override;
 		void AddObservers();
 		void SetUpCamera();
 		void AddAllEntities();
 		void InitEntities();
 		// game flow methods
-		void Init();
+		void Init() override;
 		void RenderUI();
 		void Render();
 		//void Update(float deltaTime);
 		void UpdateInput();
 		void FixedUpdate(float deltaTime);
-		void Tick(float deltaTime);
+		void Tick(float deltaTime) override;
 		void RemoveObservers();
-		void Shutdown();
+		void Shutdown() override;
 		// input handling
-		void MouseUp(int) { /* implement if you want to detect mouse button presses */ }
-		void MouseDown(int) { /* implement if you want to detect mouse button presses */ }
-		void MouseMove(int x, int y) { mousePos.x = x, mousePos.y = y; }
-		void MouseWheel(float) {}
-		void KeyUp(int);
-		void KeyDown(int);
+		void MouseUp(int) override
+		{
+			/* implement if you want to detect mouse button presses */
+		}
+
+		void MouseDown(int) override
+		{
+			/* implement if you want to detect mouse button presses */
+		}
+
+		void MouseMove(int x, int y) override
+		{
+			mousePos.x = x, mousePos.y = y;
+		}
+
+		void MouseWheel(float) override
+		{
+		}
+
+		void KeyUp(int) override;
+		void KeyDown(int) override;
 		void AddPreEntity(Entity* entity);
 		void AddAfterEntity(Entity* entity);
 		uint8_t GetBitSpace(uint8_t& counts) const;
@@ -67,13 +80,12 @@ namespace Tmpl8
 		CoinScore coinScore;
 		//Update and rendering
 
-		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER]={};
-		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER]={};
+		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER] = {};
+		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER] = {};
 		uint indexPreEntities = 0;
 		uint indexAfterEntities = 0;
 		//input
 		Input input;
-		const float2 STARTING_POSITION = { 0,0 };
+		const float2 STARTING_POSITION = {0, 0};
 	};
-
 } // namespace Tmpl8

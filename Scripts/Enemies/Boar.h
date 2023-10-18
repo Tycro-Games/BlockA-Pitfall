@@ -19,7 +19,7 @@ public:
 	Timer* GetHitTimer() const;
 
 private:
-	Timer* hitRecently=nullptr;
+	Timer* hitRecently = nullptr;
 	BoarState* currentState = nullptr;
 	float2 desiredPos = 0;
 	float2 pointA = 0;

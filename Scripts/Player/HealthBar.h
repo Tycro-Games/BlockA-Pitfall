@@ -4,7 +4,7 @@
 struct Timer;
 class Health;
 
-class HealthBar : public  Observer
+class HealthBar : public Observer
 {
 public:
 	~HealthBar() override;
@@ -13,8 +13,9 @@ public:
 	void UpdateUI();
 	void Notify(int context, EVENT ev) override;
 	Subject* GetSubject() const;
+
 private:
-	Timer* t=nullptr;
+	Timer* t = nullptr;
 	const float HIT_COOLDOWN = 0.5f;
 	Health* hp = nullptr;
 	Sprite* sprite = nullptr;

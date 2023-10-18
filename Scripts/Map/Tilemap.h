@@ -7,7 +7,6 @@ struct Circle;
 //origin of the world {0 0}
 class Tilemap
 {
-	
 public:
 	enum TilemapType
 	{
@@ -17,6 +16,7 @@ public:
 		LADDERS,
 		COUNT
 	};
+
 	Tilemap();
 	~Tilemap();
 	//collision
@@ -27,24 +27,28 @@ public:
 	bool IsCollidingBox(const float2& pos, const Box& a) const;
 	bool IsCollidingBoxComplete(const float2& _pos, const Box& _a) const;
 	bool IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos);
-	
-	
+
+
 	void Init(const char* sourceFile, const char* csvPath);
 	void DebugBox(Surface* screen) const;
 	void Render(Surface* screen);
+
 	uint GetTileColumn(float2 pos) const
 	{
 		const int ty = static_cast<int>(pos.x / static_cast<float>(TILE_SIZE));
 		return ty;
 	}
+
 	int GetWidth() const
 	{
 		return widthX * TILE_SIZE;
 	}
+
 	int GetHeight() const
 	{
-		return  heightY * TILE_SIZE;
+		return heightY * TILE_SIZE;
 	}
+
 	static void ConvertCharToInt(const char* pch, uint& numberForm);
 
 private:
@@ -61,6 +65,4 @@ private:
 
 	Surface* tilePalette;
 	const int TILE_SIZE = 32;
-
 };
-

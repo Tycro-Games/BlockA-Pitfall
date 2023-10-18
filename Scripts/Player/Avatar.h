@@ -114,7 +114,7 @@ private:
 	SpawnRocks* spawnRocks = nullptr;
 	//animation
 	const float2 PLAYER_OFFSET = {15.0f, -7.0f};
-	const float2 SHOOT_OFFSET = {15.0f, 0.0f};
+	const float2 SHOOT_OFFSET = {9.0f, 0.0f};
 
 	bool canMove = true;
 	bool alreadyShot = false;

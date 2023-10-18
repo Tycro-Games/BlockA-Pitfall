@@ -2,15 +2,14 @@
 #include "NonTileMap.h"
 
 
-
-void SpawnNonTiles::Init(const char* csvPath, bool half )
+void SpawnNonTiles::Init(const char* csvPath, bool half)
 {
 	LoadCSVFile(csvPath);
-	if (half) {
+	if (half)
+	{
 		if (index % 2 != 0)
 			cout << "non even number of positions!'\n";
 		index /= 2;
-
 	}
 }
 
@@ -26,15 +25,13 @@ float2 SpawnNonTiles::GetPosition(size_t _index) const
 
 void SpawnNonTiles::LoadCSVFile(const char* csvPath)
 {
-
 	//copy into a c style string
-	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
+	auto tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
 	strcpy(tilemapRaw, TextFileRead(csvPath).c_str());
 
 
 	ExtractPositions(tilemapRaw);
 	delete[] tilemapRaw;
-
 }
 
 size_t SpawnNonTiles::GetNextXIndex(char* tilemap)
@@ -45,18 +42,21 @@ size_t SpawnNonTiles::GetNextXIndex(char* tilemap)
 
 void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 {
-	char* tilemap = new char[strlen(csvRaw) + 1];
+	auto tilemap = new char[strlen(csvRaw) + 1];
 	strcpy(tilemap, csvRaw);
 	//this post showed how to use pointer substraction https://stackoverflow.com/questions/7500892/get-index-of-substring
 	const size_t INITIAL_OFFSET = GetNextXIndex(tilemap);
 
-	size_t offsetIndex = INITIAL_OFFSET;//first position
-	while (offsetIndex < strlen(tilemap)) {
-		char* stringToEdit = new char[strlen(tilemap + offsetIndex) + 1];
+	size_t offsetIndex = INITIAL_OFFSET; //first position
+	while (offsetIndex < strlen(tilemap))
+	{
+		auto stringToEdit = new char[strlen(tilemap + offsetIndex) + 1];
 		strcpy(stringToEdit, tilemap + offsetIndex);
 
 		char* getX = strstr(stringToEdit, "x=");
-		if (getX == nullptr) {//check for end
+		if (getX == nullptr)
+		{
+			//check for end
 			delete[] stringToEdit;
 			break;
 		}
@@ -71,15 +71,16 @@ void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 		ConvertCharTofloat(pX, x);
 
 		ConvertCharTofloat(pY, y);
-		positions[index++] = float2{ x,y };
+		positions[index++] = float2{x, y};
 		//so it finds the next x=
-		const size_t NEXT_POSITION = GetNextXIndex(tilemap + offsetIndex +1);
-		offsetIndex += NEXT_POSITION+1;
+		const size_t NEXT_POSITION = GetNextXIndex(tilemap + offsetIndex + 1);
+		offsetIndex += NEXT_POSITION + 1;
 		delete[] stringToEdit;
 	}
 
 	delete[] tilemap;
 }
+
 void SpawnNonTiles::ConvertCharTofloat(const char* pch, float& numberForm)
 {
 	uint moveToRightInt = 1;
@@ -87,20 +88,21 @@ void SpawnNonTiles::ConvertCharTofloat(const char* pch, float& numberForm)
 	bool decimals = false;
 	for (size_t i = 0; i < strlen(pch); i++)
 	{
-		if (pch[i] == '.') {//we are at the decimals
+		if (pch[i] == '.')
+		{
+			//we are at the decimals
 			decimals = true;
 			continue;
 		}
-		if (!decimals) {
-			numberForm = numberForm * moveToRightInt + pch[i] - '0';//conversion from char to int
+		if (!decimals)
+		{
+			numberForm = numberForm * moveToRightInt + pch[i] - '0'; //conversion from char to int
 			moveToRightInt = 10;
 		}
 		else
 		{
-			numberForm = numberForm + (pch[i] - '0') / decimalsToRight;//conversion from char to int
+			numberForm = numberForm + (pch[i] - '0') / decimalsToRight; //conversion from char to int
 			decimalsToRight *= 10.0f;
 		}
-
 	}
-
 }

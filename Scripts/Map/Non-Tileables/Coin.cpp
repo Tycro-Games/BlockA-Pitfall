@@ -29,11 +29,10 @@ void Coin::Update(float deltaTime)
 void Coin::Init(const float2& pos)
 {
 	subject = new Subject();
-	coll = Box{ -DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER };
+	coll = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 	position = pos;
 	if (sprite == nullptr)
 	{
-
 		sprite = new Sprite(new Surface("assets/coin1_16x16.png"), FRAMES);
 	}
 }
@@ -41,7 +40,6 @@ void Coin::Init(const float2& pos)
 bool Coin::GetOnScreen() const
 {
 	return onScreen;
-
 }
 
 const float2& Coin::GetPosition() const

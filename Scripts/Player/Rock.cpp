@@ -2,13 +2,12 @@
 #include "Rock.h"
 
 
-
-void Rock::Init(const float2& _pos, const float2& _dir) 
+void Rock::Init(const float2& _pos, const float2& _dir)
 {
 	pos = _pos;
 	dir = _dir;
-	col = Box{ -DISTANCE_TO_ENEMY, DISTANCE_TO_ENEMY };
-	
+	col = Box{-DISTANCE_TO_ENEMY, DISTANCE_TO_ENEMY};
+
 	timer->reset();
 }
 
@@ -35,11 +34,9 @@ void Rock::Update(float deltaTime)
 }
 
 
-
-
 const Box& Rock::GetBoxCollider() const
- {
-	 return col;
+{
+	return col;
 }
 
 bool Rock::GetActive() const
@@ -47,7 +44,7 @@ bool Rock::GetActive() const
 	return active;
 }
 
-void Rock::SetActive(bool val) 
+void Rock::SetActive(bool val)
 {
 	active = val;
 	if (active)

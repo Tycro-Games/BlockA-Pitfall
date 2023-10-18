@@ -3,7 +3,7 @@
 
 
 //found this simple aabb here: https://youtu.be/ENuk9HgeTiI?si=wfi6SQaCQVDyR6QN&t=398
-bool AABB::BoxCollides(const Box& a, const  Box& b)
+bool AABB::BoxCollides(const Box& a, const Box& b)
 {
 	for (int i = 0; i < 2; i++)
 	{
@@ -25,13 +25,12 @@ bool AABB::BoxCollides(const Box& a, const  Box& b)
 //}
 
 
-
-
 //returns the AABB at the position pos
 Box AABB::At(const float2& pos, const Box& b)
 {
-	return Box{ pos + b.min, pos + b.max };
+	return Box{pos + b.min, pos + b.max};
 }
+
 //Circle AABB::At(float2 pos, const Circle& b)
 //{
 //	return { pos + b.c, b.r };

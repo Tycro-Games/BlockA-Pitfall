@@ -8,7 +8,7 @@ public:
 	void Update(float deltaTime) override;
 
 	Subject* GetSubject() const;
-	const float2& GetPosition()const;
+	const float2& GetPosition() const;
 	bool TryToHitPlayer(float distanceToPlayer) const;
 	virtual void Dead();
 	void HitByPlayer(int _damage);
@@ -21,8 +21,10 @@ public:
 	bool IsOnScreen() const;
 	void SetPoints(int p);
 	void SetHP(int _hp) const;
+	virtual Surface* GetSurface();
 
 protected:
+	Surface* surface = nullptr;
 	Health* hp = nullptr;
 	void GetDrawCoordinates();
 	void GetDrawCoordinatesMoving();
@@ -39,6 +41,7 @@ protected:
 	int y1 = 0;
 	int y2 = 0;
 	Box col;
+
 private:
 	int points = 10;
 };

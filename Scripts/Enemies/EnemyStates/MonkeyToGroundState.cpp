@@ -4,7 +4,6 @@
 void MonkeyToGroundState::OnEnter()
 {
 	InitSeed(RandomUInt());
-
 }
 
 void MonkeyToGroundState::OnExit()
@@ -20,7 +19,7 @@ MonkeyState* MonkeyToGroundState::Update(Monkey* monkey, float deltaTime)
 	float newPosY = 0;
 	float2 oldPosition = monkey->GetPosition();
 	Box* col = monkey->GetBox();
-	if(monkey->GetCollisionChecker()->IsCollidingLadders(oldPosition, col))
+	if (monkey->GetCollisionChecker()->IsCollidingLadders(oldPosition, col))
 	{
 		return new MonkeyOnLadderState();
 	}
@@ -30,11 +29,11 @@ MonkeyState* MonkeyToGroundState::Update(Monkey* monkey, float deltaTime)
 	}
 	else
 	{
-		MonkeyPatrolState* patrol = new MonkeyPatrolState();
+		auto patrol = new MonkeyPatrolState();
 		patrol->SetOriginalPosition(monkey->GetPosition());
 		patrol->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(RandomFloat(), true));
 		return patrol;
 	}
-	monkey->SetPosition(float2{ oldPosition .x,oldPosition.y+newPosY });
+	monkey->SetPosition(float2{oldPosition.x, oldPosition.y + newPosY});
 	return nullptr;
 }

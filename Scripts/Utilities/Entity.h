@@ -12,6 +12,7 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	void SetActive(bool val);
 	bool IsActive() const;
+
 private:
 	bool isActive = true;
 };

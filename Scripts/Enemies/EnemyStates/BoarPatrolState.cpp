@@ -12,7 +12,7 @@ void BoarPatrolState::OnEnter()
 BoarState* BoarPatrolState::TurnBack(Boar* boar) const
 {
 	boar->SwitchPositions();
-	BoarTurnState* turnState = new BoarTurnState();
+	auto turnState = new BoarTurnState();
 	turnState->SetHeading(GetHeading());
 	turnState->SetOriginalPos(desiredPos);
 	return turnState;
@@ -20,25 +20,26 @@ BoarState* BoarPatrolState::TurnBack(Boar* boar) const
 
 float BoarPatrolState::GetHeading() const
 {
-
 	if (desiredPos.x - originalPos.x > 0)
 		return 1.0f;
 
-	return  -1.0f;
-
+	return -1.0f;
 }
 
 BoarState* BoarPatrolState::Update(Boar* boar, float deltaTime)
 {
-	if (originalPos.x < 0) {
+	if (originalPos.x < 0)
+	{
 		originalPos = boar->GetPosition();
 		desiredPos = boar->GetEndPos();
 		t = invlerp(boar->GetStartPos().x, boar->GetEndPos().x, originalPos.x);
 	}
-	if (boar->IsOnScreen()) {
-		if (boar->AtackPlayer() && boar->GetHitTimer()->elapsed() > STOP_DELAY) {
+	if (boar->IsOnScreen())
+	{
+		if (boar->AtackPlayer() && boar->GetHitTimer()->elapsed() > STOP_DELAY)
+		{
 			boar->GetHitTimer()->reset();
-			BoarStopState* stopState = new BoarStopState();
+			auto stopState = new BoarStopState();
 			stopState->SetHeading(GetHeading());
 			stopState->SetOriginalPos(boar->GetPosition());
 			return stopState;
@@ -49,9 +50,7 @@ BoarState* BoarPatrolState::Update(Boar* boar, float deltaTime)
 	boar->SetPosition(lerp(boar->GetStartPos(), desiredPos, t));
 	if (t > 1)
 	{
-
 		return TurnBack(boar);
-
 	}
 	return nullptr;
 }

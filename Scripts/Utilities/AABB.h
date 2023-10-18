@@ -9,9 +9,9 @@ struct Box
 	explicit Box(const float2& min, const float2& max) :
 		min(min), max(max)
 	{
-
 	}
 };
+
 //struct Circle
 //{
 //	float2 c{};
@@ -25,8 +25,6 @@ struct Box
 //};
 struct AABB
 {
-
-
 	static bool BoxCollides(const Box& a, const Box& b);
 	//static bool CircleCollides(const Circle& a, const Circle& b);
 	static Box At(const float2& pos, const Box& b);

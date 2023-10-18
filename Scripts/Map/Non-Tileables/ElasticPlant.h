@@ -12,6 +12,7 @@ public:
 	bool GetOnScreen() const;
 	float2* pGetPosition();
 	void SetActivation(bool _activate);
+
 private:
 	float2 position = 0;
 	float2 firstPosition = 0;

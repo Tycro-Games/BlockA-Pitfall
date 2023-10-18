@@ -4,15 +4,15 @@
 void BoarStopState::OnEnter()
 {
 	t = 0;
-
 }
 
 BoarState* BoarStopState::Update(Boar* boar, float deltaTime)
 {
 	t += deltaTime;
-	if (t > STOP_TIME) {
+	if (t > STOP_TIME)
+	{
 		boar->SwitchPositions();
-		BoarTurnState* turnState = new BoarTurnState();
+		auto turnState = new BoarTurnState();
 		turnState->SetHeading(heading);
 		turnState->SetOriginalPos(originalPos);
 		return turnState;

@@ -35,7 +35,6 @@ void Zipline::Render(Surface* screen)
 	DebugDraw(screen, camPos);
 
 #endif
-
 }
 
 void Zipline::Init(float2 a, float2 b)
@@ -49,8 +48,7 @@ void Zipline::Init(float2 a, float2 b)
 
 	const float maxX = max(a.x, b.x);
 	const float maxY = max(a.y, b.y);
-	coll = Box{ float2{minX ,minY },float2{maxX ,maxY } };
-
+	coll = Box{float2{minX, minY}, float2{maxX, maxY}};
 }
 
 bool Zipline::GetOnScreen() const
@@ -62,7 +60,6 @@ void Zipline::Update(float deltaTime)
 {
 	deltaTime;
 	onScreen = Camera::OnScreen(coll);
-
 }
 
 void Zipline::GetStartEnd(float2& start, float2& end) const
@@ -72,5 +69,3 @@ void Zipline::GetStartEnd(float2& start, float2& end) const
 }
 
 Zipline::~Zipline() = default;
-
-

@@ -16,9 +16,9 @@ public:
 
 private:
 	float2 points[4] = {};
-	const float len[3] = { 100.0f,75.0f,25.0f };
+	const float len[3] = {100.0f, 75.0f, 25.0f};
 	const float lenMultiplier = 0.6f;
-	const float multipler[3] = { 0.7f,1.2f,2.0f };
+	const float multipler[3] = {0.7f, 1.2f, 2.0f};
 	const uint resolution = 25;
 	float totalLen = 0;
 	const float frq = 1.8f;

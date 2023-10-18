@@ -21,7 +21,8 @@ PlayerState* ZipliningState::Update(float deltaTime)
 	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
 		if (!col->IsCollidingFloors(floorCollider) &&
-			!col->IsCollidingFloors(boxCollider)) {
+			!col->IsCollidingFloors(boxCollider))
+		{
 			p->SetVelocityX(0);
 			p->SetVelocityY(-ZIPLINE_JUMP_SPEED);
 
@@ -29,7 +30,6 @@ PlayerState* ZipliningState::Update(float deltaTime)
 
 			return new FreemovingState();
 		}
-
 	}
 
 	distance += deltaTime * MAX_SPEED;
@@ -55,9 +55,9 @@ void ZipliningState::OnExit()
 void ZipliningState::SetZiplineEnd(float2 end)
 {
 	ziplineEnd = end;
-}void ZipliningState::SetZiplineStart(float2 start)
+}
+
+void ZipliningState::SetZiplineStart(float2 start)
 {
 	ziplineStart = start;
 }
-
-

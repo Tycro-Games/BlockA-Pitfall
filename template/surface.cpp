@@ -14,13 +14,16 @@ using namespace Tmpl8;
 
 // Surface class implementation
 
-Surface::Surface(int w, int h, uint* b) : pixels(b), width(w), height(h) {}
+Surface::Surface(int w, int h, uint* b) : pixels(b), width(w), height(h)
+{
+}
 
 Surface::Surface(int w, int h) : width(w), height(h)
 {
 	pixels = (uint*)MALLOC64(w * h * sizeof(uint));
 	ownBuffer = true; // needs to be deleted in destructor
 }
+
 Surface::Surface(const char* file) : pixels(0), width(0), height(0)
 {
 	// check if file exists; show an error if there is a problem
@@ -40,11 +43,12 @@ void Surface::LoadFromFile(const char* file)
 	pixels = (uint*)MALLOC64(width * height * sizeof(uint));
 	ownBuffer = true; // needs to be deleted in destructor
 	const int s = width * height;
-	if (n == 1) /* greyscale */ for (int i = 0; i < s; i++)
-	{
-		const unsigned char p = data[i];
-		pixels[i] = p + (p << 8) + (p << 16);
-	}
+	if (n == 1) /* greyscale */
+		for (int i = 0; i < s; i++)
+		{
+			const unsigned char p = data[i];
+			pixels[i] = p + (p << 8) + (p << 16);
+		}
 	else
 	{
 		for (int i = 0; i < s; i++) pixels[i] = (data[i * n + 0] << 16) + (data[i * n + 1] << 8) + data[i * n + 2];
@@ -55,7 +59,8 @@ void Surface::LoadFromFile(const char* file)
 
 Surface::~Surface()
 {
-	if (ownBuffer) FREE64(pixels); // free only if we allocated the buffer ourselves
+	if (ownBuffer)
+		FREE64(pixels); // free only if we allocated the buffer ourselves
 }
 
 void Surface::Clear(uint c)
@@ -63,7 +68,6 @@ void Surface::Clear(uint c)
 	// WARNING: not the fastest way to do this.
 	const int s = width * height;
 	for (int i = 0; i < s; i++) pixels[i] = c;
-
 }
 
 void Surface::Plot(int x, int y, uint c)
@@ -107,7 +111,7 @@ void Surface::Bar(int x1, int y1, int x2, int y2, uint c)
 }
 
 // Surface::Print: Print some text with the hard-coded mini-font.
-void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, const uint multiY )
+void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, const uint multiY)
 {
 	if (!fontInitialized)
 	{
@@ -126,20 +130,22 @@ void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, co
 		//it is always a combination of : and o
 		//o means to write pixels
 		//: means to skip space
-		const char* u = reinterpret_cast<const char*>(font[pos]);
+		auto u = reinterpret_cast<const char*>(font[pos]);
 
-		for (uint columns = 0; columns < 5 ; columns ++) {
-
+		for (uint columns = 0; columns < 5; columns++)
+		{
 			//extra columns if we scale on Y
-			for (uint extraColumns = 0; extraColumns < multiY; extraColumns++) {
+			for (uint extraColumns = 0; extraColumns < multiY; extraColumns++)
+			{
 				const char* copyU = u;
 
-				for (uint rows = 0; rows < 5 * multiX; rows += multiX) {
-					if (*copyU == 'o') {
+				for (uint rows = 0; rows < 5 * multiX; rows += multiX)
+				{
+					if (*copyU == 'o')
+					{
 						//extra row spaces if we scale on X
-						for (uint extraRowSpaces = 0; extraRowSpaces < multiX; extraRowSpaces++) {
-
-
+						for (uint extraRowSpaces = 0; extraRowSpaces < multiX; extraRowSpaces++)
+						{
 							*(letterColumn + rows + extraRowSpaces) = c;
 							*(letterColumn + rows + width + extraRowSpaces) = 0;
 						}
@@ -166,8 +172,13 @@ void Surface::Line(float x1, float y1, float x2, float y2, uint c)
 	bool accept = false;
 	while (1)
 	{
-		if (!(c0 | c1)) { accept = true; break; }
-		else if (c0 & c1) break; else
+		if (!(c0 | c1))
+		{
+			accept = true;
+			break;
+		}
+		else if (c0 & c1) break;
+		else
 		{
 			float x = 0, y = 0;
 			const int co = c0 ? c0 : c1;
@@ -188,14 +199,14 @@ void Surface::Line(float x1, float y1, float x2, float y2, uint c)
 		*(pixels + (int)x1 + (int)y1 * width) = c;
 }
 
-void Surface::BezierCurve(uint col, const float2& a, const float2& b, const float2& c, const float2& d, uint resolution = 50)
+void Surface::BezierCurve(uint col, const float2& a, const float2& b, const float2& c, const float2& d,
+                          uint resolution = 50)
 {
-
 	float2 startPoint = a;
 	for (uint i = 1; i <= resolution; i++)
 	{
 		const float2 point = MathLibrary::CubicBezierCurve(a, b, c, d,
-			static_cast<float>(i) / static_cast<float>(resolution));
+		                                                   static_cast<float>(i) / static_cast<float>(resolution));
 
 		Line(startPoint.x, startPoint.y, point.x, point.y, col);
 		startPoint = point;

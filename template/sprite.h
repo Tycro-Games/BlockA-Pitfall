@@ -6,7 +6,6 @@
 
 namespace Tmpl8
 {
-
 	// basic sprite class
 	class Sprite
 	{
@@ -18,15 +17,49 @@ namespace Tmpl8
 		void Draw(Surface* target, int x, int y);
 		void DrawFlippedX(Surface* target, int x, int y);
 		void DrawScaled(int x, int y, int width, int height, Surface* target);
-		void SetFlags(unsigned int f) { flags = f; }
-		void SetFrame(unsigned int i) { currentFrame = i; }
-		unsigned int GetFlags() const { return flags; }
-		int GetWidth() { return width; }
-		int GetHeight() { return height; }
-		uint* GetBuffer() { return surface->pixels; }
-		unsigned int Frames() { return numFrames; }
-		Surface* GetSurface() { return surface; }
+
+		void SetFlags(unsigned int f)
+		{
+			flags = f;
+		}
+
+		void SetFrame(unsigned int i)
+		{
+			currentFrame = i;
+		}
+
+		unsigned int GetFlags() const
+		{
+			return flags;
+		}
+
+		int GetWidth()
+		{
+			return width;
+		}
+
+		int GetHeight()
+		{
+			return height;
+		}
+
+		uint* GetBuffer()
+		{
+			return surface->pixels;
+		}
+
+		unsigned int Frames()
+		{
+			return numFrames;
+		}
+
+		Surface* GetSurface()
+		{
+			return surface;
+		}
+
 		void InitializeStartData();
+
 	private:
 		// attributes
 		int width, height;
@@ -36,5 +69,4 @@ namespace Tmpl8
 		unsigned int** start;
 		Surface* surface;
 	};
-
 }

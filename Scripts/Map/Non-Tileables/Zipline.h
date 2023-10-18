@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class Zipline: public Entity
+class Zipline : public Entity
 {
 public:
 	void DebugDraw(Surface* screen, float2 camPos) const;

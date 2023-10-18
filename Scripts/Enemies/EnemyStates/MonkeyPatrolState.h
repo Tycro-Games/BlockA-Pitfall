@@ -11,6 +11,7 @@ public:
 	void OnExit() override;
 	void SetDesiredPosition(float x);
 	void SetOriginalPosition(const float2& pos);
+
 private:
 	float2 originalPosition = 0;
 	float2 desiredPos = 0;
@@ -22,5 +23,4 @@ private:
 	const float MIN_SPEED = 0.2f;
 	const float HIT_TIME_COOLDOWN = 1.50f;
 	const float THROW_COOLDOWN = 2.75f;
-
 };

@@ -11,6 +11,7 @@ public:
 	const Box& GetBoxCollider() const;
 	bool GetActive() const;
 	void SetActive(bool val);
+
 private:
 	float2 dir = 0;
 	float2 pos = 0;

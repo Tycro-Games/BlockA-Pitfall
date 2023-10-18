@@ -6,19 +6,16 @@
 MonkeyTurnState::~MonkeyTurnState()
 {
 	delete stopTimer;
-
 }
 
 void MonkeyTurnState::OnEnter()
 {
-	
-	
 }
 
 MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 {
 	deltaTime;
-	if(stopTimer==nullptr)
+	if (stopTimer == nullptr)
 	{
 		stopTimer = new Timer();
 		SetSeed(InitSeed(static_cast<uint>(monkey->GetPosition().x)));
@@ -26,13 +23,13 @@ MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 	}
 	if (stopTimer->elapsed() > timeToTurn)
 	{
-		MonkeyPatrolState* patrolState = new MonkeyPatrolState();
+		auto patrolState = new MonkeyPatrolState();
 		//to the other direction
 		monkey->SetHeading(!monkey->GetHeading());
 		patrolState->SetOriginalPosition(monkey->GetPosition());
 		patrolState->SetDesiredPosition(
 			Monkey::GetValueFromMonkeyFunction(RandomFloat(),
-			!monkey->GetHeading()));
+			                                   !monkey->GetHeading()));
 		return patrolState;
 	}
 	return nullptr;
@@ -41,4 +38,3 @@ MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 void MonkeyTurnState::OnExit()
 {
 }
-

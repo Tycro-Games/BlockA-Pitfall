@@ -25,9 +25,9 @@
 #include <immintrin.h>
 
 // shorthand for basic types
-typedef unsigned char uchar;
-typedef unsigned int uint;
-typedef unsigned short ushort;
+using uchar = unsigned char;
+using uint = unsigned int;
+using ushort = unsigned short;
 
 // "leak" common namespaces to all compilation units. This is not standard // C++ practice 
 // but a deliberate simplification for template projects. Feel free to remove this if it
@@ -118,7 +118,6 @@ using namespace std;
 #include "Scripts/Enemies/MonkeyBall.h"
 
 
-
 // namespaces
 using namespace Tmpl8;
 
@@ -197,20 +196,30 @@ using namespace Tmpl8;
 // timer
 struct Timer
 {
-	Timer() { reset(); }
+	Timer()
+	{
+		reset();
+	}
+
 	double elapsed() const
 	{
 		chrono::high_resolution_clock::time_point t2 = chrono::high_resolution_clock::now();
-		chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(t2 - start);
+		auto time_span = chrono::duration_cast<chrono::duration<double>>(t2 - start);
 		return time_span.count();
 	}
+
 	float elapsedF() const
 	{
 		chrono::high_resolution_clock::time_point t2 = chrono::high_resolution_clock::now();
-		chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(t2 - start);
+		auto time_span = chrono::duration_cast<chrono::duration<double>>(t2 - start);
 		return static_cast<float>(time_span.count());
 	}
-	void reset() { start = chrono::high_resolution_clock::now(); }
+
+	void reset()
+	{
+		start = chrono::high_resolution_clock::now();
+	}
+
 	chrono::high_resolution_clock::time_point start;
 };
 
@@ -219,10 +228,12 @@ class Job
 {
 public:
 	virtual void Main() = 0;
+
 protected:
 	friend class JobThread;
 	void RunCodeWrapper();
 };
+
 class JobThread
 {
 public:
@@ -232,20 +243,32 @@ public:
 	HANDLE m_GoSignal, m_ThreadHandle;
 	int m_ThreadID;
 };
-class JobManager	// singleton class!
+
+class JobManager // singleton class!
 {
 protected:
 	JobManager(unsigned int numThreads);
+
 public:
 	~JobManager();
 	static void CreateJobManager(unsigned int numThreads);
 	static JobManager* GetJobManager();
 	static void GetProcessorCount(uint& cores, uint& logical);
 	void AddJob2(Job* a_Job);
-	unsigned int GetNumThreads() { return m_NumThreads; }
+
+	unsigned int GetNumThreads()
+	{
+		return m_NumThreads;
+	}
+
 	void RunJobs();
 	void ThreadDone(unsigned int n);
-	int MaxConcurrent() { return m_NumThreads; }
+
+	int MaxConcurrent()
+	{
+		return m_NumThreads;
+	}
+
 protected:
 	friend class JobThread;
 	Job* GetNextJob();
@@ -290,13 +313,13 @@ public:
 	static inline bool HW_AVX = false, HW_XOP = false, HW_FMA3 = false, HW_FMA4 = false;
 	static inline bool HW_AVX2 = false;
 	// SIMD: 512-bit
-	static inline bool HW_AVX512F = false;    //  AVX512 Foundation
-	static inline bool HW_AVX512CD = false;   //  AVX512 Conflict Detection
-	static inline bool HW_AVX512PF = false;   //  AVX512 Prefetch
-	static inline bool HW_AVX512ER = false;   //  AVX512 Exponential + Reciprocal
-	static inline bool HW_AVX512VL = false;   //  AVX512 Vector Length Extensions
-	static inline bool HW_AVX512BW = false;   //  AVX512 Byte + Word
-	static inline bool HW_AVX512DQ = false;   //  AVX512 Doubleword + Quadword
+	static inline bool HW_AVX512F = false; //  AVX512 Foundation
+	static inline bool HW_AVX512CD = false; //  AVX512 Conflict Detection
+	static inline bool HW_AVX512PF = false; //  AVX512 Prefetch
+	static inline bool HW_AVX512ER = false; //  AVX512 Exponential + Reciprocal
+	static inline bool HW_AVX512VL = false; //  AVX512 Vector Length Extensions
+	static inline bool HW_AVX512BW = false; //  AVX512 Byte + Word
+	static inline bool HW_AVX512DQ = false; //  AVX512 Doubleword + Quadword
 	static inline bool HW_AVX512IFMA = false; //  AVX512 Integer 52-bit Fused Multiply-Add
 	static inline bool HW_AVX512VBMI = false; //  AVX512 Vector Byte Manipulation Instructions
 	// constructor

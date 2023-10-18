@@ -17,7 +17,6 @@ void Enemy::Update(float deltaTime)
 	deltaTime;
 	if (onScreen)
 		DetectHit();
-
 }
 
 Subject* Enemy::GetSubject() const
@@ -32,7 +31,7 @@ const float2& Enemy::GetPosition() const
 
 bool Enemy::TryToHitPlayer(float distanceToPlayer) const
 {
-	if (length(avatar->GetCollisionChecker()->GetBoxColliderPos() - position) < distanceToPlayer)//hit event
+	if (length(avatar->GetCollisionChecker()->GetBoxColliderPos() - position) < distanceToPlayer) //hit event
 	{
 		subject->Notify(damage, PLAYER_HIT);
 		return true;
@@ -60,18 +59,32 @@ void Enemy::DetectHit()
 	Array<Rock>& rocks = avatar->GetRocks();
 	for (uint i = 0; i < rocks.GetCount(); i++)
 	{
-		if (rocks[i].GetActive())
-		{
-			float2 pos = rocks[i].GetPosition();
-			Box box = rocks[i].GetBoxCollider();
-			if (AABB::BoxCollides(AABB::At(pos, box), AABB::At(position, col))) {
-				rocks[i].SetActive(false);
-				HitByPlayer(10);
-			}
+		if (!rocks[i].GetActive())
+			continue;
 
+
+		float2 rockPos = rocks[i].GetPosition();
+		Box rockBox = rocks[i].GetBoxCollider();
+		//AABB check
+		if (!AABB::BoxCollides(AABB::At(rockPos, rockBox), AABB::At(position, col)))
+			continue;
+
+		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
+		Surface* enemySurface = GetSurface();
+		if (enemySurface == nullptr)
+			continue;
+		float2 camPos = Camera::GetPosition();
+		const float2 rP = rockPos - camPos;
+		const float2 eP = position - camPos;
+		const int2 screenRockPos = {static_cast<int>(rP.x), static_cast<int>(rP.y)};
+		const int2 screenEnemyPosition = {static_cast<int>(eP.x), static_cast<int>(eP.y)};
+		if (MathLibrary::PixelCollision(rock, enemySurface, screenRockPos, screenEnemyPosition))
+		{
+			rocks[i].SetActive(false);
+
+			HitByPlayer(10);
 		}
 	}
-
 }
 
 
@@ -79,7 +92,6 @@ void Enemy::SetPosition(const float2& pos)
 {
 	position = pos;
 }
-
 
 
 void Enemy::SetDamage(int dg)
@@ -99,7 +111,7 @@ Avatar* Enemy::GetAvatar() const
 
 bool Enemy::IsOnScreen() const
 {
-	return  onScreen;
+	return onScreen;
 }
 
 void Enemy::SetPoints(int p)
@@ -112,6 +124,11 @@ void Enemy::SetHP(int _hp) const
 	hp->SetHp(_hp);
 }
 
+Surface* Enemy::GetSurface()
+{
+	return surface;
+}
+
 void Enemy::GetDrawCoordinates()
 {
 	x1 = static_cast<int>(col.min.x - Camera::GetPosition().x);
@@ -120,6 +137,7 @@ void Enemy::GetDrawCoordinates()
 	y1 = static_cast<int>(col.min.y - Camera::GetPosition().y);
 	y2 = static_cast<int>(col.max.y - Camera::GetPosition().y);
 }
+
 void Enemy::GetDrawCoordinatesMoving()
 {
 	x1 = static_cast<int>(position.x + col.min.x - Camera::GetPosition().x);
@@ -128,6 +146,7 @@ void Enemy::GetDrawCoordinatesMoving()
 	y1 = static_cast<int>(position.y + col.min.y - Camera::GetPosition().y);
 	y2 = static_cast<int>(position.y + col.max.y - Camera::GetPosition().y);
 }
+
 void Enemy::GetDrawCoordinatesMoving(const Box& _col)
 {
 	x1 = static_cast<int>(position.x + _col.min.x - Camera::GetPosition().x);

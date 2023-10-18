@@ -10,11 +10,34 @@ void Monkey::Render(Surface* screen)
 	}
 	if (!onScreen || dead)
 		return;
+#ifdef _DEBUG
 	GetDrawCoordinatesMoving();
 	screen->Box(x1, y1, x2, y2, PINK);
+#endif
+	//TODO draw flipped scaled?
+	//monkeySprite->DrawScaled(x1, y1, RESIZE, RESIZE, preRendered);
+	/*if (GetHeading())
+		monkeySprite->DrawFlippedX(screen, x1, y1);
+	else
+	{
+		monkeySprite->Draw(screen, x1, y1);
+
+	}*/
+	monkeySprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
+
+	if (GetHeading())
+		preRendered->DrawFlippedX(screen, x1, y1);
+	else
+	{
+		preRendered->Draw(screen, x1, y1);
+	}
+
+
+#ifdef _DEBUG
+
 	GetDrawCoordinatesMoving(GetThrowCollider());
 	screen->Box(x1, y1, x2, y2, BLUE);
-
+#endif
 }
 
 Box Monkey::GetThrowCollider() const
@@ -27,6 +50,7 @@ Box Monkey::GetThrowCollider() const
 		swap(b.min.x, b.max.x);
 	return b;
 }
+
 bool Monkey::SeesPlayer() const
 {
 	const float2 playerPos = avatar->GetPos();
@@ -48,7 +72,10 @@ Monkey::~Monkey()
 	delete colCheck;
 	delete currentState;
 	delete subject;
+	delete monkeySprite;
+	delete preRendered;
 }
+
 void Monkey::Update(float deltaTime)
 {
 	if (ball != nullptr)
@@ -83,22 +110,26 @@ float Monkey::GetDistanceToPlayer()
 
 void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& p)
 {
-
 	position = pos;
 	avatar = &p;
-	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };
+	col = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 	SetDamage(DAMAGE);
 	subject = new Subject();
 	hitTimer = new Timer();
 	throwTimer = new Timer();
 	ballTimer = new Timer();
-	headingRight = true;
 	SetHP(MONKEY_HP);
 	SetPoints(MONKEY_POINTS);
 	//collision checker is also used in avatar
 	colCheck = new CollisionChecker(&position, floors, ladders);
-	throwCollider = Box{ minThrow,maxhrow };
+	throwCollider = Box{minThrow, maxhrow};
 	currentState = new MonkeyToGroundState();
+	monkeySprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
+	auto surf = new Surface(RESIZE, RESIZE);
+	surf->Clear(0x00f);
+	preRendered = new Sprite(surf, 1);
+	surf->Clear(0);
+	surface = monkeySprite->GetSurface();
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)
@@ -161,25 +192,23 @@ void Monkey::SetBall(MonkeyBall* _ball)
 	{
 		noBall = false;
 	}
-
 }
+
 MonkeyBall* Monkey::GetBall()
 {
-
 	return ball;
 }
 
 void Monkey::Dead()
 {
 	Enemy::Dead();
-	if (!IsActive()) {
+	if (!IsActive())
+	{
 		dead = true;
 
 		if (!noBall)
 		{
 			SetActive(true);
-
 		}
 	}
 }
-

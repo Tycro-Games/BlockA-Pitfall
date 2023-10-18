@@ -15,11 +15,9 @@ Sprite::Sprite(Surface* surface, unsigned int frameCount) :
 	numFrames(frameCount),
 	currentFrame(0),
 	flags(0),
-	start(new unsigned int* [frameCount]),
+	start(new unsigned int*[frameCount]),
 	surface(surface)
 {
-
-
 	InitializeStartData();
 }
 
@@ -34,8 +32,8 @@ Sprite::~Sprite()
 // draw sprite to target surface
 void Sprite::Draw(Surface* target, int x, int y)
 {
-	if (x < -width || x >(target->width + width)) return;
-	if (y < -height || y >(target->height + height)) return;
+	if (x < -width || x > (target->width + width)) return;
+	if (y < -height || y > (target->height + height)) return;
 
 	int x1 = x, x2 = x + width;
 	int y1 = y, y2 = y + height;
@@ -54,15 +52,13 @@ void Sprite::Draw(Surface* target, int x, int y)
 		const int h = y2 - y1;
 		for (int j = 0; j < h; j++)
 		{
-
 			const int line = j + (y1 - y);
 
 
-			const int lsx = start[currentFrame][line] + x;//template optimization
+			const int lsx = start[currentFrame][line] + x; //template optimization
 			xs = (lsx > x1) ? lsx - x1 : 0;
 			for (int i = xs; i < w; i++)
 			{
-
 				const uint c1 = *(src + i);
 				if (c1 & 0xffffff) *(dest + addr + i) = c1; //checks for a non-empty pixel
 			}
@@ -71,11 +67,12 @@ void Sprite::Draw(Surface* target, int x, int y)
 		}
 	}
 }
+
 // draw sprite to target surface
 void Sprite::DrawFlippedX(Surface* target, int x, int y)
 {
-	if (x < -width || x >(target->width + width)) return;
-	if (y < -height || y >(target->height + height)) return;
+	if (x < -width || x > (target->width + width)) return;
+	if (y < -height || y > (target->height + height)) return;
 
 	int x1 = x + width, x2 = x;
 	int y1 = y, y2 = y + height;
@@ -112,8 +109,8 @@ void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 	//added bound checking from Draw
 	int x2 = x1 + w;
 	int y2 = y1 + h;
-	if (x1 < -w || x1  >target->width) return;
-	if (y1 < -h || y1  >target->height) return;
+	if (x1 < -w || x1 > target->width) return;
+	if (y1 < -h || y1 > target->height) return;
 
 	uint* src = GetBuffer() + currentFrame * width;
 	int maxAddY = 0;
@@ -135,9 +132,9 @@ void Sprite::DrawScaled(int x1, int y1, int w, int h, Surface* target)
 	const float divY = 1.0f / static_cast<float>(h);
 
 
-
 	if (width == 0 || height == 0) return;
-	for (int x = minAddX; x < w - maxAddX; x++) {
+	for (int x = minAddX; x < w - maxAddX; x++)
+	{
 		const int u = static_cast<int>(static_cast<float>(x) *
 			(static_cast<float>(width) * divX));
 		for (int y = minAddY; y < h - maxAddY; y++)
@@ -162,11 +159,12 @@ void Sprite::InitializeStartData()
 		{
 			start[f][y] = width;
 			uint* addr = GetBuffer() + f * width + y * width * numFrames;
-			for (int x = 0; x < width; ++x) if (addr[x])
-			{
-				start[f][y] = x;
-				break;
-			}
+			for (int x = 0; x < width; ++x)
+				if (addr[x])
+				{
+					start[f][y] = x;
+					break;
+				}
 		}
 	}
 }

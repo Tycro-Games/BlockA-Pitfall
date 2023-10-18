@@ -17,25 +17,22 @@ SpawnRocks::~SpawnRocks()
 {
 	delete timer;
 	delete rockSprite;
-
-
 }
 
 void SpawnRocks::Update(float deltaTime)
 {
-
 	for (uint i = 0; i < activeRocks.GetCount(); i++)
 	{
-		if (activeRocks[i].GetActive()) {
-
+		if (activeRocks[i].GetActive())
+		{
 			activeRocks[i].Update(deltaTime);
 			float2 rockPos = activeRocks[i].GetPosition();
 			Box rockCollider = activeRocks[i].GetBoxCollider();
-			if (coll->IsInGameBounds(rockPos, &rockCollider)) {
+			if (coll->IsInGameBounds(rockPos, &rockCollider))
+			{
 				if (coll->IsCollidingFloors(rockPos, &rockCollider))
 				{
 					activeRocks[i].SetActive(false);
-
 				}
 			}
 			else
@@ -48,8 +45,10 @@ void SpawnRocks::Update(float deltaTime)
 
 void SpawnRocks::Render(Surface* screen)
 {
-	for (uint i = 0; i < MAX_ROCK_NUMBER; i++) {
-		if (activeRocks[i].GetActive()) {
+	for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
+	{
+		if (activeRocks[i].GetActive())
+		{
 			const float2 rockPos = activeRocks[i].GetPosition();
 
 			const Box box = activeRocks[i].GetBoxCollider();
@@ -63,10 +62,8 @@ void SpawnRocks::Render(Surface* screen)
 			screen->Box(x1, y1, x2, y2, PINK);
 #endif
 			//rockSprite->Draw(screen, x1, y1);
-			rockSprite->DrawScaled(x1, y1, rockSprite->GetWidth()*.75f, rockSprite->GetHeight()*.75f,  screen);
-
+			rockSprite->DrawScaled(x1, y1, RESIZE, RESIZE, screen);
 		}
-
 	}
 }
 
@@ -75,19 +72,22 @@ void SpawnRocks::AddRockToActive(const float2& dir, const float2& pos)
 	if (timer->elapsedF() > FIRE_RATE)
 		for (uint i = 0; i < MAX_ROCK_NUMBER; i++)
 		{
-			if (!activeRocks[i].GetActive()) {
+			if (!activeRocks[i].GetActive())
+			{
 				timer->reset();
 				activeRocks[i].Init(pos, dir);
 				activeRocks[i].SetActive(true);
 				break;
 			}
-
-
 		}
-
 }
 
 Array<Rock>& SpawnRocks::GetActiveRocks()
 {
 	return activeRocks;
+}
+
+Surface* SpawnRocks::GetRockSprite() const
+{
+	return rockSprite->GetSurface();
 }

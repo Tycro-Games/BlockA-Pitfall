@@ -4,15 +4,15 @@
 
 #pragma once
 
-namespace Tmpl8 {
-
+namespace Tmpl8
+{
 	// helper macro for line clipping
 #define OUTCODE(x,y) (((x)<xmin)?1:(((x)>xmax)?2:0))+(((y)<ymin)?4:(((y)>ymax)?8:0))
 
-// pixel operations
+	// pixel operations
 
-// ScaleColor: change the intensity of red, green and blue using a single
-// fixed-point scale in the range 0..256, where 256 is 100%.
+	// ScaleColor: change the intensity of red, green and blue using a single
+	// fixed-point scale in the range 0..256, where 256 is 100%.
 	inline uint ScaleColor(const uint c, const uint scale)
 	{
 		const uint rb = (((c & 0xff00ff) * scale) >> 8) & 0x00ff00ff;
@@ -48,6 +48,7 @@ namespace Tmpl8 {
 	class Surface
 	{
 		enum { OWNER = 1 };
+
 	public:
 		// constructor / destructor
 		Surface() = default;
@@ -87,9 +88,9 @@ namespace Tmpl8 {
 			pixels = new unsigned char[w * h];
 			pal = new unsigned int[256];
 		}
+
 		unsigned char* pixels;
 		unsigned int* pal;
 		int width, height;
 	};
-
 }

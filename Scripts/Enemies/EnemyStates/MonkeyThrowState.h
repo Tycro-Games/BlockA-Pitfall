@@ -7,9 +7,10 @@ class MonkeyThrowState : public MonkeyState
 public:
 	~MonkeyThrowState() override;
 	void OnEnter() override;
-	 void SpawnBall(Monkey* monkey) const;
+	void SpawnBall(Monkey* monkey) const;
 	MonkeyState* Update(Monkey* monkey, float deltaTime) override;
 	void OnExit() override;
+
 private:
 	Timer* stopTimer = nullptr;
 	const float TIME_TO_THROW = .1f;

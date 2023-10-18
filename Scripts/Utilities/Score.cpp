@@ -31,8 +31,6 @@ uint Score::GetScore() const
 }
 
 
-
-
 void Score::SetPosition(const float2& _pos)
 {
 	pos = _pos;
@@ -42,17 +40,17 @@ const char* Score::GetScoreWithZeros(int& n, int& x, int& y, const uint8_t digit
 {
 	x = static_cast<int>(pos.x);
 	y = static_cast<int>(pos.y);
-	char* c = new char[digits + 1];
+	auto c = new char[digits + 1];
 	n = sprintf(c, "%d", score);
 	int index = 0;
 	if (n < digits)
 	{
-		char* addZero = new char[digits+ 1];
-		for(int i=0;i<digits-n;i++)
+		auto addZero = new char[digits + 1];
+		for (int i = 0; i < digits - n; i++)
 		{
 			addZero[i] = '0';
 		}
-		for(int i= digits - n;i<digits;i++)
+		for (int i = digits - n; i < digits; i++)
 		{
 			addZero[i] = c[index++];
 		}
@@ -62,4 +60,3 @@ const char* Score::GetScoreWithZeros(int& n, int& x, int& y, const uint8_t digit
 	}
 	return c;
 }
-

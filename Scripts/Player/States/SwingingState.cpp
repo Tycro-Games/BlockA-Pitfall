@@ -13,7 +13,7 @@ void SwingingState::OnEnter(Avatar& _p)
 
 PlayerState* SwingingState::Update(float deltaTime)
 {
-	deltaTime;//fixes warning C4100
+	deltaTime; //fixes warning C4100
 	const CollisionChecker* col = p->GetCollisionChecker();
 
 	const Box* floorCollider = col->GetFloorCollider();
@@ -21,7 +21,8 @@ PlayerState* SwingingState::Update(float deltaTime)
 	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
 		if (!col->IsCollidingFloors(floorCollider) &&
-			!col->IsCollidingFloors(boxCollider)) {
+			!col->IsCollidingFloors(boxCollider))
+		{
 			p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x) * SWINGING_JUMP_SPEED);
 			if (p->GetInput().arrowKeys.x)
 				p->SetVelocityY(-SWINGING_JUMP_SPEED);
@@ -34,7 +35,8 @@ PlayerState* SwingingState::Update(float deltaTime)
 	const float2 ropP = *ropePoint;
 	//left or right
 	const float heading = previousR.x - ropP.x;
-	if (heading > 0) {
+	if (heading > 0)
+	{
 		//player should be on the left in this case
 		offsetSign.x *= -1;
 	}
@@ -58,9 +60,7 @@ PlayerState* SwingingState::Update(float deltaTime)
 void SwingingState::OnExit()
 {
 	p->GetSubject()->Notify(1, ZOOM);
-
 }
-
 
 
 void SwingingState::pSetRope(float2* _pRopePoints)

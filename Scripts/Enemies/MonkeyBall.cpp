@@ -2,10 +2,8 @@
 #include "MonkeyBall.h"
 
 
-
-
 MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
-	const float2& _finalPos, float _speed)
+                       const float2& _finalPos, float _speed)
 {
 	t = 0;
 	subject = s;
@@ -18,7 +16,7 @@ MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _st
 
 	position = startPos;
 	SetDamage(DG);
-	col = Box{ -DISTANCE_TO_PLAYER,DISTANCE_TO_PLAYER };
+	col = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 }
 
 MonkeyBall::~MonkeyBall()
@@ -37,10 +35,10 @@ void MonkeyBall::Update(float deltaTime)
 	//code behind the projectile the monkey throw
 	t += deltaTime * speed;
 
-		position = MathLibrary::QuadraticBezierCurve(startPos,
-			midPos,
-			finalPos,
-			t / timeToReach);
+	position = MathLibrary::QuadraticBezierCurve(startPos,
+	                                             midPos,
+	                                             finalPos,
+	                                             t / timeToReach);
 
 
 	if (TryToHitPlayer(DISTANCE_TO_PLAYER) ||
@@ -48,7 +46,6 @@ void MonkeyBall::Update(float deltaTime)
 	{
 		monkey->SetBall(nullptr);
 		delete this;
-
 	}
 }
 

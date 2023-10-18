@@ -7,6 +7,7 @@ public:
 	void Notify(int context, EVENT ev) override;
 	void Render(Surface* screen) override;
 	CoinScore();
+
 private:
 	const int FRAMES = 15;
 	Sprite* sprite = nullptr;

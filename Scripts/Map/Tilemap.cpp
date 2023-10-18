@@ -7,8 +7,8 @@
 
 
 Tilemap::Tilemap() : widthX(0), heightY(0),
-tileMap{},
-tilePalette(nullptr)
+                     tileMap{},
+                     tilePalette(nullptr)
 {
 }
 
@@ -33,7 +33,7 @@ bool Tilemap::IsColliding(const float x, const float y) const
 bool Tilemap::IsInsideGameBounds(float x, float y) const
 {
 	//this can be improved
-	if (x<0 || x>widthX * TILE_SIZE || y<0 || y>heightY * TILE_SIZE)
+	if (x < 0 || x > widthX * TILE_SIZE || y < 0 || y > heightY * TILE_SIZE)
 		return false;
 	return true;
 }
@@ -55,10 +55,12 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 
 
 	const size_t index = tx + ty * widthX;
-	if (tileMap[index] != 0) {
-
-		const float2 centerTile = { static_cast<float>(tx * TILE_SIZE),
-		static_cast<float>(ty * TILE_SIZE) };
+	if (tileMap[index] != 0)
+	{
+		const float2 centerTile = {
+			static_cast<float>(tx * TILE_SIZE),
+			static_cast<float>(ty * TILE_SIZE)
+		};
 
 		floorPos = centerTile - TILE_SIZE / 2;
 
@@ -79,8 +81,8 @@ bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a) const
 		|| IsColliding(a.min.x, a.max.y)
 		|| IsColliding(a.max.x, a.min.y)
 		|| IsColliding(a.max.x, a.max.y);
-
 }
+
 bool Tilemap::IsCollidingBoxComplete(const float2& _pos, const Box& _a) const
 {
 	//take the four corners of the box and check them
@@ -92,8 +94,8 @@ bool Tilemap::IsCollidingBoxComplete(const float2& _pos, const Box& _a) const
 		&& IsColliding(a.min.x, a.max.y)
 		&& IsColliding(a.max.x, a.min.y)
 		&& IsColliding(a.max.x, a.max.y);
-
 }
+
 bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos)
 {
 	//take the four corners of the box and check them
@@ -109,7 +111,6 @@ bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos
 		|| IsColliding(minX, maxY, floorPos)
 		|| IsColliding(maxX, minY, floorPos)
 		|| IsColliding(maxX, maxY, floorPos);
-
 }
 
 
@@ -118,16 +119,15 @@ void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 	uint moveToRight = 1;
 	for (size_t i = 0; i < strlen(pch); i++)
 	{
-		numberForm = numberForm * moveToRight + pch[i] - '0';//conversion from char to int
+		numberForm = numberForm * moveToRight + pch[i] - '0'; //conversion from char to int
 		moveToRight = 10;
 	}
-
 }
 
 void Tilemap::ExtractWidthHeight(const char* csvRaw)
 {
 	//widthX and heightY get
-	char* tilemap = new char[strlen(csvRaw) + 1];
+	auto tilemap = new char[strlen(csvRaw) + 1];
 	strcpy(tilemap, csvRaw);
 
 	char* getX = strstr(tilemap, "width=") + strlen("width=");
@@ -145,7 +145,7 @@ void Tilemap::ExtractWidthHeight(const char* csvRaw)
 void Tilemap::LoadCSVFile(const char* csvPath)
 {
 	//copy into a c style string
-	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
+	auto tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
 	strcpy(tilemapRaw, TextFileRead(csvPath).c_str());
 
 	//print the whole file
@@ -162,7 +162,7 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 	const char* pch = strtok(startOfCsv, ",");
 
 	int index = 0;
-	while (*pch != '<')//stops when it reaches the end of the csv
+	while (*pch != '<') //stops when it reaches the end of the csv
 	{
 		uint numberForm = 0;
 		ConvertCharToInt(pch, numberForm);
@@ -173,11 +173,10 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 	}
 
 	delete[] tilemapRaw;
-
 }
 
 void Tilemap::RenderTile(const Surface* surface,
-	int screenX, int screenY, uint sourceX, uint sourceY)
+                         int screenX, int screenY, uint sourceX, uint sourceY)
 {
 	//the x and y for the left down corner of the tile
 	const int maxScreenX = screenX + TILE_SIZE;
@@ -200,11 +199,15 @@ void Tilemap::RenderTile(const Surface* surface,
 
 		//offsets for surface and source
 
-		const uint2 offsetMin = { abs((minOffsetX - (screenX))),
-			abs((minOffsetY - screenY)) };
+		const uint2 offsetMin = {
+			abs((minOffsetX - (screenX))),
+			abs((minOffsetY - screenY))
+		};
 
-		const uint2 offsetMax = { abs((maxOffsetX - maxScreenX)),
-			abs((maxOffsetY - maxScreenY)) };
+		const uint2 offsetMax = {
+			abs((maxOffsetX - maxScreenX)),
+			abs((maxOffsetY - maxScreenY))
+		};
 
 		screenX += offsetMin.x;
 		screenY += offsetMin.y;
@@ -235,20 +238,15 @@ void Tilemap::RenderTile(const Surface* surface,
 }
 
 
-
 void Tilemap::Init(const char* sourceFile, const char* csvPath)
 {
-
 	tilePalette = new Surface(sourceFile);
 	LoadCSVFile(csvPath);
-
-
 }
 #ifdef _DEBUG
 
 void Tilemap::DebugBox(Surface* screen) const
 {
-
 	for (uint i = 0; i < heightY; i++)
 	{
 		for (uint j = 0; j < widthX; j++)
@@ -256,12 +254,11 @@ void Tilemap::DebugBox(Surface* screen) const
 			uint index = tileMap[j + i * widthX];
 			if (index)
 				screen->Box(j * TILE_SIZE,
-					i * TILE_SIZE,
-					(j + 1) * TILE_SIZE,
-					(i + 1) * TILE_SIZE, 255);
+				            i * TILE_SIZE,
+				            (j + 1) * TILE_SIZE,
+				            (i + 1) * TILE_SIZE, 255);
 		}
 	}
-
 }
 #endif
 
@@ -272,7 +269,7 @@ void Tilemap::Render(Surface* screen)
 		for (uint j = 0; j < widthX; j++)
 		{
 			uint index = tileMap[j + i * widthX];
-			if (index)//index !=0
+			if (index) //index !=0
 			{
 				//so the index can start from 0
 
@@ -281,18 +278,11 @@ void Tilemap::Render(Surface* screen)
 				const uint source_y = index / (tilePalette->width / TILE_SIZE);
 				const uint source_x = index % (tilePalette->width / TILE_SIZE);
 				RenderTile(screen,
-					j * TILE_SIZE,
-					i * TILE_SIZE,
-					source_x * TILE_SIZE,
-					source_y * TILE_SIZE);
-
-
-
+				           j * TILE_SIZE,
+				           i * TILE_SIZE,
+				           source_x * TILE_SIZE,
+				           source_y * TILE_SIZE);
 			}
 		}
 	}
 }
-
-
-
-

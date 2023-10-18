@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class SwingingState :public PlayerState
+class SwingingState : public PlayerState
 {
 public:
 	void OnEnter(Avatar& p) override;
@@ -10,9 +10,8 @@ public:
 
 private:
 	float2* ropePoint = 0;
-	const float2 OFFSET_ROPE = { 7.0f,10.0f };
+	const float2 OFFSET_ROPE = {7.0f, 10.0f};
 	float2 previousR = 0;
 
 	const float SWINGING_JUMP_SPEED = 1.5f;
 };
-

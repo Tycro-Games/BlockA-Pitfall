@@ -2,7 +2,6 @@
 #include "Array.h"
 
 
-
 template <class T>
 Array<T>::~Array()
 {
@@ -29,7 +28,6 @@ T& Array<T>::operator[](const size_t index)
 {
 	return cell[index];
 }
-
 
 
 //from here https://github.com/Tycro-Games/AUSS/blob/master/src/pool.cpp

@@ -8,7 +8,7 @@ void ElasticPlantState::OnEnter(Avatar& _p)
 
 PlayerState* ElasticPlantState::Update(float deltaTime)
 {
-	deltaTime;//fixes warning C4100
+	deltaTime; //fixes warning C4100
 	const CollisionChecker* col = p->GetCollisionChecker();
 
 	const Box* floorCollider = col->GetFloorCollider();
@@ -18,21 +18,23 @@ PlayerState* ElasticPlantState::Update(float deltaTime)
 	if (p->GetInput().jumping == true || p->GetInput().smallJump == true)
 	{
 		if (!col->IsCollidingFloors(floorCollider) &&
-			!col->IsCollidingFloors(boxCollider)) {
+			!col->IsCollidingFloors(boxCollider))
+		{
 			//modify for elastic
 			const float2 lastY = normalize(elasticP - previousP);
-			if (lastY.y < 0) {//going up
+			if (lastY.y < 0)
+			{
+				//going up
 				cout << plant->GetPercentOfSpeed() << "\n";
 				//this gives a value between 0 and 1
 				float multiplier = plant->GetPercentOfSpeed();
 				if (multiplier > MAX_THRESHOLD)
 					multiplier = 1.0f;
-				p->SetVelocityY(lastY.y * MAX_JUMP*multiplier);
+				p->SetVelocityY(lastY.y * MAX_JUMP * multiplier);
 			}
 			else
 			{
 				p->SetVelocityY(0);
-
 			}
 			p->ResetClimbTimer();
 			plant->SetActivation(false);
@@ -57,4 +59,3 @@ void ElasticPlantState::pSetPlant(ElasticPlant* _plant)
 	plant->SetActivation(true);
 	elasticPoint = plant->pGetPosition();
 }
-

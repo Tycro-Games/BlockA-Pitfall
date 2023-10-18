@@ -2,17 +2,15 @@
 #include "Avatar.h"
 
 
-
 Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr),
-cam(nullptr),
-currentState(nullptr),
-velocity(),
-pos()
+                   cam(nullptr),
+                   currentState(nullptr),
+                   velocity(),
+                   pos()
 {
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	subject = new Subject();
-
 }
 
 Avatar::~Avatar()
@@ -26,7 +24,6 @@ Avatar::~Avatar()
 	delete spriteFlipped;
 	delete currentState;
 	delete spawnRocks;
-
 }
 
 void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
@@ -41,10 +38,9 @@ void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
 	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
 }
 
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes, Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam)
+void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
+                  Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam)
 {
-
-
 	cam = &_cam;
 
 	char* spriteFlippedPath;
@@ -79,7 +75,8 @@ void Avatar::Render(Surface* screen)
 	}
 	else
 		directionToLook = 0;
-	if (directionToLook) {
+	if (directionToLook)
+	{
 		flipX = -directionToLook;
 	}
 
@@ -87,9 +84,7 @@ void Avatar::Render(Surface* screen)
 		sprite->DrawFlippedX(screen, x, y);
 	else
 	{
-
 		sprite->Draw(screen, x, y);
-
 	}
 	spawnRocks->Render(screen);
 
@@ -103,7 +98,7 @@ void Avatar::Render(Surface* screen)
 	const float debugX = pos.x - camPos.x;
 	const float debugY = pos.y - camPos.y;
 
-	Box a = AABB::At({ debugX, debugY }, *col->GetBoxCollider());
+	Box a = AABB::At({debugX, debugY}, *col->GetBoxCollider());
 	screen->Box(
 		static_cast<int>(a.min.x),
 		static_cast<int>(a.min.y),
@@ -111,13 +106,13 @@ void Avatar::Render(Surface* screen)
 		static_cast<int>(a.max.y),
 		c);
 	//circle
-	Box ci = AABB::At({ debugX, debugY }, *col->GetFloorCollider());
+	Box ci = AABB::At({debugX, debugY}, *col->GetFloorCollider());
 	screen->Box(
 		static_cast<int>(ci.min.x),
 		static_cast<int>(ci.min.y),
 		static_cast<int>(ci.max.x),
 		static_cast<int>(ci.max.y), c);
-	Box fl = AABB::At({ debugX, debugY }, *col->GetJumpCollider());
+	Box fl = AABB::At({debugX, debugY}, *col->GetJumpCollider());
 	screen->Box(
 		static_cast<int>(fl.min.x),
 		static_cast<int>(fl.min.y),
@@ -126,7 +121,6 @@ void Avatar::Render(Surface* screen)
 
 
 #endif
-
 }
 
 void Avatar::SetInput(int2 _input)
@@ -158,7 +152,8 @@ void Avatar::ResetInput()
 
 void Avatar::Update(float deltaTime)
 {
-	if (!canMove) {
+	if (!canMove)
+	{
 		ResetInput();
 	}
 	UpdateCurrentState(deltaTime);
@@ -169,13 +164,16 @@ void Avatar::Update(float deltaTime)
 
 	cam->UpdatePosition(deltaTime, col->GetBoxColliderPos(), static_cast<float>(flipX));
 }
+
 bool Avatar::IsClimbTimerFinished(float time) const
 {
 	return climbTimer->elapsed() >= time;
 }
+
 void Avatar::SetJumpInput(bool jumpInput)
 {
-	if (jumpInput) {
+	if (jumpInput)
+	{
 		if (startedJump == false)
 		{
 			startedJump = true;
@@ -188,26 +186,26 @@ void Avatar::SetJumpInput(bool jumpInput)
 			alreadyJumped = true;
 			jumpTimer->reset();
 		}
-
 	}
 	else
 	{
-		if (startedJump) {
-			if (jumpTimer->elapsed() <= SMALL_JUMP_END) {
+		if (startedJump)
+		{
+			if (jumpTimer->elapsed() <= SMALL_JUMP_END)
+			{
 				input.smallJump = true;
 			}
-
 		}
 		startedJump = false;
 		alreadyJumped = false;
 		jumpTimer->reset();
-
 	}
 }
 
 void Avatar::SetShootInput(bool shootInput)
 {
-	if (!alreadyShot) {
+	if (!alreadyShot)
+	{
 		input.shooting = shootInput;
 		alreadyShot = true;
 	}
@@ -245,26 +243,32 @@ void Avatar::SetVelocity(const float2& _velocity)
 {
 	velocity = _velocity;
 }
+
 void Avatar::SetVelocityX(float x)
 {
 	velocity.x = x;
 }
+
 void Avatar::SetVelocityY(float y)
 {
 	velocity.y = y;
 }
+
 void Avatar::SetPosition(const float2& _pos)
 {
 	pos = _pos;
 }
+
 void Avatar::SetPositionX(const float x)
 {
 	pos.x = x;
 }
+
 void Avatar::SetPositionY(const float y)
 {
 	pos.y = y;
 }
+
 void Avatar::TranslatePosition(const float2& _pos)
 {
 	pos += _pos;
@@ -290,6 +294,7 @@ Camera* Avatar::GetCamera() const
 {
 	return cam;
 }
+
 Timer* Avatar::GetClimbTimer() const
 {
 	return climbTimer;
@@ -318,8 +323,9 @@ int Avatar::GetFlip() const
 
 void Avatar::ThrowRock(const float2& dir) const
 {
-	spawnRocks->AddRockToActive(dir, col->GetBoxColliderPos() + float2{ -SHOOT_OFFSET.x * static_cast<float>(flipX),SHOOT_OFFSET.y });
-
+	spawnRocks->AddRockToActive(dir, col->GetBoxColliderPos() + float2{
+		                            -SHOOT_OFFSET.x * static_cast<float>(flipX), SHOOT_OFFSET.y
+	                            });
 }
 
 
@@ -337,6 +343,5 @@ void Avatar::Notify(int context, EVENT ev)
 
 	default:
 		break;
-
 	}
 }

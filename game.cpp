@@ -8,7 +8,6 @@
 #include "game.h"
 
 
-
 Game::~Game()
 {
 	delete enviroment;
@@ -17,13 +16,12 @@ Game::~Game()
 
 void Game::AddObservers()
 {
-
 	for (uint i = 0; i < spikes.GetCount(); i++)
 		spikes[i].GetSubject()->AddObserver(healthBar);
-	for (uint i = 0; i < boars.GetCount(); i++) {
+	for (uint i = 0; i < boars.GetCount(); i++)
+	{
 		boars[i].GetSubject()->AddObserver(healthBar);
 		boars[i].GetSubject()->AddObserver(score);
-
 	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
@@ -43,14 +41,15 @@ void Game::AddObservers()
 void Game::SetUpCamera()
 {
 	//it gets owned by the sprite so we don't have to delete it
-	Surface* surf = new Surface(tileMaps[Tilemap::FLOOR].GetWidth(), tileMaps[Tilemap::FLOOR].GetHeight());
+	auto surf = new Surface(tileMaps[Tilemap::FLOOR].GetWidth(), tileMaps[Tilemap::FLOOR].GetHeight());
 
-	Surface* par = new Surface(tileMaps[Tilemap::PARALLAX].GetWidth(), tileMaps[Tilemap::PARALLAX].GetHeight());
+	auto par = new Surface(tileMaps[Tilemap::PARALLAX].GetWidth(), tileMaps[Tilemap::PARALLAX].GetHeight());
 	par->Clear(0x000001);
 	surf->Clear(0xff000000);
 	enviroment = new Sprite(surf, 1);
 	parallaxSprite = new Sprite(par, 1);
-	for (int i = Tilemap::BG; i < Tilemap::COUNT; i++) {
+	for (int i = Tilemap::BG; i < Tilemap::COUNT; i++)
+	{
 		tileMaps[i].Render(enviroment->GetSurface());
 	}
 	tileMaps[Tilemap::PARALLAX].Render(parallaxSprite->GetSurface());
@@ -67,45 +66,35 @@ void Game::AddAllEntities()
 	for (uint i = 0; i < ziplines.GetCount(); i++)
 	{
 		AddPreEntity(&ziplines[i]);
-
-
 	}
 	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
 		AddPreEntity(&ropes[i]);
-
-
 	}
 	for (uint i = 0; i < elasticPlants.GetCount(); i++)
 	{
 		AddPreEntity(&elasticPlants[i]);
-
-
 	}
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
 		AddPreEntity(&coins[i]);
-
-
 	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		AddPreEntity(&spikes[i]);
-
 	}
 	for (uint i = 0; i < boars.GetCount(); i++)
 	{
 		AddPreEntity(&boars[i]);
-
 	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
 		AddPreEntity(&monkeys[i]);
-
 	}
 
 	AddAfterEntity(&avatar);
 }
+
 //TODO refactor so it is more easy to use
 void Game::InitEntities()
 {
@@ -124,7 +113,7 @@ void Game::InitEntities()
 	countEnemies = 1;
 	countStatics = 1;
 
-	size_t count = countProps & 0b11111111;//255 in binary
+	size_t count = countProps & 0b11111111; //255 in binary
 	ropes.Init(count);
 
 
@@ -154,29 +143,21 @@ void Game::InitEntities()
 
 	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
-
 		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
-
 	}
 	uint zIndex = 0;
 	for (uint i = 0; i < ziplines.GetCount() * 2; i += 2)
 	{
 		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
-			nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
-
-
+		                        nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
 	}
 	for (uint i = 0; i < elasticPlants.GetCount(); i++)
 	{
 		elasticPlants[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
-
-
 	}
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
 		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
-
-
 	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
@@ -184,15 +165,16 @@ void Game::InitEntities()
 	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
-		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR], &tileMaps[Tilemap::LADDERS], avatar);
+		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
+		                &tileMaps[Tilemap::LADDERS], avatar);
 	}
 	zIndex = 0;
 
 	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
 	{
 		boars[zIndex++].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
-			nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
-			, avatar);
+		                     nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
+		                     , avatar);
 	}
 }
 
@@ -222,7 +204,8 @@ void Game::Init()
 
 	SetUpCamera();
 
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, coins, cam);
+	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR],
+	            tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, coins, cam);
 
 
 	AddAllEntities();
@@ -235,7 +218,6 @@ void Game::RenderUI()
 	//screen->Print("HEa23sdz;/", 100, 100, YELLOW);
 	score.Render(screen);
 	coinScore.Render(screen);
-
 }
 
 void Game::Render()
@@ -262,11 +244,7 @@ void Game::Render()
 	cam.Render(screen);
 
 	RenderUI();
-
-
 }
-
-
 
 
 void Game::UpdateInput()
@@ -276,7 +254,6 @@ void Game::UpdateInput()
 	avatar.SetJumpInput(input.jumping);
 	avatar.SetShootInput(input.shooting);
 }
-
 
 
 void Game::FixedUpdate(float deltaTime)
@@ -296,8 +273,8 @@ void Game::FixedUpdate(float deltaTime)
 
 			afterCameraUpdate[i]->Update(deltaTime);
 	}
-
 }
+
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
@@ -311,7 +288,8 @@ void Game::Tick(float deltaTime)
 
 	UpdateInput();
 
-	if (fixedTimer.elapsed() > fixedDeltaTime) {
+	if (fixedTimer.elapsed() > fixedDeltaTime)
+	{
 		fixedTimer.reset();
 		FixedUpdate(fixedDeltaTime);
 	}
@@ -319,8 +297,6 @@ void Game::Tick(float deltaTime)
 	//Update(deltaTime);
 
 	Render();
-
-
 }
 
 void Game::RemoveObservers()
@@ -403,6 +379,7 @@ void Game::AddPreEntity(Entity* entity)
 {
 	preCameraUpdate[indexPreEntities++] = entity;
 }
+
 void Game::AddAfterEntity(Entity* entity)
 {
 	afterCameraUpdate[indexAfterEntities++] = entity;
@@ -414,5 +391,3 @@ uint8_t Game::GetBitSpace(uint8_t& counts) const
 		cout << "no more space'\n";
 	return BitSpace * (counts++);
 }
-
-

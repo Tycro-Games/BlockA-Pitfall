@@ -9,12 +9,11 @@ enum EVENT
 	PLAYER_HIT,
 	PLAYER_DEAD
 };
+
 //source http://gameprogrammingpatterns.com/observer.html
 class Observer
 {
 public:
 	virtual ~Observer() = default;
-	virtual  void Notify(int context, EVENT ev) = 0;
-
+	virtual void Notify(int context, EVENT ev) = 0;
 };
-

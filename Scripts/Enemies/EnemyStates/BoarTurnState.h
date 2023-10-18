@@ -9,6 +9,7 @@ public:
 	void OnExit() override;
 	void SetHeading(float _heading);
 	void SetOriginalPos(const float2& _originalPos);
+
 private:
 	float heading = 0;
 	const float turnAmount = 10.0f;

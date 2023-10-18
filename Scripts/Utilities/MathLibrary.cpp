@@ -9,11 +9,11 @@ float2 MathLibrary::CubicBezierCurve(const float2& a, const float2& b, const flo
 		+ c * (-3 * t * t * t + 3 * t * t)
 		+ d * t * t * t;
 }
+
 //from https://math.stackexchange.com/questions/1360891/find-quadratic-bezier-curve-equation-based-on-its-control-points
 float2 MathLibrary::QuadraticBezierCurve(const float2& a, const float2& b, const float2& c, float t)
 {
 	return (1.0f - t) * (1.0f - t) * a + 2 * t * (1.0f - t) * b + (t * t) * c;
-
 }
 
 float MathLibrary::Sign(float value)
@@ -22,6 +22,51 @@ float MathLibrary::Sign(float value)
 		return 1.0f;
 
 	return -1.0f;
+}
+
+bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2 screenStartB)
+{
+	const int2 screenEndA = {screenStartA.x + a->width, screenStartA.y + a->height};
+	const int2 screenEndB = {screenStartB.x + b->width, screenStartB.y + b->height};
+
+	//find the pixels coordinates that might collide
+	int2 minIntersection;
+	int2 maxIntersection;
+	minIntersection.x = max(screenStartA.x, screenStartB.x);
+	minIntersection.y = max(screenStartA.y, screenStartB.y);
 
 
+	maxIntersection.x = min(screenEndA.x, screenEndB.x);
+	maxIntersection.y = min(screenEndA.y, screenEndB.y);
+
+	int addBX = abs(minIntersection.x - screenStartB.x);
+	int addBY = abs(minIntersection.y - screenStartB.y);
+
+	int addAX = abs(minIntersection.x - screenStartA.x);
+	int addAY = abs(minIntersection.y - screenStartA.y);
+
+	uint* pixelSA = a->pixels + addAX + addAY * a->width;
+	uint* pixelSB = b->pixels + addBX + addBY * b->width;
+
+	int w = maxIntersection.x - minIntersection.x;
+	int h = maxIntersection.y - minIntersection.y;
+	for (int i = 0; i < h; i++)
+	{
+		for (int j = 0; j < w; j++)
+		{
+			if (*pixelSA != 0 && *pixelSB != 0)
+			{
+				*pixelSA = RED;
+
+				return true;
+			}
+			//increment to the next pixel
+			pixelSA++;
+			pixelSB++;
+		}
+		//increment the next line
+		pixelSA += a->width;
+		pixelSB += b->width;
+	}
+	return false;
 }

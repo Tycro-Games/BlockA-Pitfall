@@ -13,7 +13,7 @@ void PlayerScore::Notify(int context, EVENT ev)
 	case ENEMY_DEAD:
 		AddPoints(static_cast<uint>(context));
 		break;
-		case COIN_COLLECTED:
+	case COIN_COLLECTED:
 		AddPoints(POINTS_FOR_COINS);
 		break;
 	default:
