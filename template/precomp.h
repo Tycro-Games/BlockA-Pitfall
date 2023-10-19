@@ -73,6 +73,7 @@ using namespace std;
 
 //components
 #include "Scripts/Utilities/CollisionChecker.h"
+#include "Scripts/Utilities/WinCondition.h"
 #include "Scripts/Utilities/Health.h"
 #include "Scripts/Map/Tilemap.h"
 #include "Scripts/Utilities/MathLibrary.h"
@@ -85,6 +86,7 @@ using namespace std;
 #include "Scripts/Utilities/Score.h"
 #include "Scripts/Utilities/PlayerScore.h"
 #include "Scripts/Utilities/CoinScore.h"
+#include "Scripts/Utilities/GameStateManager.h"
 //non tile
 #include "Scripts/Map/Non-Tileables/NonTileMap.h"
 #include "Scripts/Map/Non-Tileables/Rope.h"

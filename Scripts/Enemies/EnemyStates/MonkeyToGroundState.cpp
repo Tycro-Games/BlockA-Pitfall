@@ -3,7 +3,6 @@
 
 void MonkeyToGroundState::OnEnter()
 {
-	InitSeed(RandomUInt());
 }
 
 void MonkeyToGroundState::OnExit()

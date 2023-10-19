@@ -1,13 +1,13 @@
 #pragma once
 enum EVENT
 {
-	ENEMY_CLOSE,
 	COIN_COLLECTED,
 	ENEMY_DEAD,
 	ENEMY_HIT,
 	ZOOM,
 	PLAYER_HIT,
-	PLAYER_DEAD
+	PLAYER_DEAD,
+	ALL_ENEMIES_DEAD
 };
 
 //source http://gameprogrammingpatterns.com/observer.html

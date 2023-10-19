@@ -33,15 +33,15 @@ struct Input
 class Avatar : public Observer, public Entity
 {
 public:
-	Avatar();
+	Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
+	       Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
 	~Avatar() override;
 	//observer
 	void Notify(int context, EVENT ev) override;
 	//TODO add to a general sprite class
 	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
-	void Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-	          Array<Zipline>& _ziplines, Array<
-		          ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
+	void SetStartPosition();
+	void Init();
 	//entity
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
@@ -95,7 +95,6 @@ private:
 
 	//base for general sprite class and render
 	Sprite* sprite;
-	Sprite* spriteFlipped;
 	//components
 	Camera* cam;
 	PlayerState* currentState;

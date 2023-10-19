@@ -12,11 +12,14 @@ namespace Tmpl8
 	class Game : public TheApp
 	{
 	public:
-		~Game() override;
+		Game();
+		~Game() override = default;
 		void AddObservers();
 		void SetUpCamera();
 		void AddAllEntities();
+		void InitPositionEntities();
 		void InitEntities();
+		void InitTiles();
 		// game flow methods
 		void Init() override;
 		void RenderUI();
@@ -25,7 +28,6 @@ namespace Tmpl8
 		void UpdateInput();
 		void FixedUpdate(float deltaTime);
 		void Tick(float deltaTime) override;
-		void RemoveObservers();
 		void Shutdown() override;
 		// input handling
 		void MouseUp(int) override
@@ -49,8 +51,7 @@ namespace Tmpl8
 
 		void KeyUp(int) override;
 		void KeyDown(int) override;
-		void AddPreEntity(Entity* entity);
-		void AddAfterEntity(Entity* entity);
+		void AddEntity(Entity* entity);
 		uint8_t GetBitSpace(uint8_t& counts) const;
 		// data members
 		int2 mousePos;
@@ -73,7 +74,7 @@ namespace Tmpl8
 		Array<Boar> boars;
 		Array<Monkey> monkeys;
 
-		Avatar avatar;
+		Avatar* avatar = nullptr;
 		//UI
 		HealthBar healthBar;
 		PlayerScore score;
@@ -81,9 +82,13 @@ namespace Tmpl8
 		//Update and rendering
 
 		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER] = {};
-		Entity* afterCameraUpdate[MAX_ENTITIES_NUMBER] = {};
 		uint indexPreEntities = 0;
-		uint indexAfterEntities = 0;
+		//win condition
+		WinCondition winCondition;
+		GameStateManager gameState;
+		const int SMALL_PADDING = 100;
+		const int OVER_HALF_SCREEN_Y = 434;
+
 		//input
 		Input input;
 		const float2 STARTING_POSITION = {0, 0};

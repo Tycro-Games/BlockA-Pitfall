@@ -26,6 +26,7 @@ SpawnRocks::~SpawnRocks()
 	delete rockSprite;
 }
 
+
 void SpawnRocks::Update(float deltaTime)
 {
 	for (uint i = 0; i < activeRocks.GetCount(); i++)

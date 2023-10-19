@@ -6,6 +6,7 @@ public:
 	void Render(Surface* screen) override;
 	Box GetThrowCollider() const;
 	bool SeesPlayer() const;
+	Monkey();
 	~Monkey() override;
 	void Update(float deltaTime) override;
 	float GetDistanceToPlayer() override;

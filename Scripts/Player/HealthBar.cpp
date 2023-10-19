@@ -19,6 +19,12 @@ void HealthBar::Init(const char* spritePath)
 	UpdateUI();
 }
 
+void HealthBar::Init()
+{
+	hp->SetHp(1);
+	UpdateUI();
+}
+
 void HealthBar::Render(Surface* screen) const
 {
 	sprite->SetFrame(currentframe);

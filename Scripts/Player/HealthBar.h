@@ -9,6 +9,7 @@ class HealthBar : public Observer
 public:
 	~HealthBar() override;
 	void Init(const char* spritePath);
+	void Init();
 	void Render(Surface* screen) const;
 	void UpdateUI();
 	void Notify(int context, EVENT ev) override;

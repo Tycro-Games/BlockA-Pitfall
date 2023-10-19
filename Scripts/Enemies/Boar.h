@@ -8,6 +8,7 @@ public:
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
 	~Boar() override;
+	Boar();
 	bool AtackPlayer();
 	void Init(const float2& _a, const float2& _b, Avatar& _avatar);
 	const float2& GetDesiredPos() const;

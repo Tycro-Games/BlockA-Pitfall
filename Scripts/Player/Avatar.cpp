@@ -2,15 +2,22 @@
 #include "Avatar.h"
 
 
-Avatar::Avatar() : sprite(nullptr), spriteFlipped(nullptr),
-                   cam(nullptr),
-                   currentState(nullptr),
-                   velocity(),
-                   pos()
+Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
+               Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam) :
+	currentState(nullptr)
 {
+	cam = &_cam;
+
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
+
 	subject = new Subject();
+
+	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
+	col = new CollisionChecker(&pos, &_floors, &_ladders);
+	col->SetNonTiles(_ziplines, _ropes, _elasticPlants, _coins);
+
+	spawnRocks = new SpawnRocks(*col);
 }
 
 Avatar::~Avatar()
@@ -21,49 +28,47 @@ Avatar::~Avatar()
 	delete subject;
 
 	delete sprite;
-	delete spriteFlipped;
 	delete currentState;
 	delete spawnRocks;
 }
 
-void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
+//void Avatar::GetFlippedPath(const char* spritePath, char*& spriteFlippedPath)
+//{
+//	//answer from https://stackoverflow.com/questions/10279718/append-char-to-string-in-c
+//	const size_t length = strlen(spritePath);
+//	spriteFlippedPath = new char[length + 2];
+//	strcpy(spriteFlippedPath, spritePath);
+//	const char* c = strchr(spritePath, '.');
+//
+//	spriteFlippedPath[length - strlen(c)] = 'f';
+//	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
+//}
+
+void Avatar::SetStartPosition()
 {
-	//answer from https://stackoverflow.com/questions/10279718/append-char-to-string-in-c
-	const size_t length = strlen(spritePath);
-	spriteFlippedPath = new char[length + 2];
-	strcpy(spriteFlippedPath, spritePath);
-	const char* c = strchr(spritePath, '.');
-
-	spriteFlippedPath[length - strlen(c)] = 'f';
-	strcpy(spriteFlippedPath + length - strlen(c) + 1, c);
-}
-
-void Avatar::Init(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-                  Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam)
-{
-	cam = &_cam;
-
-	char* spriteFlippedPath;
-	GetFlippedPath(spritePath, spriteFlippedPath);
-
-	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
-	spriteFlipped = new Sprite(new Surface(spriteFlippedPath), NUMBER_FRAMES);
-	//setting to world position
 	pos.x = Camera::GetPosition().x + Camera::resX;
 	pos.y = Camera::GetPosition().y + Camera::resY;
+	velocity = 0;
+	flipX = -1;
+	canMove = true;
+	alreadyShot = false;
+}
+
+void Avatar::Init()
+{
+	//setting to world position
+	SetStartPosition();
+	delete currentState;
 	currentState = new FreemovingState();
 	currentState->OnEnter(*this);
-	col = new CollisionChecker(&pos, &_floors, &_ladders);
-	col->SetNonTiles(_ziplines, _ropes, _elasticPlants, _coins);
-	spawnRocks = new SpawnRocks(*col);
-	delete[] spriteFlippedPath;
+	canMove = true;
 }
 
 
 void Avatar::Render(Surface* screen)
 {
 	//convert to screen position
-	const float2 camPos = cam->GetPosition();
+	const float2 camPos = Camera::GetPosition();
 	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
 	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
 	int directionToLook;

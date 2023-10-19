@@ -66,15 +66,21 @@ void Camera::SetCameraScale(const float cameraScale)
 
 	//we need a new surface for rendering
 	delete preRender;
-	auto s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
+	Surface* s = new Surface(static_cast<int>(resX), static_cast<int>(resY));
 	//clean it so the sprite optimization still draws it
 	s->Clear(0xff000000);
 	preRender = new Sprite(s, 1);
 }
 
-void Camera::Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface)
+void Camera::SetPosition(const float2& screenPos)
 {
+	currentCameraScale = DEFAULT_CAMERA_SCALE;
+	desiredCameraScaling = currentCameraScale;
 	pos = screenPos;
+}
+
+void Camera::Init(Sprite* tilemapSurface, Sprite* parallaxSurface)
+{
 	tileMap = tilemapSurface;
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	desiredCameraScaling = currentCameraScale;
@@ -103,7 +109,7 @@ void Camera::RenderTilemaps() const
 	              static_cast<int>(screenPos.x), static_cast<int>(screenPos.y));
 }
 
-void Camera::UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight)
+void Camera::UpdatePosition(float deltaTime, const float2& playerPos, float leftOrRight) const
 {
 	//apply camera scaling to the offset
 	const float2 cameraOffset = playerPos -
@@ -165,14 +171,14 @@ bool Camera::OnScreen(const Box& _a)
 	return AABB::BoxCollides(_a, b);
 }
 
-bool Camera::OnScreen(float2 worldPos, const Box& _a)
+bool Camera::OnScreen(const float2& worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
 	const auto b = Box{pos, pos + float2{resX, resY}};
 	return AABB::BoxCollides(a, b);
 }
 
-bool Camera::SmallerThanScreenCompleteCollision(float2 worldPos, const Box& _a)
+bool Camera::SmallerThanScreenCompleteCollision(const float2& worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
 

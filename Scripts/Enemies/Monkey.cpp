@@ -58,6 +58,27 @@ bool Monkey::SeesPlayer() const
 	return false;
 }
 
+Monkey::Monkey()
+{
+	hitTimer = new Timer();
+	throwTimer = new Timer();
+	ballTimer = new Timer();
+	monkeySprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
+
+	Surface* surf = new Surface(RESIZE, RESIZE);
+	surf->Clear(0xf00);
+	preRendered = new Sprite(surf, 1);
+	surf->Clear(0);
+
+	Surface* surfR = new Surface(RESIZE, RESIZE);
+	surfR->Clear(0xf00);
+	monkeySurface = new Sprite(surfR, 1);
+	surfR->Clear(0);
+
+	monkeySprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
+	surface = monkeySurface->GetSurface();
+}
+
 Monkey::~Monkey()
 {
 	delete ballTimer;
@@ -66,7 +87,6 @@ Monkey::~Monkey()
 	delete hitTimer;
 	delete colCheck;
 	delete currentState;
-	delete subject;
 
 	delete monkeySprite;
 	delete preRendered;
@@ -108,34 +128,24 @@ float Monkey::GetDistanceToPlayer()
 
 void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& p)
 {
+	SetActive(true);
 	position = pos;
 	avatar = &p;
 	col = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 	SetDamage(DAMAGE);
-	subject = new Subject();
-	hitTimer = new Timer();
-	throwTimer = new Timer();
-	ballTimer = new Timer();
+
+	delete currentState;
+	currentState = new MonkeyToGroundState();
+
 	SetHP(MONKEY_HP);
 	SetPoints(MONKEY_POINTS);
 	//collision checker is also used in avatar
+	noBall = false;
+
+	dead = false;
+	delete colCheck;
 	colCheck = new CollisionChecker(&position, floors, ladders);
 	throwCollider = Box{minThrow, maxhrow};
-	currentState = new MonkeyToGroundState();
-	monkeySprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
-
-	Surface* surf = new Surface(RESIZE, RESIZE);
-	surf->Clear(0xf00);
-	preRendered = new Sprite(surf, 1);
-	surf->Clear(0);
-
-	Surface* surfR = new Surface(RESIZE, RESIZE);
-	surfR->Clear(0xf00);
-	monkeySurface = new Sprite(surfR, 1);
-	surfR->Clear(0);
-
-	monkeySprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
-	surface = monkeySurface->GetSurface();
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)

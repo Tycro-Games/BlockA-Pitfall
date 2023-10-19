@@ -5,7 +5,6 @@ void Spike::Init(const float2& _position, Avatar& _avatar)
 {
 	position = _position;
 	avatar = &_avatar;
-	subject = new Subject();
 	col = Box{position - DISTANCE_TO_PLAYER, position + DISTANCE_TO_PLAYER};
 	SetDamage(DAMAGE);
 }
@@ -23,7 +22,6 @@ void Spike::Update(float deltaTime)
 
 Spike::~Spike()
 {
-	delete subject;
 }
 
 

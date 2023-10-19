@@ -5,6 +5,7 @@
 MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _startPos, const float2& _midPos,
                        const float2& _finalPos, float _speed)
 {
+	delete subject;
 	t = 0;
 	subject = s;
 	avatar = p;
@@ -20,7 +21,9 @@ MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _st
 }
 
 MonkeyBall::~MonkeyBall()
-= default;
+{
+	subject = nullptr;
+}
 
 
 //TODO add on screen

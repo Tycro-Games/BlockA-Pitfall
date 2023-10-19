@@ -73,6 +73,7 @@ void Rope::Init(float2 _fixedPoint)
 		timeOffset = 0;
 
 	points[0] = _fixedPoint;
+	totalLen = 0;
 	for (int i = 0; i < 3; i++)
 		totalLen += len[i];
 	coll = Box{-float2{totalLen * lenMultiplier, 0}, float2{totalLen * lenMultiplier, totalLen * lenMultiplier}};

@@ -8,6 +8,11 @@ Coin::~Coin()
 	sprite = nullptr;
 }
 
+Coin::Coin()
+{
+	subject = new Subject();
+}
+
 void Coin::Render(Surface* screen)
 {
 	if (!onScreen || !IsActive())
@@ -28,7 +33,7 @@ void Coin::Update(float deltaTime)
 
 void Coin::Init(const float2& pos)
 {
-	subject = new Subject();
+	SetActive(true);
 	coll = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 	position = pos;
 	if (sprite == nullptr)

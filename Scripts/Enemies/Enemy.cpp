@@ -5,10 +5,13 @@
 Enemy::~Enemy()
 {
 	delete hp;
+	delete subject;
 }
 
 Enemy::Enemy()
 {
+	SetActive(true);
+	subject = new Subject();
 	hp = new Health();
 }
 
@@ -43,8 +46,9 @@ void Enemy::Dead()
 {
 	if (hp->IsDead())
 	{
-		subject->Notify(points, ENEMY_DEAD);
 		SetActive(false);
+
+		subject->Notify(points, ENEMY_DEAD);
 	}
 }
 

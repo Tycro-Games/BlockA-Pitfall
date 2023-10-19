@@ -29,7 +29,11 @@ Boar::~Boar()
 {
 	delete hitRecently;
 	delete currentState;
-	delete subject;
+}
+
+Boar::Boar()
+{
+	hitRecently = new Timer();
 }
 
 bool Boar::AtackPlayer()
@@ -39,18 +43,20 @@ bool Boar::AtackPlayer()
 
 void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 {
-	subject = new Subject();
-	hitRecently = new Timer();
+	SetActive(true);
+	delete currentState;
+	currentState = new BoarPatrolState();
+	currentState->OnEnter();
+
 	avatar = &_avatar;
 	pointA = _a;
 	pointB = _b;
-	currentState = new BoarPatrolState();
-	SetHP(HP);
 
 	position = pointA;
 	desiredPos = pointB;
-	SetPoints(BOAR_POINTS);
 	col = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
+	SetHP(HP);
+	SetPoints(BOAR_POINTS);
 	SetDamage(DAMAGE);
 }
 

@@ -5,6 +5,7 @@ class Coin : public Entity
 {
 public:
 	~Coin() override;
+	Coin();
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
 	void Init(const float2& pos);

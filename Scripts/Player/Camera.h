@@ -10,22 +10,23 @@ public:
 	Camera();
 	~Camera() override;
 	void SetInputScaling();
-	void Init(float2 screenPos, Sprite* tilemapSurface, Sprite* parallaxSurface);
+	void Init(Sprite* tilemapSurface, Sprite* parallaxSurface);
 	//still behaves like an entity using render for scaling
 	void Render(Surface* screen) override;
 	void CleanPreRenderSurface() const;
 	void RenderTilemaps() const;
-	void UpdatePosition(float deltaTime, float2 playerPos, float leftOrRight);
+	void UpdatePosition(float deltaTime, const float2& playerPos, float leftOrRight) const;
 	static float2 GetPosition();
 	void Update(float deltaTime) override;
 	static bool OnScreen(float2 worldPos);
 	static bool OnScreen(const Box& _a);
-	static bool OnScreen(float2 screenPos, const Box& a);
-	static bool SmallerThanScreenCompleteCollision(float2 worldPos, const Box& _a);
+	static bool OnScreen(const float2& screenPos, const Box& a);
+	static bool SmallerThanScreenCompleteCollision(const float2& worldPos, const Box& _a);
 	Surface* pGetPreRender();
 	inline static float resX{};
 	inline static float resY{};
 	void Notify(int context, EVENT ev) override;
+	void SetPosition(const float2& screenPos);
 
 private:
 	void SetCameraScale(float cameraScale);

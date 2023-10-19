@@ -7,12 +7,24 @@
 #include "precomp.h"
 #include "game.h"
 
-
-Game::~Game()
+//only once
+Game::Game()
 {
-	delete enviroment;
-	delete parallaxSprite;
+	InitTiles();
+	InitEntities();
+	AddAllEntities();
+	SetUpCamera();
+
+	healthBar.Init("assets/heart_animated_1.png");
+	avatar = new Avatar("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png",
+	                    tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS],
+	                    ropes, ziplines, elasticPlants, coins, cam);
+	avatar->Init();
+	AddEntity(avatar);
+
+	AddObservers();
 }
+
 
 void Game::AddObservers()
 {
@@ -22,28 +34,33 @@ void Game::AddObservers()
 	{
 		boars[i].GetSubject()->AddObserver(healthBar);
 		boars[i].GetSubject()->AddObserver(score);
+		boars[i].GetSubject()->AddObserver(winCondition);
 	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
 		monkeys[i].GetSubject()->AddObserver(healthBar);
 		monkeys[i].GetSubject()->AddObserver(score);
+		monkeys[i].GetSubject()->AddObserver(winCondition);
 	}
+
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
 		coins[i].GetSubject()->AddObserver(coinScore);
 		coins[i].GetSubject()->AddObserver(score);
 	}
-	avatar.GetSubject()->AddObserver(cam);
+	winCondition.GetSubject()->AddObserver(gameState);
+	avatar->GetSubject()->AddObserver(cam);
 
-	healthBar.GetSubject()->AddObserver(avatar);
+	healthBar.GetSubject()->AddObserver(*avatar);
+	healthBar.GetSubject()->AddObserver(gameState);
 }
 
 void Game::SetUpCamera()
 {
 	//it gets owned by the sprite so we don't have to delete it
-	auto surf = new Surface(tileMaps[Tilemap::FLOOR].GetWidth(), tileMaps[Tilemap::FLOOR].GetHeight());
+	Surface* surf = new Surface(tileMaps[Tilemap::FLOOR].GetWidth(), tileMaps[Tilemap::FLOOR].GetHeight());
 
-	auto par = new Surface(tileMaps[Tilemap::PARALLAX].GetWidth(), tileMaps[Tilemap::PARALLAX].GetHeight());
+	Surface* par = new Surface(tileMaps[Tilemap::PARALLAX].GetWidth(), tileMaps[Tilemap::PARALLAX].GetHeight());
 	par->Clear(0x000001);
 	surf->Clear(0xff000000);
 	enviroment = new Sprite(surf, 1);
@@ -58,41 +75,79 @@ void Game::SetUpCamera()
 	tileMaps[Tilemap::FLOOR].DebugBox(enviroment->GetSurface());
 #endif
 
-	cam.Init(STARTING_POSITION, enviroment, parallaxSprite);
+	cam.Init(enviroment, parallaxSprite);
+	cam.SetPosition(STARTING_POSITION);
 }
 
 void Game::AddAllEntities()
 {
 	for (uint i = 0; i < ziplines.GetCount(); i++)
 	{
-		AddPreEntity(&ziplines[i]);
+		AddEntity(&ziplines[i]);
 	}
 	for (uint i = 0; i < ropes.GetCount(); i++)
 	{
-		AddPreEntity(&ropes[i]);
+		AddEntity(&ropes[i]);
 	}
 	for (uint i = 0; i < elasticPlants.GetCount(); i++)
 	{
-		AddPreEntity(&elasticPlants[i]);
+		AddEntity(&elasticPlants[i]);
 	}
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
-		AddPreEntity(&coins[i]);
+		AddEntity(&coins[i]);
 	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
-		AddPreEntity(&spikes[i]);
+		AddEntity(&spikes[i]);
 	}
 	for (uint i = 0; i < boars.GetCount(); i++)
 	{
-		AddPreEntity(&boars[i]);
+		AddEntity(&boars[i]);
 	}
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
-		AddPreEntity(&monkeys[i]);
+		AddEntity(&monkeys[i]);
 	}
+}
 
-	AddAfterEntity(&avatar);
+void Game::InitPositionEntities()
+{
+	for (uint i = 0; i < ropes.GetCount(); i++)
+	{
+		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
+	}
+	uint zIndex = 0;
+	for (uint i = 0; i < ziplines.GetCount() * 2; i += 2)
+	{
+		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
+		                        nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
+	}
+	for (uint i = 0; i < elasticPlants.GetCount(); i++)
+	{
+		elasticPlants[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
+	}
+	for (uint i = 0; i < coins.GetCount(); i++)
+	{
+		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
+	}
+	for (uint i = 0; i < spikes.GetCount(); i++)
+	{
+		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), *avatar);
+	}
+	for (uint i = 0; i < monkeys.GetCount(); i++)
+	{
+		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
+		                &tileMaps[Tilemap::LADDERS], *avatar);
+	}
+	zIndex = 0;
+
+	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
+	{
+		boars[zIndex].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
+		                   nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
+		                   , *avatar);
+	}
 }
 
 //TODO refactor so it is more easy to use
@@ -141,47 +196,21 @@ void Game::InitEntities()
 	count = (countsEnemies & 0b11111111 << shift) >> shift;
 	monkeys.Init(count);
 
-	for (uint i = 0; i < ropes.GetCount(); i++)
-	{
-		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
-	}
-	uint zIndex = 0;
-	for (uint i = 0; i < ziplines.GetCount() * 2; i += 2)
-	{
-		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
-		                        nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
-	}
-	for (uint i = 0; i < elasticPlants.GetCount(); i++)
-	{
-		elasticPlants[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
-	}
-	for (uint i = 0; i < coins.GetCount(); i++)
-	{
-		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
-	}
-	for (uint i = 0; i < spikes.GetCount(); i++)
-	{
-		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), avatar);
-	}
+
 	for (uint i = 0; i < monkeys.GetCount(); i++)
 	{
-		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
-		                &tileMaps[Tilemap::LADDERS], avatar);
+		/*	monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
+				&tileMaps[Tilemap::LADDERS], avatar);*/
+		winCondition.AddEnemy(&monkeys[i]);
 	}
-	zIndex = 0;
-
+	uint zIndex = 0;
 	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
 	{
-		boars[zIndex++].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
-		                     nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
-		                     , avatar);
+		winCondition.AddEnemy(&boars[zIndex++]);
 	}
 }
 
-// -----------------------------------------------------------
-// Initialize the application
-// -----------------------------------------------------------
-void Game::Init()
+void Game::InitTiles()
 {
 	tileMaps[Tilemap::PARALLAX].Init("assets/Pitfall_tilesheet.png", "assets/Parallax.tmx");
 	tileMaps[Tilemap::BG].Init("assets/Basic Tilemap.png", "assets/Tilemap.tmx");
@@ -197,19 +226,20 @@ void Game::Init()
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
 	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);
+}
 
-	InitEntities();
-
-	healthBar.Init("assets/heart_animated_1.png");
-
-	SetUpCamera();
-
-	avatar.Init("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png", tileMaps[Tilemap::FLOOR],
-	            tileMaps[Tilemap::LADDERS], ropes, ziplines, elasticPlants, coins, cam);
-
-
-	AddAllEntities();
-	AddObservers();
+// -----------------------------------------------------------
+// Initialize the application
+// -----------------------------------------------------------
+void Game::Init()
+{
+	InitPositionEntities();
+	score.SetPoints(0);
+	coinScore.SetPoints(0);
+	healthBar.Init();
+	//TODO SAVE CHECKPOINT
+	cam.SetPosition(STARTING_POSITION);
+	avatar->Init();
 }
 
 void Game::RenderUI()
@@ -222,56 +252,82 @@ void Game::RenderUI()
 
 void Game::Render()
 {
-	//clean the surfaces
-	screen->Clear(0);
-	cam.CleanPreRenderSurface();
+	switch (gameState.GetState())
+	{
+	case GameStateManager::PLAYING:
+		//clean the surfaces
+		screen->Clear(0);
+		cam.CleanPreRenderSurface();
 
 	//first to call
-	cam.RenderTilemaps();
+		cam.RenderTilemaps();
 
-	for (uint i = 0; i < indexPreEntities; i++)
-	{
-		if (preCameraUpdate[i]->IsActive())
-			preCameraUpdate[i]->Render(cam.pGetPreRender());
-	}
-	for (uint i = 0; i < indexAfterEntities; i++)
-	{
-		if (afterCameraUpdate[i]->IsActive())
-			afterCameraUpdate[i]->Render(cam.pGetPreRender());
-	}
+		for (uint i = 0; i < indexPreEntities; i++)
+		{
+			if (preCameraUpdate[i]->IsActive())
+				preCameraUpdate[i]->Render(cam.pGetPreRender());
+		}
+
 	//screen->Print();
 
-	cam.Render(screen);
+		cam.Render(screen);
 
-	RenderUI();
+		RenderUI();
+		break;
+	case GameStateManager::LOSE:
+		Init();
+		gameState.SetState(GameStateManager::PLAYING);
+
+		break;
+	case GameStateManager::WIN:
+		screen->Clear(0);
+		screen->Print("You killed all the enemies, ", SMALL_PADDING, SMALL_PADDING, RED);
+		screen->Print("so you win!", SMALL_PADDING, HALF_SCRHEIGHT, RED);
+		screen->Print("Press escape to quit.", SMALL_PADDING, HALF_SCRHEIGHT + SMALL_PADDING, RED);
+		break;
+	case GameStateManager::START_MENU:
+		screen->Clear(0);
+		screen->Print("Press any key to start the game!", SMALL_PADDING, HALF_SCRHEIGHT, WHITE);
+		screen->Print("except escape...", SMALL_PADDING, OVER_HALF_SCREEN_Y, WHITE);
+		break;
+	default: ;
+	}
 }
 
 
 void Game::UpdateInput()
 {
-	avatar.SetInput(input.arrowKeys);
+	avatar->SetInput(input.arrowKeys);
 
-	avatar.SetJumpInput(input.jumping);
-	avatar.SetShootInput(input.shooting);
+	avatar->SetJumpInput(input.jumping);
+	avatar->SetShootInput(input.shooting);
 }
 
 
 void Game::FixedUpdate(float deltaTime)
 {
-	for (uint i = 0; i < indexPreEntities; i++)
+	switch (gameState.GetState())
 	{
-		if (preCameraUpdate[i]->IsActive())
+	case GameStateManager::PLAYING:
 
-			preCameraUpdate[i]->Update(deltaTime);
-	}
+		for (uint i = 0; i < indexPreEntities; i++)
+		{
+			if (preCameraUpdate[i]->IsActive())
+
+				preCameraUpdate[i]->Update(deltaTime);
+		}
 	//camera position also gets updated
-	cam.Update(deltaTime);
+		cam.Update(deltaTime);
 
-	for (uint i = 0; i < indexAfterEntities; i++)
-	{
-		if (afterCameraUpdate[i]->IsActive())
 
-			afterCameraUpdate[i]->Update(deltaTime);
+		break;
+	case GameStateManager::LOSE:
+		break;
+	case GameStateManager::WIN:
+		break;
+	case GameStateManager::START_MENU:
+		break;
+	default: break;
 	}
 }
 
@@ -299,21 +355,12 @@ void Game::Tick(float deltaTime)
 	Render();
 }
 
-void Game::RemoveObservers()
-{
-	for (uint i = 0; i < spikes.GetCount(); i++)
-		spikes[i].GetSubject()->RemoveObserver(healthBar);
-	for (uint i = 0; i < boars.GetCount() / 2; i++)
-		boars[i].GetSubject()->RemoveObserver(healthBar);
-	for (uint i = 0; i < monkeys.GetCount(); i++)
-		monkeys[i].GetSubject()->RemoveObserver(healthBar);
-	avatar.GetSubject()->RemoveObserver(cam);
-}
-
 void Game::Shutdown()
 {
 	//remove observers
-	RemoveObservers();
+	delete enviroment;
+	delete parallaxSprite;
+	delete avatar;
 }
 
 //this is called automatically now
@@ -351,6 +398,12 @@ void Game::KeyUp(int key)
 
 void Game::KeyDown(int key)
 {
+	//is we are in the start menu we can start the game if the player presses something
+	if (gameState.GetState() == GameStateManager::START_MENU)
+	{
+		gameState.SetState(GameStateManager::PLAYING);
+		return;
+	}
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:
@@ -375,15 +428,11 @@ void Game::KeyDown(int key)
 	}
 }
 
-void Game::AddPreEntity(Entity* entity)
+void Game::AddEntity(Entity* entity)
 {
 	preCameraUpdate[indexPreEntities++] = entity;
 }
 
-void Game::AddAfterEntity(Entity* entity)
-{
-	afterCameraUpdate[indexAfterEntities++] = entity;
-}
 
 uint8_t Game::GetBitSpace(uint8_t& counts) const
 {

@@ -8,7 +8,10 @@
 // default screen resolution
 //constexpr https://en.cppreference.com/w/cpp/language/constexpr
 constexpr int SCRWIDTH = 1152;
+constexpr int HALF_SCRWIDTH = SCRWIDTH / 2;
 constexpr int SCRHEIGHT = 648;
+constexpr int HALF_SCRHEIGHT = SCRHEIGHT / 2;
+
 constexpr double MS_PER_UPDATE = 1.0 / 65;
 constexpr double fixedDeltaTime = 0.01f;
 constexpr uint RED = 0xff0000;
