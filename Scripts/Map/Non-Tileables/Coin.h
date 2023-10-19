@@ -15,6 +15,7 @@ public:
 	Subject* GetSubject() const;
 
 private:
+	inline static Audio::Sound coinSound{"assets//Audio/Pickup_Coin3.wav"};
 	Subject* subject = nullptr;
 	float2 position = 0;
 	//we only need one coin sprite for all of them

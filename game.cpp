@@ -6,10 +6,11 @@
 
 #include "precomp.h"
 #include "game.h"
-
 //only once
 Game::Game()
 {
+	music.setLooping(true);
+	music.setStartTime(0);
 	InitTiles();
 	InitEntities();
 	AddAllEntities();
@@ -240,6 +241,7 @@ void Game::Init()
 	//TODO SAVE CHECKPOINT
 	cam.SetPosition(STARTING_POSITION);
 	avatar->Init();
+	music.play();
 }
 
 void Game::RenderUI()
@@ -275,6 +277,7 @@ void Game::Render()
 		RenderUI();
 		break;
 	case GameStateManager::LOSE:
+		music.replay();
 		Init();
 		gameState.SetState(GameStateManager::PLAYING);
 
@@ -322,6 +325,7 @@ void Game::FixedUpdate(float deltaTime)
 
 		break;
 	case GameStateManager::LOSE:
+		music.stop();
 		break;
 	case GameStateManager::WIN:
 		break;

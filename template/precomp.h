@@ -59,6 +59,8 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 //my header
+#include <Audio/Sound.hpp>
+
 #include "Scripts/Utilities/Array.h"
 #include "Scripts/Utilities/AABB.h"
 

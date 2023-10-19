@@ -54,6 +54,8 @@ const float2& Coin::GetPosition() const
 
 void Coin::Collect()
 {
+	//if (!coinSound.isPlaying())
+	coinSound.play();
 	SetActive(false);
 	subject->Notify(points, COIN_COLLECTED);
 }

@@ -88,7 +88,8 @@ namespace Tmpl8
 		GameStateManager gameState;
 		const int SMALL_PADDING = 100;
 		const int OVER_HALF_SCREEN_Y = 434;
-
+		//music
+		Audio::Sound music{"assets/Audio/Fur Elise (by Beethoven) - Beethoven.mp3"};
 		//input
 		Input input;
 		const float2 STARTING_POSITION = {0, 0};

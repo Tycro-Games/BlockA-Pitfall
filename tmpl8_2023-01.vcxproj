@@ -47,14 +47,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib;Audio_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <OutputFile>$(TargetPath)</OutputFile>
@@ -64,7 +64,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>lib/glfw/lib-vc2019;lib/zlib;lib/OpenCL/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>lib/glfw/lib-vc2019;lib/zlib;lib/OpenCL/lib;$(SolutionDir)lib\Audio\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
