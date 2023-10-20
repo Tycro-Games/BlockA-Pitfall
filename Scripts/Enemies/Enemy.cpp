@@ -69,19 +69,23 @@ void Enemy::DetectHit()
 
 		float2 rockPos = rocks[i].GetPosition();
 		Box rockBox = rocks[i].GetBoxCollider();
-		//AABB check
-		if (!AABB::BoxCollides(AABB::At(rockPos, rockBox), AABB::At(position, col)))
-			continue;
 
-		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
+		//AABB check
+
 		Surface* enemySurface = GetSurface();
+		//there are enemies with no sprites
 		if (enemySurface == nullptr)
 		{
+			if (!AABB::BoxCollides(AABB::At(rockPos, rockBox), AABB::At(position, col)))
+				continue;
 			rocks[i].SetActive(false);
 
 			HitByPlayer(10);
 			continue;
 		}
+		//enemies with pixel perfect collisions
+		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
+
 
 		float2 camPos = Camera::GetPosition();
 		const float2 rP = rockPos - camPos + rockBox.min;

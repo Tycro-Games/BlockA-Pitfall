@@ -29,6 +29,12 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 	const int2 screenEndA = {screenStartA.x + a->width, screenStartA.y + a->height};
 	const int2 screenEndB = {screenStartB.x + b->width, screenStartB.y + b->height};
 
+	//early AABB test
+	const Box aBounding = Box{screenStartA, screenEndA};
+	const Box bBounding = Box{screenStartB, screenEndB};
+	if (!AABB::BoxCollides(aBounding, bBounding))
+		return false;
+
 	//find the pixels coordinates that might collide
 	int2 minIntersection;
 	int2 maxIntersection;
@@ -52,30 +58,14 @@ bool MathLibrary::PixelCollision(Surface* a, Surface* b, int2 screenStartA, int2
 
 	const int w = abs(maxIntersection.x - minIntersection.x);
 	const int h = abs(maxIntersection.y - minIntersection.y);
-	//a->ClearOnlyNonTransparent(BLUE);
-	//b->ClearOnlyNonTransparent(GREEN);
-	//bool collide = false;
-	/*for (int i = 0; i < h; i++)
-	{
-		for (int j = 0; j < w; j++)
-		{
-			uint* cB = &pixelSB[j + i * b->width];
-
-			*cB = YELLOW;
-		}
-	}
-	return true;*/
 	for (int i = 0; i < h; i++)
 	{
 		for (int j = 0; j < w; j++)
 		{
-			uint* cA = &pixelSA[j + i * a->width];
-			uint* cB = &pixelSB[j + i * b->width];
-			//*cA = YELLOW;
+			const uint* cA = &pixelSA[j + i * a->width];
+			const uint* cB = &pixelSB[j + i * b->width];
 			if ((*cA & 0x00ffffff) != 0 && (*cB & 0x00ffffff) != 0)
 			{
-				/*cB = RED;
-				collide = true;*/
 				return true;
 			}
 		}

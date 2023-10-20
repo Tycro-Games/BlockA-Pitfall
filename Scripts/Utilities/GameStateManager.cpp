@@ -4,6 +4,7 @@
 void GameStateManager::Notify(int context, EVENT ev)
 {
 	context;
+	//receives events from the game entities
 	switch (ev)
 	{
 	case ALL_ENEMIES_DEAD:

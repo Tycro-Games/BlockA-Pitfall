@@ -89,7 +89,7 @@ namespace Tmpl8
 		const int SMALL_PADDING = 100;
 		const int OVER_HALF_SCREEN_Y = 434;
 		//music
-		Audio::Sound music{"assets/Audio/Fur Elise (by Beethoven) - Beethoven.mp3"};
+		Audio::Sound music{"assets/Audio/Fur Elise (by Beethoven) - Beethoven.mp3", Audio::Sound::Type::Stream};
 		//input
 		Input input;
 		const float2 STARTING_POSITION = {0, 0};
