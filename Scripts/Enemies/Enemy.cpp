@@ -46,6 +46,7 @@ void Enemy::Dead()
 {
 	if (hp->IsDead())
 	{
+		dead = true;
 		SetActive(false);
 
 		subject->Notify(points, ENEMY_DEAD);
@@ -60,6 +61,8 @@ void Enemy::HitByPlayer(int _damage)
 
 void Enemy::DetectHit()
 {
+	if (dead)
+		return;
 	Array<Rock>& rocks = avatar->GetRocks();
 	for (uint i = 0; i < rocks.GetCount(); i++)
 	{

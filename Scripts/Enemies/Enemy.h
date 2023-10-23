@@ -35,6 +35,7 @@ protected:
 	Subject* subject = nullptr;
 	Avatar* avatar = nullptr;
 	bool onScreen = false;
+	bool dead = false;
 
 	int x1 = 0;
 	int x2 = 0;

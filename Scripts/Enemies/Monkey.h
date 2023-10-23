@@ -44,5 +44,4 @@ private:
 	const int MONKEY_POINTS = 100;
 	const int MONKEY_HP = 20;
 	bool noBall = false;
-	bool dead = false;
 };
