@@ -124,22 +124,31 @@ Surface8::Surface8(uint8_t w, uint8_t h)
 {
 	width = w;
 	height = h;
-	pixels = new uint8_t[w * h];
-	pal = new unsigned int[256];
+	indexMap = new uint8_t[w * h];
+	pal = new uint[256];
 }
 
-Surface8::Surface8(const char* csvPath)
+
+Surface8::Surface8(const char* csvPath, Surface* _pal)
 {
-	pal = new unsigned int[256];
+	pal = new uint[_pal->width];
+	uint* p = _pal->pixels;
+	palCount = _pal->width;
+	for (int i = 0; i < _pal->width; i++)
+	{
+		pal[i] = *p;
+		p++;
+	}
 
+	//parse csv to index map
 	//copy into a c style string
-	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
-	strcpy(tilemapRaw, TextFileRead(csvPath).c_str());
+	char* tilemapString = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
+	strcpy(tilemapString, TextFileRead(csvPath).c_str());
 
-	Tilemap::ExtractWidthHeight(tilemapRaw, width, height);
-	pixels = new uint8_t[width * height];
+	Tilemap::ExtractWidthHeight(tilemapString, width, height);
+	indexMap = new uint8_t[width * height];
 
-	char* startOfCsv = strstr(tilemapRaw, "csv\">\n") + strlen("csv\">\n");
+	char* startOfCsv = strstr(tilemapString, "csv\">\n") + strlen("csv\">\n");
 	const char* pch = strtok(startOfCsv, ",");
 
 
@@ -148,16 +157,35 @@ Surface8::Surface8(const char* csvPath)
 	{
 		uint numberForm = 0;
 		Tilemap::ConvertCharToInt(pch, numberForm);
-		pixels[index++] = static_cast<uint8_t>(numberForm);
+		indexMap[index++] = static_cast<uint8_t>(numberForm) - 1; //starts from 0
 		pch = strtok(nullptr, ",\n");
 	}
 
-	delete[] tilemapRaw;
+	delete[] tilemapString;
+	delete _pal;
 }
+
+void Surface8::ToSurface(Surface* d, int mask) const
+{
+	uint* dst = d->pixels;
+	for (int i = 0; i < width * height; i++)
+	{
+		const uint8_t index = (indexMap[i] + palOffset) % palCount;
+		if (*dst & mask)
+			*dst = pal[index];
+		dst++;
+	}
+}
+
+void Surface8::Cycle()
+{
+	palOffset += 5; //when it reachers 256 is going to overflow to 1
+}
+
 
 Surface8::~Surface8()
 {
-	delete[] pixels;
+	delete[] indexMap;
 	delete[] pal;
 }
 
@@ -179,7 +207,7 @@ void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, co
 		uint* letterColumn = letterStart;
 		//this variable looks like o::o:, it is always 5 characters per to be drawn per line of the character
 		//it is always a combination of : and o
-		//o means to write pixels
+		//o means to write indexMap
 		//: means to skip space
 		const char* u = reinterpret_cast<const char*>(font[pos]);
 

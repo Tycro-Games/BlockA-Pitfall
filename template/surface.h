@@ -85,14 +85,17 @@ namespace Tmpl8
 	{
 	public:
 		Surface8(uint8_t w, uint8_t h);
-		Surface8(const char* csvPath);
-
+		Surface8(const char* csvPath, Surface* _pal);
+		void ToSurface(Surface* d, int mask) const;
+		void Cycle();
 		~Surface8();
 
 
-		uint8_t* pixels;
+		uint8_t* indexMap;
 		uint* pal;
 		uint width = 0;
 		uint height = 0;
+		uint8_t palCount = 0;
+		uint8_t palOffset = 0;
 	};
 }
