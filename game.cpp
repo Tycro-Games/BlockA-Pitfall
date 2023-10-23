@@ -392,6 +392,15 @@ void Game::Shutdown()
 
 void Game::KeyUp(int key)
 {
+	if (gameState.GetState() == GameStateManager::START_MENU)
+	{
+		input.arrowKeys = 0;
+		input.shooting = false;
+		input.smallJump = false;
+		input.jumping = false;
+		gameState.SetState(GameStateManager::PLAYING);
+		return;
+	}
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:
@@ -420,11 +429,7 @@ void Game::KeyUp(int key)
 void Game::KeyDown(int key)
 {
 	//is we are in the start menu we can start the game if the player presses something
-	if (gameState.GetState() == GameStateManager::START_MENU)
-	{
-		gameState.SetState(GameStateManager::PLAYING);
-		return;
-	}
+
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:

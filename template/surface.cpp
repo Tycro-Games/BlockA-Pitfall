@@ -133,7 +133,7 @@ Surface8::Surface8(const char* csvPath, Surface* _pal)
 {
 	pal = new uint[_pal->width];
 	uint* p = _pal->pixels;
-	palCount = _pal->width;
+	palCount = static_cast<uint8_t>(_pal->width);
 	for (int i = 0; i < _pal->width; i++)
 	{
 		pal[i] = *p;
@@ -168,7 +168,7 @@ Surface8::Surface8(const char* csvPath, Surface* _pal)
 void Surface8::ToSurface(Surface* d, int mask) const
 {
 	uint* dst = d->pixels;
-	for (int i = 0; i < width * height; i++)
+	for (uint i = 0; i < width * height; i++)
 	{
 		const uint8_t index = (indexMap[i] + palOffset) % palCount;
 		if (*dst & mask)
