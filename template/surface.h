@@ -84,14 +84,15 @@ namespace Tmpl8
 	class Surface8
 	{
 	public:
-		Surface8(int w, int h)
-		{
-			pixels = new unsigned char[w * h];
-			pal = new unsigned int[256];
-		}
+		Surface8(uint8_t w, uint8_t h);
+		Surface8(const char* csvPath);
 
-		unsigned char* pixels;
-		unsigned int* pal;
-		int width, height;
+		~Surface8();
+
+
+		uint8_t* pixels;
+		uint* pal;
+		uint width = 0;
+		uint height = 0;
 	};
 }

@@ -25,6 +25,7 @@ Game::Game()
 
 	AddObservers();
 	//init the text
+	menuTextAnimation = new Surface8("assets/TextColorCycling.tmx");
 	menuText = new Surface(960, 60);
 	menuText->Clear(0);
 	menuText->Print("Press any key to start the game!", 0, 0, WHITE);
@@ -369,10 +370,13 @@ void Game::Tick(float deltaTime)
 void Game::Shutdown()
 {
 	//remove observers
+
 	delete enviroment;
 	delete parallaxSprite;
 	delete avatar;
+
 	delete menuText;
+	delete menuTextAnimation;
 }
 
 //this is called automatically now

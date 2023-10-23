@@ -31,9 +31,6 @@ public:
 private:
 	void SetCameraScale(float cameraScale);
 
-public:
-
-private:
 	const float2 CAMERA_OFFSET = {150.0f, -50.0f};
 
 	Timer* t;

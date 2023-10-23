@@ -50,9 +50,9 @@ public:
 	}
 
 	static void ConvertCharToInt(const char* pch, uint& numberForm);
+	static void ExtractWidthHeight(const char* csvRaw, uint& w, uint& h);
 
 private:
-	void ExtractWidthHeight(const char* csvRaw);
 	void LoadCSVFile(const char* csvPath);
 	//modified from my previous implementation https://github.com/Tycro-Games/AUSS/blob/master/src/Tilemap.cpp
 	void RenderTile(const Surface* surface, int screenX, int screenY, uint sourceX, uint sourceY);
@@ -61,8 +61,8 @@ private:
 	uint widthX;
 	uint heightY;
 	//this is represented as 2D
-	uint* tileMap;
+	uint* tileArray = nullptr;
 
-	Surface* tilePalette;
+	Surface* tilePalette = nullptr;
 	const int TILE_SIZE = 32;
 };

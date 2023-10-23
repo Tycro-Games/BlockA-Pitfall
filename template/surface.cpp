@@ -119,6 +119,48 @@ void Surface::Bar(int x1, int y1, int x2, int y2, uint c)
 	}
 }
 
+
+Surface8::Surface8(uint8_t w, uint8_t h)
+{
+	width = w;
+	height = h;
+	pixels = new uint8_t[w * h];
+	pal = new unsigned int[256];
+}
+
+Surface8::Surface8(const char* csvPath)
+{
+	pal = new unsigned int[256];
+
+	//copy into a c style string
+	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
+	strcpy(tilemapRaw, TextFileRead(csvPath).c_str());
+
+	Tilemap::ExtractWidthHeight(tilemapRaw, width, height);
+	pixels = new uint8_t[width * height];
+
+	char* startOfCsv = strstr(tilemapRaw, "csv\">\n") + strlen("csv\">\n");
+	const char* pch = strtok(startOfCsv, ",");
+
+
+	uint index = 0;
+	while (*pch != '<') //stops when it reaches the end of the csv
+	{
+		uint numberForm = 0;
+		Tilemap::ConvertCharToInt(pch, numberForm);
+		pixels[index++] = static_cast<uint8_t>(numberForm);
+		pch = strtok(nullptr, ",\n");
+	}
+
+	delete[] tilemapRaw;
+}
+
+Surface8::~Surface8()
+{
+	delete[] pixels;
+	delete[] pal;
+}
+
 // Surface::Print: Print some text with the hard-coded mini-font.
 void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, const uint multiY)
 {
@@ -186,18 +228,15 @@ void Surface::Line(float x1, float y1, float x2, float y2, uint c)
 			accept = true;
 			break;
 		}
-		else if (c0 & c1) break;
-		else
-		{
-			float x = 0, y = 0;
-			const int co = c0 ? c0 : c1;
-			if (co & 8) x = x1 + (x2 - x1) * (ymax - y1) / (y2 - y1), y = ymax;
-			else if (co & 4) x = x1 + (x2 - x1) * (ymin - y1) / (y2 - y1), y = ymin;
-			else if (co & 2) y = y1 + (y2 - y1) * (xmax - x1) / (x2 - x1), x = xmax;
-			else if (co & 1) y = y1 + (y2 - y1) * (xmin - x1) / (x2 - x1), x = xmin;
-			if (co == c0) x1 = x, y1 = y, c0 = OUTCODE(x1, y1);
-			else x2 = x, y2 = y, c1 = OUTCODE(x2, y2);
-		}
+		if (c0 & c1) break;
+		float x = 0, y = 0;
+		const int co = c0 ? c0 : c1;
+		if (co & 8) x = x1 + (x2 - x1) * (ymax - y1) / (y2 - y1), y = ymax;
+		else if (co & 4) x = x1 + (x2 - x1) * (ymin - y1) / (y2 - y1), y = ymin;
+		else if (co & 2) y = y1 + (y2 - y1) * (xmax - x1) / (x2 - x1), x = xmax;
+		else if (co & 1) y = y1 + (y2 - y1) * (xmin - x1) / (x2 - x1), x = xmin;
+		if (co == c0) x1 = x, y1 = y, c0 = OUTCODE(x1, y1);
+		else x2 = x, y2 = y, c1 = OUTCODE(x2, y2);
 	}
 	if (!accept) return;
 	float b = x2 - x1, h = y2 - y1, l = fabsf(b);

@@ -1,21 +1,18 @@
 #include "precomp.h"
 #include "Tilemap.h"
 
-#include <iostream>
 
 #include "Scripts/Utilities/AABB.h"
 
 
-Tilemap::Tilemap() : widthX(0), heightY(0),
-                     tileMap{},
-                     tilePalette(nullptr)
+Tilemap::Tilemap() : widthX(0), heightY(0)
 {
 }
 
 Tilemap::~Tilemap()
 {
 	delete tilePalette;
-	delete[] tileMap;
+	delete[] tileArray;
 }
 
 bool Tilemap::IsColliding(const float x, const float y) const
@@ -25,7 +22,7 @@ bool Tilemap::IsColliding(const float x, const float y) const
 
 	//cout << tx * TILE_SIZE << " " << ty * TILE_SIZE << "\n";
 	const size_t index = tx + ty * widthX;
-	if (tileMap[index] != 0)
+	if (tileArray[index] != 0)
 		return true;
 	return false;
 }
@@ -55,7 +52,7 @@ bool Tilemap::IsColliding(const float x, const float y, float2& floorPos) const
 
 
 	const size_t index = tx + ty * widthX;
-	if (tileMap[index] != 0)
+	if (tileArray[index] != 0)
 	{
 		const float2 centerTile = {
 			static_cast<float>(tx * TILE_SIZE),
@@ -124,22 +121,21 @@ void Tilemap::ConvertCharToInt(const char* pch, uint& numberForm)
 	}
 }
 
-void Tilemap::ExtractWidthHeight(const char* csvRaw)
+void Tilemap::ExtractWidthHeight(const char* csvRaw, uint& w, uint& h)
 {
 	//widthX and heightY get
-	char* tilemap = new char[strlen(csvRaw) + 1];
-	strcpy(tilemap, csvRaw);
+	char* tileRaw = new char[strlen(csvRaw) + 1];
+	strcpy(tileRaw, csvRaw);
 
-	char* getX = strstr(tilemap, "width=") + strlen("width=");
-	char* getY = strstr(tilemap, "height=") + strlen("height=");
+	char* getX = strstr(tileRaw, "width=") + strlen("width=");
+	char* getY = strstr(tileRaw, "height=") + strlen("height=");
 	const char* pX = strtok(getX, "\"");
 	const char* pY = strtok(getY, "\"");
 
-	ConvertCharToInt(pX, widthX);
+	ConvertCharToInt(pX, w);
 
-	ConvertCharToInt(pY, heightY);
-	tileMap = new uint[widthX * heightY];
-	delete[] tilemap;
+	ConvertCharToInt(pY, h);
+	delete[] tileRaw;
 }
 
 void Tilemap::LoadCSVFile(const char* csvPath)
@@ -150,7 +146,8 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 
 	//print the whole file
 	//cout << tilemapRaw << "\n";
-	ExtractWidthHeight(tilemapRaw);
+	ExtractWidthHeight(tilemapRaw, widthX, heightY);
+	tileArray = new uint[widthX * heightY];
 
 	//csv file
 	//get to the start of the csv
@@ -168,7 +165,7 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 		ConvertCharToInt(pch, numberForm);
 		//makes it work with numbers with more than one digit
 
-		tileMap[index++] = numberForm;
+		tileArray[index++] = numberForm;
 		pch = strtok(NULL, ",\n");
 	}
 
@@ -251,7 +248,7 @@ void Tilemap::DebugBox(Surface* screen) const
 	{
 		for (uint j = 0; j < widthX; j++)
 		{
-			uint index = tileMap[j + i * widthX];
+			uint index = tileArray[j + i * widthX];
 			if (index)
 				screen->Box(j * TILE_SIZE,
 				            i * TILE_SIZE,
@@ -268,7 +265,7 @@ void Tilemap::Render(Surface* screen)
 	{
 		for (uint j = 0; j < widthX; j++)
 		{
-			uint index = tileMap[j + i * widthX];
+			uint index = tileArray[j + i * widthX];
 			if (index) //index !=0
 			{
 				//so the index can start from 0

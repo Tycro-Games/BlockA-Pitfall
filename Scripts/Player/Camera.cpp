@@ -10,6 +10,7 @@ Camera::Camera() : desiredCameraScaling(0)
 Camera::~Camera()
 {
 	delete t;
+
 	delete parallax;
 	delete preRender;
 }
@@ -82,10 +83,10 @@ void Camera::SetPosition(const float2& screenPos)
 void Camera::Init(Sprite* tilemapSurface, Sprite* parallaxSurface)
 {
 	tileMap = tilemapSurface;
+	parallax = new Parallax(parallaxSurface, &pos);
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	desiredCameraScaling = currentCameraScale;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
-	parallax = new Parallax(parallaxSurface, &pos);
 }
 
 void Camera::Render(Surface* screen)

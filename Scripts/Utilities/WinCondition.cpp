@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "WinCondition.h"
 
-WinCondition::WinCondition()
+WinCondition::WinCondition(): enemies{}
 {
 	subject = new Subject();
 }

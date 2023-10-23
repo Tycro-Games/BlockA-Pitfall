@@ -38,8 +38,6 @@ public:
 	~Avatar() override;
 	//observer
 	void Notify(int context, EVENT ev) override;
-	//TODO add to a general sprite class
-	void GetFlippedPath(const char* spritePath, char*& spriteFlippedPath);
 	void SetStartPosition();
 	void Init();
 	//entity

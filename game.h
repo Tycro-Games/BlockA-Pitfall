@@ -80,6 +80,7 @@ namespace Tmpl8
 		PlayerScore score;
 		CoinScore coinScore;
 		Surface* menuText = nullptr;
+		Surface8* menuTextAnimation = nullptr;
 		const int menuTextWidth = 960;
 		const int menuTextHeight = 60;
 		//Update and rendering

@@ -14,7 +14,8 @@ public:
 	Subject* GetSubject() const;
 
 private:
-	Enemy* enemies[MAX_ENEMIES_NUMBER] = {};
-	uint indexEnemies = 0;
+	Enemy* enemies[MAX_ENEMIES_NUMBER];
 	Subject* subject = nullptr;
+
+	uint indexEnemies = 0;
 };
