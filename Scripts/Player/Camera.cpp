@@ -167,14 +167,14 @@ bool Camera::OnScreen(float2 worldPos)
 
 bool Camera::OnScreen(const Box& _a)
 {
-	const auto b = Box{pos, pos + float2{resX, resY}};
+	const Box b = Box{pos, pos + float2{resX, resY}};
 	return AABB::BoxCollides(_a, b);
 }
 
 bool Camera::OnScreen(const float2& worldPos, const Box& _a)
 {
 	const Box a = AABB::At(worldPos, _a);
-	const auto b = Box{pos, pos + float2{resX, resY}};
+	const Box b = Box{pos, pos + float2{resX, resY}};
 	return AABB::BoxCollides(a, b);
 }
 

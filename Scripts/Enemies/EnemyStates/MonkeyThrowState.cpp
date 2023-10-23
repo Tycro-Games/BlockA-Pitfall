@@ -14,7 +14,7 @@ void MonkeyThrowState::OnEnter()
 void MonkeyThrowState::SpawnBall(Monkey* monkey) const
 {
 	const float2 startPos = monkey->GetPosition();
-	const auto finalPos = float2{monkey->GetAvatar()->GetCollisionChecker()->GetBoxColliderPos().x, startPos.y};
+	const float2 finalPos = float2{monkey->GetAvatar()->GetCollisionChecker()->GetBoxColliderPos().x, startPos.y};
 	const float2 midPos = lerp(startPos, finalPos, 0.5f + Rand(0.2f)) + float2{
 		0, MID_POINT_MIN + MID_POINT_RANDOM * RandomFloat()
 	};
@@ -30,7 +30,7 @@ MonkeyState* MonkeyThrowState::Update(Monkey* monkey, float deltaTime)
 		SpawnBall(monkey);
 		monkey->GetBallTimer()->reset();
 		monkey->GetThrowTimer()->reset();
-		auto turnState = new MonkeyTurnState();
+		MonkeyTurnState* turnState = new MonkeyTurnState();
 
 		return turnState;
 	}

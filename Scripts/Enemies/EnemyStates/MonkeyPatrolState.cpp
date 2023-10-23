@@ -21,7 +21,7 @@ void MonkeyPatrolState::OnEnter()
 
 MonkeyState* MonkeyPatrolState::ToTurnState() const
 {
-	auto turnState = new MonkeyTurnState();
+	MonkeyTurnState* turnState = new MonkeyTurnState();
 	return turnState;
 }
 

@@ -12,7 +12,7 @@ void BoarPatrolState::OnEnter()
 BoarState* BoarPatrolState::TurnBack(Boar* boar) const
 {
 	boar->SwitchPositions();
-	auto turnState = new BoarTurnState();
+	BoarTurnState* turnState = new BoarTurnState();
 	turnState->SetHeading(GetHeading());
 	turnState->SetOriginalPos(desiredPos);
 	return turnState;
@@ -39,7 +39,7 @@ BoarState* BoarPatrolState::Update(Boar* boar, float deltaTime)
 		if (boar->AtackPlayer() && boar->GetHitTimer()->elapsed() > STOP_DELAY)
 		{
 			boar->GetHitTimer()->reset();
-			auto stopState = new BoarStopState();
+			BoarStopState* stopState = new BoarStopState();
 			stopState->SetHeading(GetHeading());
 			stopState->SetOriginalPos(boar->GetPosition());
 			return stopState;

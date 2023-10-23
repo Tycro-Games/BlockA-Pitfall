@@ -139,7 +139,7 @@ void Surface::Print(const char* s, int x1, int y1, uint c, const uint multiX, co
 		//it is always a combination of : and o
 		//o means to write pixels
 		//: means to skip space
-		auto u = reinterpret_cast<const char*>(font[pos]);
+		const char* u = reinterpret_cast<const char*>(font[pos]);
 
 		for (uint columns = 0; columns < 5; columns++)
 		{

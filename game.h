@@ -79,6 +79,9 @@ namespace Tmpl8
 		HealthBar healthBar;
 		PlayerScore score;
 		CoinScore coinScore;
+		Surface* menuText = nullptr;
+		const int menuTextWidth = 960;
+		const int menuTextHeight = 60;
 		//Update and rendering
 
 		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER] = {};

@@ -28,7 +28,7 @@ MonkeyState* MonkeyToGroundState::Update(Monkey* monkey, float deltaTime)
 	}
 	else
 	{
-		auto patrol = new MonkeyPatrolState();
+		MonkeyPatrolState* patrol = new MonkeyPatrolState();
 		patrol->SetOriginalPosition(monkey->GetPosition());
 		patrol->SetDesiredPosition(Monkey::GetValueFromMonkeyFunction(RandomFloat(), true));
 		return patrol;

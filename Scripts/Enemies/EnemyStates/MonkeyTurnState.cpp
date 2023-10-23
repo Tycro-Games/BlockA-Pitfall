@@ -23,7 +23,7 @@ MonkeyState* MonkeyTurnState::Update(Monkey* monkey, float deltaTime)
 	}
 	if (stopTimer->elapsed() > timeToTurn)
 	{
-		auto patrolState = new MonkeyPatrolState();
+		MonkeyPatrolState* patrolState = new MonkeyPatrolState();
 		//to the other direction
 		monkey->SetHeading(!monkey->GetHeading());
 		patrolState->SetOriginalPosition(monkey->GetPosition());

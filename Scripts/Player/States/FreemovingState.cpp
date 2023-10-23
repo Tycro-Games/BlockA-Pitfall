@@ -71,7 +71,7 @@ bool FreemovingState::CheckNonTiles(const CollisionChecker* col, const Box* floo
 			p->TranslatePosition(-normal); //snaps player to the zipline
 			p->ResetClimbTimer();
 
-			auto zip = new ZipliningState();
+			ZipliningState* zip = new ZipliningState();
 
 			zip->SetZiplineEnd(end);
 			zip->SetZiplineStart(start);
@@ -86,7 +86,7 @@ bool FreemovingState::CheckNonTiles(const CollisionChecker* col, const Box* floo
 			p->ResetClimbTimer();
 			p->SetVelocity(0);
 
-			auto swing = new SwingingState();
+			SwingingState* swing = new SwingingState();
 			swing->pSetRope(movingPart);
 			state = swing;
 			return true;
@@ -97,7 +97,7 @@ bool FreemovingState::CheckNonTiles(const CollisionChecker* col, const Box* floo
 			p->ResetClimbTimer();
 			p->SetVelocity(0);
 
-			auto elasticState = new ElasticPlantState();
+			ElasticPlantState* elasticState = new ElasticPlantState();
 			elasticState->pSetPlant(pElastic);
 			state = elasticState;
 			return true;
@@ -185,7 +185,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		const Input input = p->GetInput();
 		if (input.shooting)
 		{
-			const auto dirToThrow = float2{static_cast<float>(-p->GetFlip()), input.arrowKeys.y < 0 ? -1.0f : 0.0f};
+			const float2 dirToThrow = float2{static_cast<float>(-p->GetFlip()), input.arrowKeys.y < 0 ? -1.0f : 0.0f};
 			p->ThrowRock(normalize(dirToThrow));
 		}
 		//only on floor

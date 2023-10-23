@@ -186,7 +186,7 @@ void main()
 #endif
 	// initialize application
 	InitRenderTarget(SCRWIDTH, SCRHEIGHT);
-	auto screen = new Surface(SCRWIDTH, SCRHEIGHT);
+	Surface* screen = new Surface(SCRWIDTH, SCRHEIGHT);
 	app = new Game();
 	app->screen = screen;
 	app->Init();

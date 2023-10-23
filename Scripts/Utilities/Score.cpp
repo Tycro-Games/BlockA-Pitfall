@@ -40,12 +40,12 @@ const char* Score::GetScoreWithZeros(int& n, int& x, int& y, const uint8_t digit
 {
 	x = static_cast<int>(pos.x);
 	y = static_cast<int>(pos.y);
-	auto c = new char[digits + 1];
+	char* c = new char[digits + 1];
 	n = sprintf(c, "%d", score);
 	int index = 0;
 	if (n < digits)
 	{
-		auto addZero = new char[digits + 1];
+		char* addZero = new char[digits + 1];
 		for (int i = 0; i < digits - n; i++)
 		{
 			addZero[i] = '0';

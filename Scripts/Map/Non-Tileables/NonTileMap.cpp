@@ -26,7 +26,7 @@ float2 SpawnNonTiles::GetPosition(size_t _index) const
 void SpawnNonTiles::LoadCSVFile(const char* csvPath)
 {
 	//copy into a c style string
-	auto tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
+	char* tilemapRaw = new char[strlen(TextFileRead(csvPath).c_str()) + 1];
 	strcpy(tilemapRaw, TextFileRead(csvPath).c_str());
 
 
@@ -42,7 +42,7 @@ size_t SpawnNonTiles::GetNextXIndex(char* tilemap)
 
 void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 {
-	auto tilemap = new char[strlen(csvRaw) + 1];
+	char* tilemap = new char[strlen(csvRaw) + 1];
 	strcpy(tilemap, csvRaw);
 	//this post showed how to use pointer substraction https://stackoverflow.com/questions/7500892/get-index-of-substring
 	const size_t INITIAL_OFFSET = GetNextXIndex(tilemap);
@@ -50,7 +50,7 @@ void SpawnNonTiles::ExtractPositions(const char* csvRaw)
 	size_t offsetIndex = INITIAL_OFFSET; //first position
 	while (offsetIndex < strlen(tilemap))
 	{
-		auto stringToEdit = new char[strlen(tilemap + offsetIndex) + 1];
+		char* stringToEdit = new char[strlen(tilemap + offsetIndex) + 1];
 		strcpy(stringToEdit, tilemap + offsetIndex);
 
 		char* getX = strstr(stringToEdit, "x=");

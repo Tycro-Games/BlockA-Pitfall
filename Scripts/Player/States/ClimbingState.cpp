@@ -32,7 +32,7 @@ PlayerState* ClimbingState::Update(float deltaTime)
 
 		if (input.shooting)
 		{
-			const auto dirToThrow = float2{static_cast<float>(-p->GetFlip()), input.arrowKeys.x != 0 ? 0.0f : 1.0f};
+			const float2 dirToThrow = float2{static_cast<float>(-p->GetFlip()), input.arrowKeys.x != 0 ? 0.0f : 1.0f};
 			p->ThrowRock(normalize(dirToThrow));
 		}
 		p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x));

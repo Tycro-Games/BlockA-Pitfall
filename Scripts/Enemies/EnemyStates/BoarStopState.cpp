@@ -12,7 +12,7 @@ BoarState* BoarStopState::Update(Boar* boar, float deltaTime)
 	if (t > STOP_TIME)
 	{
 		boar->SwitchPositions();
-		auto turnState = new BoarTurnState();
+		BoarTurnState* turnState = new BoarTurnState();
 		turnState->SetHeading(heading);
 		turnState->SetOriginalPos(originalPos);
 		return turnState;

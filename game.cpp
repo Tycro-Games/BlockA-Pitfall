@@ -24,6 +24,11 @@ Game::Game()
 	AddEntity(avatar);
 
 	AddObservers();
+	//init the text
+	menuText = new Surface(960, 60);
+	menuText->Clear(0);
+	menuText->Print("Press any key to start the game!", 0, 0, WHITE);
+	menuText->Print("except escape...", 0, 30, WHITE);
 }
 
 
@@ -290,8 +295,10 @@ void Game::Render()
 		break;
 	case GameStateManager::START_MENU:
 		screen->Clear(0);
-		screen->Print("Press any key to start the game!", SMALL_PADDING, HALF_SCRHEIGHT, WHITE);
-		screen->Print("except escape...", SMALL_PADDING, OVER_HALF_SCREEN_Y, WHITE);
+		menuText->CopyTo(screen, SMALL_PADDING, HALF_SCRHEIGHT);
+	//menuText->CopyTo(screen, SMALL_PADDING, OVER_HALF_SCREEN_Y);
+	/*screen->Print("Press any key to start the game!", SMALL_PADDING, HALF_SCRHEIGHT, WHITE);
+	screen->Print("except escape...", SMALL_PADDING, OVER_HALF_SCREEN_Y, WHITE);*/
 		break;
 	default: ;
 	}
@@ -365,6 +372,7 @@ void Game::Shutdown()
 	delete enviroment;
 	delete parallaxSprite;
 	delete avatar;
+	delete menuText;
 }
 
 //this is called automatically now
