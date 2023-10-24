@@ -5,6 +5,7 @@ Checkpoint::Checkpoint()
 {
 	saveLoad = new SavingLoading("");
 	subject = new Subject();
+	sprite = new Sprite(new Surface("assets/Checkpoint.png"), FRAMES);
 }
 
 Checkpoint::~Checkpoint()
@@ -43,7 +44,6 @@ void Checkpoint::Update(float deltaTime)
 void Checkpoint::Init(const float2& pos)
 {
 	SetActive(true);
-	sprite = new Sprite(new Surface("assets/Checkpoint.png"), FRAMES);
 
 	coll = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
 	activated = false;

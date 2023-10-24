@@ -191,83 +191,83 @@ void main()
 	app->screen = screen;
 	app->Init();
 
-	//// done, enter main loop changed to crt
+	// done, enter main loop changed to crt
 
-	//// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
-	////used this :https://stackoverflow.com/questions/52762754/how-to-render-a-circular-vignette-with-glsl
-	//char fs[] =
-	//	"#version 330											\n"
-	//	"uniform sampler2D c; in vec2 uv; out vec4 f;			\n"
-	//	"#define SCRWIDTH             							\n"
-	//	"#define SCRHEIGHT             							\n"
-	//	"#define MASK_INTENSITY 0.4								\n"
-	//	"#define InputGamma		2.4								\n"
-	//	"#define OutputGamma	2.2								\n"
-	//	"#define BRIGHTBOOST	1.6								\n"
-	//	"#define SCANLINES		0.7								\n"
-	//	"#define SHARPER		1								\n"
-	//	"#define GAMMA_IN(color)  pow(color, vec3(InputGamma, InputGamma, InputGamma)) \n"
-	//	"#define GAMMA_OUT(color) pow(color, vec3(1.0 / OutputGamma, 1.0 / OutputGamma, 1.0 / OutputGamma)) \n"
-	//	"vec4 applyVignette(vec4 color){ \n"
-	//	"vec2 position = uv.xy-vec2(0.5);            \n"
-	//	"float dist = length(position);						\n"
-	//	"float radius = 0.8; \n"
-	//	"float softness = 0.4; \n"
-	//	"float vignette = smoothstep(radius, radius - softness, dist); \n"
-	//	"color.rgb = color.rgb - (1 - vignette); \n"
-	//	"return color;} \n"
-	//	"void main(){											\n"
-	//	"vec2 vt = uv; /* vec2(uv.x-0.499999,uv.y); */			\n"
-	//	"vec2 ss = vec2( SCRWIDTH*3, SCRHEIGHT*3 );					\n"
-	//	"vec2 ps = vec2( 1.0 / ss.x, 1.0 / ss.y );				\n"
-	//	"vec2 dx = vec2( ps.x, 0.0 ), dy = vec2( 0.0, ps.y );	\n"
-	//	"vec2 tc = (floor( vt.xy * ss.xy ) + vec2( 0.49999, 0.49999 )) / ss.xy; \n"
-	//	"vec2 fp = fract( vt.xy * ss.xy );						\n"
-	//	"vec3 c10 = texture( c, tc - dx ).xyz;					\n"
-	//	"vec3 c11 = texture( c, tc ).xyz;						\n"
-	//	"vec3 c12 = texture( c, tc + dx ).xyz;					\n"
-	//	"vec3 c13 = texture( c, tc + 2.0 * dx ).xyz;			\n"
-	//	"vec4 lobes = vec4( fp.x * fp.x * fp.x, fp.x * fp.x, fp.x, 1.0 ); \n"
-	//	"vec4 i = vec4( 0.0 );									\n"
-	//	"if (SHARPER == 0.0) { /* CATROM */						\n"
-	//	"i.x = dot( vec4( -0.5, 1.0, -0.5, 0.0 ), lobes );		\n"
-	//	"i.y = dot( vec4( 1.5, -2.5, 0.0, 1.0 ), lobes );		\n"
-	//	"i.z = dot( vec4( -1.5, 2.0, 0.5, 0.0 ), lobes );		\n"
-	//	"i.w = dot( vec4( 0.5, -0.5, 0.0, 0.0 ), lobes );		\n"
-	//	"} else if (SHARPER == 1.0) { /* HERMITE */				\n"
-	//	"i.x = dot( vec4( 0.0, 0.0, 0.0, 0.0 ), lobes );		\n"
-	//	"i.y = dot( vec4( 2.0, -3.0, 0.0, 1.0 ), lobes );		\n"
-	//	"i.z = dot( vec4( -2.0, 3.0, 0.0, 0.0 ), lobes );		\n"
-	//	"i.w = dot( vec4( 0.0, 0.0, 0.0, 0.0 ), lobes );}		\n"
-	//	"vec3 color = i.x * c10.xyz;							\n"
-	//	"color += i.y * c11.xyz + i.z * c12.xyz + i.w * c13.xyz; \n"
-	//	"color = GAMMA_IN( color );								\n"
-	//	"float pos1 = 1.5 - SCANLINES - abs( fp.y - 0.5 );		\n"
-	//	"float d1 = max( 0.0, min( 1.0, pos1 ) );				\n"
-	//	"float d = d1 * d1 * (3.0 + BRIGHTBOOST - (2.0 * d1));	\n"
-	//	"vec4 dmw = mix(										\n"
-	//	"vec4( 1.0, 1.0 - MASK_INTENSITY, 1.0, 1. ),			\n"
-	//	"vec4( 1.0 - MASK_INTENSITY, 1.0, 1.0 - MASK_INTENSITY, 1.),	\n"
-	//	"floor( mod( vt.x * ss.x * 4, 2.0 ) ) );				\n"
-	//	"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
-	//	"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
-	//	"f = vec4( GAMMA_OUT( color ), 0.5 );					\n"
-	//	//"vec4 color = texture2D(u_texture, v_texcoord);			\n"
-	//	"f = applyVignette(f);}";
-	//char *sw = strstr(fs, "SCRWIDTH "), *sh = strstr(fs, "SCRHEIGHT ");
-	//char swt[16], sht[16];
-	//sprintf(swt, "%i", SCRWIDTH / 5);
-	//sprintf(sht, "%i", SCRHEIGHT / 5);
-	//memcpy(sw + 9, swt, strlen(swt));
-	//memcpy(sh + 10, sht, strlen(sht));
-	//auto shader = new Shader(
-	//	"#version 330\nin vec4 p;\nin vec2 t;out vec2 uv;void main(){uv=t;gl_Position=p;}",
-	//	fs, true);
+	// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
+	//used this :https://stackoverflow.com/questions/52762754/how-to-render-a-circular-vignette-with-glsl
+	char fs[] =
+		"#version 330											\n"
+		"uniform sampler2D c; in vec2 uv; out vec4 f;			\n"
+		"#define SCRWIDTH             							\n"
+		"#define SCRHEIGHT             							\n"
+		"#define MASK_INTENSITY 0.4								\n"
+		"#define InputGamma		2.4								\n"
+		"#define OutputGamma	2.2								\n"
+		"#define BRIGHTBOOST	1.6								\n"
+		"#define SCANLINES		0.7								\n"
+		"#define SHARPER		1								\n"
+		"#define GAMMA_IN(color)  pow(color, vec3(InputGamma, InputGamma, InputGamma)) \n"
+		"#define GAMMA_OUT(color) pow(color, vec3(1.0 / OutputGamma, 1.0 / OutputGamma, 1.0 / OutputGamma)) \n"
+		"vec4 applyVignette(vec4 color){ \n"
+		"vec2 position = uv.xy-vec2(0.5);            \n"
+		"float dist = length(position);						\n"
+		"float radius = 0.8; \n"
+		"float softness = 0.4; \n"
+		"float vignette = smoothstep(radius, radius - softness, dist); \n"
+		"color.rgb = color.rgb - (1 - vignette); \n"
+		"return color;} \n"
+		"void main(){											\n"
+		"vec2 vt = uv; /* vec2(uv.x-0.499999,uv.y); */			\n"
+		"vec2 ss = vec2( SCRWIDTH*3, SCRHEIGHT*3 );					\n"
+		"vec2 ps = vec2( 1.0 / ss.x, 1.0 / ss.y );				\n"
+		"vec2 dx = vec2( ps.x, 0.0 ), dy = vec2( 0.0, ps.y );	\n"
+		"vec2 tc = (floor( vt.xy * ss.xy ) + vec2( 0.49999, 0.49999 )) / ss.xy; \n"
+		"vec2 fp = fract( vt.xy * ss.xy );						\n"
+		"vec3 c10 = texture( c, tc - dx ).xyz;					\n"
+		"vec3 c11 = texture( c, tc ).xyz;						\n"
+		"vec3 c12 = texture( c, tc + dx ).xyz;					\n"
+		"vec3 c13 = texture( c, tc + 2.0 * dx ).xyz;			\n"
+		"vec4 lobes = vec4( fp.x * fp.x * fp.x, fp.x * fp.x, fp.x, 1.0 ); \n"
+		"vec4 i = vec4( 0.0 );									\n"
+		"if (SHARPER == 0.0) { /* CATROM */						\n"
+		"i.x = dot( vec4( -0.5, 1.0, -0.5, 0.0 ), lobes );		\n"
+		"i.y = dot( vec4( 1.5, -2.5, 0.0, 1.0 ), lobes );		\n"
+		"i.z = dot( vec4( -1.5, 2.0, 0.5, 0.0 ), lobes );		\n"
+		"i.w = dot( vec4( 0.5, -0.5, 0.0, 0.0 ), lobes );		\n"
+		"} else if (SHARPER == 1.0) { /* HERMITE */				\n"
+		"i.x = dot( vec4( 0.0, 0.0, 0.0, 0.0 ), lobes );		\n"
+		"i.y = dot( vec4( 2.0, -3.0, 0.0, 1.0 ), lobes );		\n"
+		"i.z = dot( vec4( -2.0, 3.0, 0.0, 0.0 ), lobes );		\n"
+		"i.w = dot( vec4( 0.0, 0.0, 0.0, 0.0 ), lobes );}		\n"
+		"vec3 color = i.x * c10.xyz;							\n"
+		"color += i.y * c11.xyz + i.z * c12.xyz + i.w * c13.xyz; \n"
+		"color = GAMMA_IN( color );								\n"
+		"float pos1 = 1.5 - SCANLINES - abs( fp.y - 0.5 );		\n"
+		"float d1 = max( 0.0, min( 1.0, pos1 ) );				\n"
+		"float d = d1 * d1 * (3.0 + BRIGHTBOOST - (2.0 * d1));	\n"
+		"vec4 dmw = mix(										\n"
+		"vec4( 1.0, 1.0 - MASK_INTENSITY, 1.0, 1. ),			\n"
+		"vec4( 1.0 - MASK_INTENSITY, 1.0, 1.0 - MASK_INTENSITY, 1.),	\n"
+		"floor( mod( vt.x * ss.x * 4, 2.0 ) ) );				\n"
+		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
+		"color *= d * vec3( dmw.x, dmw.y, dmw.z );				\n"
+		"f = vec4( GAMMA_OUT( color ), 0.5 );					\n"
+		//"vec4 color = texture2D(u_texture, v_texcoord);			\n"
+		"f = applyVignette(f);}";
+	char *sw = strstr(fs, "SCRWIDTH "), *sh = strstr(fs, "SCRHEIGHT ");
+	char swt[16], sht[16];
+	sprintf(swt, "%i", SCRWIDTH / 5);
+	sprintf(sht, "%i", SCRHEIGHT / 5);
+	memcpy(sw + 9, swt, strlen(swt));
+	memcpy(sh + 10, sht, strlen(sht));
+	auto shader = new Shader(
+		"#version 330\nin vec4 p;\nin vec2 t;out vec2 uv;void main(){uv=t;gl_Position=p;}",
+		fs, true);
 
 	// basic shader, no gamma correction
-	Shader* shader = new Shader(
-		"#version 330\nin vec4 p;\nin vec2 t;out vec2 u;void main(){u=t;gl_Position=p;}",
-		"#version 330\nuniform sampler2D c;in vec2 u;out vec4 f;void main(){f=/*sqrt*/(texture(c,u));}", true);
+	///*Shader* shader = new Shader(
+	//	"#version 330\nin vec4 p;\nin vec2 t;out vec2 u;void main(){u=t;gl_Position=p;}",
+	//	"*/#version 330\nuniform sampler2D c;in vec2 u;out vec4 f;void main(){f=/*sqrt*/(texture(c,u));}", true);
 	//Shader* shader = new Shader(
 	//	"Shaders/crt.vs",
 	//	"Shaders/crt.ps", false);
