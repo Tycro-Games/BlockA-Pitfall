@@ -347,3 +347,5 @@ healthchecksdb
 MigrationBackup/
 
 
+Win32/myGame.exp
+Win32/myGame.lib
