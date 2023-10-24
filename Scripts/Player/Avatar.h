@@ -3,6 +3,7 @@
 #include "Scripts/Utilities/Array.h"
 
 
+class Checkpoint;
 class Rock;
 class SpawnRocks;
 class Rope;
@@ -34,7 +35,8 @@ class Avatar : public Observer, public Entity
 {
 public:
 	Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-	       Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam);
+	       Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins,
+	       Array<Checkpoint>& _checkpoints, Camera& _cam);
 	~Avatar() override;
 	//observer
 	void Notify(int context, EVENT ev) override;
@@ -80,6 +82,8 @@ public:
 	void ThrowRock(const float2& dir) const;
 
 private:
+	void UpdateCurrentState(float deltaTime);
+	void ResetInput();
 	Subject* subject;
 	Input input;
 	Timer* climbTimer = nullptr;
@@ -87,8 +91,6 @@ private:
 	bool alreadyJumped = false;
 	Timer* jumpTimer = nullptr;
 	const float SMALL_JUMP_END = 0.13f;
-	void UpdateCurrentState(float deltaTime);
-	void ResetInput();
 
 
 	//base for general sprite class and render
@@ -96,8 +98,10 @@ private:
 	//components
 	Camera* cam;
 	PlayerState* currentState;
-
-
+	//saving
+	SavingLoading saveLoad;
+	const char* saveX = "PlayerX";
+	const char* saveY = "PlayerY";
 	//physics
 	float2 velocity = 0;
 	float2 pos = 0;

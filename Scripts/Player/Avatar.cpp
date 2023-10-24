@@ -3,8 +3,9 @@
 
 
 Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-               Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins, Camera& _cam) :
-	currentState(nullptr)
+               Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins,
+               Array<Checkpoint>& _checkpoints, Camera& _cam) :
+	currentState(nullptr), saveLoad("")
 {
 	cam = &_cam;
 
@@ -15,10 +16,11 @@ Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Arra
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
 	col = new CollisionChecker(&pos, &_floors, &_ladders);
-	col->SetNonTiles(_ziplines, _ropes, _elasticPlants, _coins);
+	col->SetNonTiles(_ziplines, _ropes, _elasticPlants, _coins, _checkpoints);
 
 	spawnRocks = new SpawnRocks(*col);
 }
+
 
 Avatar::~Avatar()
 {
@@ -46,8 +48,8 @@ Avatar::~Avatar()
 
 void Avatar::SetStartPosition()
 {
-	pos.x = Camera::GetPosition().x + Camera::resX;
-	pos.y = Camera::GetPosition().y + Camera::resY;
+	pos.x = Camera::GetPosition().x + Camera::resX / 2;
+	pos.y = Camera::GetPosition().y + Camera::resY / 2;
 	velocity = 0;
 	flipX = -1;
 	canMove = true;
@@ -164,6 +166,7 @@ void Avatar::Update(float deltaTime)
 	UpdateCurrentState(deltaTime);
 	spawnRocks->Update(deltaTime);
 	col->IsCollidingCoins();
+	col->IsCollidingCheckpoints();
 	ResetInput();
 
 
@@ -345,7 +348,12 @@ void Avatar::Notify(int context, EVENT ev)
 	case PLAYER_HIT:
 		cout << "Show some hit'\n";
 		break;
-
+	case SAVE_CHECKPOINT:
+		saveLoad.SetName(saveX);
+		saveLoad.SaveData(pos.x);
+		saveLoad.SetName(saveY);
+		saveLoad.SaveData(pos.y);
+		break;
 	default:
 		break;
 	}

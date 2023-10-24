@@ -144,6 +144,21 @@ void CollisionChecker::IsCollidingCoins() const
 	}
 }
 
+void CollisionChecker::IsCollidingCheckpoints() const
+{
+	for (uint i = 0; i < checkpoints->GetCount(); i++)
+	{
+		if (!(*checkpoints)[i].IsActivated() && (*checkpoints)[i].GetOnScreen() && (*checkpoints)[i].IsActive())
+		{
+			const float2 toPlayer = (*pos + BOX_POS) - (*checkpoints)[i].GetPosition();
+			if (length(toPlayer) <= RADIUS_TO_COIN)
+			{
+				(*checkpoints)[i].Activate();
+			}
+		}
+	}
+}
+
 bool CollisionChecker::IsCollidingZiplines(float2& _normal,
                                            float2& _start,
                                            float2& _end) const
@@ -173,11 +188,12 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 }
 
 void CollisionChecker::SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants,
-                                   Array<Coin>& _coins)
+                                   Array<Coin>& _coins, Array<Checkpoint>& _checkpoints)
 {
 	ziplines = &_ziplines;
 
 	ropes = &_ropes;
 	elasticPlants = &_elasticPlants;
 	coins = &_coins;
+	checkpoints = &_checkpoints;
 }

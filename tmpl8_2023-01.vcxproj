@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;lib\Json</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -134,6 +134,7 @@
     <ClCompile Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.cpp" />
     <ClCompile Include="Scripts\Enemies\Monkey.cpp" />
     <ClCompile Include="Scripts\Enemies\MonkeyBall.cpp" />
+    <ClCompile Include="Scripts\Map\Non-Tileables\Checkpoint.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\Coin.cpp" />
     <ClCompile Include="Scripts\Map\Non-Tileables\ElasticPlant.cpp" />
     <ClCompile Include="Scripts\Observer\Observer.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Scripts\Player\States\PlayerState.cpp" />
     <ClCompile Include="Scripts\Enemies\Spike.cpp" />
     <ClCompile Include="Scripts\Utilities\PlayerScore.cpp" />
+    <ClCompile Include="Scripts\Utilities\SavingLoading.cpp" />
     <ClCompile Include="Scripts\Utilities\Score.cpp" />
     <ClCompile Include="Scripts\Utilities\WinCondition.cpp" />
     <ClCompile Include="template\opencl.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="Scripts\Enemies\EnemyStates\MonkeyTurnState.h" />
     <ClInclude Include="Scripts\Enemies\Monkey.h" />
     <ClInclude Include="Scripts\Enemies\MonkeyBall.h" />
+    <ClInclude Include="Scripts\Map\Non-Tileables\Checkpoint.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\Coin.h" />
     <ClInclude Include="Scripts\Map\Non-Tileables\ElasticPlant.h" />
     <ClInclude Include="Scripts\Observer\Observer.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="Scripts\Player\States\PlayerState.h" />
     <ClInclude Include="Scripts\Enemies\Spike.h" />
     <ClInclude Include="Scripts\Utilities\PlayerScore.h" />
+    <ClInclude Include="Scripts\Utilities\SavingLoading.h" />
     <ClInclude Include="Scripts\Utilities\Score.h" />
     <ClInclude Include="Scripts\Utilities\WinCondition.h" />
     <ClInclude Include="template\common.h" />

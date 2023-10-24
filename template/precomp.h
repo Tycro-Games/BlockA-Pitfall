@@ -60,11 +60,11 @@ using namespace std;
 #include "sprite.h"
 //my header
 #include <Audio/Sound.hpp>
-
+#include <json.hpp>
 #include "Scripts/Utilities/Array.h"
 #include "Scripts/Utilities/AABB.h"
 
-
+#include "Scripts/Utilities/SavingLoading.h"
 #include "Scripts/Utilities/Entity.h"
 //observer
 #include "Scripts/Observer/Observer.h"
@@ -95,6 +95,8 @@ using namespace std;
 #include "Scripts/Map/Non-Tileables/Zipline.h"
 #include "Scripts/Map/Non-Tileables/ElasticPlant.h"
 #include "Scripts/Map/Non-Tileables/Coin.h"
+#include "Scripts/Map/Non-Tileables/Checkpoint.h"
+
 //FSM
 #include "Scripts/Player/States//PlayerState.h"
 #include "Scripts/Player/States/ClimbingState.h"

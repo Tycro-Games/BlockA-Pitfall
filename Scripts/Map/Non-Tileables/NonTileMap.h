@@ -12,6 +12,7 @@ public:
 		MONKEYS,
 		ELASTIC_PLANTS,
 		COINS,
+		CHECKPOINTS,
 		COUNT
 	};
 

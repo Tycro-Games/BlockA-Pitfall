@@ -39,3 +39,4 @@ template class Array<Boar>;
 template class Array<ElasticPlant>;
 template class Array<Rock>;
 template class Array<Coin>;
+template class Array<Checkpoint>;

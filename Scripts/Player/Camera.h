@@ -9,6 +9,7 @@ class Camera : public Observer, public Entity
 public:
 	Camera();
 	~Camera() override;
+	void LoadCheckPoint();
 	void SetInputScaling();
 	void Init(Sprite* tilemapSurface, Sprite* parallaxSurface);
 	//still behaves like an entity using render for scaling
@@ -29,6 +30,7 @@ public:
 	void SetPosition(const float2& screenPos);
 
 private:
+	SavingLoading saveLoad;
 	void SetCameraScale(float cameraScale);
 
 	const float2 CAMERA_OFFSET = {150.0f, -50.0f};

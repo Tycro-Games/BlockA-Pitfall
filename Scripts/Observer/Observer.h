@@ -1,4 +1,5 @@
 #pragma once
+
 enum EVENT
 {
 	COIN_COLLECTED,
@@ -7,7 +8,8 @@ enum EVENT
 	ZOOM,
 	PLAYER_HIT,
 	PLAYER_DEAD,
-	ALL_ENEMIES_DEAD
+	ALL_ENEMIES_DEAD,
+	SAVE_CHECKPOINT
 };
 
 //source http://gameprogrammingpatterns.com/observer.html

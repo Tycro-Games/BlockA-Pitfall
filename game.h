@@ -68,6 +68,7 @@ namespace Tmpl8
 		Array<Zipline> ziplines;
 		Array<ElasticPlant> elasticPlants;
 		Array<Coin> coins;
+		Array<Checkpoint> checkpoints;
 		//will add elastic plants
 
 		Array<Spike> spikes;
@@ -86,7 +87,6 @@ namespace Tmpl8
 		const int menuTextHeight = 60;
 		const int TEXT_MASK = 0x00ffffff;
 		//Update and rendering
-
 		Entity* preCameraUpdate[MAX_ENTITIES_NUMBER] = {};
 		uint indexPreEntities = 0;
 		//win condition
@@ -98,6 +98,6 @@ namespace Tmpl8
 		Audio::Sound music{"assets/Audio/Fur Elise (by Beethoven) - Beethoven.mp3", Audio::Sound::Type::Stream};
 		//input
 		Input input;
-		const float2 STARTING_POSITION = {0, 0};
+		const float2 STARTING_POSITION = {520, 100};
 	};
 } // namespace Tmpl8

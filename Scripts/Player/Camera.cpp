@@ -2,7 +2,7 @@
 #include "Camera.h"
 
 
-Camera::Camera() : desiredCameraScaling(0)
+Camera::Camera() : saveLoad(""), desiredCameraScaling(0)
 {
 	t = new Timer();
 }
@@ -13,6 +13,27 @@ Camera::~Camera()
 
 	delete parallax;
 	delete preRender;
+}
+
+void Camera::LoadCheckPoint()
+{
+	float x = pos.x;
+	float y = pos.y;
+
+	saveLoad.SetName("PlayerX");
+
+	saveLoad.LoadData(x);
+	saveLoad.SetName("PlayerY");
+	saveLoad.LoadData(y);
+
+	const float2 playerPos = {x, y};
+
+	const float2 cameraOffset = playerPos -
+		float2{
+			resX / 2,
+			resY / 2
+		};
+	SetPosition(cameraOffset);
 }
 
 void Camera::SetInputScaling()
@@ -87,6 +108,7 @@ void Camera::Init(Sprite* tilemapSurface, Sprite* parallaxSurface)
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	desiredCameraScaling = currentCameraScale;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
+
 }
 
 void Camera::Render(Surface* screen)

@@ -19,8 +19,7 @@ Game::Game()
 	healthBar.Init("assets/heart_animated_1.png");
 	avatar = new Avatar("assets/PlayerSheet/PlayerBase/Character Idle 48x48.png",
 	                    tileMaps[Tilemap::FLOOR], tileMaps[Tilemap::LADDERS],
-	                    ropes, ziplines, elasticPlants, coins, cam);
-	avatar->Init();
+	                    ropes, ziplines, elasticPlants, coins, checkpoints, cam);
 	AddEntity(avatar);
 
 	AddObservers();
@@ -56,6 +55,10 @@ void Game::AddObservers()
 		coins[i].GetSubject()->AddObserver(coinScore);
 		coins[i].GetSubject()->AddObserver(score);
 	}
+	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	{
+		checkpoints[i].GetSubject()->AddObserver(*avatar);
+	}
 	winCondition.GetSubject()->AddObserver(gameState);
 	avatar->GetSubject()->AddObserver(cam);
 
@@ -84,7 +87,6 @@ void Game::SetUpCamera()
 #endif
 
 	cam.Init(enviroment, parallaxSprite);
-	cam.SetPosition(STARTING_POSITION);
 }
 
 void Game::AddAllEntities()
@@ -104,6 +106,10 @@ void Game::AddAllEntities()
 	for (uint i = 0; i < coins.GetCount(); i++)
 	{
 		AddEntity(&coins[i]);
+	}
+	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	{
+		AddEntity(&checkpoints[i]);
 	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
@@ -139,6 +145,10 @@ void Game::InitPositionEntities()
 	{
 		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
 	}
+	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	{
+		checkpoints[i].Init(nonTiles[SpawnNonTiles::CHECKPOINTS].GetPosition(i));
+	}
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), *avatar);
@@ -162,47 +172,52 @@ void Game::InitPositionEntities()
 void Game::InitEntities()
 {
 	//used as reference https://www.3dgep.com/cpp-fast-track-9-colours/
-	uint8_t countEnemies = 0;
-	uint8_t countStatics = 0;
-	size_t countProps = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countStatics);
-	countProps = countProps | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countStatics);
-	countProps = countProps | nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetCount() << GetBitSpace(countStatics);
-	countProps = countProps | nonTiles[SpawnNonTiles::COINS].GetCount() << GetBitSpace(countStatics);
+	uint8_t countB = 0;
+	uint8_t countA = 0;
+	uint32_t first4 = nonTiles[SpawnNonTiles::ROPE].GetCount() << GetBitSpace(countA);
+	first4 = first4 | nonTiles[SpawnNonTiles::ZIPLINE].GetCount() << GetBitSpace(countA);
+	first4 = first4 | nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetCount() << GetBitSpace(countA);
+	first4 = first4 | nonTiles[SpawnNonTiles::COINS].GetCount() << GetBitSpace(countA);
 
-	size_t countsEnemies = nonTiles[SpawnNonTiles::SPIKES].GetCount() << GetBitSpace(countEnemies);
-	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::BOARS].GetCount() << GetBitSpace(countEnemies);
-	countsEnemies = countsEnemies | nonTiles[SpawnNonTiles::MONKEYS].GetCount() << GetBitSpace(countEnemies);
+	uint32_t next4 = nonTiles[SpawnNonTiles::SPIKES].GetCount() << GetBitSpace(countB);
+	next4 = next4 | nonTiles[SpawnNonTiles::BOARS].GetCount() << GetBitSpace(countB);
+	next4 = next4 | nonTiles[SpawnNonTiles::MONKEYS].GetCount() << GetBitSpace(countB);
+	next4 = next4 | nonTiles[SpawnNonTiles::CHECKPOINTS].GetCount() << GetBitSpace(countB);
 
-	countEnemies = 1;
-	countStatics = 1;
+	countB = 1;
+	countA = 1;
 
-	size_t count = countProps & 0b11111111; //255 in binary
+	size_t count = first4 & 0b11111111; //255 in binary
 	ropes.Init(count);
 
 
-	uint8_t shift = GetBitSpace(countStatics);
-	count = (countProps & 0b11111111 << shift) >> shift;
+	uint8_t shift = GetBitSpace(countA);
+	count = (first4 & 0b11111111 << shift) >> shift;
 	ziplines.Init(count);
 
-	shift = GetBitSpace(countStatics);
-	count = (countProps & 0b11111111 << shift) >> shift;
+	shift = GetBitSpace(countA);
+	count = (first4 & 0b11111111 << shift) >> shift;
 	elasticPlants.Init(count);
 
-	shift = GetBitSpace(countStatics);
-	count = (countProps & 0b11111111 << shift) >> shift;
+	shift = GetBitSpace(countA);
+	count = (first4 & 0b11111111 << shift) >> shift;
 	coins.Init(count);
 
-	count = countsEnemies & 0b11111111;
+	count = next4 & 0b11111111;
 	spikes.Init(count);
 
-	shift = GetBitSpace(countEnemies);
-	count = (countsEnemies & 0b11111111 << shift) >> shift;
+	shift = GetBitSpace(countB);
+	count = (next4 & 0b11111111 << shift) >> shift;
 
 	boars.Init(count);
 
-	shift = GetBitSpace(countEnemies);
-	count = (countsEnemies & 0b11111111 << shift) >> shift;
+	shift = GetBitSpace(countB);
+	count = (next4 & 0b11111111 << shift) >> shift;
 	monkeys.Init(count);
+
+	shift = GetBitSpace(countB);
+	count = (next4 & 0b11111111 << shift) >> shift;
+	checkpoints.Init(count);
 
 
 	for (uint i = 0; i < monkeys.GetCount(); i++)
@@ -234,6 +249,7 @@ void Game::InitTiles()
 	nonTiles[SpawnNonTiles::SPIKES].Init("assets/Spikes.tmx");
 	nonTiles[SpawnNonTiles::MONKEYS].Init("assets/Monkeys.tmx");
 	nonTiles[SpawnNonTiles::BOARS].Init("assets/Boars.tmx", hasPairOfTwoPositions);
+	nonTiles[SpawnNonTiles::CHECKPOINTS].Init("assets/CheckPoint.tmx");
 }
 
 // -----------------------------------------------------------
@@ -247,6 +263,7 @@ void Game::Init()
 	healthBar.Init();
 	//TODO SAVE CHECKPOINT
 	cam.SetPosition(STARTING_POSITION);
+	cam.LoadCheckPoint();
 	avatar->Init();
 	music.play();
 }

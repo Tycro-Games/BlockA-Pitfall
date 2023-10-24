@@ -2,6 +2,7 @@
 #include "Array.h"
 #include "Scripts/Map/Non-Tileables/Coin.h"
 
+class Checkpoint;
 class ElasticPlant;
 struct Box;
 class Zipline;
@@ -24,9 +25,10 @@ public:
 	bool IsCollidingRopes(float2*& pMovingPart) const;
 	bool IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const;
 	void IsCollidingCoins() const;
+	void IsCollidingCheckpoints() const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
 	void SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants,
-	                 Array<Coin>& _coins);
+	                 Array<Coin>& _coins, Array<Checkpoint>& _checkpoints);
 
 
 	const Box* GetFloorCollider() const;
@@ -48,6 +50,7 @@ private:
 	Array<Rope>* ropes;
 	Array<ElasticPlant>* elasticPlants;
 	Array<Coin>* coins;
+	Array<Checkpoint>* checkpoints;
 	//Adriaensen, Remi (231390),  explained how to fix warning C4324 on discord
 
 	//colliders
@@ -59,6 +62,7 @@ private:
 	const float RADIUS_TO_ZIPLINE = 25.0f;
 	const float RADIUS_TO_ROPE = 30.0f;
 	const float RADIUS_TO_COIN = 16.0f;
+	const float RADIUS_TO_CHECKPOINT = 16.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;
 	const float ZIPLINE_OFFSET_START = 25.0f;
 
