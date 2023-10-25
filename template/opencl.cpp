@@ -38,105 +38,144 @@ bool CheckCL(cl_int result, const char* file, int line)
 	if (result == CL_SUCCESS) return true;
 	if (result == CL_DEVICE_NOT_FOUND)
 		FatalError("Error: CL_DEVICE_NOT_FOUND\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_DEVICE_NOT_AVAILABLE) FatalError("Error: CL_DEVICE_NOT_AVAILABLE\n%s, line %i", file, line,
-	                                                  "OpenCL error");
-	if (result == CL_COMPILER_NOT_AVAILABLE) FatalError("Error: CL_COMPILER_NOT_AVAILABLE\n%s, line %i", file, line,
-	                                                    "OpenCL error");
-	if (result == CL_MEM_OBJECT_ALLOCATION_FAILURE) FatalError("Error: CL_MEM_OBJECT_ALLOCATION_FAILURE\n%s, line %i",
-	                                                           file, line, "OpenCL error");
+	if (result == CL_DEVICE_NOT_AVAILABLE)
+		FatalError("Error: CL_DEVICE_NOT_AVAILABLE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_COMPILER_NOT_AVAILABLE)
+		FatalError("Error: CL_COMPILER_NOT_AVAILABLE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_MEM_OBJECT_ALLOCATION_FAILURE)
+		FatalError("Error: CL_MEM_OBJECT_ALLOCATION_FAILURE\n%s, line %i",
+		           file, line, "OpenCL error");
 	if (result == CL_OUT_OF_RESOURCES)
 		FatalError("Error: CL_OUT_OF_RESOURCES\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_OUT_OF_HOST_MEMORY) FatalError("Error: CL_OUT_OF_HOST_MEMORY\n%s, line %i", file, line,
-	                                                "OpenCL error");
-	if (result == CL_PROFILING_INFO_NOT_AVAILABLE) FatalError("Error: CL_PROFILING_INFO_NOT_AVAILABLE\n%s, line %i",
-	                                                          file, line, "OpenCL error");
+	if (result == CL_OUT_OF_HOST_MEMORY)
+		FatalError("Error: CL_OUT_OF_HOST_MEMORY\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_PROFILING_INFO_NOT_AVAILABLE)
+		FatalError("Error: CL_PROFILING_INFO_NOT_AVAILABLE\n%s, line %i",
+		           file, line, "OpenCL error");
 	if (result == CL_MEM_COPY_OVERLAP)
 		FatalError("Error: CL_MEM_COPY_OVERLAP\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_IMAGE_FORMAT_MISMATCH) FatalError("Error: CL_IMAGE_FORMAT_MISMATCH\n%s, line %i", file, line,
-	                                                   "OpenCL error");
-	if (result == CL_IMAGE_FORMAT_NOT_SUPPORTED) FatalError("Error: CL_IMAGE_FORMAT_NOT_SUPPORTED\n%s, line %i", file,
-	                                                        line, "OpenCL error");
-	if (result == CL_BUILD_PROGRAM_FAILURE) FatalError("Error: CL_BUILD_PROGRAM_FAILURE\n%s, line %i", file, line,
-	                                                   "OpenCL error");
+	if (result == CL_IMAGE_FORMAT_MISMATCH)
+		FatalError("Error: CL_IMAGE_FORMAT_MISMATCH\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_IMAGE_FORMAT_NOT_SUPPORTED)
+		FatalError("Error: CL_IMAGE_FORMAT_NOT_SUPPORTED\n%s, line %i", file,
+		           line, "OpenCL error");
+	if (result == CL_BUILD_PROGRAM_FAILURE)
+		FatalError("Error: CL_BUILD_PROGRAM_FAILURE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_MAP_FAILURE) FatalError("Error: CL_MAP_FAILURE\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_MISALIGNED_SUB_BUFFER_OFFSET) FatalError("Error: CL_MISALIGNED_SUB_BUFFER_OFFSET\n%s, line %i",
-	                                                          file, line, "OpenCL error");
-	if (result == CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST) FatalError(
-		"Error: CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST\n%s, line %i", file, line, "OpenCL error");
+	if (result == CL_MISALIGNED_SUB_BUFFER_OFFSET)
+		FatalError("Error: CL_MISALIGNED_SUB_BUFFER_OFFSET\n%s, line %i",
+		           file, line, "OpenCL error");
+	if (result == CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST)
+		FatalError(
+			"Error: CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST\n%s, line %i", file, line, "OpenCL error");
 	if (result == CL_INVALID_VALUE) FatalError("Error: CL_INVALID_VALUE\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_DEVICE_TYPE) FatalError("Error: CL_INVALID_DEVICE_TYPE\n%s, line %i", file, line,
-	                                                 "OpenCL error");
+	if (result == CL_INVALID_DEVICE_TYPE)
+		FatalError("Error: CL_INVALID_DEVICE_TYPE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_PLATFORM)
 		FatalError("Error: CL_INVALID_PLATFORM\n%s, line %i", file, line, "OpenCL error");
 	if (result == CL_INVALID_DEVICE) FatalError("Error: CL_INVALID_DEVICE\n%s, line %i", file, line, "OpenCL error");
 	if (result == CL_INVALID_CONTEXT) FatalError("Error: CL_INVALID_CONTEXT\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_QUEUE_PROPERTIES) FatalError("Error: CL_INVALID_QUEUE_PROPERTIES\n%s, line %i", file, line,
-	                                                      "OpenCL error");
-	if (result == CL_INVALID_COMMAND_QUEUE) FatalError("Error: CL_INVALID_COMMAND_QUEUE\n%s, line %i", file, line,
-	                                                   "OpenCL error");
+	if (result == CL_INVALID_QUEUE_PROPERTIES)
+		FatalError("Error: CL_INVALID_QUEUE_PROPERTIES\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_COMMAND_QUEUE)
+		FatalError("Error: CL_INVALID_COMMAND_QUEUE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_HOST_PTR)
 		FatalError("Error: CL_INVALID_HOST_PTR\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_MEM_OBJECT) FatalError("Error: CL_INVALID_MEM_OBJECT\n%s, line %i", file, line,
-	                                                "OpenCL error");
-	if (result == CL_INVALID_IMAGE_FORMAT_DESCRIPTOR) FatalError(
-		"Error: CL_INVALID_IMAGE_FORMAT_DESCRIPTOR\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_IMAGE_SIZE) FatalError("Error: CL_INVALID_IMAGE_SIZE\n%s, line %i", file, line,
-	                                                "OpenCL error");
+	if (result == CL_INVALID_MEM_OBJECT)
+		FatalError("Error: CL_INVALID_MEM_OBJECT\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_IMAGE_FORMAT_DESCRIPTOR)
+		FatalError(
+			"Error: CL_INVALID_IMAGE_FORMAT_DESCRIPTOR\n%s, line %i", file, line, "OpenCL error");
+	if (result == CL_INVALID_IMAGE_SIZE)
+		FatalError("Error: CL_INVALID_IMAGE_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_SAMPLER) FatalError("Error: CL_INVALID_SAMPLER\n%s, line %i", file, line, "OpenCL error");
 	if (result == CL_INVALID_BINARY) FatalError("Error: CL_INVALID_BINARY\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_BUILD_OPTIONS) FatalError("Error: CL_INVALID_BUILD_OPTIONS\n%s, line %i", file, line,
-	                                                   "OpenCL error");
+	if (result == CL_INVALID_BUILD_OPTIONS)
+		FatalError("Error: CL_INVALID_BUILD_OPTIONS\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_PROGRAM) FatalError("Error: CL_INVALID_PROGRAM\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_PROGRAM_EXECUTABLE) FatalError("Error: CL_INVALID_PROGRAM_EXECUTABLE\n%s, line %i", file,
-	                                                        line, "OpenCL error");
-	if (result == CL_INVALID_KERNEL_NAME) FatalError("Error: CL_INVALID_KERNEL_NAME\n%s, line %i", file, line,
-	                                                 "OpenCL error");
-	if (result == CL_INVALID_KERNEL_DEFINITION) FatalError("Error: CL_INVALID_KERNEL_DEFINITION\n%s, line %i", file,
-	                                                       line, "OpenCL error");
+	if (result == CL_INVALID_PROGRAM_EXECUTABLE)
+		FatalError("Error: CL_INVALID_PROGRAM_EXECUTABLE\n%s, line %i", file,
+		           line, "OpenCL error");
+	if (result == CL_INVALID_KERNEL_NAME)
+		FatalError("Error: CL_INVALID_KERNEL_NAME\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_KERNEL_DEFINITION)
+		FatalError("Error: CL_INVALID_KERNEL_DEFINITION\n%s, line %i", file,
+		           line, "OpenCL error");
 	if (result == CL_INVALID_KERNEL) FatalError("Error: CL_INVALID_KERNEL\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_ARG_INDEX) FatalError("Error: CL_INVALID_ARG_INDEX\n%s, line %i", file, line,
-	                                               "OpenCL error");
-	if (result == CL_INVALID_ARG_VALUE) FatalError("Error: CL_INVALID_ARG_VALUE\n%s, line %i", file, line,
-	                                               "OpenCL error");
+	if (result == CL_INVALID_ARG_INDEX)
+		FatalError("Error: CL_INVALID_ARG_INDEX\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_ARG_VALUE)
+		FatalError("Error: CL_INVALID_ARG_VALUE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_ARG_SIZE)
 		FatalError("Error: CL_INVALID_ARG_SIZE\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_KERNEL_ARGS) FatalError("Error: CL_INVALID_KERNEL_ARGS\n%s, line %i", file, line,
-	                                                 "OpenCL error");
-	if (result == CL_INVALID_WORK_DIMENSION) FatalError("Error: CL_INVALID_WORK_DIMENSION\n%s, line %i", file, line,
-	                                                    "OpenCL error");
-	if (result == CL_INVALID_WORK_GROUP_SIZE) FatalError("Error: CL_INVALID_WORK_GROUP_SIZE\n%s, line %i", file, line,
-	                                                     "OpenCL error");
-	if (result == CL_INVALID_WORK_ITEM_SIZE) FatalError("Error: CL_INVALID_WORK_ITEM_SIZE\n%s, line %i", file, line,
-	                                                    "OpenCL error");
-	if (result == CL_INVALID_GLOBAL_OFFSET) FatalError("Error: CL_INVALID_GLOBAL_OFFSET\n%s, line %i", file, line,
-	                                                   "OpenCL error");
-	if (result == CL_INVALID_EVENT_WAIT_LIST) FatalError("Error: CL_INVALID_EVENT_WAIT_LIST\n%s, line %i", file, line,
-	                                                     "OpenCL error");
+	if (result == CL_INVALID_KERNEL_ARGS)
+		FatalError("Error: CL_INVALID_KERNEL_ARGS\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_WORK_DIMENSION)
+		FatalError("Error: CL_INVALID_WORK_DIMENSION\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_WORK_GROUP_SIZE)
+		FatalError("Error: CL_INVALID_WORK_GROUP_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_WORK_ITEM_SIZE)
+		FatalError("Error: CL_INVALID_WORK_ITEM_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_GLOBAL_OFFSET)
+		FatalError("Error: CL_INVALID_GLOBAL_OFFSET\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_EVENT_WAIT_LIST)
+		FatalError("Error: CL_INVALID_EVENT_WAIT_LIST\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_EVENT) FatalError("Error: CL_INVALID_EVENT\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_OPERATION) FatalError("Error: CL_INVALID_OPERATION\n%s, line %i", file, line,
-	                                               "OpenCL error");
-	if (result == CL_INVALID_GL_OBJECT) FatalError("Error: CL_INVALID_GL_OBJECT\n%s, line %i", file, line,
-	                                               "OpenCL error");
-	if (result == CL_INVALID_BUFFER_SIZE) FatalError("Error: CL_INVALID_BUFFER_SIZE\n%s, line %i", file, line,
-	                                                 "OpenCL error");
-	if (result == CL_INVALID_MIP_LEVEL) FatalError("Error: CL_INVALID_MIP_LEVEL\n%s, line %i", file, line,
-	                                               "OpenCL error");
-	if (result == CL_INVALID_GLOBAL_WORK_SIZE) FatalError("Error: CL_INVALID_GLOBAL_WORK_SIZE\n%s, line %i", file, line,
-	                                                      "OpenCL error");
+	if (result == CL_INVALID_OPERATION)
+		FatalError("Error: CL_INVALID_OPERATION\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_GL_OBJECT)
+		FatalError("Error: CL_INVALID_GL_OBJECT\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_BUFFER_SIZE)
+		FatalError("Error: CL_INVALID_BUFFER_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_MIP_LEVEL)
+		FatalError("Error: CL_INVALID_MIP_LEVEL\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_GLOBAL_WORK_SIZE)
+		FatalError("Error: CL_INVALID_GLOBAL_WORK_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
 	if (result == CL_INVALID_PROPERTY)
 		FatalError("Error: CL_INVALID_PROPERTY\n%s, line %i", file, line, "OpenCL error");
-	if (result == CL_INVALID_IMAGE_DESCRIPTOR) FatalError("Error: CL_INVALID_IMAGE_DESCRIPTOR\n%s, line %i", file, line,
-	                                                      "OpenCL error");
-	if (result == CL_INVALID_COMPILER_OPTIONS) FatalError("Error: CL_INVALID_COMPILER_OPTIONS\n%s, line %i", file, line,
-	                                                      "OpenCL error");
-	if (result == CL_INVALID_LINKER_OPTIONS) FatalError("Error: CL_INVALID_LINKER_OPTIONS\n%s, line %i", file, line,
-	                                                    "OpenCL error");
-	if (result == CL_INVALID_DEVICE_PARTITION_COUNT) FatalError("Error: CL_INVALID_DEVICE_PARTITION_COUNT\n%s, line %i",
-	                                                            file, line, "OpenCL error");
-	if (result == CL_INVALID_PIPE_SIZE) FatalError("Error: CL_INVALID_PIPE_SIZE\n%s, line %i", file, line,
-	                                               "OpenCL error");
-	if (result == CL_INVALID_DEVICE_QUEUE) FatalError("Error: CL_INVALID_DEVICE_QUEUE\n%s, line %i", file, line,
-	                                                  "OpenCL error");
+	if (result == CL_INVALID_IMAGE_DESCRIPTOR)
+		FatalError("Error: CL_INVALID_IMAGE_DESCRIPTOR\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_COMPILER_OPTIONS)
+		FatalError("Error: CL_INVALID_COMPILER_OPTIONS\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_LINKER_OPTIONS)
+		FatalError("Error: CL_INVALID_LINKER_OPTIONS\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_DEVICE_PARTITION_COUNT)
+		FatalError("Error: CL_INVALID_DEVICE_PARTITION_COUNT\n%s, line %i",
+		           file, line, "OpenCL error");
+	if (result == CL_INVALID_PIPE_SIZE)
+		FatalError("Error: CL_INVALID_PIPE_SIZE\n%s, line %i", file, line,
+		           "OpenCL error");
+	if (result == CL_INVALID_DEVICE_QUEUE)
+		FatalError("Error: CL_INVALID_DEVICE_QUEUE\n%s, line %i", file, line,
+		           "OpenCL error");
 	return false;
 }
 
@@ -215,8 +254,9 @@ Buffer::Buffer(unsigned int N, void* ptr, unsigned int t)
 		textureID = N; // representing texture N
 		if (!Kernel::candoInterop) FatalError("didn't expect to get here.");
 		int error = 0;
-		if (t == TARGET) deviceBuffer = clCreateFromGLTexture(Kernel::GetContext(), CL_MEM_WRITE_ONLY, GL_TEXTURE_2D, 0,
-		                                                      N, &error);
+		if (t == TARGET)
+			deviceBuffer = clCreateFromGLTexture(Kernel::GetContext(), CL_MEM_WRITE_ONLY, GL_TEXTURE_2D, 0,
+			                                     N, &error);
 		else deviceBuffer = clCreateFromGLTexture(Kernel::GetContext(), CL_MEM_READ_ONLY, GL_TEXTURE_2D, 0, N, &error);
 		CHECKCL(error);
 		hostBuffer = 0;
@@ -401,8 +441,9 @@ Kernel::Kernel(char* file, char* entryPoint)
 		if (errorString)
 		{
 			int errorPos = (int)(errorString - log);
-			while (errorPos > 0) if (log[errorPos - 1] == '\n') break;
-			else errorPos--;
+			while (errorPos > 0)
+				if (log[errorPos - 1] == '\n') break;
+				else errorPos--;
 			// translate file and line number of error and report
 			log[errorPos + 2048] = 0;
 			int lineNr = 0, linePos = 0;
@@ -554,7 +595,7 @@ bool Kernel::InitCL()
 	printf("Device # %u, %s (%s)\n", deviceUsed, device_string, device_platform);
 	// digest device string
 	char* d = device_string;
-	for (int i = 0; i < strlen(d); i++) if (d[i] >= 'A' && d[i] <= 'Z') d[i] -= 'A' - 'a';
+	for (size_t i = 0; i < strlen(d); i++) if (d[i] >= 'A' && d[i] <= 'Z') d[i] -= 'A' - 'a';
 	if (strstr(d, "nvidia"))
 	{
 		isNVidia = true;
@@ -564,7 +605,8 @@ bool Kernel::InitCL()
 			if (strstr(d, "3050") || strstr(d, "3060") || strstr(d, "3070") || strstr(d, "3080") || strstr(d, "3090"))
 				isAmpere = true;
 			if (strstr(d, "a2000") || strstr(d, "a3000") || strstr(d, "a4000") || strstr(d, "a5000") ||
-				strstr(d, "a6000")) isAmpere = true;
+				strstr(d, "a6000"))
+				isAmpere = true;
 			// detect Turing GPUs
 			if (strstr(d, "2060") || strstr(d, "2070") || strstr(d, "2080")) isTuring = true;
 			// detect Titan RTX
@@ -573,7 +615,8 @@ bool Kernel::InitCL()
 			if (strstr(d, "quadro"))
 			{
 				if (strstr(d, "3000") || strstr(d, "4000") || strstr(d, "5000") || strstr(d, "6000") ||
-					strstr(d, "8000")) isTuring = true;
+					strstr(d, "8000"))
+					isTuring = true;
 			}
 		}
 		else if (strstr(d, "gtx"))
@@ -582,13 +625,15 @@ bool Kernel::InitCL()
 			if (strstr(d, "1650") || strstr(d, "1660")) isTuring = true;
 			// detect Pascal GPUs
 			if (strstr(d, "1010") || strstr(d, "1030") || strstr(d, "1050") || strstr(d, "1060") || strstr(d, "1070") ||
-				strstr(d, "1080")) isPascal = true;
+				strstr(d, "1080"))
+				isPascal = true;
 		}
 		else if (strstr(d, "quadro"))
 		{
 			// detect Pascal GPUs
 			if (strstr(d, "p2000") || strstr(d, "p1000") || strstr(d, "p600") || strstr(d, "p400") || strstr(d, "p5000")
-				|| strstr(d, "p100")) isPascal = true;
+				|| strstr(d, "p100"))
+				isPascal = true;
 		}
 		else
 		{
@@ -630,13 +675,13 @@ bool Kernel::InitCL()
 	{
 		printf("identification failed.\n");
 	}
-	// create a command-queue
-	queue = clCreateCommandQueue(context, devices[deviceUsed], CL_QUEUE_PROFILING_ENABLE, &error);
-	if (!CHECKCL(error)) return false;
-	// create a second command queue for asynchronous copies
-	queue2 = clCreateCommandQueue(context, devices[deviceUsed], CL_QUEUE_PROFILING_ENABLE, &error);
-	if (!CHECKCL(error)) return false;
-	// cleanup
+	//// create a command-queue
+	//queue = clCreateCommandQueue(context, devices[deviceUsed], CL_QUEUE_PROFILING_ENABLE, &error);
+	//if (!CHECKCL(error)) return false;
+	//// create a second command queue for asynchronous copies
+	//queue2 = clCreateCommandQueue(context, devices[deviceUsed], CL_QUEUE_PROFILING_ENABLE, &error);
+	//if (!CHECKCL(error)) return false;
+	//// cleanup
 	delete devices;
 	clStarted = true;
 	return true;

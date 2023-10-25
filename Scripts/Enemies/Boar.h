@@ -18,6 +18,7 @@ public:
 	void SetDesiredPos(const float2& _desiredPos);
 	float GetDistanceToPlayer() override;
 	Timer* GetHitTimer() const;
+	void Dead() override;
 
 private:
 	Timer* hitRecently = nullptr;
@@ -30,4 +31,5 @@ private:
 	const uint DAMAGE = 10;
 	const int BOAR_POINTS = 50;
 	const int HP = 40;
+	const char* saveName = "Boar";
 };

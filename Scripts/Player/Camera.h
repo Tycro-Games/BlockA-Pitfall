@@ -30,19 +30,25 @@ public:
 	void SetPosition(const float2& screenPos);
 
 private:
-	SavingLoading saveLoad;
 	void SetCameraScale(float cameraScale);
 
-	const float2 CAMERA_OFFSET = {150.0f, -50.0f};
-
-	Timer* t;
-	const float DELAY_ZOOM = .5f;
-	Parallax* parallax = nullptr;
-	const float EASE_OUT_DISTANCE_Y = 120.f;
-	const float EASE_OUT_DISTANCE_X = 120.f;
 	inline static float2 pos = 0;
+
+
+	Parallax* parallax = nullptr;
 	Sprite* tileMap = nullptr;
 	Sprite* preRender = nullptr;
+	Timer* t = nullptr;
+
+	SavingLoading saveLoad;
+
+
+	const float DELAY_ZOOM = .5f;
+	const float EASE_OUT_DISTANCE_Y = 120.f;
+	const float EASE_OUT_DISTANCE_X = 120.f;
+	const float CAMERA_OFFSET_X = {150.0};
+	const float CAMERA_OFFSET_Y = {-50.0f};
+
 	const float CAM_SPEED = 1.0f;
 	const float CAM_SPEED_EDGE = 30.0f;
 	const float DEFAULT_CAMERA_SCALE = 0.4f;

@@ -10,9 +10,10 @@ public:
 	void OnExit() override;
 
 private:
-	Timer* stopTimer = nullptr;
 	const float2 END_POS_RELATIVE = float2{100, 200};
 	const float2 RANDOM_OFFSET = float2{20, 0};
+	Timer* stopTimer = nullptr;
+
 	const float TIME_TO_THROW = 1.6f;
 	const float VARIABLE_TIME = .9f;
 	float randomTime = 0;

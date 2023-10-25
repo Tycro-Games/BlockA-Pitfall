@@ -146,6 +146,18 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 	delete colCheck;
 	colCheck = new CollisionChecker(&position, floors, ladders);
 	throwCollider = Box{minThrow, maxhrow};
+
+	//load save
+	saveLoad->SetName(saveName);
+	saveLoad->EntryPosition(position);
+	uint8_t i = 0;
+	saveLoad->LoadData(i);
+	if (i)
+	{
+		SetActive(false);
+		dead = true;
+		noBall = true;
+	}
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)
@@ -200,6 +212,8 @@ void Monkey::SetBall(MonkeyBall* _ball)
 	{
 		if (dead && IsActive())
 		{
+			uint8_t i = 1;
+			saveLoad->SaveData(i);
 			SetActive(false);
 		}
 		noBall = true;

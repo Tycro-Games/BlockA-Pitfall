@@ -6,6 +6,7 @@ Enemy::~Enemy()
 {
 	delete hp;
 	delete subject;
+	delete saveLoad;
 }
 
 Enemy::Enemy()
@@ -13,6 +14,7 @@ Enemy::Enemy()
 	SetActive(true);
 	subject = new Subject();
 	hp = new Health();
+	saveLoad = new SavingLoading("");
 }
 
 void Enemy::Update(float deltaTime)

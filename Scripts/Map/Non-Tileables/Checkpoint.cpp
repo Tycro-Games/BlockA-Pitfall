@@ -20,17 +20,18 @@ void Checkpoint::Render(Surface* screen)
 	if (!onScreen)
 		return;
 	const float2 camPos = Camera::GetPosition();
-	const int x = static_cast<int>(position.x - camPos.x);
-	const int y = static_cast<int>(position.y - camPos.y);
+	const int x = static_cast<int>(position.x + coll.min.x - camPos.x);
+	const int y = static_cast<int>(position.y + coll.min.y - camPos.y);
 
 	sprite->Draw(screen, x, y);
 #ifdef _DEBUG
-	Box a = AABB::At({position.x, position.y}, coll);
+	const int dX = static_cast<int>(position.x + coll.max.x - camPos.x);
+	const int dY = static_cast<int>(position.y + coll.max.y - camPos.y);
 	screen->Box(
-		static_cast<int>(a.min.x),
-		static_cast<int>(a.min.y),
-		static_cast<int>(a.max.x),
-		static_cast<int>(a.max.y),
+		x,
+		y,
+		dX,
+		dY,
 		WHITE);
 #endif
 }
@@ -49,6 +50,8 @@ void Checkpoint::Init(const float2& pos)
 	activated = false;
 	position = pos;
 
+	saveLoad->SetName(saveName);
+	saveLoad->EntryPosition(position);
 	GetJSONString();
 	float test = 0;
 	saveLoad->LoadData(test);

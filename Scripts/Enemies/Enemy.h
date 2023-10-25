@@ -42,6 +42,7 @@ protected:
 	int y1 = 0;
 	int y2 = 0;
 	Box col;
+	SavingLoading* saveLoad = nullptr;
 
 private:
 	int points = 10;

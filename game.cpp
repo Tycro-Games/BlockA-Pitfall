@@ -58,6 +58,8 @@ void Game::AddObservers()
 	for (uint i = 0; i < checkpoints.GetCount(); i++)
 	{
 		checkpoints[i].GetSubject()->AddObserver(*avatar);
+		checkpoints[i].GetSubject()->AddObserver(coinScore);
+		checkpoints[i].GetSubject()->AddObserver(score);
 	}
 	winCondition.GetSubject()->AddObserver(gameState);
 	avatar->GetSubject()->AddObserver(cam);
@@ -258,8 +260,6 @@ void Game::InitTiles()
 void Game::Init()
 {
 	InitPositionEntities();
-	score.SetPoints(0);
-	coinScore.SetPoints(0);
 	healthBar.Init();
 	//TODO SAVE CHECKPOINT
 	cam.SetPosition(STARTING_POSITION);

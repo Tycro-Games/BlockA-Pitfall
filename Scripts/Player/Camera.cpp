@@ -108,7 +108,6 @@ void Camera::Init(Sprite* tilemapSurface, Sprite* parallaxSurface)
 	currentCameraScale = DEFAULT_CAMERA_SCALE;
 	desiredCameraScaling = currentCameraScale;
 	SetCameraScale(DEFAULT_CAMERA_SCALE);
-
 }
 
 void Camera::Render(Surface* screen)
@@ -137,8 +136,8 @@ void Camera::UpdatePosition(float deltaTime, const float2& playerPos, float left
 	//apply camera scaling to the offset
 	const float2 cameraOffset = playerPos -
 		float2{
-			CAMERA_OFFSET.x * leftOrRight * currentCameraScale,
-			CAMERA_OFFSET.y * currentCameraScale
+			CAMERA_OFFSET_X * leftOrRight * currentCameraScale,
+			CAMERA_OFFSET_Y * currentCameraScale
 		};
 	const float2 halfScreen{resX / 2, resY / 2};
 	const float lengthToNextPosition = length(cameraOffset - halfScreen - pos);

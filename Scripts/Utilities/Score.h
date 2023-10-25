@@ -16,7 +16,6 @@ public:
 
 protected:
 	float2 pos;
+
 	uint score = 0;
-	const uint8_t SCORE_DIGITS = 8;
-	const uint8_t COINS_DIGITS = 2;
 };

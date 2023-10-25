@@ -58,6 +58,15 @@ void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 	SetHP(HP);
 	SetPoints(BOAR_POINTS);
 	SetDamage(DAMAGE);
+	//load save
+	saveLoad->SetName(saveName);
+	saveLoad->EntryPosition(position);
+	uint8_t i = 0;
+	saveLoad->LoadData(i);
+	if (i)
+	{
+		SetActive(false);
+	}
 }
 
 const float2& Boar::GetDesiredPos() const
@@ -94,4 +103,11 @@ float Boar::GetDistanceToPlayer()
 Timer* Boar::GetHitTimer() const
 {
 	return hitRecently;
+}
+
+void Boar::Dead()
+{
+	Enemy::Dead();
+	uint8_t i = 1;
+	saveLoad->SaveData(i);
 }

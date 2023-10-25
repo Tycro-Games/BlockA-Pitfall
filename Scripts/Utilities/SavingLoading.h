@@ -6,6 +6,7 @@ public:
 	~SavingLoading();
 	SavingLoading(const char* name);
 	void SetName(const char* name);
+	void EntryPosition(const float2& position);
 	void SaveData(uint& data) const;
 	void SaveData(float& data) const;
 	void SaveData(uint8_t& data) const;

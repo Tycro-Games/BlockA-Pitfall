@@ -1,6 +1,4 @@
 #pragma once
-#include "Scripts/Map/Non-Tileables/Coin.h"
-#include "Scripts/Utilities/Array.h"
 
 
 class Checkpoint;
@@ -82,15 +80,30 @@ public:
 	void ThrowRock(const float2& dir) const;
 
 private:
+	//physics
+	float2 pos = 0;
+	float2 velocity = 0;
+
 	void UpdateCurrentState(float deltaTime);
 	void ResetInput();
+	//physics
+
+	const float SPEED = 250.5f;
+	const float SHOOT_OFFSET_X = {9.0f};
+	const float SHOOT_OFFSET_Y = {0.0f};
+	const float PLAYER_OFFSET_X = {15.0f};
+	const float PLAYER_OFFSET_Y = {-7.0f,};
+	const uint NUMBER_FRAMES = 10;
+	int flipX = -1;
+	bool alreadyJumped = false;
+	Timer* jumpTimer = nullptr;
+
+	const float SMALL_JUMP_END = 0.13f;
+
 	Subject* subject;
 	Input input;
 	Timer* climbTimer = nullptr;
 	bool startedJump = false;
-	bool alreadyJumped = false;
-	Timer* jumpTimer = nullptr;
-	const float SMALL_JUMP_END = 0.13f;
 
 
 	//base for general sprite class and render
@@ -102,20 +115,12 @@ private:
 	SavingLoading saveLoad;
 	const char* saveX = "PlayerX";
 	const char* saveY = "PlayerY";
-	//physics
-	float2 velocity = 0;
-	float2 pos = 0;
-	const float SPEED = 250.5f;
-	const uint NUMBER_FRAMES = 10;
-	int flipX = -1;
 
 	//colliders
 	CollisionChecker* col = nullptr;
 	//rocks
 	SpawnRocks* spawnRocks = nullptr;
-	//animation
-	const float2 PLAYER_OFFSET = {15.0f, -7.0f};
-	const float2 SHOOT_OFFSET = {9.0f, 0.0f};
+
 
 	bool canMove = true;
 	bool alreadyShot = false;

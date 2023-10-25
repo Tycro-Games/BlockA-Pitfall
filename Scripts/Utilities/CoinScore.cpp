@@ -4,6 +4,7 @@
 CoinScore::~CoinScore()
 {
 	delete sprite;
+	delete saveLoad;
 }
 
 void CoinScore::Notify(int context, EVENT ev)
@@ -13,6 +14,10 @@ void CoinScore::Notify(int context, EVENT ev)
 	{
 	case COIN_COLLECTED:
 		AddPoints(1);
+		saveLoad->SaveData(score);
+
+		break;
+
 	default:
 		break;
 	}
@@ -34,4 +39,6 @@ CoinScore::CoinScore()
 {
 	SetPosition(POSITION);
 	sprite = new Sprite(new Surface("assets/coin1_16x16.png"), FRAMES);
+	saveLoad = new SavingLoading(saveName);
+	saveLoad->LoadData(score);
 }

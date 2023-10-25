@@ -71,8 +71,8 @@ void Avatar::Render(Surface* screen)
 {
 	//convert to screen position
 	const float2 camPos = Camera::GetPosition();
-	const int x = static_cast<int>(pos.x - PLAYER_OFFSET.x - camPos.x);
-	const int y = static_cast<int>(pos.y - PLAYER_OFFSET.y - camPos.y);
+	const int x = static_cast<int>(pos.x - PLAYER_OFFSET_X - camPos.x);
+	const int y = static_cast<int>(pos.y - PLAYER_OFFSET_Y - camPos.y);
 	int directionToLook;
 	if (velocity.x > 0.1f)
 		directionToLook = 1;
@@ -332,7 +332,7 @@ int Avatar::GetFlip() const
 void Avatar::ThrowRock(const float2& dir) const
 {
 	spawnRocks->AddRockToActive(dir, col->GetBoxColliderPos() + float2{
-		                            -SHOOT_OFFSET.x * static_cast<float>(flipX), SHOOT_OFFSET.y
+		                            -SHOOT_OFFSET_X * static_cast<float>(flipX), SHOOT_OFFSET_Y
 	                            });
 }
 

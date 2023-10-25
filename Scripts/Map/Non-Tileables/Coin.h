@@ -15,9 +15,9 @@ public:
 	Subject* GetSubject() const;
 
 private:
+	float2 position = 0;
 	inline static Audio::Sound coinSound{"assets//Audio/Pickup_Coin3.wav"};
 	Subject* subject = nullptr;
-	float2 position = 0;
 	//we only need one coin sprite for all of them
 	inline static Sprite* sprite = nullptr;
 	Box coll;
@@ -25,4 +25,6 @@ private:
 	const int FRAMES = 15;
 	const float DISTANCE_TO_PLAYER = 16.0f;
 	const int points = 100;
+	SavingLoading* saveLoad = nullptr;
+	const char* saveName = "Coin";
 };

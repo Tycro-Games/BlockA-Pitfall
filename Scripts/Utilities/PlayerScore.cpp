@@ -4,6 +4,13 @@
 PlayerScore::PlayerScore()
 {
 	SetPosition(POSITION);
+	saveLoad = new SavingLoading(saveName);
+	saveLoad->LoadData(score);
+}
+
+PlayerScore::~PlayerScore()
+{
+	delete saveLoad;
 }
 
 void PlayerScore::Notify(int context, EVENT ev)
@@ -16,6 +23,8 @@ void PlayerScore::Notify(int context, EVENT ev)
 		break;
 	case COIN_COLLECTED:
 		AddPoints(POINTS_FOR_COINS);
+		saveLoad->SaveData(score);
+
 		break;
 	default:
 		break;

@@ -4,6 +4,7 @@
 Coin::~Coin()
 {
 	delete subject;
+	delete saveLoad;
 	delete sprite;
 	sprite = nullptr;
 }
@@ -11,6 +12,7 @@ Coin::~Coin()
 Coin::Coin()
 {
 	subject = new Subject();
+	saveLoad = new SavingLoading("");
 }
 
 void Coin::Render(Surface* screen)
@@ -40,6 +42,15 @@ void Coin::Init(const float2& pos)
 	{
 		sprite = new Sprite(new Surface("assets/coin1_16x16.png"), FRAMES);
 	}
+	//load save
+	saveLoad->SetName(saveName);
+	saveLoad->EntryPosition(position);
+	uint8_t i = 0;
+	saveLoad->LoadData(i);
+	if (i)
+	{
+		SetActive(false);
+	}
 }
 
 bool Coin::GetOnScreen() const
@@ -54,10 +65,11 @@ const float2& Coin::GetPosition() const
 
 void Coin::Collect()
 {
-	//if (!coinSound.isPlaying())
 	coinSound.play();
 	SetActive(false);
 	subject->Notify(points, COIN_COLLECTED);
+	uint8_t i = 1;
+	saveLoad->SaveData(i);
 }
 
 Subject* Coin::GetSubject() const

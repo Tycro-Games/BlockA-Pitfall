@@ -62,8 +62,8 @@
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">Audio_d.lib;winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib;</AdditionalDependencies>
-	<AdditionalDependencies Condition="'$(Configuration)'=='Release'">Audio.lib;winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib;</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">Audio.lib;winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib;Ole32.lib;Cfgmgr32.lib</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">Audio.lib;winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;libz-static.lib;Ole32.lib;Cfgmgr32.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <OutputFile>$(TargetPath)</OutputFile>
@@ -73,12 +73,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>lib/glfw/lib-vc2019;lib/zlib;lib/OpenCL/lib;lib\Audio\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>lib/glfw/lib/$(Platform)/$(Configuration);lib/zlib;lib/OpenCL/lib/$(Platform)/$(Configuration);lib\Audio\lib\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
-      <AdditionalLibraryDirectories>lib/glfw/lib-vc2019;lib/zlib;lib/OpenCL/lib;lib\Audio\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>lib/glfw/lib/$(Platform)/$(Configuration);lib/zlib;lib/OpenCL/lib/$(Platform)/$(Configuration);lib\Audio\lib\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -97,10 +97,17 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp17</LanguageStandard>
       <OpenMPSupport Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</OpenMPSupport>
       <OpenMPSupport Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</OpenMPSupport>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</WholeProgramOptimization>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</WholeProgramOptimization>
+      <ProgramDataBaseFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <IgnoreSpecificDefaultLibraries>msvcrt.lib;</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImageHasSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ImageHasSafeExceptionHandlers>
+      <LinkStatus Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkStatus>
+      <LinkStatus Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkStatus>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -109,7 +116,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -120,7 +127,7 @@
       </BrowseInformation>
     </ClCompile>
     <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,6 +141,10 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
+    <Link />
+    <Link>
+      <LinkStatus>true</LinkStatus>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -141,6 +152,11 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
+    <Link />
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <LinkStatus>true</LinkStatus>
+    </Link>
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
