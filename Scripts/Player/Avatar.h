@@ -80,10 +80,6 @@ public:
 	void ThrowRock(const float2& dir) const;
 
 private:
-	//physics
-	float2 pos = 0;
-	float2 velocity = 0;
-
 	void UpdateCurrentState(float deltaTime);
 	void ResetInput();
 	//physics
@@ -96,32 +92,35 @@ private:
 	const uint NUMBER_FRAMES = 10;
 	int flipX = -1;
 	bool alreadyJumped = false;
-	Timer* jumpTimer = nullptr;
 
 	const float SMALL_JUMP_END = 0.13f;
 
-	Subject* subject;
 	Input input;
-	Timer* climbTimer = nullptr;
+
 	bool startedJump = false;
 
 
-	//base for general sprite class and render
-	Sprite* sprite;
-	//components
-	Camera* cam;
-	PlayerState* currentState;
 	//saving
 	SavingLoading saveLoad;
 	const char* saveX = "PlayerX";
 	const char* saveY = "PlayerY";
 
+
+	bool canMove = true;
+	bool alreadyShot = false;
 	//colliders
 	CollisionChecker* col = nullptr;
 	//rocks
 	SpawnRocks* spawnRocks = nullptr;
-
-
-	bool canMove = true;
-	bool alreadyShot = false;
+	//base for general sprite class and render
+	Sprite* sprite;
+	//components
+	Camera* cam;
+	PlayerState* currentState;
+	Timer* climbTimer = nullptr;
+	Subject* subject;
+	Timer* jumpTimer = nullptr;
+	//physics
+	float2 pos = 0;
+	float2 velocity = 0;
 };

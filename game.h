@@ -98,6 +98,6 @@ namespace Tmpl8
 		Audio::Sound music{"assets/Audio/Fur Elise (by Beethoven) - Beethoven.mp3", Audio::Sound::Type::Stream};
 		//input
 		Input input;
-		const float2 STARTING_POSITION = {520, 100};
+		const float2 STARTING_POSITION = {150, 1490};
 	};
 } // namespace Tmpl8

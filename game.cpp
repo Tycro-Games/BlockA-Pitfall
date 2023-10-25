@@ -446,7 +446,10 @@ void Game::KeyUp(int key)
 void Game::KeyDown(int key)
 {
 	//is we are in the start menu we can start the game if the player presses something
-
+	if (gameState.GetState() == GameStateManager::START_MENU)
+	{
+		return;
+	}
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:

@@ -21,7 +21,7 @@ void HealthBar::Init(const char* spritePath)
 
 void HealthBar::Init()
 {
-	hp->SetHp(1);
+	hp->SetHp(100);
 	UpdateUI();
 }
 

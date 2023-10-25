@@ -5,7 +5,7 @@
 Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
                Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins,
                Array<Checkpoint>& _checkpoints, Camera& _cam) :
-	currentState(nullptr), saveLoad("")
+	saveLoad(""), currentState(nullptr)
 {
 	cam = &_cam;
 

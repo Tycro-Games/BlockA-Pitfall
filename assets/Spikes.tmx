@@ -2,13 +2,7 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="68">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="18" name="Spikes">
-  <object id="57" x="183.329" y="1527.55">
-   <point/>
-  </object>
-  <object id="66" x="469.06" y="1433.95">
-   <point/>
-  </object>
-  <object id="67" x="672" y="1440">
+  <object id="57" x="544" y="1536">
    <point/>
   </object>
  </objectgroup>
