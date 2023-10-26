@@ -36,7 +36,10 @@ Game::Game()
 void Game::AddObservers()
 {
 	for (uint i = 0; i < spikes.GetCount(); i++)
+	{
 		spikes[i].GetSubject()->AddObserver(healthBar);
+		spikes[i].GetSubject()->AddObserver(*avatar);
+	}
 	for (uint i = 0; i < boars.GetCount(); i++)
 	{
 		boars[i].GetSubject()->AddObserver(healthBar);
@@ -265,6 +268,8 @@ void Game::Init()
 	cam.SetPosition(STARTING_POSITION);
 	cam.LoadCheckPoint();
 	avatar->Init();
+	coinScore.Init();
+	score.Init();
 	music.play();
 }
 
@@ -307,6 +312,9 @@ void Game::Render()
 
 		break;
 	case GameStateManager::WIN:
+		//artifical reset
+		healthBar.SetStartingHP(0);
+		healthBar.Notify(0, PLAYER_HIT);
 		screen->Clear(0);
 		screen->Print("You killed all the enemies, ", SMALL_PADDING, SMALL_PADDING, RED);
 		screen->Print("so you win!", SMALL_PADDING, HALF_SCRHEIGHT, RED);
@@ -409,15 +417,6 @@ void Game::Shutdown()
 
 void Game::KeyUp(int key)
 {
-	if (gameState.GetState() == GameStateManager::START_MENU)
-	{
-		input.arrowKeys = 0;
-		input.shooting = false;
-		input.smallJump = false;
-		input.jumping = false;
-		gameState.SetState(GameStateManager::PLAYING);
-		return;
-	}
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:
@@ -445,11 +444,6 @@ void Game::KeyUp(int key)
 
 void Game::KeyDown(int key)
 {
-	//is we are in the start menu we can start the game if the player presses something
-	if (gameState.GetState() == GameStateManager::START_MENU)
-	{
-		return;
-	}
 	switch (key)
 	{
 	case GLFW_KEY_LEFT:
@@ -471,6 +465,15 @@ void Game::KeyDown(int key)
 		input.shooting = true;
 	default:
 		break;
+	}
+	//is we are in the start menu we can start the game if the player presses something
+	if (gameState.GetState() == GameStateManager::START_MENU)
+	{
+		//input.arrowKeys = 0;
+		input.shooting = false;
+		input.smallJump = false;
+		input.jumping = false;
+		gameState.SetState(GameStateManager::PLAYING);
 	}
 }
 

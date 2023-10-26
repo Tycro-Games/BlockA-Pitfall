@@ -6,7 +6,21 @@ void Boar::Render(Surface* screen)
 	if (!onScreen)
 		return;
 	GetDrawCoordinatesMoving();
+#ifdef _DEBUG
 	screen->Box(x1, y1, x2, y2, GREEN);
+#endif
+
+	boarSurface_->GetSurface()->Clear(0);
+	if (headingRight)
+	{
+		preRendered->DrawFlippedX(boarSurface_->GetSurface(), 0, 0);
+	}
+	else
+	{
+		preRendered->Draw(boarSurface_->GetSurface(), 0, 0);
+	}
+
+	boarSurface_->Draw(screen, x1, y1);
 }
 
 void Boar::Update(float deltaTime)
@@ -29,11 +43,29 @@ Boar::~Boar()
 {
 	delete hitRecently;
 	delete currentState;
+	delete boarSprite;
+	delete preRendered;
+	delete boarSurface_;
 }
 
 Boar::Boar()
 {
 	hitRecently = new Timer();
+
+	boarSprite = new Sprite(new Surface("assets/monkey.png"), FRAMES);
+
+	Surface* surf = new Surface(RESIZE, RESIZE);
+	surf->Clear(0xf00);
+	preRendered = new Sprite(surf, 1);
+	surf->Clear(0);
+
+	Surface* surfR = new Surface(RESIZE, RESIZE);
+	surfR->Clear(0xf00);
+	boarSurface_ = new Sprite(surfR, 1);
+	surfR->Clear(0);
+
+	boarSprite->DrawScaled(0, 0, RESIZE, RESIZE, preRendered->GetSurface());
+	surface = boarSurface_->GetSurface();
 }
 
 bool Boar::AtackPlayer()
@@ -67,6 +99,7 @@ void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 	{
 		SetActive(false);
 	}
+	headingRight = false;
 }
 
 const float2& Boar::GetDesiredPos() const
@@ -86,6 +119,7 @@ const float2& Boar::GetEndPos() const
 
 void Boar::SwitchPositions()
 {
+	headingRight = !headingRight;
 	swap(pointA, pointB);
 }
 

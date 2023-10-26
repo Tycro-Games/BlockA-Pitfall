@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="68">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="21" nextobjectid="87">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="18" name="Spikes">
-  <object id="57" x="544" y="1536">
+  <object id="57" x="466" y="1525.33">
+   <point/>
+  </object>
+  <object id="68" x="560" y="1525.33">
+   <point/>
+  </object>
+  <object id="81" x="864" y="1280">
+   <point/>
+  </object>
+  <object id="69" x="800" y="1280">
+   <point/>
+  </object>
+  <object id="78" x="704" y="1280">
+   <point/>
+  </object>
+  <object id="74" x="736" y="1280">
+   <point/>
+  </object>
+  <object id="77" x="768" y="1280">
+   <point/>
+  </object>
+  <object id="83" x="832" y="1280">
    <point/>
   </object>
  </objectgroup>

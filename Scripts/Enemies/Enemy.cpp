@@ -79,15 +79,6 @@ void Enemy::DetectHit()
 
 		Surface* enemySurface = GetSurface();
 		//there are enemies with no sprites
-		if (enemySurface == nullptr)
-		{
-			if (!AABB::BoxCollides(AABB::At(rockPos, rockBox), AABB::At(position, col)))
-				continue;
-			rocks[i].SetActive(false);
-
-			HitByPlayer(10);
-			continue;
-		}
 		//enemies with pixel perfect collisions
 		Surface* rock = avatar->GetRockSpawner()->GetRockSprite();
 

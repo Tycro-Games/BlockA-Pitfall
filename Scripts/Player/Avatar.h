@@ -72,12 +72,15 @@ public:
 	SpawnRocks* GetRockSpawner() const;
 	Camera* GetCamera() const;
 	Timer* GetClimbTimer() const;
+	const Input& GetInput();
 
-	const Input& GetInput() const;
+
 	Subject* GetSubject() const;
 	Array<Rock>& GetRocks() const;
 	int GetFlip() const;
 	void ThrowRock(const float2& dir) const;
+	bool GetHitSpike() const;
+	void SetHitSpike(bool val);
 
 private:
 	void UpdateCurrentState(float deltaTime);
@@ -99,7 +102,6 @@ private:
 
 	bool startedJump = false;
 
-
 	//saving
 	SavingLoading saveLoad;
 	const char* saveX = "PlayerX";
@@ -108,6 +110,8 @@ private:
 
 	bool canMove = true;
 	bool alreadyShot = false;
+	const float COOLDOWN_HIT_JUMP = .2f;
+
 	//colliders
 	CollisionChecker* col = nullptr;
 	//rocks
@@ -120,6 +124,7 @@ private:
 	Timer* climbTimer = nullptr;
 	Subject* subject;
 	Timer* jumpTimer = nullptr;
+	Timer* hitJumpTimer = nullptr;
 	//physics
 	float2 pos = 0;
 	float2 velocity = 0;

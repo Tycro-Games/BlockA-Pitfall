@@ -43,6 +43,16 @@ void SavingLoading::SaveData(uint& data) const
 	o << std::setw(4) << j << std::endl;
 }
 
+void SavingLoading::SaveData(int& data) const
+{
+	json j;
+	LoadJsonFile(j);
+
+	j[saveName] = data;
+	std::ofstream o(savePath);
+	o << std::setw(4) << j << std::endl;
+}
+
 void SavingLoading::SaveData(float& data) const
 {
 	json j;
@@ -79,6 +89,15 @@ void SavingLoading::LoadData(uint& outData) const
 		outData = j[saveName];
 }
 
+void SavingLoading::LoadData(int& outData) const
+{
+	json j;
+	LoadJsonFile(j);
+	if (j[saveName].is_number())
+
+		outData = j[saveName];
+}
+
 void SavingLoading::LoadData(uint8_t& outData) const
 {
 	json j;
@@ -98,4 +117,11 @@ void SavingLoading::LoadData(float& outData) const
 	i >> j;
 	if (j[saveName].is_number_float())
 		outData = j[saveName];
+}
+
+void SavingLoading::ResetAllData()
+{
+	json j;
+	std::ofstream o(savePath);
+	o << std::setw(4) << j << std::endl;
 }

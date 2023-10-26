@@ -1,0 +1,201 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Ladders.tmx",
+    "automapping.whileDrawing": false,
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "160x160 background tilemap.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Basic Tilemap.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Boars.tmx": {
+            "expandedObjectLayers": [
+                20
+            ],
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 42,
+                "y": 7
+            }
+        },
+        "CheckPoint.tmx": {
+            "expandedObjectLayers": [
+                18
+            ],
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1266,
+                "y": 786
+            }
+        },
+        "Coins.tmx": {
+            "expandedObjectLayers": [
+                17
+            ],
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1276.5,
+                "y": 796.5
+            }
+        },
+        "ElasticPlants.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1257.5757575757575,
+                "y": 778.7878787878788
+            }
+        },
+        "FireColor.tsx": {
+            "scaleInDock": 0.75
+        },
+        "Floors.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1270.6666666666665,
+                "y": 790.6666666666666
+            }
+        },
+        "Ladders.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1216,
+                "y": 1196
+            }
+        },
+        "Ladders.tmx#Pitfall_tilesheet": {
+            "scaleInDock": 1
+        },
+        "Monkeys.tmx": {
+            "expandedObjectLayers": [
+                20
+            ],
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1019.9999999999999,
+                "y": 1237.3333333333335
+            }
+        },
+        "Parallax.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1214,
+                "y": 984
+            }
+        },
+        "Pitfall_tilesheet.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "Ropes.tmx": {
+            "expandedObjectLayers": [
+                17
+            ],
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1434.6666666666665,
+                "y": 1308
+            }
+        },
+        "Spikes.tmx": {
+            "expandedObjectLayers": [
+                18
+            ],
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 42,
+                "y": 7
+            }
+        },
+        "TextColorCycling.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 466,
+                "y": 16
+            }
+        },
+        "Tilemap.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1266,
+                "y": 786
+            }
+        },
+        "Ziplines.tmx": {
+            "expandedObjectLayers": [
+                18
+            ],
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1548,
+                "y": 1082.6666666666665
+            }
+        }
+    },
+    "last.externalTilesetPath": "D:/Buas/Projects/Perforce/Bogdan230005/Year1/BlockA/Pitfall/assets",
+    "last.imagePath": "D:/Buas/Projects/Perforce/Bogdan230005/Year1/BlockA/Pitfall/assets",
+    "last.worldFilePath": "D:/Buas/Projects/Perforce/Bogdan230005/Year1/BlockA/Pitfall/assets",
+    "loadedWorlds": [
+        "D:/Buas/Projects/Perforce/Bogdan230005/Year1/BlockA/Pitfall/assets/world.world"
+    ],
+    "map.height": 50,
+    "map.width": 80,
+    "mapScene.enableWorlds": true,
+    "openFiles": [
+        "Boars.tmx",
+        "ElasticPlants.tmx",
+        "Coins.tmx",
+        "Tilemap.tmx",
+        "TextColorCycling.tmx",
+        "Ropes.tmx",
+        "Spikes.tmx",
+        "Floors.tmx",
+        "Ladders.tmx",
+        "Monkeys.tmx",
+        "CheckPoint.tmx",
+        "Ziplines.tmx"
+    ],
+    "project": "AllTiles.tiled-project",
+    "recentFiles": [
+        "Coins.tmx",
+        "TextColorCycling.tmx",
+        "Floors.tmx",
+        "ElasticPlants.tmx",
+        "CheckPoint.tmx",
+        "Tilemap.tmx",
+        "Boars.tmx",
+        "Spikes.tmx",
+        "Pitfall_tilesheet.tsx",
+        "160x160 background tilemap.tsx",
+        "Basic Tilemap.tsx",
+        "Ropes.tmx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx"
+}

@@ -10,7 +10,7 @@ public:
 	void Update(float deltaTime) override;
 	void Init(float2 _fixedPoint);
 	bool GetOnScreen() const;
-	static float2 GetMovingPartAtTime(float2 startPoint, float timeElapsed, const float leng);
+	static float2 GetMovingPartAtTime(float2 startPoint, float timeElapsed, float leng);
 	float2 GetMovingPart() const;
 	float2* pGetMovingPart();
 

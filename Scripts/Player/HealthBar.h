@@ -14,8 +14,10 @@ public:
 	void UpdateUI();
 	void Notify(int context, EVENT ev) override;
 	Subject* GetSubject() const;
+	void SetStartingHP(int hp);
 
 private:
+	SavingLoading* saveLoad = nullptr;
 	Timer* t = nullptr;
 	const float HIT_COOLDOWN = 0.5f;
 	Health* hp = nullptr;

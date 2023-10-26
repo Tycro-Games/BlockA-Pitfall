@@ -7,6 +7,7 @@ public:
 	~PlayerScore() override;
 	void Notify(int context, EVENT ev) override;
 	void Render(Surface* screen) override;
+	void Init();
 
 private:
 	const float2 POSITION = {100, 50};

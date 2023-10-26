@@ -5,7 +5,7 @@ PlayerScore::PlayerScore()
 {
 	SetPosition(POSITION);
 	saveLoad = new SavingLoading(saveName);
-	saveLoad->LoadData(score);
+	Init();
 }
 
 PlayerScore::~PlayerScore()
@@ -38,4 +38,11 @@ void PlayerScore::Render(Surface* screen)
 	if (n > 0)
 		screen->Print(c, x, y, WHITE);
 	delete[]c;
+}
+
+void PlayerScore::Init()
+{
+	score = 0;
+
+	saveLoad->LoadData(score);
 }

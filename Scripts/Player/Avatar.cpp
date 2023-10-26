@@ -11,6 +11,7 @@ Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Arra
 
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
+	hitJumpTimer = new Timer();
 
 	subject = new Subject();
 
@@ -28,6 +29,7 @@ Avatar::~Avatar()
 	delete climbTimer;
 	delete jumpTimer;
 	delete subject;
+	delete hitJumpTimer;
 
 	delete sprite;
 	delete currentState;
@@ -309,8 +311,13 @@ Timer* Avatar::GetClimbTimer() const
 }
 
 
-const Input& Avatar::GetInput() const
+const Input& Avatar::GetInput()
 {
+	if (hitJumpTimer->elapsedF() < COOLDOWN_HIT_JUMP)
+	{
+		velocity.x = 0;
+		input.arrowKeys = 0;
+	}
 	return input;
 }
 
@@ -347,6 +354,11 @@ void Avatar::Notify(int context, EVENT ev)
 		break;
 	case PLAYER_HIT:
 		cout << "Show some hit'\n";
+		if (context < 0 && hitJumpTimer->elapsedF() > COOLDOWN_HIT_JUMP) //this means to jump
+		{
+			input.smallJump = true;
+			hitJumpTimer->reset();
+		}
 		break;
 	case SAVE_CHECKPOINT:
 		saveLoad.SetName(saveX);

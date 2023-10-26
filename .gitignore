@@ -349,3 +349,5 @@ MigrationBackup/
 
 Win32/myGame.exp
 Win32/myGame.lib
+Win32/myGame.exe
+Win32/myGame.exe

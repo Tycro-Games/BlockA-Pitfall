@@ -155,21 +155,24 @@ bool FreemovingState::UpdateVelocity(float deltaTime) const
 	//wait for the peak of the jump
 	if (p->GetVelocity().y < 0)
 	{
-		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
+		p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y,
+		                      p->GetVelocity().y, GRAVITY));
 
 		return true;
 	}
 	//momentum on horizontal
 	if (abs(p->GetVelocity().x) > 0.2f)
 	{
-		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY * deltaTime * MathLibrary::Sign(p->GetVelocity().x));
+		p->SetVelocityX(p->GetVelocity().x - HORIZONTAL_GRAVITY
+			* deltaTime * MathLibrary::Sign(p->GetVelocity().x));
 	}
 	else
 	{
 		p->SetVelocityX(0);
 	}
 	//fall
-	p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y, p->GetVelocity().y, GRAVITY));
+	p->SetVelocityY(clamp(GRAVITY * deltaTime + p->GetVelocity().y,
+	                      p->GetVelocity().y, GRAVITY));
 	return false;
 }
 
@@ -183,6 +186,7 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		const Box* jumpCollider = col->GetJumpCollider();
 		//throw rock
 		const Input input = p->GetInput();
+
 		if (input.shooting)
 		{
 			const float2 dirToThrow = float2{static_cast<float>(-p->GetFlip()), input.arrowKeys.y < 0 ? -1.0f : 0.0f};
@@ -190,10 +194,10 @@ PlayerState* FreemovingState::Update(float deltaTime)
 		}
 		//only on floor
 		AddJumpForce(col, jumpCollider);
-
+		//add some horizontal velocity
 		ClampHorizontalMovement(static_cast<int>(MathLibrary::Sign(p->GetVelocity().x)));
 
-
+		//collision check
 		MoveOnFloor(deltaTime, col, floorCollider, boxCollider);
 
 

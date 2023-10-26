@@ -1,44 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="36">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="17" name="Ropes">
-  <object id="16" x="358" y="1311.75">
-   <point/>
-  </object>
-  <object id="18" x="621.66" y="1314.37">
-   <point/>
-  </object>
-  <object id="19" x="1825.85" y="1154.55">
-   <point/>
-  </object>
-  <object id="20" x="916" y="1312.38">
-   <point/>
-  </object>
-  <object id="21" x="2159.12" y="283.281">
-   <point/>
-  </object>
-  <object id="31" x="2108.46" y="736">
-   <point/>
-  </object>
-  <object id="34" x="1180.46" y="544">
-   <point/>
-  </object>
-  <object id="23" x="1042.66" y="333.271">
-   <point/>
-  </object>
-  <object id="29" x="992" y="785.99">
-   <point/>
-  </object>
-  <object id="32" x="64" y="593.99">
-   <point/>
-  </object>
-  <object id="24" x="1613.99" y="328.51">
-   <point/>
-  </object>
-  <object id="30" x="1563.33" y="781.229">
-   <point/>
-  </object>
-  <object id="33" x="635.33" y="589.229">
+  <object id="35" x="1617.33" y="1132">
    <point/>
   </object>
  </objectgroup>

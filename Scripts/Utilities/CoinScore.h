@@ -7,6 +7,7 @@ public:
 	void Notify(int context, EVENT ev) override;
 	void Render(Surface* screen) override;
 	CoinScore();
+	void Init();
 
 private:
 	const float2 POSITION = float2(1000, 560);

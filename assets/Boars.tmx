@@ -2,10 +2,10 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="21" nextobjectid="71">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="20" name="Boar">
-  <object id="60" x="1024" y="1536">
+  <object id="60" x="1120" y="1536">
    <point/>
   </object>
-  <object id="61" x="1376" y="1536">
+  <object id="61" x="1600" y="1536">
    <point/>
   </object>
  </objectgroup>

@@ -21,7 +21,7 @@ void Rope::Render(Surface* screen)
 	const float2 p1 = points[1] - camPos;
 	const float2 p2 = points[2] - camPos;
 	const float2 p3 = points[3] - camPos;
-	screen->BezierCurve(RED, p0, p1, p2, p3, resolution);
+	screen->BezierCurve(GREEN, p0, p1, p2, p3, resolution);
 
 #ifdef _DEBUG
 	const int x1 = static_cast<int>(points[0].x - camPos.x + coll.min.x);

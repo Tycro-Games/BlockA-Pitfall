@@ -40,5 +40,11 @@ CoinScore::CoinScore()
 	SetPosition(POSITION);
 	sprite = new Sprite(new Surface("assets/coin1_16x16.png"), FRAMES);
 	saveLoad = new SavingLoading(saveName);
-	saveLoad->LoadData(score);
+	Init();
+}
+
+void CoinScore::Init()
+{
+	score = 0;
+ 	saveLoad->LoadData(score);
 }

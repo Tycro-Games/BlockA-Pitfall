@@ -212,8 +212,6 @@ void Monkey::SetBall(MonkeyBall* _ball)
 	{
 		if (dead && IsActive())
 		{
-			uint8_t i = 1;
-			saveLoad->SaveData(i);
 			SetActive(false);
 		}
 		noBall = true;
@@ -235,7 +233,8 @@ void Monkey::Dead()
 	if (!IsActive())
 	{
 		dead = true;
-
+		uint8_t i = 1;
+		saveLoad->SaveData(i);
 		if (!noBall)
 		{
 			SetActive(true);

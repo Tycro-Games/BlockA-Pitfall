@@ -15,13 +15,15 @@ void HealthBar::Init(const char* spritePath)
 	deathSubject = new Subject();
 	hp = new Health();
 	t = new Timer();
-
+	saveLoad = new SavingLoading("Health:");
 	UpdateUI();
 }
 
 void HealthBar::Init()
 {
-	hp->SetHp(100);
+	int startingHP = 100;
+	saveLoad->LoadData(startingHP);
+	hp->SetHp(startingHP);
 	UpdateUI();
 }
 
@@ -37,6 +39,8 @@ void HealthBar::UpdateUI()
 	if (hp->IsDead())
 	{
 		currentframe = NUMBER_OF_FRAMES - 1;
+		saveLoad->ResetAllData();
+
 		deathSubject->Notify(0, PLAYER_DEAD);
 		cout << "player dead'\n";
 	}
@@ -54,7 +58,9 @@ void HealthBar::Notify(int context, EVENT ev)
 	case PLAYER_HIT:
 		if (t->elapsed() > HIT_COOLDOWN)
 		{
-			hp->TakeDamage(context);
+			hp->TakeDamage(abs(context));
+			int getHp = hp->GetHp();
+			saveLoad->SaveData(getHp);
 			cout << "takes damage'\n";
 			UpdateUI();
 			t->reset();
@@ -68,4 +74,10 @@ void HealthBar::Notify(int context, EVENT ev)
 Subject* HealthBar::GetSubject() const
 {
 	return deathSubject;
+}
+
+void HealthBar::SetStartingHP(int _hp)
+{
+	hp->SetHp(_hp);
+	UpdateUI();
 }

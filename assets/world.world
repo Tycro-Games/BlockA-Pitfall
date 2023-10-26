@@ -1,0 +1,90 @@
+{
+    "maps": [
+        {
+            "fileName": "Boars.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "CheckPoint.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Coins.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Tilemap.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "ElasticPlants.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Floors.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Ladders.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Monkeys.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Spikes.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Ziplines.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Ropes.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "Parallax.tmx",
+            "height": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

@@ -23,6 +23,9 @@ public:
 private:
 	Timer* hitRecently = nullptr;
 	BoarState* currentState = nullptr;
+
+	const int RESIZE = 60;
+	const int FRAMES = 4;
 	float2 desiredPos = 0;
 	float2 pointA = 0;
 	float2 pointB = 0;
@@ -32,4 +35,9 @@ private:
 	const int BOAR_POINTS = 50;
 	const int HP = 40;
 	const char* saveName = "Boar";
+	bool headingRight = false;
+
+	Sprite* boarSprite = nullptr;
+	Sprite* preRendered = nullptr;
+	Sprite* boarSurface_ = nullptr;
 };
