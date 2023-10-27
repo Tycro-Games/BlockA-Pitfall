@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-10-27T09:55:39.224Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="eLfWdwM4jhwOxweJTXVd" version="22.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-27T09:56:40.129Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="G_gxJHj34RQ3ThFttMJQ" version="22.0.8" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="5724" dy="3706" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4096" dy="2691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -1071,8 +1071,16 @@
         <mxCell id="AhInts18dnKweUCOuGjF-151" value="+ TakeDamage(dg: int): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="AhInts18dnKweUCOuGjF-148">
           <mxGeometry y="80" width="520" height="26" as="geometry" />
         </mxCell>
+        <mxCell id="AhInts18dnKweUCOuGjF-160" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=block;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="AhInts18dnKweUCOuGjF-153" target="6ZFIHnarZequiPEkpa0q-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1620" y="-150" />
+              <mxPoint x="1625" y="-150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
         <mxCell id="AhInts18dnKweUCOuGjF-153" value="HealthBar" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1240" y="-346" width="560" height="106" as="geometry" />
+          <mxGeometry x="1345" y="-346" width="560" height="106" as="geometry" />
         </mxCell>
         <mxCell id="AhInts18dnKweUCOuGjF-154" value="&lt;div&gt;- hp: int&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="AhInts18dnKweUCOuGjF-153">
           <mxGeometry y="26" width="560" height="34" as="geometry" />
