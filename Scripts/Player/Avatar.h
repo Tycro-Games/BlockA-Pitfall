@@ -79,8 +79,6 @@ public:
 	Array<Rock>& GetRocks() const;
 	int GetFlip() const;
 	void ThrowRock(const float2& dir) const;
-	bool GetHitSpike() const;
-	void SetHitSpike(bool val);
 
 private:
 	void UpdateCurrentState(float deltaTime);

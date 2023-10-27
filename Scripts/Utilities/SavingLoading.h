@@ -11,7 +11,6 @@ public:
 	void SaveData(int& data) const;
 	void SaveData(float& data) const;
 	void SaveData(uint8_t& data) const;
-	void LoadJsonFile(nlohmann::json& j) const;
 	void LoadData(uint& outData) const;
 	void LoadData(int& outData) const;
 	void LoadData(uint8_t& outData) const;
@@ -19,6 +18,8 @@ public:
 	void ResetAllData();
 
 private:
+	void LoadJsonFile(nlohmann::json& j) const;
+
 	const char* savePath = "assets/Saves/save.json";
 	char* saveName = nullptr;
 };
