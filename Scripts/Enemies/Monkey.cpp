@@ -158,6 +158,7 @@ void Monkey::Init(const float2& pos, Tilemap* floors, Tilemap* ladders, Avatar& 
 		dead = true;
 		noBall = true;
 	}
+	headingRight = false;
 }
 
 float Monkey::GetValueFromMonkeyFunction(float t, bool positive)

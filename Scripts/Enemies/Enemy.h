@@ -24,6 +24,7 @@ public:
 	virtual Surface* GetSurface();
 
 protected:
+	Audio::Sound hitSound{"assets/Audio/Hit_Hurt17.wav"};
 	Surface* surface = nullptr;
 	Health* hp = nullptr;
 	void GetDrawCoordinates();

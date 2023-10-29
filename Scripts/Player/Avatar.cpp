@@ -336,8 +336,9 @@ int Avatar::GetFlip() const
 	return flipX;
 }
 
-void Avatar::ThrowRock(const float2& dir) const
+void Avatar::ThrowRock(const float2& dir)
 {
+	shootSound.replay();
 	spawnRocks->AddRockToActive(dir, col->GetBoxColliderPos() + float2{
 		                            -SHOOT_OFFSET_X * static_cast<float>(flipX), SHOOT_OFFSET_Y
 	                            });
@@ -359,6 +360,7 @@ void Avatar::Notify(int context, EVENT ev)
 			input.smallJump = true;
 			hitJumpTimer->reset();
 		}
+		hitSound.play();
 		break;
 	case SAVE_CHECKPOINT:
 		saveLoad.SetName(saveX);

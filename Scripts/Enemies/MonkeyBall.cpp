@@ -15,6 +15,9 @@ MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _st
 	finalPos = _finalPos;
 	midPos = _midPos;
 
+	sprite = new Sprite(new Surface("assets/rock_16x16.png"), 1);
+
+
 	position = startPos;
 	SetDamage(DG);
 	col = Box{-DISTANCE_TO_PLAYER, DISTANCE_TO_PLAYER};
@@ -23,6 +26,7 @@ MonkeyBall::MonkeyBall(Subject* s, Monkey* _monkey, Avatar* p, const float2& _st
 MonkeyBall::~MonkeyBall()
 {
 	subject = nullptr;
+	delete sprite;
 }
 
 
@@ -30,7 +34,10 @@ MonkeyBall::~MonkeyBall()
 void MonkeyBall::Render(Surface* screen)
 {
 	GetDrawCoordinatesMoving();
+#ifdef _DEBUG
 	screen->Box(x1, y1, x2, y2, YELLOW);
+#endif
+	sprite->Draw(screen, x1, y1);
 }
 
 void MonkeyBall::Update(float deltaTime)

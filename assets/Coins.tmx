@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="164">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="177">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="17" name="Coins">
   <object id="127" x="833" y="1391">
    <point/>
   </object>
+  <object id="165" x="260" y="1280">
+   <point/>
+  </object>
+  <object id="170" x="462" y="787">
+   <point/>
+  </object>
+  <object id="173" x="440" y="788">
+   <point/>
+  </object>
+  <object id="176" x="429" y="787">
+   <point/>
+  </object>
+  <object id="166" x="352" y="1280">
+   <point/>
+  </object>
+  <object id="169" x="516" y="785">
+   <point/>
+  </object>
+  <object id="172" x="484" y="785">
+   <point/>
+  </object>
+  <object id="175" x="472" y="786">
+   <point/>
+  </object>
+  <object id="167" x="256" y="1056">
+   <point/>
+  </object>
   <object id="151" x="765" y="1393">
+   <point/>
+  </object>
+  <object id="164" x="192" y="1282">
+   <point/>
+  </object>
+  <object id="168" x="448" y="787">
+   <point/>
+  </object>
+  <object id="171" x="416" y="787">
+   <point/>
+  </object>
+  <object id="174" x="399" y="788">
    <point/>
   </object>
   <object id="150" x="672" y="1472">

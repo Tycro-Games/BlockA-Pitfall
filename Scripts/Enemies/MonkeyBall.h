@@ -18,11 +18,12 @@ private:
 	float2 startPos;
 	float2 midPos;
 	float2 velocity = 0;
-	const float DISTANCE_TO_PLAYER = 7.0f;
+	const float DISTANCE_TO_PLAYER = 8.0f;
 	Monkey* monkey = nullptr;
 	float speed = 3.0f;
 	float timeToReach = 1.5f;
 	const int DG = 10;
 	float t = 0;
 	const float GRAVITY = 9.8f;
+	Sprite* sprite = nullptr;
 };

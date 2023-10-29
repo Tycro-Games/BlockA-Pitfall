@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="61">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="63">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="18" name="Ziplines">
-  <object id="59" x="1209" y="1085">
+  <object id="59" x="871" y="1019">
+   <point/>
+  </object>
+  <object id="62" x="512" y="768">
    <point/>
   </object>
   <object id="60" x="1812" y="1126.67">
+   <point/>
+  </object>
+  <object id="61" x="1176" y="1044">
    <point/>
   </object>
  </objectgroup>

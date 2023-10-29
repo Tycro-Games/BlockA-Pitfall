@@ -96,6 +96,7 @@ void Checkpoint::Deactivate()
 
 void Checkpoint::Activate()
 {
+	checkSound.play();
 	SaveToJSON();
 	Deactivate();
 }

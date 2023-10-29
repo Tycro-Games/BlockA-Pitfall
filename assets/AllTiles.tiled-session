@@ -25,22 +25,22 @@
             "expandedObjectLayers": [
                 20
             ],
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 42,
-                "y": 7
+                "x": 1355,
+                "y": 989
             }
         },
         "CheckPoint.tmx": {
             "expandedObjectLayers": [
                 18
             ],
-            "scale": 0.5,
+            "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1266,
-                "y": 786
+                "x": 1279.8333333333333,
+                "y": 799.8333333333333
             }
         },
         "Coins.tmx": {
@@ -50,16 +50,19 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1276.5,
-                "y": 796.5
+                "x": 1279.75,
+                "y": 799.75
             }
         },
         "ElasticPlants.tmx": {
-            "scale": 0.33,
+            "expandedObjectLayers": [
+                17
+            ],
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1257.5757575757575,
-                "y": 778.7878787878788
+                "x": 1279.3333333333333,
+                "y": 799.3333333333333
             }
         },
         "FireColor.tsx": {
@@ -69,16 +72,16 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1270.6666666666665,
-                "y": 790.6666666666666
+                "x": 1279.3333333333333,
+                "y": 799.3333333333333
             }
         },
         "Ladders.tmx": {
-            "scale": 0.5,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1216,
-                "y": 1196
+                "x": 1279.75,
+                "y": 799.75
             }
         },
         "Ladders.tmx#Pitfall_tilesheet": {
@@ -91,8 +94,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1019.9999999999999,
-                "y": 1237.3333333333335
+                "x": 1279.3333333333333,
+                "y": 799.3333333333333
             }
         },
         "Parallax.tmx": {
@@ -112,49 +115,49 @@
             "expandedObjectLayers": [
                 17
             ],
-            "scale": 0.75,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1434.6666666666665,
-                "y": 1308
+                "x": 1279.6666666666665,
+                "y": 799.6666666666665
             }
         },
         "Spikes.tmx": {
             "expandedObjectLayers": [
                 18
             ],
-            "scale": 1,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 42,
-                "y": 7
+                "x": 1279.75,
+                "y": 799.75
             }
         },
         "TextColorCycling.tmx": {
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 466,
-                "y": 16
+                "x": 479,
+                "y": 31
             }
         },
         "Tilemap.tmx": {
-            "scale": 0.5,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1266,
-                "y": 786
+                "x": 1279.3333333333333,
+                "y": 799.3333333333333
             }
         },
         "Ziplines.tmx": {
             "expandedObjectLayers": [
                 18
             ],
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1548,
-                "y": 1082.6666666666665
+                "x": 1279,
+                "y": 799
             }
         }
     },
@@ -183,18 +186,18 @@
     ],
     "project": "AllTiles.tiled-project",
     "recentFiles": [
-        "Coins.tmx",
         "TextColorCycling.tmx",
-        "Floors.tmx",
-        "ElasticPlants.tmx",
-        "CheckPoint.tmx",
+        "Ladders.tmx",
+        "Ropes.tmx",
         "Tilemap.tmx",
+        "CheckPoint.tmx",
+        "Coins.tmx",
+        "Monkeys.tmx",
+        "Ziplines.tmx",
         "Boars.tmx",
         "Spikes.tmx",
-        "Pitfall_tilesheet.tsx",
-        "160x160 background tilemap.tsx",
-        "Basic Tilemap.tsx",
-        "Ropes.tmx"
+        "Floors.tmx",
+        "ElasticPlants.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx"

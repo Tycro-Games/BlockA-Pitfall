@@ -3,7 +3,7 @@
 
 void Boar::Render(Surface* screen)
 {
-	if (!onScreen)
+	if (!onScreen || dead)
 		return;
 	GetDrawCoordinatesMoving();
 #ifdef _DEBUG
@@ -76,6 +76,8 @@ bool Boar::AtackPlayer()
 void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 {
 	SetActive(true);
+	dead = false;
+
 	delete currentState;
 	currentState = new BoarPatrolState();
 	currentState->OnEnter();
@@ -94,12 +96,13 @@ void Boar::Init(const float2& _a, const float2& _b, Avatar& _avatar)
 	saveLoad->SetName(saveName);
 	saveLoad->EntryPosition(position);
 	uint8_t i = 0;
+	headingRight = false;
 	saveLoad->LoadData(i);
 	if (i)
 	{
 		SetActive(false);
+		dead = true;
 	}
-	headingRight = false;
 }
 
 const float2& Boar::GetDesiredPos() const

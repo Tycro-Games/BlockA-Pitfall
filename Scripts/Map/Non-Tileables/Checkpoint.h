@@ -18,7 +18,9 @@ public:
 	Subject* GetSubject() const;
 
 private:
+	Audio::Sound checkSound{"assets/Audio/CheckPoint.wav"};
 	Subject* subject = nullptr;
+
 	//inline static Audio::Sound coinSound{"assets//Audio/Pickup_Coin3.wav"};
 	SavingLoading* saveLoad;
 	float2 position = 0;

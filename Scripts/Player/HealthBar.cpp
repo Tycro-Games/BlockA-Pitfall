@@ -34,12 +34,17 @@ void HealthBar::Render(Surface* screen) const
 }
 
 
+void HealthBar::ResetData()
+{
+	saveLoad->ResetAllData();
+}
+
 void HealthBar::UpdateUI()
 {
 	if (hp->IsDead())
 	{
 		currentframe = NUMBER_OF_FRAMES - 1;
-		saveLoad->ResetAllData();
+		ResetData();
 
 		deathSubject->Notify(0, PLAYER_DEAD);
 		cout << "player dead'\n";
@@ -64,6 +69,9 @@ void HealthBar::Notify(int context, EVENT ev)
 			cout << "takes damage'\n";
 			UpdateUI();
 			t->reset();
+			//also notify the player
+
+			deathSubject->Notify(context, PLAYER_HIT);
 		}
 		break;
 	default:

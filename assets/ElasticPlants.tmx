@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="56">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="60">
  <tileset firstgid="1" source="Pitfall_tilesheet.tsx"/>
  <objectgroup id="17" name="ElasticPlants">
-  <object id="20" x="448" y="704">
+  <object id="20" x="320" y="992">
    <point/>
   </object>
-  <object id="35" x="299.457" y="500.463">
+  <object id="59" x="320" y="832">
    <point/>
   </object>
-  <object id="53" x="581.305" y="328.604">
-   <point/>
-  </object>
-  <object id="54" x="668.38" y="305.69">
-   <point/>
-  </object>
-  <object id="55" x="533.184" y="420.262">
-   <point/>
-  </object>
-  <object id="52" x="436.944" y="337.77">
+  <object id="57" x="224" y="1120">
    <point/>
   </object>
  </objectgroup>

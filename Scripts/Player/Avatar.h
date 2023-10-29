@@ -78,13 +78,14 @@ public:
 	Subject* GetSubject() const;
 	Array<Rock>& GetRocks() const;
 	int GetFlip() const;
-	void ThrowRock(const float2& dir) const;
+	void ThrowRock(const float2& dir);
 
 private:
 	void UpdateCurrentState(float deltaTime);
 	void ResetInput();
 	//physics
-
+	Audio::Sound shootSound{"assets/Audio/Laser_Shoot16.wav"};
+	Audio::Sound hitSound{"assets/Audio/Hit_Hurt8.wav"};
 	const float SPEED = 250.5f;
 	const float SHOOT_OFFSET_X = {9.0f};
 	const float SHOOT_OFFSET_Y = {0.0f};

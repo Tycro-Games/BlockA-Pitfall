@@ -28,7 +28,8 @@ Spike::~Spike()
 
 Spike::Spike()
 {
-	sprite = new Sprite(new Surface("assets/Spike.png"), 1);
+	if (sprite == nullptr)
+		sprite = new Sprite(new Surface("assets/Spike.png"), 1);
 }
 
 

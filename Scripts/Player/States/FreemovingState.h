@@ -4,7 +4,7 @@ class FreemovingState final : public PlayerState
 {
 public:
 	void OnEnter(Avatar& p) override;
-	void AddJumpForce(const CollisionChecker* col, const Box* jumpCollider) const;
+	void AddJumpForce(const CollisionChecker* col, const Box* jumpCollider);
 	void ClampHorizontalMovement(int signX) const;
 	bool CheckNonTiles(const CollisionChecker* col, const Box* floorCollider, const Box* boxCollider,
 	                   PlayerState*& state);
@@ -16,6 +16,7 @@ public:
 private:
 	//simmilar to the one in the climbing state
 	PlayerState* ToTheLadder(float deltaTime);
+	Audio::Sound jumpSound{"assets/Audio/Jump5.wav"};
 
 	//for smooth ladder
 	float currentTime = 0;

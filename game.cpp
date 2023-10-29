@@ -38,7 +38,6 @@ void Game::AddObservers()
 	for (uint i = 0; i < spikes.GetCount(); i++)
 	{
 		spikes[i].GetSubject()->AddObserver(healthBar);
-		spikes[i].GetSubject()->AddObserver(*avatar);
 	}
 	for (uint i = 0; i < boars.GetCount(); i++)
 	{
@@ -313,8 +312,8 @@ void Game::Render()
 		break;
 	case GameStateManager::WIN:
 		//artifical reset
-		healthBar.SetStartingHP(0);
-		healthBar.Notify(0, PLAYER_HIT);
+		healthBar.ResetData();
+		music.stop();
 		screen->Clear(0);
 		screen->Print("You killed all the enemies, ", SMALL_PADDING, SMALL_PADDING, RED);
 		screen->Print("so you win!", SMALL_PADDING, HALF_SCRHEIGHT, RED);

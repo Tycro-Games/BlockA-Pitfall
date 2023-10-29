@@ -57,6 +57,7 @@ void Enemy::Dead()
 
 void Enemy::HitByPlayer(int _damage)
 {
+	hitSound.replay();
 	hp->TakeDamage(_damage);
 	Dead();
 }
