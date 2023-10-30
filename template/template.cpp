@@ -191,10 +191,10 @@ void main()
 	app->screen = screen;
 	app->Init();
 
-	// done, enter main loop changed to crt
+	//// done, enter main loop changed to crt
 
-	// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
-	//used this :https://stackoverflow.com/questions/52762754/how-to-render-a-circular-vignette-with-glsl
+	//// crt shader, https://github.com/libretro/slang-shaders/tree/master/crt/shaders/hyllian
+	////used this :https://stackoverflow.com/questions/52762754/how-to-render-a-circular-vignette-with-glsl
 	char fs[] =
 		"#version 330											\n"
 		"uniform sampler2D c; in vec2 uv; out vec4 f;			\n"
@@ -265,9 +265,10 @@ void main()
 		fs, true);
 
 	// basic shader, no gamma correction
-	///*Shader* shader = new Shader(
-	//	"#version 330\nin vec4 p;\nin vec2 t;out vec2 u;void main(){u=t;gl_Position=p;}",
-	//	"*/#version 330\nuniform sampler2D c;in vec2 u;out vec4 f;void main(){f=/*sqrt*/(texture(c,u));}", true);
+	/*Shader* shader = new Shader(
+		"#version 330\nin vec4 p;\nin vec2 t;out vec2 u;void main(){u=t;gl_Position=p;}",
+		"#version 330\nuniform sampler2D c;in vec2 u;out vec4 f;void main(){f=sqrt(texture(c,u));}", true);*/
+
 	//Shader* shader = new Shader(
 	//	"Shaders/crt.vs",
 	//	"Shaders/crt.ps", false);
@@ -843,7 +844,7 @@ static int get_exts(void)
 		glGetIntegerv(GL_NUM_EXTENSIONS, &num_exts_i);
 		if (num_exts_i > 0)
 		{
-			exts_i = (char**)malloc((size_t)num_exts_i * (sizeof * exts_i));
+			exts_i = (char**)malloc((size_t)num_exts_i * (sizeof *exts_i));
 		}
 
 		if (exts_i == NULL)

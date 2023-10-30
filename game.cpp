@@ -324,9 +324,11 @@ void Game::Render()
 
 		menuTextAnimation->ToSurface(menuText, TEXT_MASK);
 
-		menuText->CopyTo(screen, SMALL_PADDING, HALF_SCRHEIGHT);
+		menuText->CopyTo(screen, SMALL_PADDING, HALF_SCRHEIGHT + SMALL_PADDING);
 		menuTextAnimation->Cycle();
-
+		screen->Print("s - Shoot, ", SMALL_PADDING, SMALL_PADDING, WHITE);
+		screen->Print("arrow keys - move", SMALL_PADDING, 2 * SMALL_PADDING, WHITE);
+		screen->Print("space - jump", SMALL_PADDING, 3 * SMALL_PADDING, WHITE);
 
 		break;
 	default: ;

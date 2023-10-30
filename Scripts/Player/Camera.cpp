@@ -140,7 +140,9 @@ void Camera::UpdatePosition(float deltaTime, const float2& playerPos, float left
 			CAMERA_OFFSET_Y * currentCameraScale
 		};
 	const float2 halfScreen{resX / 2, resY / 2};
-	const float lengthToNextPosition = length(cameraOffset - halfScreen - pos);
+	float2 nextPos = cameraOffset - halfScreen - pos;
+
+	const float lengthToNextPosition = length(nextPos);
 	//uses different values for easing on X and Y axis
 	const float multiplierX = invlerp(0, EASE_OUT_DISTANCE_X,
 	                                  lengthToNextPosition);
@@ -152,9 +154,11 @@ void Camera::UpdatePosition(float deltaTime, const float2& playerPos, float left
 	const float stepY = clamp(deltaTime * (CAM_SPEED * CAM_SPEED_EDGE * multiplierY),
 	                          0.0f, 1.0f);
 	float2 newPos;
-
-	newPos.x = lerp(pos.x, (cameraOffset.x - halfScreen.x), stepX);
-	newPos.y = lerp(pos.y, (cameraOffset.y - halfScreen.y), stepY);
+	float2 camPos = cameraOffset - halfScreen;
+	camPos.x = clamp(camPos.x, 0.0f, maxPosX);
+	camPos.y = clamp(camPos.y, 0.0f, maxPosY);
+	newPos.x = lerp(pos.x, (camPos.x), stepX);
+	newPos.y = lerp(pos.y, (camPos.y), stepY);
 
 
 	pos.x = newPos.x < 0 ? 0 : newPos.x > maxPosX ? maxPosX : newPos.x;

@@ -109,7 +109,11 @@ private:
 
 	bool canMove = true;
 	bool alreadyShot = false;
-	const float COOLDOWN_HIT_JUMP = .2f;
+	const float COOLDOWN_HIT_JUMP = .07f;
+	const float BLIP_INTERVAL = .05f;
+	const float BLIP_COOLDOWN = 0.5f;
+	bool invisible = false;
+	bool firstHit = false;
 
 	//colliders
 	CollisionChecker* col = nullptr;
@@ -124,6 +128,8 @@ private:
 	Subject* subject;
 	Timer* jumpTimer = nullptr;
 	Timer* hitJumpTimer = nullptr;
+	Timer* blipTimer = nullptr;
+	Timer* blipCoolDown = nullptr;
 	//physics
 	float2 pos = 0;
 	float2 velocity = 0;

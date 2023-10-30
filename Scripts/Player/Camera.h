@@ -44,8 +44,8 @@ private:
 
 
 	const float DELAY_ZOOM = .5f;
-	const float EASE_OUT_DISTANCE_Y = 120.f;
-	const float EASE_OUT_DISTANCE_X = 120.f;
+	const float EASE_OUT_DISTANCE_Y = 120.0f;
+	const float EASE_OUT_DISTANCE_X = 350.0f;
 	const float CAMERA_OFFSET_X = {150.0};
 	const float CAMERA_OFFSET_Y = {-50.0f};
 

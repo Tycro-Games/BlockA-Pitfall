@@ -60,7 +60,8 @@ private:
 	const float2 BOX_POS = {9.0f, 25.0f};
 	//ziplines and ropes
 	const float RADIUS_TO_ZIPLINE = 25.0f;
-	const float RADIUS_TO_ROPE = 30.0f;
+	const float RADIUS_TO_ROPE = 50.0f;
+	const float RADIUS_TO_ELASTIC = 40.0f;
 	const float RADIUS_TO_COIN = 20.0f;
 	const float RADIUS_TO_CHECKPOINT = 16.0f;
 	const float ZIPLINE_OFFSET_END = 25.0f;

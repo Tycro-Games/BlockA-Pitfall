@@ -100,7 +100,7 @@ bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 		if ((*ropes)[i].GetOnScreen())
 		{
 			float2 toPlayer = (*pos + BOX_POS) - (*ropes)[i].GetMovingPart();
-			if (length(toPlayer) <= RADIUS_TO_ROPE)
+			if (sqrLength(toPlayer) <= RADIUS_TO_ROPE * RADIUS_TO_ROPE)
 			{
 				pMovingPart = (*ropes)[i].pGetMovingPart();
 				return true;
@@ -117,9 +117,17 @@ bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) con
 		if ((*elasticPlants)[i].GetOnScreen())
 		{
 			//converts local to world space
+
+			//this is circle collision
 			float2 elasticPoint = *(*elasticPlants)[i].pGetPosition();
 			float2 toPlayer = (*pos + BOX_POS) - elasticPoint;
-			if (length(toPlayer) <= RADIUS_TO_ROPE)
+			/*if (length(toPlayer) <= RADIUS_TO_ROPE)
+			{
+				pElasticPlant = &(*elasticPlants)[i];
+				return true;
+			}*/
+			//more efficient, no sqrt
+			if (sqrLength(toPlayer) <= RADIUS_TO_ELASTIC * RADIUS_TO_ELASTIC)
 			{
 				pElasticPlant = &(*elasticPlants)[i];
 				return true;

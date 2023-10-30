@@ -12,7 +12,8 @@ Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Arra
 	climbTimer = new Timer();
 	jumpTimer = new Timer();
 	hitJumpTimer = new Timer();
-
+	blipTimer = new Timer();
+	blipCoolDown = new Timer();
 	subject = new Subject();
 
 	sprite = new Sprite(new Surface(spritePath), NUMBER_FRAMES);
@@ -30,6 +31,8 @@ Avatar::~Avatar()
 	delete jumpTimer;
 	delete subject;
 	delete hitJumpTimer;
+	delete blipTimer;
+	delete blipCoolDown;
 
 	delete sprite;
 	delete currentState;
@@ -60,6 +63,8 @@ void Avatar::SetStartPosition()
 
 void Avatar::Init()
 {
+	invisible = false;
+	firstHit = false;
 	//setting to world position
 	SetStartPosition();
 	delete currentState;
@@ -88,12 +93,30 @@ void Avatar::Render(Surface* screen)
 	{
 		flipX = -directionToLook;
 	}
+	//render with blip
 
-	if (flipX > 0)
-		sprite->DrawFlippedX(screen, x, y);
-	else
+	if (firstHit)
+		if (blipCoolDown->elapsedF() < BLIP_COOLDOWN)
+		{
+			if (blipTimer->elapsedF() > BLIP_INTERVAL)
+			{
+				invisible = !invisible;
+				blipTimer->reset();
+			}
+		}
+		else
+		{
+			invisible = false;
+		}
+
+	if (!invisible)
 	{
-		sprite->Draw(screen, x, y);
+		if (flipX > 0)
+			sprite->DrawFlippedX(screen, x, y);
+		else
+		{
+			sprite->Draw(screen, x, y);
+		}
 	}
 	spawnRocks->Render(screen);
 
@@ -107,7 +130,7 @@ void Avatar::Render(Surface* screen)
 	const float debugX = pos.x - camPos.x;
 	const float debugY = pos.y - camPos.y;
 
-	Box a = AABB::At({debugX, debugY}, *col->GetBoxCollider());
+	Box a = AABB::At({ debugX, debugY }, *col->GetBoxCollider());
 	screen->Box(
 		static_cast<int>(a.min.x),
 		static_cast<int>(a.min.y),
@@ -115,13 +138,13 @@ void Avatar::Render(Surface* screen)
 		static_cast<int>(a.max.y),
 		c);
 	//circle
-	Box ci = AABB::At({debugX, debugY}, *col->GetFloorCollider());
+	Box ci = AABB::At({ debugX, debugY }, *col->GetFloorCollider());
 	screen->Box(
 		static_cast<int>(ci.min.x),
 		static_cast<int>(ci.min.y),
 		static_cast<int>(ci.max.x),
 		static_cast<int>(ci.max.y), c);
-	Box fl = AABB::At({debugX, debugY}, *col->GetJumpCollider());
+	Box fl = AABB::At({ debugX, debugY }, *col->GetJumpCollider());
 	screen->Box(
 		static_cast<int>(fl.min.x),
 		static_cast<int>(fl.min.y),
@@ -170,7 +193,6 @@ void Avatar::Update(float deltaTime)
 	col->IsCollidingCoins();
 	col->IsCollidingCheckpoints();
 	ResetInput();
-
 
 	cam->UpdatePosition(deltaTime, col->GetBoxColliderPos(), static_cast<float>(flipX));
 }
@@ -360,6 +382,9 @@ void Avatar::Notify(int context, EVENT ev)
 			input.smallJump = true;
 			hitJumpTimer->reset();
 		}
+		firstHit = true;
+		blipTimer->reset();
+		blipCoolDown->reset();
 		hitSound.play();
 		break;
 	case SAVE_CHECKPOINT:
