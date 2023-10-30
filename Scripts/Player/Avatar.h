@@ -131,6 +131,7 @@ private:
 	Timer* blipTimer = nullptr;
 	Timer* blipCoolDown = nullptr;
 	//physics
+	uint* dummbyVar = nullptr;
 	float2 pos = 0;
 	float2 velocity = 0;
 };
