@@ -35,29 +35,29 @@ Game::Game()
 
 void Game::AddObservers()
 {
-	for (uint i = 0; i < spikes.GetCount(); i++)
+	for (uint i = 0; i < spikes.Size(); i++)
 	{
 		spikes[i].GetSubject()->AddObserver(healthBar);
 	}
-	for (uint i = 0; i < boars.GetCount(); i++)
+	for (uint i = 0; i < boars.Size(); i++)
 	{
 		boars[i].GetSubject()->AddObserver(healthBar);
 		boars[i].GetSubject()->AddObserver(score);
 		boars[i].GetSubject()->AddObserver(winCondition);
 	}
-	for (uint i = 0; i < monkeys.GetCount(); i++)
+	for (uint i = 0; i < monkeys.Size(); i++)
 	{
 		monkeys[i].GetSubject()->AddObserver(healthBar);
 		monkeys[i].GetSubject()->AddObserver(score);
 		monkeys[i].GetSubject()->AddObserver(winCondition);
 	}
 
-	for (uint i = 0; i < coins.GetCount(); i++)
+	for (uint i = 0; i < coins.Size(); i++)
 	{
 		coins[i].GetSubject()->AddObserver(coinScore);
 		coins[i].GetSubject()->AddObserver(score);
 	}
-	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	for (uint i = 0; i < checkpoints.Size(); i++)
 	{
 		checkpoints[i].GetSubject()->AddObserver(*avatar);
 		checkpoints[i].GetSubject()->AddObserver(coinScore);
@@ -95,35 +95,35 @@ void Game::SetUpCamera()
 
 void Game::AddAllEntities()
 {
-	for (uint i = 0; i < ziplines.GetCount(); i++)
+	for (uint i = 0; i < ziplines.Size(); i++)
 	{
 		AddEntity(&ziplines[i]);
 	}
-	for (uint i = 0; i < ropes.GetCount(); i++)
+	for (uint i = 0; i < ropes.Size(); i++)
 	{
 		AddEntity(&ropes[i]);
 	}
-	for (uint i = 0; i < elasticPlants.GetCount(); i++)
+	for (uint i = 0; i < elasticPlants.Size(); i++)
 	{
 		AddEntity(&elasticPlants[i]);
 	}
-	for (uint i = 0; i < coins.GetCount(); i++)
+	for (uint i = 0; i < coins.Size(); i++)
 	{
 		AddEntity(&coins[i]);
 	}
-	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	for (uint i = 0; i < checkpoints.Size(); i++)
 	{
 		AddEntity(&checkpoints[i]);
 	}
-	for (uint i = 0; i < spikes.GetCount(); i++)
+	for (uint i = 0; i < spikes.Size(); i++)
 	{
 		AddEntity(&spikes[i]);
 	}
-	for (uint i = 0; i < boars.GetCount(); i++)
+	for (uint i = 0; i < boars.Size(); i++)
 	{
 		AddEntity(&boars[i]);
 	}
-	for (uint i = 0; i < monkeys.GetCount(); i++)
+	for (uint i = 0; i < monkeys.Size(); i++)
 	{
 		AddEntity(&monkeys[i]);
 	}
@@ -131,40 +131,40 @@ void Game::AddAllEntities()
 
 void Game::InitPositionEntities()
 {
-	for (uint i = 0; i < ropes.GetCount(); i++)
+	for (uint i = 0; i < ropes.Size(); i++)
 	{
 		ropes[i].Init(nonTiles[SpawnNonTiles::ROPE].GetPosition(i));
 	}
 	uint zIndex = 0;
-	for (uint i = 0; i < ziplines.GetCount() * 2; i += 2)
+	for (uint i = 0; i < ziplines.Size() * 2; i += 2)
 	{
 		ziplines[zIndex++].Init(nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i),
 		                        nonTiles[SpawnNonTiles::ZIPLINE].GetPosition(i + 1));
 	}
-	for (uint i = 0; i < elasticPlants.GetCount(); i++)
+	for (uint i = 0; i < elasticPlants.Size(); i++)
 	{
 		elasticPlants[i].Init(nonTiles[SpawnNonTiles::ELASTIC_PLANTS].GetPosition(i));
 	}
-	for (uint i = 0; i < coins.GetCount(); i++)
+	for (uint i = 0; i < coins.Size(); i++)
 	{
 		coins[i].Init(nonTiles[SpawnNonTiles::COINS].GetPosition(i));
 	}
-	for (uint i = 0; i < checkpoints.GetCount(); i++)
+	for (uint i = 0; i < checkpoints.Size(); i++)
 	{
 		checkpoints[i].Init(nonTiles[SpawnNonTiles::CHECKPOINTS].GetPosition(i));
 	}
-	for (uint i = 0; i < spikes.GetCount(); i++)
+	for (uint i = 0; i < spikes.Size(); i++)
 	{
 		spikes[i].Init(nonTiles[SpawnNonTiles::SPIKES].GetPosition(i), *avatar);
 	}
-	for (uint i = 0; i < monkeys.GetCount(); i++)
+	for (uint i = 0; i < monkeys.Size(); i++)
 	{
 		monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
 		                &tileMaps[Tilemap::LADDERS], *avatar);
 	}
 	zIndex = 0;
 
-	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
+	for (uint i = 0; i < boars.Size() * 2; i += 2)
 	{
 		boars[zIndex].Init(nonTiles[SpawnNonTiles::BOARS].GetPosition(i),
 		                   nonTiles[SpawnNonTiles::BOARS].GetPosition(i + 1)
@@ -192,7 +192,7 @@ void Game::InitEntities()
 	countA = 1;
 
 	size_t count = first4 & 0b11111111; //255 in binary
-	ropes.Init(count);
+	ropes.Init(count); //this allocates memory
 
 
 	uint8_t shift = GetBitSpace(countA);
@@ -224,16 +224,16 @@ void Game::InitEntities()
 	checkpoints.Init(count);
 
 
-	for (uint i = 0; i < monkeys.GetCount(); i++)
+	for (uint i = 0; i < monkeys.Size(); i++)
 	{
 		/*	monkeys[i].Init(nonTiles[SpawnNonTiles::MONKEYS].GetPosition(i), &tileMaps[Tilemap::FLOOR],
 				&tileMaps[Tilemap::LADDERS], avatar);*/
-		winCondition.AddEnemy(&monkeys[i]);
+		winCondition.AddEnemy(monkeys[i]);
 	}
 	uint zIndex = 0;
-	for (uint i = 0; i < boars.GetCount() * 2; i += 2)
+	for (uint i = 0; i < boars.Size() * 2; i += 2)
 	{
-		winCondition.AddEnemy(&boars[zIndex++]);
+		winCondition.AddEnemy(boars[zIndex++]);
 	}
 }
 
@@ -336,7 +336,7 @@ void Game::Render()
 }
 
 
-void Game::UpdateInput()
+void Game::UpdateInput() const
 {
 	avatar->SetInput(input.arrowKeys);
 

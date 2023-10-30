@@ -9,11 +9,11 @@ public:
 	void Update(float deltaTime);
 	void Render(Surface* screen);
 	void AddRockToActive(const float2& dir, const float2& pos);
-	Array<Rock>& GetActiveRocks();
+	StaticArray<Rock>& GetActiveRocks();
 	Surface* GetRockSprite() const;
 
 private:
-	Array<Rock> activeRocks;
+	StaticArray<Rock> activeRocks;
 	Sprite* rockSprite = nullptr;
 	Sprite* preRenderSprite = nullptr;
 	const int RESIZE = 10;

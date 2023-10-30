@@ -10,7 +10,7 @@ public:
 	void Init(const float2& pos);
 	bool GetOnScreen() const;
 	const float2& GetPosition() const;
-	void GetJSONString();
+	void GetJSONString() const;
 	void SaveToJSON();
 	void Deactivate();
 	void Activate();

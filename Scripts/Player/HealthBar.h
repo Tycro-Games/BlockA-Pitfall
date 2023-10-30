@@ -11,7 +11,7 @@ public:
 	void Init(const char* spritePath);
 	void Init();
 	void Render(Surface* screen) const;
-	void ResetData();
+	void ResetData() const;
 	void UpdateUI();
 	void Notify(int context, EVENT ev) override;
 	Subject* GetSubject() const;

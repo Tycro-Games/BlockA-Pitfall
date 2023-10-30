@@ -93,7 +93,7 @@ bool Tilemap::IsCollidingBoxComplete(const float2& _pos, const Box& _a) const
 		&& IsColliding(a.max.x, a.max.y);
 }
 
-bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos)
+bool Tilemap::IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos) const
 {
 	//take the four corners of the box and check them
 

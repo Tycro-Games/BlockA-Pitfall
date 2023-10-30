@@ -33,7 +33,7 @@ namespace Tmpl8
 			return flags;
 		}
 
-		int GetWidth()
+		int GetWidth() const
 		{
 			return width;
 		}

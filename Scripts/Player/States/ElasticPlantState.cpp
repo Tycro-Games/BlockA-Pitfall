@@ -4,6 +4,7 @@
 void ElasticPlantState::OnEnter(Avatar& _p)
 {
 	p = &_p;
+	p->GetSubject()->Notify(0, ZOOM);
 }
 
 PlayerState* ElasticPlantState::Update(float deltaTime)
@@ -51,6 +52,7 @@ PlayerState* ElasticPlantState::Update(float deltaTime)
 
 void ElasticPlantState::OnExit()
 {
+	p->GetSubject()->Notify(1, ZOOM);
 }
 
 void ElasticPlantState::pSetPlant(ElasticPlant* _plant)

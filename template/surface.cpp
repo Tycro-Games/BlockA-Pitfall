@@ -63,7 +63,7 @@ Surface::~Surface()
 		FREE64(pixels); // free only if we allocated the buffer ourselves
 }
 
-void Surface::Clear(uint c)
+void Surface::Clear(uint c) const
 {
 	// WARNING: not the fastest way to do this.
 	const int s = width * height;

@@ -23,7 +23,7 @@ public:
 	static bool OnScreen(const Box& _a);
 	static bool OnScreen(const float2& screenPos, const Box& a);
 	static bool SmallerThanScreenCompleteCollision(const float2& worldPos, const Box& _a);
-	Surface* pGetPreRender();
+	Surface* pGetPreRender() const;
 	inline static float resX{};
 	inline static float resY{};
 	void Notify(int context, EVENT ev) override;

@@ -9,7 +9,7 @@ public:
 	void Update(float deltaTime) override;
 	~Boar() override;
 	Boar();
-	bool AtackPlayer();
+	bool AtackPlayer() const;
 	void Init(const float2& _a, const float2& _b, Avatar& _avatar);
 	const float2& GetDesiredPos() const;
 	const float2& GetStartPos() const;

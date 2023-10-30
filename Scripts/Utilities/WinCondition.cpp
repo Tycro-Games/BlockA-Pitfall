@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "WinCondition.h"
 
-WinCondition::WinCondition(): enemies{}
+WinCondition::WinCondition()
 {
 	subject = new Subject();
 }
@@ -28,14 +28,15 @@ void WinCondition::Notify(int context, EVENT ev)
 	}
 }
 
-void WinCondition::AddEnemy(Enemy* enemy)
+void WinCondition::AddEnemy(Enemy& enemy)
 {
-	enemies[indexEnemies++] = enemy;
+	//enemies[indexEnemies++] = enemy;
+	enemies.PushBack(&enemy);
 }
 
 bool WinCondition::AnyEnemiesLeft() const
 {
-	for (uint i = 0; i < indexEnemies; i++)
+	for (uint i = 0; i < enemies.Size(); i++)
 	{
 		if (enemies[i]->IsActive())
 			return true;

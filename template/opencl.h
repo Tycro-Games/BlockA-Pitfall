@@ -23,12 +23,12 @@ public:
 		return &deviceBuffer;
 	}
 
-	unsigned int* GetHostPtr()
+	unsigned int* GetHostPtr() const
 	{
 		return hostBuffer;
 	}
 
-	void CopyToDevice(bool blocking = true);
+	void CopyToDevice(bool blocking = true) const;
 	void CopyToDevice2(bool blocking, cl_event* e = 0, const size_t s = 0);
 	void CopyFromDevice(bool blocking = true);
 	void CopyTo(Buffer* buffer);
@@ -50,7 +50,7 @@ public:
 	Kernel(char* file, char* entryPoint);
 	Kernel(cl_program& existingProgram, char* entryPoint);
 	~Kernel();
-	// get / set
+	// Get / set
 	cl_kernel& GetKernel()
 	{
 		return kernel;

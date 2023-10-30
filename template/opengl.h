@@ -14,7 +14,7 @@ public:
 	GLTexture(uint width, uint height, uint type = DEFAULT);
 	~GLTexture();
 	// methods
-	void Bind(const uint slot = 0);
+	void Bind(const uint slot = 0) const;
 	void CopyFrom(Tmpl8::Surface* src);
 	void CopyTo(Tmpl8::Surface* dst);
 

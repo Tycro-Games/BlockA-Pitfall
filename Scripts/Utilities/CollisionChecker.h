@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Array.h"
+#include "StaticArray.h"
 #include "Scripts/Map/Non-Tileables/Coin.h"
 
 class Checkpoint;
@@ -27,8 +27,9 @@ public:
 	void IsCollidingCoins() const;
 	void IsCollidingCheckpoints() const;
 	bool IsCollidingZiplines(float2& _normal, float2& _start, float2& _end) const;
-	void SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants,
-	                 Array<Coin>& _coins, Array<Checkpoint>& _checkpoints);
+	void SetNonTiles(StaticArray<Zipline>& _ziplines, StaticArray<Rope>& _ropes,
+	                 StaticArray<ElasticPlant>& _elasticPlants,
+	                 StaticArray<Coin>& _coins, StaticArray<Checkpoint>& _checkpoints);
 
 
 	const Box* GetFloorCollider() const;
@@ -46,11 +47,11 @@ private:
 	Tilemap* floors;
 	Tilemap* ladders;
 
-	Array<Zipline>* ziplines;
-	Array<Rope>* ropes;
-	Array<ElasticPlant>* elasticPlants;
-	Array<Coin>* coins;
-	Array<Checkpoint>* checkpoints;
+	StaticArray<Zipline>* ziplines;
+	StaticArray<Rope>* ropes;
+	StaticArray<ElasticPlant>* elasticPlants;
+	StaticArray<Coin>* coins;
+	StaticArray<Checkpoint>* checkpoints;
 	//Adriaensen, Remi (231390),  explained how to fix warning C4324 on discord
 
 	//colliders

@@ -10,6 +10,7 @@ void ZipliningState::OnEnter(Avatar& _p)
 	direction = normalize(ziplineEnd - ziplineStart);
 	wholeLeng = length(ziplineEnd - ziplineStart);
 	p->SetVelocityY(0);
+	p->GetSubject()->Notify(0, ZOOM);
 }
 
 PlayerState* ZipliningState::Update(float deltaTime)
@@ -50,6 +51,7 @@ PlayerState* ZipliningState::Update(float deltaTime)
 
 void ZipliningState::OnExit()
 {
+	p->GetSubject()->Notify(1, ZOOM);
 }
 
 void ZipliningState::SetZiplineEnd(float2 end)

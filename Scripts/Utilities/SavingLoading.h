@@ -15,7 +15,7 @@ public:
 	void LoadData(int& outData) const;
 	void LoadData(uint8_t& outData) const;
 	void LoadData(float& outData) const;
-	void ResetAllData();
+	void ResetAllData() const;
 
 private:
 	void LoadJsonFile(nlohmann::json& j) const;

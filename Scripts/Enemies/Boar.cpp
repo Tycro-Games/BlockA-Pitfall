@@ -68,7 +68,7 @@ Boar::Boar()
 	surface = boarSurface_->GetSurface();
 }
 
-bool Boar::AtackPlayer()
+bool Boar::AtackPlayer() const
 {
 	return TryToHitPlayer(DISTANCE_TO_PLAYER);
 }

@@ -8,13 +8,16 @@ public:
 	WinCondition();
 	~WinCondition() override;
 	void Notify(int context, EVENT ev) override;
-	void AddEnemy(Enemy* enemy);
+	void AddEnemy(Enemy& enemy);
 	bool AnyEnemiesLeft() const;
 
 	Subject* GetSubject() const;
 
 private:
-	Enemy* enemies[MAX_ENEMIES_NUMBER];
+	//original static array
+	//Enemy* enemies[MAX_ENEMIES_NUMBER];
+	DynamicArray<Enemy*> enemies;
+
 	Subject* subject = nullptr;
 
 	uint indexEnemies = 0;

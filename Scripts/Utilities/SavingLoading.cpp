@@ -119,7 +119,7 @@ void SavingLoading::LoadData(float& outData) const
 		outData = j[saveName];
 }
 
-void SavingLoading::ResetAllData()
+void SavingLoading::ResetAllData() const
 {
 	json j;
 	std::ofstream o(savePath);

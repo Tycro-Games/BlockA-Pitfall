@@ -301,7 +301,7 @@ namespace Tmpl8
 		{
 		}
 
-		float2 xy()
+		float2 xy() const
 		{
 			return float2(x, y);
 		}

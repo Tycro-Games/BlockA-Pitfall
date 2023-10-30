@@ -66,8 +66,8 @@ void Enemy::DetectHit()
 {
 	if (dead)
 		return;
-	Array<Rock>& rocks = avatar->GetRocks();
-	for (uint i = 0; i < rocks.GetCount(); i++)
+	StaticArray<Rock>& rocks = avatar->GetRocks();
+	for (uint i = 0; i < rocks.Size(); i++)
 	{
 		if (!rocks[i].GetActive())
 			continue;

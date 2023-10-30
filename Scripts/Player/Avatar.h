@@ -14,9 +14,9 @@ struct Timer;
 //	float BOX_SIZE = 5.0f;
 //	float2 BOX_POS = { 9.0f, 17.0f };
 //	Box col;
-//	ColliderDimensions(float size, const float2& pos, const Box& b)
+//	ColliderDimensions(float Size, const float2& pos, const Box& b)
 //	{
-//		BOX_SIZE = size;
+//		BOX_SIZE = Size;
 //		BOX_POS = pos;
 //		col = b;
 //	}
@@ -32,9 +32,9 @@ struct Input
 class Avatar : public Observer, public Entity
 {
 public:
-	Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-	       Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins,
-	       Array<Checkpoint>& _checkpoints, Camera& _cam);
+	Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, StaticArray<Rope>& _ropes,
+	       StaticArray<Zipline>& _ziplines, StaticArray<ElasticPlant>& _elasticPlants, StaticArray<Coin>& _coins,
+	       StaticArray<Checkpoint>& _checkpoints, Camera& _cam);
 	~Avatar() override;
 	//observer
 	void Notify(int context, EVENT ev) override;
@@ -76,7 +76,7 @@ public:
 
 
 	Subject* GetSubject() const;
-	Array<Rock>& GetRocks() const;
+	StaticArray<Rock>& GetRocks() const;
 	int GetFlip() const;
 	void ThrowRock(const float2& dir);
 

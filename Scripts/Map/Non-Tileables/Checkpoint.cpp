@@ -71,7 +71,7 @@ const float2& Checkpoint::GetPosition() const
 	return position;
 }
 
-void Checkpoint::GetJSONString()
+void Checkpoint::GetJSONString() const
 {
 	char name[50] = {};
 	strcat(name, saveName);

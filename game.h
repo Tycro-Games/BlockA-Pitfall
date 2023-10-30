@@ -25,7 +25,7 @@ namespace Tmpl8
 		void RenderUI();
 		void Render();
 		//void Update(float deltaTime);
-		void UpdateInput();
+		void UpdateInput() const;
 		void FixedUpdate(float deltaTime);
 		void Tick(float deltaTime) override;
 		void Shutdown() override;
@@ -64,16 +64,17 @@ namespace Tmpl8
 
 		const uint8_t BitSpace = 8;
 
-		Array<Rope> ropes;
-		Array<Zipline> ziplines;
-		Array<ElasticPlant> elasticPlants;
-		Array<Coin> coins;
-		Array<Checkpoint> checkpoints;
+		StaticArray<Rope> ropes;
+		StaticArray<Zipline> ziplines;
+		StaticArray<ElasticPlant> elasticPlants;
+		StaticArray<Coin> coins;
+		StaticArray<Checkpoint> checkpoints;
 		//will add elastic plants
 
-		Array<Spike> spikes;
-		Array<Boar> boars;
-		Array<Monkey> monkeys;
+		//created deleted with the game class
+		StaticArray<Spike> spikes;
+		StaticArray<Boar> boars;
+		StaticArray<Monkey> monkeys;
 
 		Avatar* avatar = nullptr;
 		//UI

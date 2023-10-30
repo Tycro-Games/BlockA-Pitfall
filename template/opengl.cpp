@@ -134,7 +134,7 @@ GLTexture::~GLTexture()
 	CheckGL();
 }
 
-void GLTexture::Bind(const uint slot)
+void GLTexture::Bind(const uint slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, ID);

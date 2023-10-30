@@ -1,10 +1,13 @@
 #include "precomp.h"
 #include "Avatar.h"
 
+#include "game.h"
 
-Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, Array<Rope>& _ropes,
-               Array<Zipline>& _ziplines, Array<ElasticPlant>& _elasticPlants, Array<Coin>& _coins,
-               Array<Checkpoint>& _checkpoints, Camera& _cam) :
+
+Avatar::Avatar(const char* spritePath, Tilemap& _floors, Tilemap& _ladders, StaticArray<Rope>& _ropes,
+               StaticArray<Zipline>& _ziplines, StaticArray<ElasticPlant>& _elasticPlants,
+               StaticArray<Coin>& _coins,
+               StaticArray<Checkpoint>& _checkpoints, Camera& _cam) :
 	saveLoad(""), currentState(nullptr)
 {
 	cam = &_cam;
@@ -348,7 +351,7 @@ Subject* Avatar::GetSubject() const
 	return subject;
 }
 
-Array<Rock>& Avatar::GetRocks() const
+StaticArray<Rock>& Avatar::GetRocks() const
 {
 	return spawnRocks->GetActiveRocks();
 }

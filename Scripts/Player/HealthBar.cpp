@@ -7,6 +7,7 @@ HealthBar::~HealthBar()
 	delete t;
 	delete deathSubject;
 	delete hp;
+	delete saveLoad;
 }
 
 void HealthBar::Init(const char* spritePath)
@@ -34,7 +35,7 @@ void HealthBar::Render(Surface* screen) const
 }
 
 
-void HealthBar::ResetData()
+void HealthBar::ResetData() const
 {
 	saveLoad->ResetAllData();
 }

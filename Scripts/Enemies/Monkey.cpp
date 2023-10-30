@@ -223,7 +223,7 @@ void Monkey::SetBall(MonkeyBall* _ball)
 	}
 }
 
-MonkeyBall* Monkey::GetBall()
+MonkeyBall* Monkey::GetBall() const
 {
 	return ball;
 }

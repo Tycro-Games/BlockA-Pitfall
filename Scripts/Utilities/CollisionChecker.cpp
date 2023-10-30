@@ -95,7 +95,7 @@ bool CollisionChecker::IsCollidingFloors(const Box* col, float2& floorPos) const
 
 bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 {
-	for (uint i = 0; i < ropes->GetCount(); i++)
+	for (uint i = 0; i < ropes->Size(); i++)
 	{
 		if ((*ropes)[i].GetOnScreen())
 		{
@@ -112,7 +112,7 @@ bool CollisionChecker::IsCollidingRopes(float2*& pMovingPart) const
 
 bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) const
 {
-	for (uint i = 0; i < elasticPlants->GetCount(); i++)
+	for (uint i = 0; i < elasticPlants->Size(); i++)
 	{
 		if ((*elasticPlants)[i].GetOnScreen())
 		{
@@ -139,7 +139,7 @@ bool CollisionChecker::IsCollidingElasticPlant(ElasticPlant*& pElasticPlant) con
 
 void CollisionChecker::IsCollidingCoins() const
 {
-	for (uint i = 0; i < coins->GetCount(); i++)
+	for (uint i = 0; i < coins->Size(); i++)
 	{
 		if ((*coins)[i].GetOnScreen() && (*coins)[i].IsActive())
 		{
@@ -154,7 +154,7 @@ void CollisionChecker::IsCollidingCoins() const
 
 void CollisionChecker::IsCollidingCheckpoints() const
 {
-	for (uint i = 0; i < checkpoints->GetCount(); i++)
+	for (uint i = 0; i < checkpoints->Size(); i++)
 	{
 		if (!(*checkpoints)[i].IsActivated() && (*checkpoints)[i].GetOnScreen() && (*checkpoints)[i].IsActive())
 		{
@@ -171,7 +171,7 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
                                            float2& _start,
                                            float2& _end) const
 {
-	for (uint i = 0; i < ziplines->GetCount(); i++)
+	for (uint i = 0; i < ziplines->Size(); i++)
 		if ((*ziplines)[i].GetOnScreen())
 		{
 			float2 start = 0;
@@ -195,8 +195,9 @@ bool CollisionChecker::IsCollidingZiplines(float2& _normal,
 	return false;
 }
 
-void CollisionChecker::SetNonTiles(Array<Zipline>& _ziplines, Array<Rope>& _ropes, Array<ElasticPlant>& _elasticPlants,
-                                   Array<Coin>& _coins, Array<Checkpoint>& _checkpoints)
+void CollisionChecker::SetNonTiles(StaticArray<Zipline>& _ziplines, StaticArray<Rope>& _ropes,
+                                   StaticArray<ElasticPlant>& _elasticPlants,
+                                   StaticArray<Coin>& _coins, StaticArray<Checkpoint>& _checkpoints)
 {
 	ziplines = &_ziplines;
 

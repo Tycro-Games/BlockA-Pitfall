@@ -29,7 +29,7 @@ SpawnRocks::~SpawnRocks()
 
 void SpawnRocks::Update(float deltaTime)
 {
-	for (uint i = 0; i < activeRocks.GetCount(); i++)
+	for (uint i = 0; i < activeRocks.Size(); i++)
 	{
 		if (activeRocks[i].GetActive())
 		{
@@ -90,7 +90,7 @@ void SpawnRocks::AddRockToActive(const float2& dir, const float2& pos)
 		}
 }
 
-Array<Rock>& SpawnRocks::GetActiveRocks()
+StaticArray<Rock>& SpawnRocks::GetActiveRocks()
 {
 	return activeRocks;
 }

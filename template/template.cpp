@@ -457,7 +457,7 @@ void JobThread::CreateAndStartThread(unsigned int threadId)
 	m_ThreadID = threadId;
 }
 
-void JobThread::BackgroundTask()
+void JobThread::BackgroundTask() const
 {
 	while (1)
 	{

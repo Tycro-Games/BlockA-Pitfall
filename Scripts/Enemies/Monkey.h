@@ -19,7 +19,7 @@ public:
 	void SetHeading(bool _heading);
 	bool GetHeading() const;
 	void SetBall(MonkeyBall* _ball);
-	MonkeyBall* GetBall();
+	MonkeyBall* GetBall() const;
 	void Dead() override;
 
 private:

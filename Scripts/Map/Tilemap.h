@@ -26,7 +26,7 @@ public:
 	bool IsColliding(float x, float y, float2& floorPos) const;
 	bool IsCollidingBox(const float2& pos, const Box& a) const;
 	bool IsCollidingBoxComplete(const float2& _pos, const Box& _a) const;
-	bool IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos);
+	bool IsCollidingBox(const float2& _pos, const Box& _a, float2& floorPos) const;
 
 
 	void Init(const char* sourceFile, const char* csvPath);

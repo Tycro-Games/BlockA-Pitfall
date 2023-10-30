@@ -277,7 +277,7 @@ Buffer::~Buffer()
 
 // CopyToDevice method
 // ----------------------------------------------------------------------------
-void Buffer::CopyToDevice(bool blocking)
+void Buffer::CopyToDevice(bool blocking) const
 {
 	cl_int error;
 	CHECKCL(error = clEnqueueWriteBuffer( Kernel::GetQueue(), deviceBuffer, blocking, 0, size, hostBuffer, 0, 0, 0 ));
@@ -320,7 +320,7 @@ void Buffer::Clear()
 {
 	uint value = 0;
 #if 0
-	memset( hostBuffer, 0, size );
+	memset( hostBuffer, 0, Size );
 	CopyToDevice();
 #else
 	cl_int error;
@@ -376,7 +376,7 @@ Kernel::Kernel(char* file, char* entryPoint)
 		string incText = TextFileRead( file.c_str() );
 		includes[Ninc].end = includes[Ninc].start + LineCount( incText );
 		includes[Ninc++].file = file;
-		if (incText.size() == 0) FatalError( "#include file not found:\n%s", file.c_str() );
+		if (incText.Size() == 0) FatalError( "#include file not found:\n%s", file.c_str() );
 		// cleanup include file content: we get some crap first sometimes, but why?
 		int firstValidChar = 0;
 		while (incText[firstValidChar] < 0) firstValidChar++;
@@ -789,13 +789,13 @@ void Kernel::Run2D(const int2 count, const int2 lsize, cl_event* eventToWaitFor,
 	size_t localSize[2];
 	if (lsize.x > 0 && lsize.y > 0)
 	{
-		// use specified workgroup size
+		// use specified workgroup Size
 		localSize[0] = (size_t)lsize.x;
 		localSize[1] = (size_t)lsize.y;
 	}
 	else
 	{
-		// workgroup size not specified; use something reasonable
+		// workgroup Size not specified; use something reasonable
 		localSize[0] = 32;
 		localSize[1] = 4;
 	}

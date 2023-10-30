@@ -9,7 +9,7 @@ Parallax::Parallax(Sprite* _sprite, float2* cam)
 	pos = -lastCamPosition;
 }
 
-void Parallax::Render(Surface* screen)
+void Parallax::Render(Surface* screen) const
 {
 	sprite->Draw(screen, static_cast<int>(pos.x), static_cast<int>(pos.y));
 }

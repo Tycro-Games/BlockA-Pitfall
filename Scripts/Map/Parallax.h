@@ -4,7 +4,7 @@ class Parallax
 {
 public:
 	Parallax(Sprite* sprite, float2* cam);
-	void Render(Surface* screen);
+	void Render(Surface* screen) const;
 	void Update(float deltaTime);
 
 private:

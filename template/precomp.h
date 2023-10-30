@@ -30,7 +30,7 @@ using uint = unsigned int;
 using ushort = unsigned short;
 
 // "leak" common namespaces to all compilation units. This is not standard // C++ practice 
-// but a deliberate simplification for template projects. Feel free to remove this if it
+// but a deliberate simplification for template projects. Feel free to Remove this if it
 // offends you.
 using namespace std;
 
@@ -61,7 +61,8 @@ using namespace std;
 //my header
 #include <Audio/Sound.hpp>
 #include <json.hpp>
-#include "Scripts/Utilities/Array.h"
+#include "Scripts/Utilities/StaticArray.h"
+#include "Scripts/Utilities/DynamicArray.h"
 #include "Scripts/Utilities/AABB.h"
 
 #include "Scripts/Utilities/SavingLoading.h"
@@ -245,7 +246,7 @@ class JobThread
 public:
 	void CreateAndStartThread(unsigned int threadId);
 	void Go();
-	void BackgroundTask();
+	void BackgroundTask() const;
 	HANDLE m_GoSignal, m_ThreadHandle;
 	int m_ThreadID;
 };
@@ -262,7 +263,7 @@ public:
 	static void GetProcessorCount(uint& cores, uint& logical);
 	void AddJob2(Job* a_Job);
 
-	unsigned int GetNumThreads()
+	unsigned int GetNumThreads() const
 	{
 		return m_NumThreads;
 	}

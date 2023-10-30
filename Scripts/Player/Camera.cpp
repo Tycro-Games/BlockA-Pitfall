@@ -214,7 +214,7 @@ bool Camera::SmallerThanScreenCompleteCollision(const float2& worldPos, const Bo
 		OnScreen(float2{a.max.x, a.max.y});
 }
 
-Surface* Camera::pGetPreRender()
+Surface* Camera::pGetPreRender() const
 {
 	return preRender->GetSurface();
 }
