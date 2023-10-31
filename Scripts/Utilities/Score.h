@@ -11,12 +11,13 @@ public:
 	void SetPoints(uint startPoints);
 	uint GetScore() const;
 	void SetPosition(const float2& _pos);
-	const char* GetScoreWithZeros(int& n, int& x, int& y, uint8_t digits) const;
 
 protected:
+	const char* GetScoreWithZeros(int& n, int& x, int& y, uint8_t digits) const;
+	//solved alignment specifier warning
+
 	float2* p;
 
 	float2 pos;
 	uint score = 0;
-	//solved alignment specifier warning
 };
