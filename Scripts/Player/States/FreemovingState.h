@@ -16,7 +16,6 @@ public:
 private:
 	//simmilar to the one in the climbing state
 	PlayerState* ToTheLadder(float deltaTime);
-	Audio::Sound jumpSound{"assets/Audio/Jump5.wav"};
 
 	//for smooth ladder
 	float currentTime = 0;

@@ -44,7 +44,7 @@ public:
 	void Render(Surface* screen) override;
 	void Update(float deltaTime) override;
 
-
+	void PlayJumpSound();
 	bool IsClimbTimerFinished(float time) const;
 	void ResetClimbTimer() const;
 
@@ -86,6 +86,8 @@ private:
 	//physics
 	Audio::Sound shootSound{"assets/Audio/Laser_Shoot16.wav"};
 	Audio::Sound hitSound{"assets/Audio/Hit_Hurt8.wav"};
+	Audio::Sound jumpSound{"assets/Audio/Jump5.wav"};
+
 	const float SPEED = 250.5f;
 	const float SHOOT_OFFSET_X = {9.0f};
 	const float SHOOT_OFFSET_Y = {0.0f};

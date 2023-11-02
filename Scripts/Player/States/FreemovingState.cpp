@@ -16,7 +16,7 @@ void FreemovingState::AddJumpForce(const CollisionChecker* col, const Box* jumpC
 		if (col->IsCollidingFloors(p->GetPos(), jumpCollider))
 		{
 			p->SetVelocityY(-JUMP_FORCE);
-			jumpSound.play();
+			p->PlayJumpSound();
 		}
 	}
 	else if (p->GetInput().smallJump == true)
@@ -24,7 +24,7 @@ void FreemovingState::AddJumpForce(const CollisionChecker* col, const Box* jumpC
 		if (col->IsCollidingFloors(p->GetPos(), jumpCollider))
 		{
 			p->SetVelocityY(-SMALL_JUMP_FORCE);
-			jumpSound.play();
+			p->PlayJumpSound();
 		}
 	}
 }

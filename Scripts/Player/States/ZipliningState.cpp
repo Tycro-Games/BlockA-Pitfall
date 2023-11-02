@@ -24,11 +24,12 @@ PlayerState* ZipliningState::Update(float deltaTime)
 		if (!col->IsCollidingFloors(floorCollider) &&
 			!col->IsCollidingFloors(boxCollider))
 		{
+			p->PlayJumpSound();
 			p->SetVelocityX(0);
 			p->SetVelocityY(-ZIPLINE_JUMP_SPEED);
 
 			p->ResetClimbTimer();
-
+			p->PlayJumpSound();
 			return new FreemovingState();
 		}
 	}

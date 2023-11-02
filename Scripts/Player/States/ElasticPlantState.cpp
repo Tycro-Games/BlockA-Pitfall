@@ -26,7 +26,7 @@ PlayerState* ElasticPlantState::Update(float deltaTime)
 			if (lastY.y < 0)
 			{
 				//going up
-				cout << plant->GetPercentOfSpeed() << "\n";
+				//cout << plant->GetPercentOfSpeed() << "\n";
 				//this gives a value between 0 and 1
 				float multiplier = plant->GetPercentOfSpeed();
 				if (multiplier > MAX_THRESHOLD)
@@ -37,6 +37,7 @@ PlayerState* ElasticPlantState::Update(float deltaTime)
 			{
 				p->SetVelocityY(0);
 			}
+			p->PlayJumpSound();
 			p->ResetClimbTimer();
 			plant->SetActivation(false);
 

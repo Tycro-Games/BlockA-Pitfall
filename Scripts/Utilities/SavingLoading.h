@@ -20,6 +20,6 @@ public:
 private:
 	void LoadJsonFile(nlohmann::json& j) const;
 
-	const char* savePath = "assets/Saves/save.json";
+	const char* savePath = "assets/save.json";
 	char* saveName = nullptr;
 };

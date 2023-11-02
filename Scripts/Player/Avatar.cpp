@@ -200,6 +200,11 @@ void Avatar::Update(float deltaTime)
 	cam->UpdatePosition(deltaTime, col->GetBoxColliderPos(), static_cast<float>(flipX));
 }
 
+void Avatar::PlayJumpSound()
+{
+	jumpSound.play();
+}
+
 bool Avatar::IsClimbTimerFinished(float time) const
 {
 	return climbTimer->elapsed() >= time;

@@ -11,7 +11,7 @@ public:
 	bool GetOnScreen() const;
 	const float2& GetPosition() const;
 	void GetJSONString() const;
-	void SaveToJSON();
+	void SaveToJSON() const;
 	void Deactivate();
 	void Activate();
 	bool IsActivated() const;

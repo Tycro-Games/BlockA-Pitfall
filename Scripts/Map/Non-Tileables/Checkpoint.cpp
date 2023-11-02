@@ -53,8 +53,9 @@ void Checkpoint::Init(const float2& pos)
 	saveLoad->SetName(saveName);
 	saveLoad->EntryPosition(position);
 	GetJSONString();
-	float test = 0;
+	uint8_t test = 0;
 	saveLoad->LoadData(test);
+	sprite->SetFrame(0);
 	if (test != 0)
 	{
 		Deactivate();
@@ -80,10 +81,11 @@ void Checkpoint::GetJSONString() const
 	saveLoad->SetName(name);
 }
 
-void Checkpoint::SaveToJSON()
+void Checkpoint::SaveToJSON() const
 {
 	//used as a flag that this should be inactive
-	saveLoad->SaveData(position.x);
+	uint8_t t = 1;
+	saveLoad->SaveData(t);
 	subject->Notify(0, SAVE_CHECKPOINT);
 }
 

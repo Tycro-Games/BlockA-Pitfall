@@ -27,7 +27,7 @@ PlayerState* SwingingState::Update(float deltaTime)
 			if (p->GetInput().arrowKeys.x)
 				p->SetVelocityY(-SWINGING_JUMP_SPEED);
 			p->ResetClimbTimer();
-
+			p->PlayJumpSound();
 			return new FreemovingState();
 		}
 	}

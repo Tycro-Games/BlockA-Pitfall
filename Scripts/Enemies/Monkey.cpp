@@ -105,7 +105,8 @@ void Monkey::Update(float deltaTime)
 		SetBall(nullptr);
 	}
 
-
+	if (dead)
+		return;
 	onScreen = Camera::OnScreen(position, col);
 	Enemy::Update(deltaTime);
 

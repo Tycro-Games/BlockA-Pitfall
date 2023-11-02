@@ -22,8 +22,11 @@ PlayerState* ClimbingState::Update(float deltaTime)
 			if (!col->IsCollidingFloors(floorCollider) &&
 				!col->IsCollidingFloors(boxCollider))
 			{
+  				p->PlayJumpSound();
+
 				p->SetVelocityY(-CLIMBING_JUMP_FORCE);
 				p->ResetClimbTimer();
+
 				p->SetVelocityX(static_cast<float>(p->GetInput().arrowKeys.x));
 				return new FreemovingState();
 			}
