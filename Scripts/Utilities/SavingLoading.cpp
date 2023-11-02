@@ -76,6 +76,13 @@ void SavingLoading::SaveData(uint8_t& data) const
 void SavingLoading::LoadJsonFile(json& j) const
 {
 	ifstream i(savePath);
+	if (i.fail())
+	{
+		//make new file
+		std::ofstream o(savePath);
+		o << std::setw(4) << j << std::endl;
+		return;
+	}
 	//read json
 	i >> j;
 }
@@ -101,9 +108,7 @@ void SavingLoading::LoadData(int& outData) const
 void SavingLoading::LoadData(uint8_t& outData) const
 {
 	json j;
-	ifstream i(savePath);
-	//read json
-	i >> j;
+	LoadJsonFile(j);
 	if (j[saveName].is_number_unsigned())
 
 		outData = j[saveName];
@@ -112,9 +117,7 @@ void SavingLoading::LoadData(uint8_t& outData) const
 void SavingLoading::LoadData(float& outData) const
 {
 	json j;
-	ifstream i(savePath);
-	//read json
-	i >> j;
+	LoadJsonFile(j);
 	if (j[saveName].is_number_float())
 		outData = j[saveName];
 }
