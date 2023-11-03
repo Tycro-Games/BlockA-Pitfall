@@ -146,16 +146,14 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 
 	//print the whole file
 	//cout << tilemapRaw << "\n";
+
 	ExtractWidthHeight(tilemapRaw, widthX, heightY);
+	//make a new array of unsigned intergers
 	tileArray = new uint[widthX * heightY];
 
-	//csv file
 	//get to the start of the csv
 	char* startOfCsv = strstr(tilemapRaw, "csv\">\n") + strlen("csv\">\n");
-
-	//print the start of the csv
-	//cout << startOfCsv << "\n";
-
+	//get to the first element of the csv
 	const char* pch = strtok(startOfCsv, ",");
 
 	int index = 0;
@@ -163,10 +161,9 @@ void Tilemap::LoadCSVFile(const char* csvPath)
 	{
 		uint numberForm = 0;
 		ConvertCharToInt(pch, numberForm);
-		//makes it work with numbers with more than one digit
 
 		tileArray[index++] = numberForm;
-		pch = strtok(NULL, ",\n");
+		pch = strtok(nullptr, ",\n");
 	}
 
 	delete[] tilemapRaw;
